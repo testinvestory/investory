@@ -817,96 +817,96 @@ var $smartGoals = "smartGoals";
             window.location.href = "GoalSelection?smartGoal=" + $smartGoals + "&smood=" + sipMood;
         });
     
-    // $(".emergency-funds > img")
-    //     .on
-    // ({
+     $(".emergency-funds > img")
+         .on
+     ({
         
-    //     mouseenter: function() 
-    //     {
-    //         $(this).attr("src", $imgLink+$emergencyFunds+$onHover+$imgExtension);
-    //     }, 
+         mouseenter: function() 
+         {
+             $(this).attr("src", $imgLink+$emergencyFunds+$onHover+$imgExtension);
+         }, 
         
-    //     mouseleave: function()
-    //     {
-    //         $(this).attr("src", $imgLink+$emergencyFunds+$imgExtension);
-    //     }, 
+         mouseleave: function()
+         {
+             $(this).attr("src", $imgLink+$emergencyFunds+$imgExtension);
+         }, 
         
-    //     click: function()
-    //     {
-    //          var sipMood = $(this).attr("id");
-    //          window.location.href = "GoalSelection?smartGoal="+$emergencyFunds+"&smood="+sipMood;
+         click: function()
+         {
+              var sipMood = $(this).attr("id");
+              window.location.href = "GoalSelection?smartGoal="+$emergencyFunds+"&smood="+sipMood;
          
-    //     }
+         }
           
           
-    // });
+     });
     
-    // $(".tax-savings > img")
-    //     .on
-    // ({
-    //     mouseenter: function() 
-    //     {
-    //         debugger;
-    //         $(this).attr("src", $imgLink+$taxSavings+$onHover+$imgExtension);
-    //     },         
-    //     mouseleave: function()
-    //     {
-    //         $(this).attr("src", $imgLink+$taxSavings+$imgExtension);
-    //     }, 
+     $(".tax-savings > img")
+         .on
+     ({
+         mouseenter: function() 
+         {
+            // debugger;
+             $(this).attr("src", $imgLink+$taxSavings+$onHover+$imgExtension);
+         },         
+         mouseleave: function()
+         {
+             $(this).attr("src", $imgLink+$taxSavings+$imgExtension);
+         }, 
         
-    //     click: function()
-    //     {
-    //          var sipMood = $(this).attr("id");
-    //          window.location.href = "GoalSelection?smartGoal="+$taxSavings+"&smood="+sipMood;
+         click: function()
+         {
+              var sipMood = $(this).attr("id");
+              window.location.href = "GoalSelection?smartGoal="+$taxSavings+"&smood="+sipMood;
          
-    //     }
+         }
           
-    // });
+     });
     
         
-    // $(".build-wealth > img")
-    //     .on
-    // ({
+     $(".build-wealth > img")
+         .on
+     ({
         
-    //     mouseenter: function() 
-    //     {
-    //         $(this).attr("src", $imgLink+$buildWealth+$onHover+$imgExtension);
-    //     },         
-    //     mouseleave: function()
-    //     {
-    //         $(this).attr("src", $imgLink+$buildWealth+$imgExtension);
-    //     }, 
+         mouseenter: function() 
+         {
+             $(this).attr("src", $imgLink+$buildWealth+$onHover+$imgExtension);
+         },         
+         mouseleave: function()
+         {
+             $(this).attr("src", $imgLink+$buildWealth+$imgExtension);
+         }, 
         
-    //     click: function()
-    //     {
-    //          var sipMood = $(this).attr("id");
-    //          window.location.href = "GoalSelection?smartGoal="+$buildWealth+"&smood="+sipMood;
+         click: function()
+         {
+              var sipMood = $(this).attr("id");
+              window.location.href = "GoalSelection?smartGoal="+$buildWealth+"&smood="+sipMood;
          
-    //     }
+         }
           
-    // });
+     });
     
-    // $(".smart-goals > img")
-    //     .on
-    // ({
+     $(".smart-goals > img")
+         .on
+     ({
         
-    //     mouseenter: function() 
-    //     {
-    //         $(this).attr("src", $imgLink+$smartGoals+$onHover+$imgExtension);
-    //     },         
-    //     mouseleave: function()
-    //     {
-    //         $(this).attr("src", $imgLink+$smartGoals+$imgExtension);
-    //     }, 
+         mouseenter: function() 
+         {
+             $(this).attr("src", $imgLink+$smartGoals+$onHover+$imgExtension);
+         },         
+         mouseleave: function()
+         {
+             $(this).attr("src", $imgLink+$smartGoals+$imgExtension);
+         }, 
         
-    //     click: function()
-    //     {
-    //          var sipMood = $(this).attr("id");
-    //          window.location.href = "GoalSelection?smartGoal="+$smartGoals+"&smood="+sipMood;
+         click: function()
+         {
+              var sipMood = $(this).attr("id");
+              window.location.href = "GoalSelection?smartGoal="+$smartGoals+"&smood="+sipMood;
          
-    //     }
+         }
           
-    // });
+     });
 
     
    $(".how-it-works .panel").click(function(){ 
@@ -1033,14 +1033,25 @@ var movingTo= 0;
         }
             
     });
-    $(".page2 .go").click(function(){ 
-        if(  $('#time').val() <= 50 && $('#time').val() >= 1 ) {
+   $(".page2 .go").click(function(){ 
+        
+       let sipTime=$('#time').val();
+        let amount=$('#amount').val();
+        let ConAmount=amount.replace(/,/g,''); //Replace comma from amount
+        if (ConAmount < 7000 ){ 
+		$('.page2VldMsg').slideDown();
+       
+	} else if ( sipTime < 1 || sipTime > 50 ) {
+		 $(".page2VldMsg").slideUp(); 
+		$('.page2VldMsg2').slideDown();
+	} else {   
             setProfile(0,1,0);
             selectTab(3);
             $(".page2VldMsg2").slideUp();
-        } else {
-            $(".page2VldMsg2").slideDown();
-        }
+             $(".page2VldMsg").slideUp();
+        } 
+        
+        
     });
 
     $(".page4 .selectMode button, .sub-page4 .done").not('#dontKnow').click( function() { selectTab(5, this) });

@@ -2,6 +2,9 @@
 <html>
 	<head>
 		<% include partials/head %>
+          <style>
+    .moodGoals > img { display: none }
+    </style>
 		 <script>
 	  $(document).ready(function(){
       $(".main").onepage_scroll({
@@ -19,6 +22,7 @@
 </head>
 <body style="index-page">
 	<% include partials/header %>
+    
     	<div class="wrapper">
 			<div class="main">
 				<section id="section1" >
@@ -92,18 +96,19 @@
 <section id="section2">
 	<div class="container-fluid what-we-offer text-center">
 		<h2>Start your investment plan</h2>
-			<p>I want to invest  &#8377; <input class="blankInput"  name="sip" id="sip" placeholder="" type="number" max="7" value=""/> monthly for next <input class="blankInput"  name="years" id="years" placeholder="" type="number"  value=""/> years.</p>
+			<p>I want to invest  &#8377; <input class="blankInput" name="sip" id="sip" placeholder=""  value=""/> monthly for next <input class="blankInput"  name="years" id="years" placeholder="" type="number"  value=""/> years.</p>
 			<p id = "sipInvestErr" style="display: none; color: red;"> Please enter amount between INR 1000 to 100000.</p>
 			<p id="sipTimeErr" style="display: none; color: red;"> Please enter time between 1 to 50 years.</p>
 			<div class="btn-hr-wrapper">
 				<button type="" class="btn btn-white btn-lg moodNav getStarted" id="indexGetStarted" onClick="getSIP();" > Invest </button>
 			</div>
 		<!--lumpsum sohan start-->
-		<p>I have &#8377; <input class="blankInput"  name="lumpsum" id="lumpsum" placeholder="" type="number" max="7" value=""/> to invest now. I need it back in <input class="blankInput"  name="lumpsumYears" id="lumpsumYears" placeholder="" type="number"  value=""/> years.</p>
+		<p>I have &#8377; <input class="blankInput"  name="lumpsum" id="lumpsum"  placeholder="" value=""/> to invest now. I need it back in <input class="blankInput"  name="lumpsumYears" id="lumpsumYears" placeholder="" type="number"  value=""/> years.</p>
+        <p id = "lumpsumInvestErr" style="display: none; color: red;"> Please enter amount between INR 7000 to 1000000.</p>
+			<p id="lumpsumTimeErr" style="display: none; color: red;"> Please enter time between 1 to 50 years.</p>
 			<div class="btn-hr-wrapper">
 				<button type="" class="btn btn-white btn-lg moodNav getStarted" id="indexGetStarted" onClick="getLumpsum();" > Invest </button>
 			</div>
-		<!--lumpsum sohan end-->
 			<h2 class="indexHeadngLookingFor">Looking for?</h2>
 			<div class="container">
 				<div id="indexLookingFor" class="row" >
@@ -180,7 +185,7 @@
 					</div>
 				</div>
 				<div class="btn-hr-wrapper">
-					<button type="" class="btn btn-lg btn-white moodNav pricing" > Pricing Options</button>
+                    <a href="/Pricing">	<button type="" class="btn btn-lg btn-white moodNav pricing" > Pricing Options</button></a>
 				</div>
 			</div>
 		</section>

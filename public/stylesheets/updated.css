@@ -977,7 +977,7 @@ input[type=date]::-webkit-inner-spin-button {
     cursor: pointer;
     position: absolute;
     z-index: 10;
-       left: -11.8em;
+       left: 43%;
     top: 6.8em;
         border: 1.2px solid #ffffff;
 }

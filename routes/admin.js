@@ -3,8 +3,8 @@ var router = express.Router();
 var async = require('async');
 var path=require('path');
 var pg = require('pg');
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 /*var conString = {
   user: 'user1', //env var: PGUSER
   database: 'investory', //env var: PGDATABASE

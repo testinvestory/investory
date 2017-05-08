@@ -8,8 +8,8 @@ const pg = require('pg');
 const crypto = require('crypto');
 /* common functions */
 const functions = require('./functions');
-//const conString = "postgres://postgres:postgres@localhost:5432/investory";
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+const conString = "postgres://postgres:postgres@localhost:5432/investory";
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 var client = new pg.Client(conString);
 client.connect();
 
@@ -27,7 +27,7 @@ exports.getInvestment = (req, res) =>  {
 	else
 		pageName = "yourStory";
 	console.log("invoices", req.session.user.userid);
-	var query = client.query("SELECT a.usersubscriptionorderid, to_char(orderdate, 'dd-Mon-yyyy') AS orderdate, amount, paymentreference, durationdays, to_char(planrenewaldate, 'dd-Mon-yyyy') AS planrenewaldate  FROM usersubscriptionsorder a, usersubscriptions b WHERE a.userid = b.userid AND a.usersubscriptionorderid = b.usersubscriptionorderid AND a.status = 'success' AND a.userid = $1 ORDER BY 3 DESC", [req.session.user.userid], function (err, result) {
+	var query = client.query("select to_char(a.userinvestmentorderdate,'dd-Mon-yyyy') as investdate, b.name, a.amount,NULLIF(a.units,0) as units from userinvestmentorders a, schemesmaster b where a.schemeid = b.schemeid and a.amount > 0 and a.userid=$1 order by 1 desc", [req.session.user.userid], function (err, result) {
 		if (err) {
 			console.log("Cant get portfolio details in goal selection");
 		} else if (result.rows.length > 0) {

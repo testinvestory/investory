@@ -13,8 +13,16 @@
 <body>
     <script>
         <%var amtrounded1 = 0;%>
+        
+        
+        
+        
+        
+                                  
     </script>
     <% include partials/header %>
+
+    
 
     <!--Pan Modal Window-->
     <div class="modal fade" id="myPanModal" role="dialog">
@@ -168,20 +176,20 @@
                         </ul>
 
                         <div class="contentMood">
-                            <!--<p id="Indicator">
+                            <p id="Indicator">
                                 
 								<span id="goalSelected">></span>
                                 <span id="rpText">></span>
                                 <span id="riskSelected"></span>
                                 <span id="yp">> Your Plan</span>
-                            </p>-->
-                                 <p id="Indicator">Goal Selection > 
+                            </p>
+                                <!-- <p id="Indicator">Goal Selection > 
                                 <span id="goalSelected"></span>
                                 <span id="rpText">> Risk Profiling ></span>
                                 <span id="riskSelected"></span>
                                 <span id="yp">> Your Plan</span>
                             </p>
-
+-->
 
                             <!--Tab 1-->
                             <div class="page1">
@@ -224,8 +232,8 @@
                                     <button type="" class="btn btn-lg moodNav next page3Sub"> Next </button>
                                     <!--<button type="" class="btn btn-lg moodNav save page3Sub" > Save </button>-->
                                 </div>
-                                <p class="page2VldMsg" style="color: red; display: none;">Monthly Investment should be minimum INR 1000</p>
-                                <p class="page2VldMsg2" style="color: red; display: none;">Please Select years between 1 t0 50</p>
+                                <p class="page2VldMsg" style="color: red; display: none;">I need INR should be minimum 7000</p>
+                                <p class="page2VldMsg2" style="color: red; display: none;">Please Select years between 1 to 50</p>
                                 <div class="dotHr"></div>
                             </div>
 
@@ -246,28 +254,29 @@
 
                                                 <td>Equity</td>
                                                 <td id="eqPer">0%</td>
-                                                <td id="eqAmt">NA</td>
+                                                <td id="eqAmt">0</td>
                                             </tr>
                                             <tr>
 
                                                 <td>Hybrid</td>
                                                 <td id="hybPer">0% </td>
-                                                <td id="hybAmt">NA</td>
+                                                <td id="hybAmt">0</td>
                                             </tr>
                                             <tr>
 
                                                 <td>Debt</td>
                                                 <td id="debPer">0%</td>
-                                                <td id="debAmt">NA</td>
+                                                <td id="debAmt">0</td>
                                             </tr>
+                                            
+                                        </tbody>
                                             <tfoot >
                                             <tr style="border:4px solid black;">
-                                                <th style="text-align:right; font-size:1em;font-weight:900;" colspan="2">Total :</th>
-                                                <td id="total" style="font-size:1em;font-weight:900;"></td>
+                                                <th style="text-align:right; font-size:1em;font-weight:900;    border-top: 1px #35BFD3 solid;" colspan="2">Total :</th>
+                                                <td id="total" style="font-size:1em;font-weight:900;    border-top: 1px #35BFD3 solid;"></td>
                                             </tr>
                                         </tfoot>
 
-                                        </tbody>
                                     </table>
                                 </div>
                                 <p style="text-align: center;">* Risk Profile - Conservative</p>
@@ -408,20 +417,20 @@
                                         <tbody>
                                             <tr><td>Equity</td>
                                                 <td id="eqPer1">0%</td>
-                                                <td id="eqAmt1">NA</td>
+                                                <td id="eqAmt1">0</td>
                                             </tr>
                                             <tr><td>Hybrid</td>
                                                 <td id="hybPer1">0% </td>
-                                                <td id="hybAmt1">NA</td>
+                                                <td id="hybAmt1">0</td>
                                             </tr>
                                             <tr><td>Debt</td>
                                                 <td id="debPer1">0%</td>
-                                                <td id="debAmt1">NA</td>
+                                                <td id="debAmt1">0</td>
                                             </tr>
                                             <tfoot>
                                             <tr>
-                                               <th style="text-align:right; font-size:1em;font-weight:900;" colspan="2">Total :</th>
-                                                <td id="total1" style="font-size:1em;font-weight:900;"></td>
+                                               <th style="text-align:right; font-size:1em;font-weight:900;    border-top: 1px #35BFD3 solid;" colspan="2">Total :</th>
+                                                <td id="total1" style="font-size:1em;font-weight:900;    border-top: 1px #35BFD3 solid;"></td>
                                             </tr>
                                             </tfoot>
                                         </tbody>
@@ -443,7 +452,16 @@
                             <!--Tab 6-->
                             <% if(paid) {%>
                             <div class="page6" style="display: none">
-                                <button type="" data-toggle="modal" data-target="#myPanModal" class="btn btn-lg moodNav go" id="initInvest" style="top: 25px;"> Invest </button>
+                                
+                                <%if(loggedIn && panstatus[0].kycstatus=="Complaint"){%>
+                                <form action="/InsertOrders" method="post">
+                                    <button type="submit" class="btn btn-lg moodNav go" id="initInvest" style="top: 25px;"> Invest </button></form>
+                                <%}else{%>
+                                 <button type="" data-toggle="modal" data-target="#myPanModal" class="btn btn-lg moodNav go" id="initInvest" style="top: 25px;"> Invest </button>
+                                
+                                <%}%>
+                              
+                               
                                 <p>So, you need to invest INR <span id="invest1"><%= assetFromDb.sip %></span>                                                        Monthly</p>
                                 <div class="table-responsive">
                                 <table class="table">
@@ -452,11 +470,25 @@
                                         <th style="  border-top: 0; border-right: 1px solid #35BFD3; border-bottom: 1px solid #35BFD3;">Category</th>
                                         <th style="  border-top: 0; border-bottom: 1px solid #35BFD3;">Amount (&#x20B9;)</th>
                                     </tr>
-
+                                    
+                                  
+                                    <% for(i=0;i<asetDataDetail.length;i++) {%>
+                                    
+                                    <tr>
+                                        <td><%=asetDataDetail[i].allocationdescription %></td>
+                                        <td><%=asetDataDetail[i].allocationcategory %></td>
+                                        <td><%=asetDataDetail[i].allocationamount %></td>
+                                    </tr>
+                                    <%}%>
+                                    
+                                    
+                                    
+                                    
+                                    
                                      <tfoot>
                                             <tr>
-                                               <th style="text-align:right; font-size:1em;font-weight:900;" colspan="2">Total :</th>
-                                                <td style="font-size:1em;font-weight:900;"><%= assetFromDb.sip %></td>
+                                               <th style="text-align:right; font-size:1em;font-weight:900;    border-top: 1px #35BFD3 solid;" colspan="2">Total :</th>
+                                                <td style="font-size:1em;font-weight:900;    border-top: 1px #35BFD3 solid;"><%= assetFromDb.sip %></td>
                                             </tr>
                                             </tfoot>
                                     </table>
@@ -480,17 +512,17 @@
                                             <tr>
                                                 <td>Equity</td>
                                                 <td id="eqPer1">25%</td>
-                                                <td id="eqAmt1">NA</td>
+                                                <td id="eqAmt1">0</td>
                                             </tr>
                                             <tr>
                                                 <td>Hybrid</td>
                                                 <td id="hybPer1">10% </td>
-                                                <td id="hybAmt1">NA</td>
+                                                <td id="hybAmt1">0</td>
                                             </tr>
                                             <tr>
                                                 <td>Debt</td>
                                                 <td id="debPer1">65%</td>
-                                                <td id="debAmt1">NA</td>
+                                                <td id="debAmt1">0</td>
                                             </tr>
                                              <tfoot>
                                             <tr>
@@ -528,12 +560,13 @@
     <!--    </section>-->
 
     <!--Footer-->
-    <div id="" class="container-fluid footFixer">
+    <div id="" class="container footFixer">
         <% include partials/footer %>
     </div>
         
     <!--Custom Js links -->
     <script>
+        
         var goalNameFromControl;
         function goalName(name) {
             goalNameFromControl = name;
@@ -577,7 +610,24 @@
             
         }
     
-        
+        function bse(){
+             <% if(loggedIn) {%>
+                    
+                    $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    url: '/InsertOrders',
+                    success: function (data) {
+                        console.log('success');
+                        bseDisp = true;
+
+                        // console.log(JSON.stringify(data));
+                    }
+
+                })
+                    <% }%>
+            
+        }
         function checkPanStaus() {
             if($('.panNumber').val().length == 10){
                 $('.panErr').slideUp();
@@ -615,7 +665,8 @@
             }
 
         }
-        
+      
+       
         
         function storeAssets(goalName, riskProfile, masterAmount, totalYears, sip, alloc1, amt1, alloc2, amt2, alloc3, amt3) {
 
@@ -710,6 +761,8 @@
         function myinit(riskRate, chooseTable, storeAllocation) {
             // alert(localStorage.sipInvestment);
             /*lumpsum sohan start -- the alert is removed and else if for lumpsum is included.*/
+            
+           
             if (storeAllocation == 1)
                 store = true;
             else
@@ -737,6 +790,7 @@
                     var amt1 = 0;
                     var amt2 = 0;
                     var amt3 = fv;
+                   
 
                     document.getElementById("eqAmt" + t).innerHTML = amt1;
                     document.getElementById("hybAmt" + t).innerHTML = amt2;
@@ -820,7 +874,8 @@
                     var totalYears = document.getElementById("time").value;
                     var nper = totalYears * per;
                     var pv = 0;
-                    var fv = document.getElementById("amount").value;
+                    var convertAmount=document.getElementById("amount").value;
+                    var fv = convertAmount.replace(/,/g,'');  
                     //document.getElementById("amountMaster").value = fv;
 
                     //if number of years is less then 3 year debt is 100
@@ -836,6 +891,7 @@
                             tempGoals = {};
                         }
                         tempGoals.mn = mn;
+                       
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                     }
                 } catch(e) {
@@ -886,27 +942,29 @@
 
                 } else {
                     /*Conservative*/
-                    var eqP1 = <%=data[0].asset.value %>;
-                    var hybP1 = <%=data[1].asset.value %>;
-                    var debtP1 = <%=data[2].asset.value %>;
-            
+                    var eqP1 = 20;/*<%=data[0].asset.value %>*/;
+                    var hybP1 = 15;/*<%=data[1].asset.value %>;*/
+                    var debtP1 = 65;/*<%=data[2].asset.value %>;*/
+           
                     var eqP = eqP1 / 100;
                     var hybP = hybP1 / 100;
                     var debtP = debtP1 / 100;
 
                     //Moderate
-                    var eqMP1 = <%=data[3].asset.value %>;;
-                    var hybMP1 = <%=data[4].asset.value %>;;
-                    var debtMP1 = <%=data[5].asset.value %>;;
-
+                   // debugger;
+                    var eqMP1 = 50;/*<%=data[3].asset.value %>;*/
+                    var hybMP1 = 22.5;/*<%=data[4].asset.value %>;*/
+                    var debtMP1 = 27.5;/*<%=data[5].asset.value %>;*/
+                    
                     var eqMP = eqMP1 / 100;
                     var hybMP = hybMP1 / 100;
                     var debtMP = debtMP1 / 100;
 
                     //*Aggressive*/
-                    var eqAP1 = <%=data[6].asset.value %>;;
-                    var hybAP1 = <%=data[7].asset.value %>;;
-                    var debtAP1 = <%=data[8].asset.value %>;;
+                    var eqAP1 = 75;/*<%=data[6].asset.value %>;*/
+                    var hybAP1 = 25;/*<%=data[7].asset.value %>;*/
+                    var debtAP1 = 0;/*<%=data[8].asset.value %>;*/
+                  
 
                     var eqAP = eqAP1 / 100;
                     var hybAP = hybAP1 / 100;
@@ -1189,11 +1247,14 @@
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
                     }
-
+                   
                     document.getElementById("eqPer" + t).innerHTML = allocA1 + "%";
                     document.getElementById("hybPer" + t).innerHTML = allocA2 + "%";
                     document.getElementById("debPer" + t).innerHTML = allocA3 + "%";
-
+                    
+                   
+                        
+               
                     setForScheme(riskProfile, mn, amtA1, amtA2, amtA3);
                     storeAssets("Broke", riskProfile, fv, totalYears, mn, allocA1, amtA1, allocA2, amtA2, allocA3, amtA3);
                 }
@@ -1210,7 +1271,11 @@
 
 
             // Function to calculate Periodic Payments.
+        
         }
+           
+        
+        
         function pmt(rate, per, nper, pv, fv) {
 
             fv = parseFloat(fv);
@@ -1356,10 +1421,14 @@
 
             $('.page2 #amount').change(function () {
                 var amount = $('.page2 #amount').val();
+                let amount1=amount.replace(/,/g,''); //Replace comma from amount entered
+                amount= amount1;
                 if(!loggedIn) {
                     try {
                         var tempGoals = JSON.parse(sessionStorage.getItem('tempGoals'));
-                        tempGoals.goalAmount = amount;
+                        let abc=$('#amount').val();
+                        let ConvertedAmount=abc.replace(/,/g,''); //Replace comma from amount entered
+                        tempGoals.goalAmount = ConvertedAmount;
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
                     } catch (e) {
@@ -1390,6 +1459,7 @@
                     if (loggedIn && tempGoals.currentPage) {
                         selectTab(tempGoals.currentPage);
                         $('.frogImageMoods #setMood').attr('src', tempGoals.mood);
+                        console.log("Amount Assigned",tempGoals.amt1,tempGoals.amt2,tempGoals.amt3);
                         $("#eqAmt, #eqAmt1").html(tempGoals.amt1);
                         $("#hybAmt, #hybAmt1").html(tempGoals.amt2);
                         $("#debAmt, #debAmt1").html(tempGoals.amt3);
@@ -1450,6 +1520,25 @@
             //     var otherNumbers = x.substring(0, x.length - 3); if (otherNumbers != '') lastThree = ',' + lastThree; var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g,",") + lastThree; $('.page2 #amount').val(res);
             // });
         });
+
+   $('input#amount').keyup(function(event) {
+
+  // skip for arrow keys
+  if(event.which >= 37 && event.which <= 40){
+   event.preventDefault();
+  }
+
+  $(this).val(function(index, value) {
+      value = value.replace(/,/g,'');
+      return numberWithCommas(value);
+  });
+});
+
+function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
 
     </script>
 

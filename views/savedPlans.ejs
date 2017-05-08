@@ -17,27 +17,32 @@
             <h3 class="savedPlans">Saved Plans</h3>
             <em>All plans are valid upto 30 days</em>
           </div>
+            <% if(!plansHeader) {%>
+	<h1>You do not have any saved plans</h1>
+	<% } %>
+            
           <form>
+              
+            <% for(j=0;j<plansHeader.length;j++) {%>
             <div class="row" id="savedPlans">
               <div class="col-md-3">
                 <div class="myGoal">
-                  <h4 class="planNumber">1</h4>
-                  <img src="images/goals/Social/World Cup.png" alt="your goal">
-                  <h4>World Cup</h4>
-                  <h5>30sept 2017</h5>
+                 <!-- <h4 class="planNumber">1</h4>-->
+                  <h4><%=plansHeader[j].name %></h4>
+                  <h5><%=plansHeader[j].date %></h5>
                 </div>
               </div>
               <div class="col-md-5">
                 <label>Goal Outcome:</label>
-                <p>abc123</p><br/>
+                <p><%=plansHeader[j].masteramount %></p><br/>
                 <label>Monthly Amount:</label>
-                <p>120123</p><br/>
+                <p><%=plansHeader[j].sip %></p><br/>
               </div>
               <div class="col-md-4">
                 <label>Number of Years</label>
-                <p>23</p><br/>
+                <p><%=plansHeader[j].totalyears %></p><br/>
                 <label>Risk Profile:</label>
-                <p>abccde</p><br/>
+                <p><%=plansHeader[j].riskprofile %></p><br/>
 
               </div>
 
@@ -54,33 +59,21 @@
                   <tr>
                     <th>Sl No.</th>
                     <th>Recomendation</th>
-                    <th>Allocation %</th>
+                    <th>Category </th>
                     <th>Amount (&#x20B9;)</th>
                   </tr>
                 </thead>
                 <tbody>
+                      <% for(i=0,m=1;i<plansDetail.length;i++,m++) {%>
                   <tr>
 
-                    <td>1</td>
-                    <td>abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz</td>
-                    <td>65%</td>
-                    <td>1000</td>
+                    <td><%= m %></td>
+                    <td><%=plansDetail[i].allocationdescription %></td>
+                    <td><%=plansDetail[i].allocationcategory %></td>
+                    <td><%=plansDetail[i].allocationamount %></td>
                   </tr>
-                  <tr>
-
-                    <td>2</td>
-                    <td>abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz</td>
-                    <td>10% </td>
-                    <td>1000</td>
-                  </tr>
-                  <tr>
-
-                    <td>3</td>
-                    <td>abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz</td>
-                    <td>65%</td>
-                    <td>10000</td>
-                  </tr>
-
+                 
+<%}%>
                 </tbody>
 
 
@@ -88,7 +81,14 @@
               <table class="table" id="savedPlansButtons">
                 <thead>
                   <tr>
-                    <th style="border: none;    float: right;"> <button class="btn saved">Proceed</button> <button class="btn saved" data-toggle="modal" data-target="#myModalDiscard">Discard</button></th>
+                    <th style="border: none;    float: right;"> 
+                         <form action="/Proceed" method="post">
+                             <input id="savedplanid" name="savedplanid" value="<%=plansHeader[j].savedplanid %>" hidden="hidden">
+                        <button class="btn saved" type="submit">Proceed</button>
+                         </form>   
+                        
+                             <button class="btn saved" data-toggle="modal" data-target="#myModalDiscard">Discard</button>
+                              </th>
 
                   </tr>
                 </thead>
@@ -106,6 +106,8 @@
 
     <div class="container">
 
+
+
       <div class="modal fade" id="myModalDiscard" role="dialog">
         <div class="modal-dialog">
 
@@ -114,15 +116,15 @@
 
             <div class="modal-body">
               <p>Are you sure you want to DISCARD?</p>
-              <button class="btn saved">YES</button>
-              <button class="btn saved">No</button>
+              <button class="btn saved" id="<%=plansHeader[j].savedplanid %>" onClick="discard(this.id)" data-dismiss="modal">YES</button>
+              <button class="btn saved" data-dismiss="modal">No</button>
             </div>
 
           </div>
 
         </div>
       </div>
-
+ <%}%>
     </div>
 
     <div class="container knowusFooter">
@@ -134,6 +136,33 @@
     <script src="javascripts/main.js"></script>
     <script src="javascripts/control.js" type="text/javascript"></script>
     <script>
+	  function discard(clicked_id){
+			   
+			     var data = {};
+					data.savedplanid = clicked_id;
+					console.log(data.savedplanid);
+			    //alert(data.pan);
+			   
+				 <% if(loggedIn) {%>
+				   
+					$.ajax({
+						type: 'POST',
+						data: JSON.stringify(data),
+				        contentType: 'application/json',
+                        url: '/discardPlans',						
+                        success: function(data)
+                        {       
+                            window.location = data.redirect   
+                        }
+			   
+		          })
+					 <% }%>
+					
+			   
+		   }
+	
+     
+        
       $('.moodGoals > img').css('display', 'none');
     </script>
 </body>

@@ -8,8 +8,8 @@ const pg = require('pg')
 const crypto = require('crypto')
 /* common functions */
 const functions = require('./functions')
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
 var client = new pg.Client(conString)
 client.connect()
 
@@ -116,15 +116,124 @@ function getSavedPlansDetail (something, callback) {
 
 
 exports.getSavedPlans = (req, res) => {
-  async.waterfall([
-    getUserSubscriptions(req),
-    // fetchSavedPlans,
-    // getSavedPlansDetail
-  ], function (error, success) {
-    if (error) { console.log(error) }
-    console.log('done')
-    // return alert('Done!')
-  })
+ async.waterfall([
+			function (callback) {
+				var paid = false;
+				var query = client.query(" select * from usersubscriptions where userid=" + req.session.user.userid + " and current_date <= planrenewaldate", function (err, result) {
+					if (err)
+						console.log("Cant get portfolio details in goal selection");
+					console.log("Lenght" + result.rows.length);
+					if (result.rows.length > 0) {
+						paid = true;
+						//req.session.paid = true;
+						callback(null, paid)
+					} else {
+						paid = false;
+						//req.session.paid = false;
+						callback(null, paid)
+					}
+				});
+			}, function (pay, callback) {
+				//Fetch Header
+				//store the data in a json
+				async.waterfall([
+					function (callback) {
+						//select * from users inner join profile on users.userid = profile.userid where users.userid=$1
+						var query = client.query("SELECT *,to_char(savedplansheader.created, 'dd-Mon-yyyy') as date FROM savedplansheader inner join goal on savedplansheader.goalid = goal.goalid where savedplansheader.userid=$1 and savedplansheader.status = 'active' ORDER BY savedplansheader.created DESC limit 1  ", [req.session.user.userid],
+							function (err, result) {
+								if (err)
+									console.log("Cant get assets values" + err);
+								console.log("details header" + result.rows.length);
+								asetData = result.rows;
+								console.log(asetData);
+								if (result.rows.length > 0) {
+									//req.session.savedplanheader = asetData;
+									callback(null, asetData)
+								} else {
+									res.render('savedPlans', {
+										user: req.user,
+										selectorDisplay: "show",
+										assetPlanDetail: false,
+										plansHeader: false,
+										plansDetail: false,
+										loggedIn: loginStatus,
+										smessage: req.flash('signupMessage'),
+										lmessage: req.flash('loginMessage'),
+										footerDisplay: "hide",
+										footerData1: "Blog",
+										footerData2: "FAQs",
+									});
+								}
+							})
+					}, function (headerData, callback) {
+						var x = 1;
+						var y = headerData.length;
+							var asetDataAllocationDetail = [];
+
+								var query = client.query("SELECT * FROM savedplansdetail where savedplanid=$1 and allocationtype=$2", [headerData[0].savedplanid, 'allocation'],
+									function (err, result) {
+										if (err)
+											console.log("Cant get assets values");
+										asetDataAllocationDetail = result.rows;
+
+										console.log(asetDataAllocationDetail);
+
+											if (pay) {
+												callback(null, asetData, asetDataAllocationDetail)
+											} else {
+												//only render the data present in the header
+												res.render('savedPlans', {
+													user: req.user,
+													plansHeader: asetData,
+													assetPlanDetail: asetDataAllocationDetail,
+													plansDetail: false,
+													selectorDisplay: "show",
+													loggedIn: loginStatus,
+													smessage: req.flash('signupMessage'),
+													lmessage: req.flash('loginMessage'),
+													footerDisplay: "hide",
+													footerData1: "Blog",
+													footerData2: "FAQs"
+												});
+											}
+										});
+
+
+
+					}, function (headerData, asetDataAllocationDetail, callback) {
+						var x = 1;
+						var y = headerData.length;
+						var asetDataDetail = {};
+						console.log("header length" + headerData.length);
+								var query = client.query("SELECT * FROM savedplansdetail where savedplanid=$1 and allocationtype=$2", [headerData[0].savedplanid, 'scheme'],
+									function (err, result) {
+										if (err)
+											console.log("Cant get assets values");
+										asetDataDetail = result.rows;
+										//	asetDataDetail[i] = dataDetail;
+										//req.session.savedplandetail = asetDataDetail;
+										console.log("saved detail" + asetDataDetail);
+										/*if (x >= y) {*/
+											res.render('savedPlans', {
+												user: req.user,
+												assetPlanDetail: asetDataAllocationDetail,
+												plansHeader: headerData,
+												plansDetail: asetDataDetail,
+												selectorDisplay: "show",
+												loggedIn: loginStatus,
+												smessage: req.flash('signupMessage'),
+												lmessage: req.flash('loginMessage'),
+												footerDisplay: "hide",
+												footerData1: "Blog",
+												footerData2: "FAQs"
+											});
+									});
+					},], function (err, result) {
+					})
+			}
+		], function (err, result) {
+			//console.log(result);
+		})
 }
 
 // exports.getSavedPlans = (req, res) => {
@@ -181,16 +290,9 @@ exports.getSavedPlans = (req, res) => {
 //   })
 //}
 
-function checkLoginStatus (req) {
-  if (req.session.loggedIn) {
-    return true
-  } else {
-    return false
-  }
-}
 exports.postPlanHeaders = (req, res) => {
     
-  loginStatus = checkLoginStatus(req)
+  loginStatus = functions.checkLoginStatus(req)
   if (loginStatus) {
     var creation_date = new Date()
     var modified_date = new Date()
@@ -640,3 +742,21 @@ exports.postPlanHeaders = (req, res) => {
 }
 
 // module.exports = router;
+
+
+exports.postDiscardplans = (req, res) => {
+    var query = client.query("update savedplansheader set status=$1 where savedplanid=$2", ['inactive', req.body.savedplanid], function (err, result) {
+			if (err) {
+				console.log("cant insert assets header allocation data", err);
+				res.send("false");
+			} else {
+
+                console.log("Set as Inactive");
+
+                res.send({redirect: '/GoalSelection'});
+
+			}
+
+
+		});
+}

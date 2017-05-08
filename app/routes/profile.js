@@ -8,8 +8,8 @@ const pg = require('pg');
 const crypto = require('crypto');
 /* common functions */
 const functions = require('./functions');
-//const conString = "postgres://postgres:postgres@localhost:5432/investory";
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+const conString = "postgres://postgres:postgres@localhost:5432/investory";
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 var client = new pg.Client(conString);
 client.connect();
 
@@ -17,31 +17,48 @@ client.connect();
 var currentPage;
 
 exports.getProfile = (req, res) => {
-	currentPage = req.session.activePage = "/profile";
 	
+    currentPage = req.session.activePage = "/profile";
+	let goalsCount;
 	  mobile = req.useragent["isMobile"];
     if(mobile)
    		pageName = "profileMobile";
 	else
 		pageName = "yourStory";
 		 
-	
+	console.log(">>>>>>>>>>I am here");
 	loginStatus = functions.checkLoginStatus(req);
 	
     //profile
      
-   var query=client.query("select * from users inner join profile on users.userid = profile.userid where users.userid=$1",[req.session.user.userid],function(err,result){
+   var query=client.query("select * from users inner join profile on users.userid = profile.userid  where users.userid=$1",[req.session.user.userid],function(err,result){
             if(err)
                 console.log("Cant get profile details from users table");
+       
+       
             if(result.rows.length>0)
                 {
+                    var query = client.query("SELECT count(userinvestmentsheader.goalid) FROM userinvestmentsheader INNER JOIN goal ON userinvestmentsheader.goalid = goal.goalid WHERE userinvestmentsheader.userid=$1 and status in ('pending', 'reconciled')", [req.session.user.userid],
+			 function (err, qresult) {
+                     if(err)
+                console.log("Cant get goals details in profile");
+                    if(qresult.rows.length>0)
+                {
+                    goalCount=qresult.rows[0];
+                    console.log(">>>>>>>>>>I am in goal count",goalCount.count);
+                     
+                   if(goalCount.count > 0)
+                   {
+                       goalsCount=goalCount.count
+                      
+                   }else
+                         goalsCount=false;
                     
-                    var len=result.rows.length;
-    
-                    console.log("Profile",result.rows[0]);
+                
 	               res.render(pageName,{
 	  
 	  	           user : req.user ,
+                       goalCount:goalsCount,
 				   profile: result.rows[0],
                    message: 'updated',
 	  	           selectorDisplay: "show",
@@ -56,8 +73,11 @@ exports.getProfile = (req, res) => {
   });
 			
 		}
-		
+    });
+    }
+                                             
 	});
+  
   
 };
 
@@ -96,5 +116,26 @@ loginStatus = functions.checkLoginStatus(req);
 
 	    res.redirect("/profile");
 	});
+};
+exports.postprofilebank = (req, res) => {
+    
+    currentPage = req.session.activePage = "/profile";
+
+	loginStatus = functions.checkLoginStatus(req);
+ console.log("Insert error in bank details");
+                    var bank=req.body.bank;
+                    var ifsc=req.body.ifsc;
+                    var branch=req.body.branch;
+                    var account=req.body.accno;
+              var query=client.query("insert into pandetails(userid,bankname,accno,ifsc,branch,createdby) values($1,$2,$3,$4,$5,$6)", [req.session.user.userid, bank,account,ifsc, branch, req.session.user.name],function(err,result){
+                  if(err)
+                       console.log("Cant insert new row to pan details",err);
+                  if(result.rows.length>0)
+                {
+            		 console.log("Insert to pan details Success..!");
+			  }
+              });
+        res.redirect("/profile");
+    
 };
 

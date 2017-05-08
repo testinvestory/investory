@@ -1,4 +1,5 @@
 <!--<section>-->
+
 <div id="account">
   <div class="text-center" style="  ">
       <div class="circleClass" style="    margin-left: 0%;margin-top: 2em;">
@@ -10,12 +11,12 @@
           <p class="RewardPoints" style="    position: relative; top: -1em;display:none;">Reward Points</p>
         </div>
   </div>
-    
-    
+ 
     <br>
     <br>
+   
   <div class="topNav abc topNav2">
-    <a class="btn btn-lg moodNav storyBtn <% if( currentPage == '/Invoices' ) { %> active <% } %> " href="Invoices">My Investments</a> 
+    <a class=" act btn btn-lg moodNav storyBtn <% if( path1=="accountInvestmentData") { %> active <% } %>"  href="Investment" id="tab1">My Investments</a> 
       <div></div>
       <div></div>
       <div></div>
@@ -24,7 +25,7 @@
       <div></div>
       <div></div>
       <div></div>
-      <a class="btn btn-lg moodNav storyBtn <% if( currentPage == '/Investment' ) { %> active <% } %>" style="width: 8em;"  href="Investment">My Invoices</a>
+      <a class="btn btn-lg moodNav storyBtn <% if( path1=="accountInvoicesData") { %> active <% } %>" style="width: 8em;"  href="Invoices" id="tab2">My Invoices</a>
       <div></div>
       <div></div>
       <div></div>
@@ -33,7 +34,7 @@
       <div></div>
       <div></div>
       <div></div>
-      <a class="btn btn-lg moodNav storyBtn <% if( currentPage == '/transaction' ) { %> active <% } %>" style="width: 8em;" href="Transaction">My Transactions</a> 
+      <a class="btn btn-lg moodNav storyBtn <% if( path1== "accountTransactionData") { %> active <% } %>" style="width: 8em;" href="Transaction" id="tab3">My Transactions</a> 
       <div></div>
       <div></div>
       <div></div>
@@ -42,7 +43,7 @@
       <div></div>
       <div></div> 
       <div></div>
-    <a class="btn btn-lg moodNav storyBtn <% if( currentPage == '/Settings' ) { %> active <% } %>"  href="Settings" id="ttt">My Settings</a>
+    <a class="btn btn-lg moodNav storyBtn  <% if( path1== "accountSettingsData") { %> active <% } %>"  href="Settings" id="ttt">My Settings</a>
   </div>
 
    
@@ -62,7 +63,8 @@
 <% include accountInvoicesData %>
 <% } %>
 
-	
+   
+
 	
       </div>
 

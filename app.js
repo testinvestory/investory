@@ -30,8 +30,13 @@ const user = require('./app/routes/user')
 
 var pp = require('./config/passport')
 pp(passport)
-
+try {
 dotenv.load({ path: '.env' })
+
+} catch (e) {
+  console.error(e.message);
+  process.exit(1);
+}
 
 var app = express()
 app.set('port', process.env.PORT || 3000)
@@ -60,6 +65,7 @@ app.get('/GoalSelection', functions.isLoggedIn, goal.goalSelection)
 app.get('/GoalInvest', functions.isLoggedIn, goal.goalInvest)
 
 app.get('/SavedPlans', functions.isLoggedIn, savedPlans.getSavedPlans)
+app.post('/discardPlans', functions.isLoggedIn, savedPlans.postDiscardplans)
 app.post('/SavedPlansHeader', functions.isLoggedIn, savedPlans.postPlanHeaders)
 
 app.get('/Pricing', functions.isLoggedIn, payment.getPrice)
@@ -78,10 +84,12 @@ app.get('/myStory', functions.isLoggedIn, stories.getMyStory)
 app.get('/YourStory', functions.isLoggedIn, stories.getYourStory)
 app.get('/profile', functions.isLoggedIn, profile.getProfile)
 app.post('/profile', functions.isLoggedIn, profile.postProfile)
+app.post('/profilebank', functions.isLoggedIn, profile.postprofilebank)
 app.get('/Accounts', functions.isLoggedIn, account.getAccount)
 app.get('/Invoices', functions.isLoggedIn, account.getInvoice)
 app.get('/Transaction', functions.isLoggedIn, account.getTransaction)
 app.get('/Settings', functions.isLoggedIn, account.getSetting)
+app.post('/updatePassword', functions.isLoggedIn, account.postupdatePassword)
 app.get('/reports', functions.isLoggedIn, account.getReports)
 app.get('/tocurrent', user.getToCurrent)
 

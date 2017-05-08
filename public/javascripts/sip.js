@@ -1,12 +1,36 @@
 var totalYears;
 var sip;
+  var sipInvestValue;  
+var sipTime;
+    $('input#sip').keyup(function(event) {
+
+  // skip for arrow keys
+  if(event.which >= 37 && event.which <= 40){
+   event.preventDefault();
+  }
+
+  $(this).val(function(index, value) {
+      value = value.replace(/,/g,'');
+      return numberWithCommas(value);
+  });
+});
+
+function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
+
 function getSIP(){
 	// debugger;	
 	//alert("dad");
 	var sipInvestValue = $('#sip').val();
-	var sipTime = $('#year').val();
-	if ( sipInvestValue < 1000 || sipInvestValue > 100000 ){ 
+	var sipTime = $('#years').val();
+   
+ let amount=sipInvestValue.replace(/,/g,'');  
+	if ( amount < 1000 || amount > 100000 ){ 
 		$('#sipInvestErr').slideDown();
+       
 	} else if ( sipTime < 1 || sipTime > 50 ) {
 		$('#sipInvestErr').slideUp(); 
 		$('#sipTimeErr').slideDown();
@@ -15,11 +39,11 @@ function getSIP(){
 		$('#sipInvestErr').slideUp; 
 		$('#sipTimeErr').slideUp();
 		totalYears = document.getElementById("years").value;
-		sip=document.getElementById("sip").value; 
+		sip=amount; 
 		localStorage.sip = sip;
 		localStorage.years = totalYears;
 		localStorage.sipInvestment = true;	
-		console.log("years"+totalYears+"time"+sip);
+		console.log("years"+totalYears+"time"+amount);
 		sessionStorage.setItem('tempGoals', JSON.stringify({currentPage:4}));
 		window.location.href = "/GoalSelection";
 	}
@@ -36,3 +60,4 @@ function showSIP(){
 	$(".contentMood .page4,.contentMood .page4 .selectMode").show();
 	/*	console.log("years"+localStorage.years+"time"+	 localStorage.sip);*/
 }
+

@@ -76,7 +76,8 @@ input { outline: none }
 
 /* To be refactored */
 
-#show { display: block }
+#show { display: block;
+padding: 0px;}
 #hide { display: none }
 
 /****/
@@ -162,7 +163,7 @@ Home Page Whats your mood.
 #moodOfMonth {font-weight: 600; position: absolute; bottom: 60px; left: 50%; width: 100px; cursor: pointer; transform: translateX(-50%) }
 #dotMenu { position: fixed; bottom: 40px; width: 100px; z-index: 99999; left: 50%; transform: translateX(-50%); display: block; top: initial; height: 28px;}
 .onepage-pagination li { display: inline-block }
-#dotMenu li a {  width: 15px; height: 15px; display: inline-block; border-radius: 50%; border: 2px #FFDE15 solid; background-color: #FFDE15; border: 0; margin: 5px; padding: 0px }
+#dotMenu li a {  width: 9px; height: 9px; display: inline-block; border-radius: 50%; border: 2px #FFDE15 solid; background-color: #FFDE15; border: 0; margin: 5px; padding: 0px }
 #dotMenu li a:before { display: none }
 #dotMenu li a.active { background: #35BFD3 }
 #angle { position: fixed; bottom: 1em; width: 45px; z-index: 99999; left: 50%; transform: translateX(-50%); padding: 10px; cursor: pointer; }
@@ -716,16 +717,16 @@ Feeling Text Circlural Navigation Menu
 }
 
 
-.feelingCircularMenu ul li:nth-child(1), .feelingCircularMenu ul li:nth-child(6) { bottom: 10px }
+.feelingCircularMenu ul li:nth-child(1), .feelingCircularMenu ul li:nth-child(6) { bottom: 33px }
 .feelingCircularMenu ul li:nth-child(1) { left: 0 }
-.feelingCircularMenu ul li:nth-child(6) { right: -10px }
-.feelingCircularMenu ul li:nth-child(2), .feelingCircularMenu ul li:nth-child(5) { bottom: 75px }
-.feelingCircularMenu ul li:nth-child(2) { left: 20px }
-.feelingCircularMenu ul li:nth-child(5) { right: 22px }
+.feelingCircularMenu ul li:nth-child(6) { right: -6px }
+.feelingCircularMenu ul li:nth-child(2), .feelingCircularMenu ul li:nth-child(5) { bottom: 94px }
+.feelingCircularMenu ul li:nth-child(2) { left: 30px }
+.feelingCircularMenu ul li:nth-child(5) { right: 30px }
+.feelingCircularMenu ul li:nth-child(3), .feelingCircularMenu ul li:nth-child(4)  {bottom: 140px }
+.feelingCircularMenu ul li:nth-child(3) { left: 107px }
+.feelingCircularMenu ul li:nth-child(4) { right: 91px/*ruthu6*/ } 
 
-.feelingCircularMenu ul li:nth-child(3), .feelingCircularMenu ul li:nth-child(4)  {bottom: 125px }
-.feelingCircularMenu ul li:nth-child(3) { left: 88px }
-.feelingCircularMenu ul li:nth-child(4) { right: 40px/*ruthu6*/ }
 
 
 
@@ -1324,13 +1325,21 @@ Footer
     font-size: 22px;
 } 
 
-.socialIcons img {
+/*socialIcons img {
 
     width: 8%;
     height: auto;
     float: left;
     margin-right: 3%;
+}*/
+.socialIcons img {
+    width: 10%;
+    height: auto;
+    float: left;
+    margin-right: 0%;
 }
+
+
 
 .foot p > a { font-weight: 700;/*ruthu6*/ line-height: 0.6; font-size: 16px }
 .SubscribeToNewsletter { }
@@ -2131,7 +2140,7 @@ div.topNav.abc{
     width: 78.2%;
 }
 /* Form Elements */
-.blankInput[type=number] { height: 25px; border: 0; margin-left: 1px;  background-color: transparent; padding: 5px;     border-bottom: 1px dashed/*ruthu6*/; outline: none }
+.blankInput { height: 25px; border: 0; margin-left: 1px;  background-color: transparent; padding: 5px;     border-bottom: 1px dashed/*ruthu6*/; outline: none }
 
 section#section4 #dotMenu {
     display:none;
@@ -2802,7 +2811,7 @@ button.btn.saved{
     border-right: 2px #35BFD3 solid;
 }
 #savedPlans div.col-md-4,#savedPlans div.col-md-5{
-margin-top:3%;
+margin-top:0%;
   
 }
 #savedPlans h5{
@@ -2884,3 +2893,14 @@ div#yCircle.yellow {
     .accountsPage *:not(table *) { display: none }
 
 }*/
+span.stylingPerMonth {
+    font-size: 0.38em;
+    position: absolute;
+    font-weight: 900;
+    color: #35BFD3;
+    padding-top: 2%;
+    padding-left: 2.25%;
+    margin-top: 0em;
+    font-style: italic;
+    color:#333333;
+}

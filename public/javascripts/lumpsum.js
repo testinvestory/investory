@@ -1,20 +1,55 @@
 
+
+$('input#lumpsum').keyup(function(event) {
+
+  // skip for arrow keys
+  if(event.which >= 37 && event.which <= 40){
+   event.preventDefault();
+  }
+
+  $(this).val(function(index, value) {
+      value = value.replace(/,/g,'');
+      return numberWithCommas(value);
+  });
+});
+
+function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
+
 var totalYears;
 var lumpsum;
+
 function getLumpsum(){
 	
 	
-	totalYears = document.getElementById("lumpsumYears").value;
-	lumpsum=document.getElementById("lumpsum").value; 
+	totalYears =$('#lumpsumYears').val(); /*document.getElementById("lumpsumYears").value;*/
+	lumpsum=$('#lumpsum').val(); /* document.getElementById("lumpsum").value; */
 	
+    
+    let lumpAmount=lumpsum.replace(/,/g,'');  
+    
+    if ( lumpAmount < 7000 || lumpAmount > 100000){ 
+		$('#lumpsumInvestErr').slideDown();
+      
+    
+	} else if ( totalYears < 1 || totalYears > 50 ) {
+		$('#lumpsumInvestErr').slideUp(); 
+		$('#lumpsumTimeErr').slideDown();
+	} else {
+		
+		$('#lumpsumInvestErr').slideUp; 
+		$('#lumpsumTimeErr').slideUp();
 	
-	 localStorage.lumpsum = lumpsum;
+	 localStorage.lumpsum = lumpAmount;
 	 localStorage.lumpYears = totalYears;
 	 localStorage.lumpsumInvestment = true;	
-	console.log("years"+totalYears+"amt"+lumpsum);
-sessionStorage.setItem('tempGoals', JSON.stringify({currentPage:4}));
+	console.log("years"+totalYears+"amt"+lumpAmount);
+     sessionStorage.setItem('tempGoals', JSON.stringify({currentPage:4}));
 	window.location.href = "/GoalSelection";
-	
+    }
 }
 
 

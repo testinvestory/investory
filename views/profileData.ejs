@@ -294,7 +294,11 @@
 
              <div class="container how-it-works contentEdit">
                  <div class="row"><br><br><br><br><br>
-                <form onsubmit="return validateFrom()" name="profileInformation" class="form-horizontal" action="/profile" method="post">
+                   <%if(profile.dob && profile.age){%>
+                      <form name="profileInformation"  class="form-horizontal" action="/profile" method="post">
+                     <%}else{%>
+                     <form name="profileInformation"  onsubmit="return validateFrom()"class="form-horizontal" action="/profile" method="post">
+                             <%}%>
                     <div id="ProfileColumn1" class="col-sm-6  setting colProfile">
                         <div style="width:280px; float: right;">
                             <div class="form-group">
@@ -311,7 +315,7 @@
                                     <% var Gender = [ "Male", "Female"];%>
                                     <select class="form-controler edit selectGender" id="gender" name="gender"><span class="caretNext caretNext1 caret "></span>
                                     <% Gender.forEach( function( sex ){ %>
-                                        <option valuw="<%= sex%>" <% if(profile.gender == sex) {%> selected="selected"<%}%> >
+                                        <option value="<%= sex%>" <% if(profile.gender == sex) {%> selected="selected"<%}%> >
                                         <%= sex%>
                                         </option>
                                     <% });%>
@@ -320,7 +324,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Address:</label>
-                                <textarea class="form-controler addressSection2" rows="6" id="comment" type="text" name="address" maxlength="200" required/><%= profile.address %></textarea>
+                                <textarea class="form-controler addressSection2" rows="6" id="comment" type="text" name="address" maxlength="200" required><%= profile.address %></textarea>
                             </div>
                         </div>
                     </div>
@@ -334,18 +338,8 @@
         <div class="form-group Up">
             <div style="float: left; ">
                 <label class="control-label">DOB:</label>
-                <% var monthDates = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];%>
-                <% if(profile.dob) {
-                    var dob = new Date(profile.dob);
-                    var dob = new Date(profile.dob.toString());
-                    var day = ("0" + dob.getDate()).slice(-2);
-                    var month = ("0" + (dob.getMonth() + 1)).slice(-2);
-                    dob = dob.getFullYear()+"-"+(month)+"-"+(day);
-                } else {
-                    var dob = "";
-                }
-                %>
-                <input id="dob" type = "date" value="<%=dob %>"style="width: 7.87em; margin-top: -0.25em;" name="calendar" class="form-controler">
+               
+                <input id="dob" name="dob" type = "date" value="<%=profile.dob %>"style="width: 7.87em; margin-top: -0.25em;" name="calendar" class="form-controler">
                 <p id="dateValidationMsg" style="display: none;  color: red">Age should be minimum 18 years.</p>
             </div>
 

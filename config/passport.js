@@ -42,7 +42,7 @@ var pg = require('pg');
 var config = {
   user: 'postgres', //env var: PGUSER
   database: 'investory', //env var: PGDATABASE
-  password: 'postgres', //env var: PGPASSWORD
+  password: '123', //env var: PGPASSWORD
   host: 'localhost', // Server hosting the postgres database
   port: 5432, //env var: PGPORT
   max: -1, // max number of clients in the pool
@@ -55,8 +55,8 @@ var config = {
 
 
 var pg = require('pg');
-var conString = "postgres://postgres:postgres@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+//var conString = "postgres://postgres:postgres@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 
 var client = new pg.Client(conString);
 client.connect();

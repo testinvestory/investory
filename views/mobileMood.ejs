@@ -213,8 +213,8 @@
                                <div id="" class="page2">
 <!--                        <h2>Education</h2>-->
 								   <br />
-                    <p class="row">I need INR<input class="blankInput"  name="amount" id="amount" placeholder="" type="number" max="7" value=""/>in<input class="blankInput" placeholder="" type="number" id="time" max="99" value=""/> (Years)</p>
-                    <p class="page2VldMsg" style="color: red; display: none;">Monthly Investment should be minimum INR 1000</p>
+                    <p class="row">I need INR<input class="blankInput"  name="amount" id="amount" placeholder=""  value=""/>in<input class="blankInput" placeholder="" type="number" id="time" max="99" value=""/> (Years)</p>
+                    <p class="page2VldMsg" style="color: red; display: none;">I need INR should be minimum 7000</p>
                     <p class="page2VldMsg2" style="color: red; display: none;">Please Select years between 1 t0 50</p>
                     <div class="buttonSetUp">
                         <div class="login-btn" style="top:90%;">
@@ -430,19 +430,17 @@
                                
                                    </div>       
 
-  <a class="right  "style=" position: relative;
-    top: initial;" href="#myCarousel" role="button" data-slide="next">
-<!--    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
-            <img src="images/Right.png" style="width: 5%;
-    height: 15%;">
+<a class="right" href="#myCarousel" role="button" data-slide="next" style="top: 0em;">
+
+            <img src="images/Right.png" >
     <span class="sr-only">Next</span>
-  </a>   <a class="left  "style=" position: relative;
-    top: initial;" href="#myCarousel" role="button" data-slide="previous">
-<!--    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
-            <img src="images/left.png" style="width: 5%;
-    height: 15%;">
-    <span class="sr-only">Next</span>
-  </a>
+  </a>   
+                                   
+                                   <a class="left  " href="#myCarousel" role="button" data-slide="prev" style="top: 0em;">
+       <img src="images/left.png"  style="">
+       <!--    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>-->
+       <span class="sr-only">Previous</span>
+      </a>
             
             <div class="login-btn text-center page-buttons">
                                  
@@ -540,8 +538,15 @@
 								
     <!--Tab 6-->
     <% if(paid) {%>
-	<div  class="page6" style="display: none">
+                           
+	<div  class="page6" style="display: none;">
+         <%if(loggedIn && panstatus[0].kycstatus=="Complaint"){%>
+        <form action="/InsertOrders" method="post">
+           <button type="submit"  class="btn btn-lg moodNav go" id="initInvest" style="top: 0;left: 0;margin: 25px auto;"> Invest </button>  
+        </form>
+          <%}else{%>
         <button type="" data-toggle="modal" data-target="#myPanModal" class="btn btn-lg moodNav go" id="initInvest" style="top: 0;left: 0;margin: 25px auto;"> Invest </button>
+       <%}%> 
         <p>So, you need to invest INR <span id="invest1"><%=assetFromDb.sip %></span> Monthly</p>   
         <div class="row">
             <div class="col-12-sm table-wrapper">
@@ -550,7 +555,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th colspan="2">
+                                <th colspan="2"style="    border-right: none;">
                                     <%=schemeData[i].allocationdescription %>
                                 </th>
                             </tr>
@@ -570,8 +575,8 @@
                             </tr>
                         </tbody>
                     </table>
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     <%}%>
             </div>
         </div>
@@ -813,7 +818,7 @@
                             $(".page6 .table tbody > tr").not('#showDataSchemes').empty();
                             $('.page6 .table-wrapper').html('');
                             for (i = 0; i < data[0].length; i++) {
-                                var txt1 = '<table class="table"><thead><tr><th colspan="2">'+data[0][i].name+'</th></tr></thead><tbody><tr><td>'+data[0][i].name+'</td><td>'+data[1][i]+'</td></tr></tbody></table>';
+                                var txt1 = '<table class="table"><thead><tr><th colspan="2">'+data[0][i].name+'</th></tr></thead><tbody><tr><td>'+data[0][i].category +'</td><td>'+data[1][i]+'</td></tr></tbody></table> <br/><br/>';
                                 $('.page6 .table-wrapper').append(txt1);
                                 // var txt1 = "<tr><td>" + data[0][i].name + "</td><td>" + data[0][i].category + "</td><td>" + data[1][i] + "</td></tr>";
                                 // $("#showDataSchemes").after(txt1);
@@ -963,7 +968,8 @@
                     var totalYears = document.getElementById("time").value;
                     var nper = totalYears * per;
                     var pv = 0;
-                    var fv = document.getElementById("amount").value;
+                    var convertAmount=document.getElementById("amount").value;
+                    var fv = convertAmount.replace(/,/g,''); 
                     //document.getElementById("amountMaster").value = fv;
 
                     //if number of years is less then 3 year debt is 100
@@ -1021,31 +1027,35 @@
 
                 } else {
                     /*Conservative*/
-                    var eqP1 = <%=data[0].asset.value %>;
-                    var hybP1 = <%=data[1].asset.value %>;
-                    var debtP1 = <%=data[2].asset.value %>;
-            
+                    var eqP1 = 20;/*<%=data[0].asset.value %>*/;
+                    var hybP1 = 15;/*<%=data[1].asset.value %>;*/
+                    var debtP1 = 65;/*<%=data[2].asset.value %>;*/
+           
                     var eqP = eqP1 / 100;
                     var hybP = hybP1 / 100;
                     var debtP = debtP1 / 100;
 
                     //Moderate
-                    var eqMP1 = <%=data[3].asset.value %>;;
-                    var hybMP1 = <%=data[4].asset.value %>;;
-                    var debtMP1 = <%=data[5].asset.value %>;;
-
+                   // debugger;
+                    var eqMP1 = 50;/*<%=data[3].asset.value %>;*/
+                    var hybMP1 = 22.5;/*<%=data[4].asset.value %>;*/
+                    var debtMP1 = 27.5;/*<%=data[5].asset.value %>;*/
+                    
                     var eqMP = eqMP1 / 100;
                     var hybMP = hybMP1 / 100;
                     var debtMP = debtMP1 / 100;
 
                     //*Aggressive*/
-                    var eqAP1 = <%=data[6].asset.value %>;;
-                    var hybAP1 = <%=data[7].asset.value %>;;
-                    var debtAP1 = <%=data[8].asset.value %>;;
+                    var eqAP1 = 75;/*<%=data[6].asset.value %>;*/
+                    var hybAP1 = 25;/*<%=data[7].asset.value %>;*/
+                    var debtAP1 = 0;/*<%=data[8].asset.value %>;*/
+                  
 
                     var eqAP = eqAP1 / 100;
                     var hybAP = hybAP1 / 100;
                     var debtAP = debtAP1 / 100;
+
+
 
 
                 }
@@ -1498,10 +1508,17 @@
 
             $('.page2 #amount').change(function () {
                 var amount = $('.page2 #amount').val();
+                let amount1=amount.replace(/,/g,''); //Replace comma from amount entered
+                amount= amount1;
+                
                 if(!loggedIn) {
                     try {
                         var tempGoals = JSON.parse(sessionStorage.getItem('tempGoals'));
-                        tempGoals.goalAmount = amount;
+                        
+                        let abc=$('#amount').val();
+                        let ConvertedAmount=abc.replace(/,/g,''); //Replace comma from amount entered
+                        tempGoals.goalAmount = ConvertedAmount;
+                        
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
                     } catch (e) {
@@ -1581,19 +1598,25 @@
 
 
 
-            //Tab 2 Number validations
-            // $('.page2 #amount').change(function () {
-            //     var x = $('.page2 #amount').val();
-            //     x.replace(/,/g, '');
-            //     x = Number(x);
-            //     if (x < 7000 || x > 10000000) { 
-            //         console.log('number limitation');
-            //     } else if(isNaN(x)) { 
-            //         console.log('isNaN');
-            //     } x=x.toString();
-            //     var lastThree = x.substring(x.length-3);
-            //     var otherNumbers = x.substring(0, x.length - 3); if (otherNumbers != '') lastThree = ',' + lastThree; var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g,",") + lastThree; $('.page2 #amount').val(res);
-            // });
+$('input#amount').keyup(function(event) {
+
+  // skip for arrow keys
+  if(event.which >= 37 && event.which <= 40){
+   event.preventDefault();
+  }
+
+  $(this).val(function(index, value) {
+      value = value.replace(/,/g,'');
+      return numberWithCommas(value);
+  });
+});
+
+function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
+
         });
 
     </script>

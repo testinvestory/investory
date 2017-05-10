@@ -16,19 +16,21 @@
                      My Investments</h3>       
                        <div class="table-responsive tableAccounts"style="" >
                            
-                   <br>        
+                   <br> 
+                           <% if(stmt) { %>
+                            <%for(var i=0;i<stmt.length;i++){%>
              <table class="table" style="
     border-radius: 21px;
 ">
                                  <thead>
                                      <tr>
-                                      <th class="thead1" colspan="2">20 September 2016</th>
+                                      <th class="thead1" colspan="2">Date :<%=stmt[i].investdate%> </th>
                                      
                                      </tr>
                                 </thead>
                              <thead>
                                      <tr>
-                                      <th class="thead2" colspan="2">Fund Yesno Bank</th>
+                                      <th class="thead2" colspan="2"><%=stmt[i].name%></th>
                                      
                                      </tr>
                                 </thead>
@@ -36,106 +38,22 @@
                                      <tr>
                                         
                                          <td>
-                                         Units</td>
-                                      <td style="border-right: none;">Amount (&#x20B9;)</td>
+                                        Amount (&#x20B9;) </td>
+                                      <td style="border-right: none;">Units</td>
                                         </tr>
                                         <tr>
-                                          <td id="eqPer">50%</td>
-                                          <td id="eqAmt" style="border-right: none;">4,000,00</td>
+                                          <td id="eqPer"><%=stmt[i].amount%></td>
+                                          <td id="eqAmt" style="border-right: none;"><%=stmt[i].units%></td>
                                         </tr>
                                  </tbody>
                           </table>  
           <br>                                
-             <table class="table" style="
-    border-radius: 21px;
-">
-                                 <thead>
-                                     <tr>
-                                      <th class="thead1" colspan="2">20 September 2016</th>
-                                     
-                                     </tr>
-                                </thead>
-                             <thead>
-                                     <tr>
-                                      <th class="thead2" colspan="2">Fund Yesno Bank</th>
-                                     
-                                     </tr>
-                                </thead>
-                                 <tbody>
-                                     <tr>
-                                        
-                                         <td>
-                                         Units</td>
-                                      <td style="border-right: none;">Amount (&#x20B9;)</td>
-                                        </tr>
-                                        <tr>
-                                          <td id="eqPer">50%</td>
-                                          <td id="eqAmt" style="border-right: none;">4,000,00</td>
-                                        </tr>
-                                 </tbody>
-                          </table>  
-                    <br>                      
-             <table class="table" style="
-    border-radius: 21px;
-">
-                                 <thead>
-                                     <tr>
-                                      <th class="thead1" colspan="2">20 September 2016</th>
-                                     
-                                     </tr>
-                                </thead>
-                             <thead>
-                                     <tr>
-                                      <th class="thead2" colspan="2">Fund Yesno Bank</th>
-                                     
-                                     </tr>
-                                </thead>
-                                 <tbody>
-                                     <tr>
-                                        
-                                         <td>
-                                         Units</td>
-                                      <td style="border-right: none;">Amount (&#x20B9;)</td>
-                                        </tr>
-                                        <tr>
-                                          <td id="eqPer">50%</td>
-                                          <td id="eqAmt" style="border-right: none;">4,000,00</td>
-                                        </tr>
-                                 </tbody>
-                          </table>  
-                           
-                            <br>              
-             <table class="table" style="
-    border-radius: 21px;
-">
-                                 <thead>
-                                     <tr>
-                                      <th class="thead1" colspan="2">20 September 2016</th>
-                                     
-                                     </tr>
-                                </thead>
-                             <thead>
-                                     <tr>
-                                      <th class="thead2" colspan="2">Fund Yesno Bank</th>
-                                     
-                                     </tr>
-                                </thead>
-                                 <tbody>
-                                     <tr>
-                                        
-                                         <td>
-                                         Units</td>
-                                      <td style="border-right: none;">Amount (&#x20B9;)</td>
-                                        </tr>
-                                        <tr>
-                                          <td id="eqPer">50%</td>
-                                          <td id="eqAmt" style="border-right: none;">4,000,00</td>
-                                        </tr>
-                                 </tbody>
-                          </table>  
-                           
+              
+          <%}%>                 
 
-                                 
+      <% }else { %>
+					<h1>No transactions yet. see you later. bye.</h1>
+					<% } %>                           
           </div>
     
     </div>

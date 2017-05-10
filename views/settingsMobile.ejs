@@ -14,69 +14,10 @@
     <h3 class="settingsDataHeader">Settings</h3>
 			  
            <div class="settingsForm">   
-      <form class="form-horizontal">
+      <form action="/updatePassword" method="post" class="form-horizontal">
                           
           <div class="">
-              
-            <div class="form-group">
-                               
-                <label class="control-label  col-xs-3" for="pwd" >Password:
-                </label>
-               
-                <div class="">
-                
-                    <input type="password" class="form-controler" value="abcdefg" readonly> 
-            
-                </div>
-                                   
-                <br>
-                              
-            </div>       
-                                    
-            
-            <div class="form-group">
-                
-                              
-                <label class="control-label  col-xs-3" for="text" >Risk Profile:</label>
-                        
-                <div class="">
-                                            
-                    <input type="text" style="color: #35BFD3;" class="form-controler" placeholder="" value="Changed on 10/10/2017" readonly>
-                                              
-                    <h6 class="messageProfile"><i>This can be changed once in a year</i></h6>
-                                       
-                </div>
-                                    
-                <br>                          
-                              
-              </div>        
-                                    
-              
-             <div class="form-group">
-                                  
-                 <div class="dropdown">
-                             
-                     <label class="control-label  col-xs-3" for="text">Music:</label>
-                                       
-                     <div class="">
-                        <select class="form-controler edit" ><span class="caretNext caretNext1 caret "></span>
-                            <option  >On </option>
-        <option  >Off</option>
-                                   
-                            </select>       
-                     </div>
-                                    
-                     <br>
-                                                            
-                 </div>        
-                              
-              </div>            
-                     
-          </div>
-                      
-                   
-
-          <div class="">
+               <div class="">
                      
             
               <div class="form-group" >
@@ -123,7 +64,95 @@
                                     
                                     
                               
-          </div>            
+          </div> 
+            <div class="form-group">
+                               
+                <label class="control-label  col-xs-3" for="pwd" > Old Password:
+                </label>
+               
+                <div class="">
+                
+                    <input type="password" id="pwd" name="pwd" class="form-controler" value=""> 
+            
+                </div>
+                                   
+                <br>
+                              
+            </div>       
+                    <div class="form-group">
+                               
+                <label class="control-label  col-xs-3" for="pwd" >New Password:
+                </label>
+               
+                <div class="">
+                
+                    <input type="password" id="newpwd" name="newpwd" class="form-controler" value=""> 
+            
+                </div>
+                                   
+                <br>
+                              
+            </div>                 
+             <div class="form-group">
+                               
+                <label class="control-label  col-xs-3" for="pwd" >Confirm Password:
+                </label>
+               
+                <div class="">
+                
+                    <input type="password" id="conpwd" name="conpwd" class="form-controler" value="" > 
+            
+                </div>
+                   <% if(message.length>0){ %>
+                    <div class="alert alert-danger" style="margin-top:10px;"><%=message %></div>
+  <%}%>                 
+                <br>
+                 <button type="submit" class="btn btn-lg moodNav"  >Submit </button>             
+            </div> 
+              
+            <!--<div class="form-group">
+                
+                              
+                <label class="control-label  col-xs-3" for="text" >Risk Profile:</label>
+                        
+                <div class="">
+                                            
+                    <input type="text" style="color: #35BFD3;" class="form-controler" placeholder="" value="Changed on 10/10/2017" readonly>
+                                              
+                    <h6 class="messageProfile"><i>This can be changed once in a year</i></h6>
+                                       
+                </div>
+                                    
+                <br>                          
+                              
+              </div>    -->    
+                                    
+              
+        <!--     <div class="form-group">
+                                  
+                 <div class="dropdown">
+                             
+                     <label class="control-label  col-xs-3" for="text">Music:</label>
+                                       
+                     <div class="">
+                        <select class="form-controler edit" ><span class="caretNext caretNext1 caret "></span>
+                            <option  >On </option>
+        <option  >Off</option>
+                                   
+                            </select>       
+                     </div>
+                                    
+                     <br>
+                                                            
+                 </div>        
+                              
+              </div>   -->         
+                     
+          </div>
+                      
+                   
+
+                    
                                     
                                     
                                     

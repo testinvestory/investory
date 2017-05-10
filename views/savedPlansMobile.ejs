@@ -14,28 +14,32 @@
           <h3 class="savedPlans">Saved Plans</h3>
              <em>All plans are valid upto 30 days</em> 
             </div>
+          <% if(!plansHeader) {%>
+	<h1>You do not have any saved plans</h1>
+	<% } %>
+            
         <form>
-               
+              <% for(j=0;j<plansHeader.length;j++) {%>   
             <div class="row" id="savedPlans">
                 <div class="col-md-3">
                         <div class="myGoal">
-                            <h4 class="planNumber">1</h4>
-                                <img src="images/goals/Social/World Cup.png" alt="your goal">
-                                <h4>World Cup</h4>
-                                <h5>30sept 2017</h5>
+                            
+                               
+                                <h4><%=plansHeader[j].name %></h4>
+                  <h5><%=plansHeader[j].date %></h5>
                             
                         </div>
                 </div>
                 
                  <div class="col-md-5">
-                                <label>Goal Outcome:<p>abc123</p></label><br/>
-                     <label>Monthly Amount:<p>120123</p></label><br/>
+                                <label>Goal Outcome:<p><%=plansHeader[j].masteramount %></p></label><br/>
+                     <label>Monthly Amount:<p><%=plansHeader[j].sip %></p></label><br/>
                                  
                 </div>
                     <div class="col-md-5">
                
-                                <label>Number of Years<p>23</p></label><br/>
-                                <label>Risk Profile:<p>abccde</p></label><br/>
+                                <label>Number of Years<p><%=plansHeader[j].totalyears %></p></label><br/>
+                                <label>Risk Profile:<p><%=plansHeader[j].riskprofile %></p></label><br/>
                            
                 </div>
                 
@@ -58,32 +62,41 @@
 
              
           <div class="pageSavedPlan">
-                                 
+                    <% for(i=0,m=1;i<plansDetail.length;i++,m++) {%>             
                     <table class="table">
                                  
                              <thead>
+                                  
                                      <tr>
-                                      <th colspan="2" style="    text-align: center;">Recomended<p>abcdefghijklmnopqrstuvwxyz</p></th>
+                                      <th colspan="2" style="    text-align: center;">Recomended<p><%=plansDetail[i].allocationdescription %></p></th>
                                      
                                      </tr>
                                 </thead>
                                  <tbody>
                                      <tr>
                                       
-                                         <td>Allocation %</td>
+                                         <td>Category</td>
                                       <td style="border-right: none;">Amount (&#x20B9;)</td>
                                         </tr>
                                         <tr>
-                                          <td id="eqPer">25%</td>
-                                          <td id="eqAmt" style="border-right: none;">NA</td>
+                                          <td id="eqPer"><%=plansDetail[i].allocationcategory %></td>
+                                          <td id="eqAmt" style="border-right: none;"><%=plansDetail[i].allocationamount %></td>
                                         </tr>
+                                     
                                  </tbody>
+                        
                           </table>
-                                
-					   <table class="table" id="savedPlansButtons">
+            
+                           <%}%>     
+		 <table class="table" id="savedPlansButtons">
     <thead>
       <tr>
-        <th style="border: none;    float: right;"> <button class="btn saved">Proceed</button> <button class="btn saved" data-toggle="modal" data-target="#myModalDiscard">Discard</button></th>
+        <th style="border: none;    float: right;"> 
+              <form action="/Proceed" method="post">
+            <input id="savedplanid" name="savedplanid" value="<%=plansHeader[j].savedplanid %>" hidden="hidden">
+            
+                <button type="submit" class="btn saved">Proceed</button>  <button class="btn saved" data-toggle="modal" data-target="#myModalDiscard">Discard</button></form>
+          </th>
         
       </tr>
     </thead>
@@ -107,8 +120,8 @@
         
         <div class="modal-body">
           <p>Are you sure you want to DISCARD?</p>
-            <button class="btn saved" >YES</button>
-            <button class="btn saved">No</button>
+            <button class="btn saved" id="<%=plansHeader[j].savedplanid %>" onClick="discard(this.id)" data-dismiss="modal" >YES</button>
+            <button class="btn saved" data-dismiss="modal">No</button>
         </div>
        
       </div>
@@ -117,7 +130,7 @@
   </div>
   
 </div>
-
+ <%}%>
                 <% include partials/footerMobile %>
             </div>
             <!--Custom Js links -->
@@ -127,6 +140,34 @@
             <script src="javascripts/control.js" type="text/javascript"></script>
             <script src="javascripts/moodCalculater.js" type="text/javascript"></script>
     <script>
+         function discard(clicked_id){
+			   
+			     var data = {};
+					data.savedplanid = clicked_id;
+					console.log(data.savedplanid);
+			    //alert(data.pan);
+			   
+				 <% if(loggedIn) {%>
+				   
+					$.ajax({
+						type: 'POST',
+						data: JSON.stringify(data),
+				        contentType: 'application/json',
+                        url: '/discardPlans',						
+                        success: function(data)
+                        {       
+                            window.location = data.redirect   
+                        }
+			   
+		          })
+					 <% }%>
+					
+			   
+		   }
+	
+        
+        
+        
         $(document).ready(function() {
             $('.photosInner').click(function(e) {
             $('.yourMood').css('display', 'none');

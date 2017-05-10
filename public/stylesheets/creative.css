@@ -2608,7 +2608,7 @@ div#savedPlans.row {
 }
 .pageSavedPlan .table>thead>tr>th {
     border-top: 0;
-    border-right: 1px solid #35BFD3;
+    /*border-right: 1px solid #35BFD3;*/
     border-bottom: 1px solid #35BFD3;
     text-align: left;
 }
@@ -2789,12 +2789,12 @@ div#savedPlans.row
     width: auto;
 
 }
-.pageSavedPlan .table>thead>tr>th {
+/*.pageSavedPlan .table>thead>tr>th {
     border-top: 0;
     border-right: 1px solid #35BFD3;
     border-bottom: 1px solid #35BFD3;
     text-align: left;
-}
+}*/
 button.btn.saved{
         color: #35BFD3;
     border: 1px #35BFD3 solid;

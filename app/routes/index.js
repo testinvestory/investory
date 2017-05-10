@@ -9,8 +9,8 @@ const crypto = require('crypto')
 /* common functions */
 const functions = require('./functions')
 var conString = process.env.DATABASE_URL
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
 var client = new pg.Client(conString)
 client.connect()
 
@@ -30,7 +30,7 @@ router.get('/', functions.isLoggedIn, function (req, res) {
       footerDisplay: 'show',
       footerData1: 'Blog',
       footerData2: 'FAQs',
-      moods: mood
+      moods: functions.mood
 
     })
   } else {

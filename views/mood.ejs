@@ -717,10 +717,12 @@
                              $(".page6 #total1").html(sip);
                             $(".page6 .table tbody > tr").not('#showDataSchemes').empty();
                             // debugger;
+                            
                             for (i = 0; i < data[0].length; i++) {
                                 var txt1 = "<tr><td>" + data[0][i].name + "</td><td>" + data[0][i].category + "</td><td>" + data[1][i] + "</td></tr>";
                                 $("#showDataSchemes").after(txt1);
                             }
+                            
                         }
                         //console.log(data[0].name);
 

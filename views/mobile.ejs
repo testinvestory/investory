@@ -80,7 +80,7 @@
             </div>
             <div class="index2" id="sectionIndex2">
                 <h2 class="indexheader">Start your investment plan</h2>
-             	<p>I want to invest  &#8377; <input class="blankInput"  name="sip" id="sip" placeholder="" type="number"  max="7" value=""/> monthly for next <input class="blankInput"  name="years" id="years" placeholder="" type="number"  value="" style="margin: 0 10px; width: 30px"/> years</p>
+             	<p>I want to invest  &#8377; <input class="blankInput"  name="sip" id="sip" placeholder=""   value=""/> monthly for next <input class="blankInput"  name="years" id="years" placeholder="" type="number"  value="" style="margin: 0 10px; width: 30px"/> years</p>
 				<p id = "sipInvestErr" style="display: none; color: red;"> Please enter amount between INR 1000 to 100000.</p>
 			    <p id="sipTimeErr" style="display: none; color: red;"> Please enter time between 1 to 50 years.</p>
                 <div class="dotHr longDotUs mobile" style="border-top: 2px #35BFD3 dotted;   ">
@@ -89,8 +89,9 @@
 top: -1em;" onClick="getSIP();" > Invest </button>
                 </div>
 				
-				<p>I have &#8377; <input class="blankInput"  name="lumpsum" id="lumpsum" placeholder="" type="number" max="7" value=""/> to invest now. I need it back in <input class="blankInput"  name="lumpsumYears" id="lumpsumYears" placeholder="" type="number"  value=""/> years.</p>
-
+				<p>I have &#8377; <input class="blankInput"  name="lumpsum" id="lumpsum" placeholder=""   value=""/> to invest now. I need it back in <input class="blankInput"  name="lumpsumYears" id="lumpsumYears" placeholder="" type="number"  value=""/> years.</p>
+                 <p id = "lumpsumInvestErr" style="display: none; color: red;"> Please enter amount between INR 7000 to 1000000.</p>
+			<p id="lumpsumTimeErr" style="display: none; color: red;"> Please enter time between 1 to 50 years.</p>
                 <div class="dotHr longDotUs mobile" style="border-top: 2px #35BFD3 dotted;   ">
 					
 <button type="" class="btn btn-lg moodNav getStarted" id="indexGetStarted" style="    width: 8em; position: relative;
@@ -301,9 +302,10 @@ margin-left: 0.5em;">Start <br /> investing</p>
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-
+<% if(!loggedIn) {%>
                 <button type="" data-toggle="modal" data-target="#signUp" class="btn btn-lg moodNav signUp" style="width:auto;    position: relative;
 top: -1em;float:left;"> Sign Up</button>
+                <% } %>
                 <br>
                 <!--section41-->
                 <div id="myCarousel" class="carousel slide text-center carouselEdit testimonial" data-ride="carousel">

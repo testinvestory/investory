@@ -7,8 +7,8 @@ var soap = require('soap');
 var parseString = require('xml2js').parseString;
 var request = require("request");
 const pg = require('pg')
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
-//ar conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 var client = new pg.Client(conString)
 client.connect()
 

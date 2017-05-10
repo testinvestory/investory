@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="stylesheets/creativemobile.css">
 </head>
       <% include partials/headerMobile%>
-    <div class="container">
+    <div class="container" style="    padding-right: 0px;
+    padding-left: 0px;">
        
     <div id="invoices" class="text-center">
           
@@ -16,19 +17,21 @@
                      My Transactions</h3>       
                        <div class="table-responsive tableAccounts"style="" >
                            
-                   <br>        
+                   <br>
+                             <%if(trxn){%> 
+                            <%for(i=0;i<trxn.length;i++){%>
              <table class="table" style="
     border-radius: 21px;
 ">
                                  <thead>
                                      <tr>
-                                      <th class="thead1" colspan="2">20 September 2016</th>
+                                      <th class="thead1" colspan="2">Date :<%=trxn[i].transactiondate%></th>
                                      
                                      </tr>
                                 </thead>
                              <thead>
                                      <tr>
-                                      <th class="thead2" colspan="2">Fund Yesno Bank</th>
+                                      <th class="thead2" colspan="2"><%=trxn[i].description%></th>
                                      
                                      </tr>
                                 </thead>
@@ -36,17 +39,33 @@
                                      <tr>
                                         
                                          <td>
-                                         Units</td>
-                                      <td style="border-right: none;">Amount (&#x20B9;)</td>
+                                         Transaction Id</td>
+                                      <td style="border-right: none;">Transaction.Ref (&#x20B9;)</td>
                                         </tr>
                                         <tr>
-                                          <td id="eqPer">50%</td>
-                                          <td id="eqAmt" style="border-right: none;">4,000,00</td>
+                                          <td id="eqPer"><%=trxn[i].transactionid%></td>
+                                          <td id="eqAmt" style="border-right: none;"><%=trxn[i].reference%></td>
+                                        </tr>
+                                     
+                                     <tr>
+                                        
+                                         <td>
+                                         Amount</td>
+                                      <td style="border-right: none;">Status</td>
+                                        </tr>
+                                        <tr>
+                                          <td id="eqPer"><%=trxn[i].amount%></td>
+                                          <td id="eqAmt" style="border-right: none;"><%=trxn[i].status%></td>
                                         </tr>
                                  </tbody>
                           </table>  
-          <br>                                
-             <table class="table" style="
+          <br>      
+                            <%}%>
+                           
+                           <% }else{ %>
+          <h2>There is no transactions yet</h2>
+          <%}%>
+            <!-- <table class="table" style="
     border-radius: 21px;
 ">
                                  <thead>
@@ -133,7 +152,7 @@
                                         </tr>
                                  </tbody>
                           </table>  
-                           
+                -->           
 
                                  
           </div>

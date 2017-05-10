@@ -5,6 +5,63 @@
  <% include partials/head %>
 	
     <link rel="stylesheet" href="stylesheets/creativemobile.css">
+     <script>
+    var calculateAge = function() {
+        var today = new Date();
+        var birthDate = new Date($('#dob').val());
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    };
+
+    var validatePinCode = function() {
+        var pincode = $('#pincode').val();
+        if (pincode.length != 6) {
+            $('#errMsgPincode').slideDown();
+            return false;
+        } else {
+            $('#errMsgPincode').slideUp();
+            return true;
+        }
+    };
+
+    var validatePan  = function() {
+        var pan = $('#pan').val();
+        var regExp = /[a-zA-z]{5}\d{4}[a-zA-Z]{1}/;
+        if (pan.length == 10 && pan.match(regExp) ) {
+            var pan = $('#errMsgPan').slideUp();
+            return true;
+        } else {
+            var pan = $('#errMsgPan').slideDown();
+            return false;
+        }
+    };
+
+    var checkDOB = function() {
+        if ( calculateAge() < 18 || isNaN(calculateAge()) ) {
+            $('#dob').val('');
+            $('#dob').focus();
+            $('#dateValidationMsg').slideDown();
+            return false;
+        } else {
+            $('#dateValidationMsg').slideUp();
+            return true;
+        }
+    };
+
+    var validateFrom = function() {
+        var dobOk = checkDOB();
+        var pinOk = validatePinCode();
+        var panOK = validatePan();
+        if (dobOk && pinOk && panOK)
+            return true;
+        else
+            return false;
+    };
+   </script>
 </head>
 	
     <body ng-app="">
@@ -12,27 +69,78 @@
     
   <div class="container">
     
+
+           <div class="text">
+           <div class="">
+               <div class="row testimonyRow">
+                   <div class="col-sm-6 TestimonyProfile" >
+                                <img src="images/avatar.png" border="20" width="96"  height="96"  style="float: left; border-radius: 50%;">
+                   </div>
+				   <% var monthNames = [
+    "January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+    ];%>
+                     <div class="col-sm-6 TestimonyProfileData" style="text-align:left;">
+                                    <h4 class="meme"  style="font-size:bolder;"><%= user.name %></h4>
+                                    <h4 class="mem" style="">
+						 <% if(profile.dob) {%>
+						 	<%=  profile.dob.getDate();   %>
+										<%= monthNames[profile.dob.getMonth()]; %>
+										<%=profile.dob.getFullYear(); %>
+										<%} else{%>
+										Update DOB
+										<%}%>
+						 </h4>
+                                    <p class="mem" style="    text-align: left;">Member since<br>
+
+										<%= user.created.getDate(); %>
+										<%= monthNames[user.created.getMonth()]; %>
+										<%=user.created.getFullYear(); %>
+										<!--29thAugust 2016-->
+						 </p>
+                                    </div>
+
+
+
+                </div>
+           </div>
+        </div>
    
                <div class="row " style="">
                 
+                   <%
+
+            var egg = "",tadpole = "", froglet = "", frog = "";
+
+                if(goalCount <=3)
+                egg = "%20BLACK";
+                else if (goalCount <=5)
+                tadpole = "%20BLACK";
+                else if (goalCount <=10)
+                froglet = "%20BLACK";
+                else if (goalCount <=15)
+                frog = "%20BLACK";
+            %>
                 <div class="col-xs-3 ">
                    
-                    <img src="images/animHow/3%20GOALS.png" alt="The Egg">
+                    <img src="images/animHow/3%20GOALS<%= egg %>.png" alt="The Egg"><br>
                 
                 </div>
                    <div class="col-xs-3 ">
                    
-                    <img src="images/animHow/5%20GOALS.png" alt="Tadpole">
+                     <img src="images/animHow/5%20GOALS<%= tadpole %>.png" alt="Tadpole">
         
                 </div>
                    <div class="col-xs-3 ">
                    
-                    <img src="images/animHow/10%20GOALS.png" alt="Froglet">
-                  <div id="yCircle" ></div>
+                   <img src="images/animHow/10%20GOALS<%= froglet %>.png" alt="Froglet">
+                 
                 </div>
                    <div class="col-xs-3 ">
                    
-                    <img src="images/animHow/15%20GOALS%20BLACK.png" alt="Frog">
+                   <img src="images/animHow/15%20GOALS<%= frog %>.png" alt="Frog">
                  
                 </div>
                 
@@ -44,16 +152,18 @@
            <div class="container-fluid how-it-works contentEdit">
                                     
                  <div class="row rowTransform" style="">
-                        
-                     <form name="profileInformation" class="form-horizontal" action="/profile" method="post">
-                                                     
+                    <%if(profile.dob && profile.age){%>
+                      <form name="profileInformation"  class="form-horizontal" action="/profile" method="post">
+                     <%}else{%>
+                     <form name="profileInformation"  onsubmit="return validateFrom()"class="form-horizontal" action="/profile" method="post">
+                             <%}%>                        
                          <div id=""  class="col-xs-12">
                            
                                                                
                                  <label class=" col-xs-3 colo"style="" >Name:</label>
                                                                         
                                  <div class="col-xs-9">
-                                  <input type="text" class="form-controler" name="username" id="username" value="user" /> 
+                                  <input type="text" class="form-controler" name="username" id="username" value="<%= user.name %>" /> 
                                                                     
                                  </div>
                                             <br>
@@ -63,7 +173,7 @@
                                 <div class="form-group">
                                     <label class=" col-xs-3" >Mobile:</label>
                                            <div class="col-xs-9">
-                                       <input type="number" class="form-controler" name="mnumber" id="mnumber" value="987456321">
+                                       <input type="number" class="form-controler" name="mnumber" id="mnumber" value="<%= user.mobile %>">
                                              
                                                 </div>
                                            <br>
@@ -75,12 +185,15 @@
                    <div class="form-group">
                                           <div class="dropdown">
                      <label class="col-xs-3" for="text"  >Gender:</label>
-                                                                               
+                            <% var Gender = [ "Male", "Female"];%>                                                    
                                               
                  <div class="col-xs-9 collum">
                   	 <select class="form-controler edit selectGender" id="gender" name="gender"  ><span class="caretNext caretNext1 caret "></span>
-				 <option>Male</option>
-    <option >Female</option>
+				 <% Gender.forEach( function( sex ){ %>
+                                        <option value="<%= sex%>" <% if(profile.gender == sex) {%> selected="selected"<%}%> >
+                                        <%= sex%>
+                                        </option>
+                                    <% });%>
   
                             </select>
                                               
@@ -90,10 +203,7 @@
                                   
                              
                                                                    
-                         </div>        
-                                                                
-                                              
-                                              </div>     
+                         </div>                </div>     
                 
                                
                                
@@ -108,26 +218,16 @@
                             <div class="col-xs-9">
                                                                                
                                             
-                                     <textarea  class="form-controler addressSection2" rows="6" id="comment" type="text"  name="address" ng-model="address" ng-minlength="20"
-                                ng-maxlength="200"              
-                                           required/></textarea>  
-<!--
-                            <span ng-show="profileInformation.address.$touched && profileInformation.address.$invalid "  
-   >Address is required</span>   
-                                                  
--->
+                                     <textarea  class="form-controler addressSection2" rows="6" id="comment" type="text"  name="address" 
+                                maxlength="200"              
+                                           required><%= profile.address %></textarea>  
+
                             </div>
                                            
                             <br>
-                                                                
-                          
-                                           
+                                       
                     </div>     
-                                                         
-                                                                                      
-                                                                
-       
-                          
+                               
                                                             
                           <div class="form-group ">
                                                                    
@@ -135,7 +235,7 @@
                                                                         
                               <div class="col-xs-9">
                                                                            
-                                  <input type="email" class="form-controler" name="email" id="email" value=" abc@gmail.com"  > 
+                                  <input type="email" class="form-controler" name="email" id="email" value="<%= user.email %> "  > 
                                  
 
                                                                         
@@ -148,42 +248,55 @@
               <div class="form-group ">
                                                                         
                               <label class=" col-xs-3  " >DOB:</label>
-                                                                           
+                                         <% var monthDates = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];%>
+                <% if(profile.dob) {
+                    var dob = new Date(profile.dob);
+                    var dob = new Date(profile.dob.toString());
+                    var day = ("0" + dob.getDate()).slice(-2);
+                    var month = ("0" + (dob.getMonth() + 1)).slice(-2);
+                    dob = dob.getFullYear()+"-"+(month)+"-"+(day);
+                } else {
+                    var dob = "";
+                }
+                %>                                
                               <div class="col-xs-9" >
                               	  
-                             <input id="calendar" type="date" value=""
+                             <input name="dob" id="dob" type="date" value="<%=dob %>" 
 								  style="  " class="form-controler" > 
-                                                                          
-                              </div>
+                                 <p id="dateValidationMsg" style="display: none;  color: red">Age should be minimum 18 years.</p>                                       
+                              
                                         
                          </div>
                          
-                          
+                       </div>       
                          <div class="form-group ">
                               <label class=" col-xs-3 colo"style="">Age:</label>
                                                                      
                               <div class="col-xs-9 " id="profileAge" style=""  maxvalue="2">
                                                                                 
-                                  <input type="number" id="age" value="" name="age" class="form-controler Ageing1"
-                                         style=""  ng-model="Age" ng-minlength="2" ng-maxlength="2" required/>
-<!--                                        <span ng-show="profileInformation.age.$touched && profileInformation.age.$invalid"  >Age is invalid(must be 18 and above).</span>                                         -->
+                                  <input type="number" id="age" value="<%= profile.age %>" name="age" class="form-controler Ageing1"
+                                         required min="18" max="120"/>
+
                               </div>
                                          
                                                                 
                           </div>
-                                                            
-                                                               
-                                                     
+                                                                                             
                                                              
                        <div class="form-group">
                                           <div class="dropdown">
                      <label class="col-xs-3" for="text"  >Marital Status:</label>
-                                                                               
-                                              
+                       <% var MaritailStatus = [
+    "Single", "Married","Divorced"
+    ];%>                                                                                      
                  <div class="col-xs-9 collum">
-                  	 <select class="form-controler edit selectGender" id="gender" name="gender"  ><span class="caretNext caretNext1 caret "></span>
-				 <option >Married</option>
-    <option>Single</option>
+                  	 <select class="form-controler edit selectGender" id="maritalstatus" name="maritalstatus"  ><span class="caretNext caretNext1 caret "></span>
+				 <% MaritailStatus.forEach( function( status ){ %>
+
+					 <option value="<%= status%>" <% if(profile.maritalstatus == status) {%> selected="selected"<%}%> >
+						 <%= status%>
+					 </option>
+					 <% });%>
   
                             </select>
                                               
@@ -207,12 +320,11 @@
                                                                             
                               <div class="col-xs-9">
                                                                                 
-                                  <input type="text" value="" class="form-controler" name="pan" id="pan"
-                                         ng-model="PanNumber" ng-pattern=
-           "/^[\+]?[(]?[a-zA-Z]{5}[)]?[-\s\.]?[0-9]{4}[-\s\.]?[a-zA-z]{1}$/"
+                                  <input type="text" value="<%= profile.pan %>" class="form-controler" name="pan" id="pan"
+                                         
          required/>
-                                  
-                              <!--      <span ng-show="profileInformation.pan.$touched && profileInformation.pan.$invalid "  >invalid PAN.</span> -->
+                           <p id="errMsgPan" style="display: none; color: red">Please Enter a Valid Pan Number</p>       
+                             
                                                                             
                               </div>
                                                 <br>
@@ -233,8 +345,8 @@
                                                                         
                               <div class="col-xs-9">
                                                                            
-                                  <input type="text" class="form-controler" id="city" name="city" value=""   ng-model="userCity" required/> 
-<!--                                      <span ng-show="profileInformation.city.$touched && profileInformation.city.$invalid"  >City is required.</span>                                      -->
+                                  <input type="text" class="form-controler" id="city" name="city" value="<%= profile.city %>"  onkeyup="this.value = this.value.replace(/[^a-z]/, '')" required/> 
+
                               </div>
                                             <br>
                                                                 
@@ -247,28 +359,73 @@
                                                                                 
                                                   <div class="col-xs-9">
                                                                                     
-                                    <input type="number" value="" name="pincode" id="pincode" class="form-controler" ng-model="PinCode" ng-pattern=
-           "/^[\+]?[(]?[1-9]{1}[)]?[-\s\.]?[0-9]{5}$/"
-           required/ > 
-<!--                         <span ng-show="profileInformation.pincode.$touched && profileInformation.pincode.$invalid "  >Pincode is required.</span>                                                       -->
-                                                  </div>
+                                    <input type="number" value="<%= profile.pincode %>" name="pincode" id="pincode" class="form-controler"
+           required/ > <p id = "errMsgPincode" style= "display: none; color: red">Pincode should be 6 digits long</p> 
+                                              </div>
                                  
                                                                 
                                               </div>
                                                      
                                                 
-                      </div>
+                      
 
                                             
-                                                         </div>
-                     <button type="submit" class="btn btn-lg moodNav profileSubmit" ng-disabled="profileInformation.$invalid" >Submit </button>
+                                                        
+                     <button type="submit" class="btn btn-lg moodNav profileSubmit" ng->Submit </button></div>
                                                          </form>
                  <br>
                  
                   
                 </div>
+               
+                <h2 class="profilePan"style="">Bank Details</h2> 
+               <form name="panDetails"class="form-horizontal" action="/profilebank" method="post"> 
+               <div class="form-group">
+                                                               
+                                 <label class="col-xs-3 ">Bank Name:</label>
+                                                                        
+                                 <div class="col-xs-9">
+                                  <input type="text" class="form-controler" id="bank" name="bank" value="<%= profile.bankname %>"> 
+                                                                        
+                                 </div>
+                                            <br>
+                                                            </div> 
+                   <br/>
+                   <div class="form-group">
+                                                               
+                                 <label class="col-xs-3 ">Account Number:</label>
+                                                                        
+                                 <div class="col-xs-9">
+                                  <input type="text" class="form-controler"id="accno" name="accno" value="<%= profile.accno %>"> 
+                                                                        
+                                 </div>
+                                            <br>
+                                                           </div>   
+                   <br/>
+                   <div class="form-group">
+                                                               
+                                 <label class="col-xs-3 ">IFSC:</label>
+                                                                        
+                                 <div class="col-xs-9">
+                                  <input type="text" class="form-controler" name="ifsc" id="ifsc" value="<%= profile.ifsc %>" > 
+                                                                        
+                                 </div>
+                                            <br>
+                                                            </div>           
+               <div class="form-group">
+                                                               
+                                 <label class="col-xs-3 ">Branch:</label>
+                                                                        
+                                 <div class="col-xs-9">
+                                  <input type="text"name="branch" id="branch"  class="form-controler" value="<%= profile.branch %>"> 
+                                                                        
+                                 </div>
+                                            <br>
+                                                               <button type="submit" class="btn btn-lg moodNav profileSubmit" >Submit </button> </div> 
+            
+      </form>
         <h2 class="profilePan"style="">Pan Details</h2>  
-     <div class="container-fluid how-it-works contentEdit">
+     <div class=" how-it-works contentEdit">
                                      
                  <div class="row rowTransform" style="">
                                         
@@ -281,99 +438,19 @@
                                  <label class=" col-xs-3" >Name:</label>
                                                                         
                                  <div class="col-xs-9">
-                                  <input type="text" class="form-controler" name="username" id="username" value="" > 
+                                  <input type="text" class="form-controler" name="username" id="username" value="" style="float:none;" > 
                                                                         
                                  </div>
                                             <br>
                                                             </div>     
                                
-                         
-							 
-							 <div class="form-group">
-                                                                   
-                                                  
-                            		<label class=" col-xs-3"  >Address:</label>
-                                                                            
-                                                
-									<div class="col-xs-9">
-                               
-                                        <textarea class="form-controler addressSection3" rows="6" id="comment" type="text" value="" name="address" id="address" required/></textarea>                                        <span ng-show="profileInformation.address.$touched && profileInformation.address.$invalid"  >Address is required.</span>                                       
-                                                  
-                            		</div>
-                                           
-                            		<br>
-                                                                
-                          
-                                           
-                    </div>     
-                                                         
                                <div class="form-group">
-                                                               
-                                 <label class="col-xs-3 ">City:</label>
-                                                                        
-                                 <div class="col-xs-9">
-                                  <input type="text" class="form-controler" value=""> 
-                                                                        
-                                 </div>
-                                            <br>
-                                                            </div>     
-                               
-                                           <div class="form-group ">
-                                                                  
-                                                  <label class="col-xs-3" for="pwd">Pincode:</label>
-                                                                                
-                                                  <div class="col-xs-9">
-                                                                                    
-                                                      <input type="number" name="pincode" id="pincode" class="form-controler" > 
-                                                                               
-                                                  </div>
-                                            <br>
-                                                                
-                                              </div>
-                                                                     
-                                            
-                                             <div class="form-group">
-                                                               
-                                 <label class="col-xs-3 ">Bank Name:</label>
-                                                                        
-                                 <div class="col-xs-9">
-                                  <input type="text" class="form-controler" value=""> 
-                                                                        
-                                 </div>
-                                            <br>
-                                                            </div>     <div class="form-group">
-                                                               
-                                 <label class="col-xs-3 ">Account Number:</label>
-                                                                        
-                                 <div class="col-xs-9">
-                                  <input type="text" class="form-controler" value=""> 
-                                                                        
-                                 </div>
-                                            <br>
-                                                            </div>     <div class="form-group">
-                                                               
-                                 <label class="col-xs-3 ">IFSC:</label>
-                                                                        
-                                 <div class="col-xs-9">
-                                  <input type="text" class="form-controler" value=""> 
-                                                                        
-                                 </div>
-                                            <br>
-                                                            </div>                
-                                                        
-                                              
-                                                            
-            
-                                                            
-                                                            
-                                                            
-                             <div class="form-group">
                                           <div class="dropdown">
                      <label class="col-xs-3" for="text"  >KYC Compliant:</label>
                                                                                
                                               
                  <div class="col-xs-9 collum">
-                  	 <select class="form-controler edit selectGender" id="gender" name="gender"  ><span class="caretNext caretNext1 caret "></span>
+                  	 <select class="form-controler edit selectGender" id="gender" name="gender"  ><span class="caretNext caretNext1 caret "style="float:none;" ></span>
 				 <option >Pending</option>
     <option>Yes</option>
   
@@ -389,15 +466,55 @@
                                               
                                               </div>     
                 
+							 
+							 <div class="form-group">
+                                                                   
+                                                  
+                            		<label class=" col-xs-3"  >Address:</label>
+                                                                            
+                                                
+									<div class="col-xs-9">
+                               
+                                        <textarea class="form-controler addressSection3" rows="6" id="comment" type="text" value="" name="address" id="address" required></textarea>               
+                            		</div>
+                                           
+                            		<br>
+                                                                
+                          
+                                           
+                    </div>     
+                                                         
+                               
+                                           <div class="form-group Up">
+                                                                  
+                                   <label class="col-xs-3 "for="pwd">Pincode:</label>
+                                                                                
+                                                  <div class="col-xs-9">
+                                                                                    
+                                    <input type="number" value="<%= profile.pincode %>" name="pincode" id="pincode" class="form-controler"
+           required/ > <p id = "errMsgPincode" style= "display: none; color: red">Pincode should be 6 digits long</p> 
+                                              </div>
+                                 
+                                                                
+                                              </div>
+                                                
+                                                        
+                                              
+                                                            
+            
+                                                            
+                                                            
+                                                            
+                       
                       <br>  
-                                                              
+                          <h2 class="profilePan"style="">Documents </h2>                                      
                                <div class="form-group">
                                                                    
                               <label class="col-xs-3 " >Address Proof</label>
                                                                         
                               <div class="col-xs-9 ">
                                                                            
-                          <input type="file" class="" name="somename" size="chars">
+                          <input type="file" class="" name="somename" size="chars"style="float:none;">
                  
                                                                         
                               </div>
@@ -413,7 +530,7 @@
                                                                         
                               <div class="col-xs-9">
                                                                            
-                          <input type="file" class="" name="somename" size="chars">
+                          <input type="file" class="" name="somename" size="chars" style="float:none;">
                  
                                                                         
                               </div>
@@ -427,7 +544,7 @@
                                                                         
                               <div class="col-xs-9">
                                                                            
-                          <input type="file" class="" name="somename" size="chars">
+                          <input type="file" class="" name="somename" size="chars" style="float:none;">
                  
                                                                         
                               </div>
@@ -441,7 +558,7 @@
                                                                         
                               <div class="col-xs-9 ">
                                                                            
-                          <input type="file" class="" name="somename" size="chars">
+                          <input type="file" class="" name="somename" size="chars" style="float:none;" >
                  
                                  </div>                                         
                               </div>
@@ -452,7 +569,7 @@
                                                                         
                               <div class="col-xs-9 ">
                                                                            
-                          <input type="file" class="" name="somename" size="chars">
+                          <input type="file" class="" name="somename" size="chars" style="float:none;">
                  
                                                                         
                               </div>
@@ -465,7 +582,7 @@
                                                                         
                               <div class="col-xs-9 ">
                                                                            
-                          <input type="file" class="" name="somename" size="chars">
+                          <input type="file" class="" name="somename" size="chars" style="float:none;">
                  
                                                                         
                               </div>
@@ -477,7 +594,7 @@
                                                                         
                               <div class="col-xs-9 ">
                                                                            
-                          <input type="file" class="" name="somename" size="chars">
+                          <input type="file" class="" name="somename" size="chars" style="float:none;">
                  
                                                                         
                               </div>

@@ -48,15 +48,19 @@
                                       <li><a href="/reports">Reports</a></li>
 									<li><a href="/Settings">Setting</a></li>
 									<li><a href="/Invoices">Invoices</a></li>
-									<li><a href="/Invoices">Transactions</a></li>
-									<li><a href="/Invoices">Investments</a></li>
+									<li><a href="/Transaction">Transactions</a></li>
+									<li><a href="/Accounts">Investments</a></li>
                                      <!--<li><a href="/Transaction">Transactions</a></li>
                                      <li><a href="/Investment">Investments</a></li>-->
 <% } %>
                                         <br>
                                         <li><a href="/KnowUs">Know Us</a></li>
                                         <li><a href="/Pricing">Pricing</a></li>
+                                    <% if(!loggedIn) { %>
                                         <li><a href="/GoalSelection">Get Started</a></li>
+                                    <% } else{ %>
+                                     <li><a href="/SavedPlans">SavedPlans</a></li>
+                                    <% } %>
                                         <li><a href="/FAQs">FAQs</a></li>
 <!--                                        <li><a href="#">Blog</a></li>-->
 										<% if(!loggedIn) { %>
@@ -114,7 +118,9 @@
                     <button type="button" class="btn btn-lg facebook" onclick="auth('facebook')">Sign through Facebook</button>
                     <button type="button" class="btn btn-lg google" onclick="auth('google')">Sign through Google+</button>
                     <p><em>By clicking Sign Up you agree to the <a href="#">terms and conditions</a></em></p>
-
+                    <% if (smessage.length > 0) { %>
+                <div class="alert alert-danger"><%= smessage %></div>
+                <% } %> 
 
                 </div>
 
@@ -154,7 +160,9 @@
 
 
                         </form>
-
+                      <% if (lmessage.length > 0) { %>
+                    <div class="alert alert-danger"><%= lmessage %></div>
+                    <% } %> 
                     </div>
                 </div>
 
@@ -208,14 +216,20 @@
        $navMenuCont = $($(this).data('target'));
     $navMenuCont.animate({ 'width': 'toggle' }, 350);
   });
-</script>
-
-
-<script>
+    
     $(document).on('click', '.navbar-collapse', function (e) {
         if ($(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle') {
             $(this).collapse('hide');
         }
+    });
+    $(document).ready(function(){
+        <% if (lmessage.length > 0) { %>
+            $("#loginModal").modal("show");
+        <% } %>
+
+        <% if (smessage.length > 0) { %>
+            $("#signUp").modal("show");
+        <% } %>
     });
 </script>
         

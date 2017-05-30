@@ -1,19 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+<meta charset="UTF-8">
+     <link src="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
  <% include partials/head %>
-	
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    
     <link rel="stylesheet" href="stylesheets/creativemobile.css">
 	  <script src="javascripts/lumpsum.js"></script>
       <script src="javascripts/sip.js"></script>
+    
+    <style>
+        .popover{
+            border:solid 2px #35BFD3; 
+        }
+       .popover-title {
+    color: #35BFD3;
+    font-size: 15px;
+    font-weight:700;
+    background: #FFDE15;
+}
+.popover-content {
+    color: Black;
+    font-size: 15px;
+}
+         #page3Error{
+        color:red;
+        float: left;
+       font-weight:700;
+       font-size:14px;
+        }
+    </style>
 </head>
 	
 <body>
 <script>
 <%var amtrounded1=0;%>
 
-	
+	 $(document).ready(function() {
+   $('[data-toggle="popover"]').popover({
+      placement: 'bottom',
+      trigger: 'hover'
+   });
+     
+});   
+     
 
 </script>
   <% include partials/headerMobile%>
@@ -198,7 +233,7 @@
                                 </div>
                             </div>
                             <div class="btn-hr-wrapper clean" style="margin-top: 30px">
-                                <button type="" class="btn btn-lg moodNav next"> Next </button> 
+                                <button type="" class="btn btn-lg moodNav next" disabled="disabled"> Next </button> 
                             </div>  
                         </div>
                     </div>              
@@ -213,18 +248,19 @@
                                <div id="" class="page2">
 <!--                        <h2>Education</h2>-->
 								   <br />
-                    <p class="row">I need INR<input class="blankInput"  name="amount" id="amount" placeholder="" type="number" max="7" value=""/>in<input class="blankInput" placeholder="" type="number" id="time" max="99" value=""/> (Years)</p>
-                    <p class="page2VldMsg" style="color: red; display: none;">Monthly Investment should be minimum INR 1000</p>
-                    <p class="page2VldMsg2" style="color: red; display: none;">Please Select years between 1 t0 50</p>
+                    <p class="row">I need &#8377;<input class="blankInput"  name="amount" id="amount" placeholder=""  value=""/>in<input class="blankInput" placeholder="" type="number" id="time" max="99" value=""/> Years</p>
+                    <p class="page2VldMsg" style="color: red; display: none;">Minimum goal amount should be &#x20B9; 7000</p>
+                    <p class="page2VldMsg2" style="color: red; display: none;">Please Select years between 1 to 50</p>
                     <div class="buttonSetUp">
                         <div class="login-btn" style="top:90%;">
                             <button type="button" id="go" class="btn btn-lg moodNav go" style="display: inline-block" > Go </button> 
-                            <button type="" class="btn btn-lg moodNav next page3Sub" > Next </button>     
+                            <button type="" class="btn btn-lg moodNav next page3Sub"  > Next </button>     
                         </div>
                     </div>         
         <!-- Tab 3 -->
-        <div class="page3" style="    margin-top: 12%;">
-            <p>So, you need to invest INR <span id="invest"></span> Monthly</p>
+        <div class="page3" style="display: none;margin-top: 12%;">
+             <em id="page3Error" style="display: none;" class="page3VldMsg" >Please enter valid goal amount and years to ensure monthly investment is  &#x20B9; 1000 or more</em><br />
+            <p>So, you need to invest &#x20B9; <span id="invest"></span> Monthly</p>
                 <div class="row">
                     <div  class="col-12-sm">
                            
@@ -241,8 +277,8 @@
                                     <td style="border-right: none;">Amount (&#x20B9;)</td>
                                 </tr>
                                 <tr>
-                                    <td id="eqPer">25%</td>
-                                    <td id="eqAmt" style="border-right: none;">NA</td>
+                                    <td id="eqPer">0%</td>
+                                    <td id="eqAmt" style="border-right: none;">0</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -260,8 +296,8 @@
                                     <td style="border-right: none;">Amount (&#x20B9;)</td>
                                 </tr>
                                 <tr>
-                                    <td id="hybPer">10% </td>
-                                    <td id="hybAmt" style="border-right: none;">NA</td>
+                                    <td id="hybPer">0% </td>
+                                    <td id="hybAmt" style="border-right: none;">0</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -279,8 +315,8 @@
                                     <td style="border-right: none;">Amount (&#x20B9;)</td>
                                 </tr>
                                 <tr>
-                                    <td id="debPer">65%</td>
-                                    <td id="debAmt" style="border-right: none;">NA</td>
+                                    <td id="debPer">0%</td>
+                                    <td id="debAmt" style="border-right: none;">0</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -291,7 +327,7 @@
         </div>
                            
                            <div id="" class="page4">
-                                   <p id="invest">You need to invest INR <span id="invest2"></span> monthly in Conservative mode.</p>
+                                   <p id="invest">You need to invest &#x20B9; <span id="invest2"></span> monthly in Conservative mode.</p>
                                 <!--<h2>Risk Profiling</h2>-->
                                <p style="font-weight: 900;">Risk profiling will help you choose right fund to invest in based on your comfort</p>
 
@@ -430,19 +466,17 @@
                                
                                    </div>       
 
-  <a class="right  "style=" position: relative;
-    top: initial;" href="#myCarousel" role="button" data-slide="next">
-<!--    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
-            <img src="images/Right.png" style="width: 5%;
-    height: 15%;">
+<a class="right" href="#myCarousel" role="button" data-slide="next" style="top: 0em;">
+
+            <img src="images/Right.png" >
     <span class="sr-only">Next</span>
-  </a>   <a class="left  "style=" position: relative;
-    top: initial;" href="#myCarousel" role="button" data-slide="previous">
-<!--    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
-            <img src="images/left.png" style="width: 5%;
-    height: 15%;">
-    <span class="sr-only">Next</span>
-  </a>
+  </a>   
+                                   
+                                   <a class="left  " href="#myCarousel" role="button" data-slide="prev" style="top: 0em;">
+       <img src="images/left.png"  style="">
+       <!--    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>-->
+       <span class="sr-only">Previous</span>
+      </a>
             
             <div class="login-btn text-center page-buttons">
                                  
@@ -459,7 +493,7 @@
                         <div  class="page5">
 <!--                            <h2></h2>-->
 							<br />
-<p>So, you need to invest INR <span id="invest1"></span> Monthly</p>
+<p>So, you need to invest &#x20B9; <span id="invest1"></span> Monthly</p>
                             
                                                    <div class="table-responsive">
                         <table class="table">
@@ -540,9 +574,16 @@
 								
     <!--Tab 6-->
     <% if(paid) {%>
-	<div  class="page6" style="display: none">
+                           
+	<div  class="page6" style="display: none;">
+         <%if(loggedIn && panstatus[0].kycstatus=="Complaint"){%>
+        <form action="/InsertOrders" method="post">
+           <button type="submit"  class="btn btn-lg moodNav go" id="initInvest" style="top: 0;left: 0;margin: 25px auto;"> Invest </button>  
+        </form>
+          <%}else{%>
         <button type="" data-toggle="modal" data-target="#myPanModal" class="btn btn-lg moodNav go" id="initInvest" style="top: 0;left: 0;margin: 25px auto;"> Invest </button>
-        <p>So, you need to invest INR <span id="invest1"><%=assetFromDb.sip %></span> Monthly</p>   
+       <%}%> 
+        <p>So, you need to invest &#x20B9; <span class="glyphicon glyphicon-eye-open"></span><span id="invest1"><%=assetFromDb.sip %></span> Monthly</p>   
         <div class="row">
             <div class="col-12-sm table-wrapper">
                 <!--table Equity-->
@@ -550,8 +591,8 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th colspan="2">
-                                    <%=schemeData[i].allocationdescription %>
+                                <th colspan="2"style="    border-right: none;">
+                                    <%=schemeData[i].allocationdescription %><img src="images/social/i.png" width="18px" alt="info view" style="cursor: pointer;font-size:24px" id="eye" data-toggle="popover" title="Scheme Info" data-content="<%=asetDataDetail[i].allocationdescription %>">
                                 </th>
                             </tr>
                         </thead>
@@ -570,8 +611,8 @@
                             </tr>
                         </tbody>
                     </table>
-                    <br />
-                    <br />
+                    <br/>
+                    <br/>
                     <%}%>
             </div>
         </div>
@@ -580,7 +621,7 @@
 
 <!--Tab 7-->
 <div class="page7" style="display: none">
-    <p>So, you need to invest INR <span id="invest1"></span> Monthly</p>
+    <p>So, you need to invest &#x20B9; <span id="invest1"></span> Monthly</p>
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -682,6 +723,15 @@
 
     <!--Custom Js links -->
     <script>
+        
+          $(document).ajaxComplete(function() {
+    $('[data-toggle="popover"]').popover({
+                                 placement: 'bottom',
+                                trigger: 'hover'
+                                });   
+});
+        
+        
         var goalNameFromControl;
         function goalName(name) {
             goalNameFromControl = name;
@@ -813,7 +863,7 @@
                             $(".page6 .table tbody > tr").not('#showDataSchemes').empty();
                             $('.page6 .table-wrapper').html('');
                             for (i = 0; i < data[0].length; i++) {
-                                var txt1 = '<table class="table"><thead><tr><th colspan="2">'+data[0][i].name+'</th></tr></thead><tbody><tr><td>'+data[0][i].name+'</td><td>'+data[1][i]+'</td></tr></tbody></table>';
+                                var txt1 = '<table class="table"><thead><tr><th colspan="2">'+data[0][i].name+' <img src="images/social/i.png" width="18px" style="cursor: pointer;font-size:24px" id="eye" data-toggle="popover" title="Scheme Info" data-content="'+data[0][i].name+'" ></th></tr></thead><tbody><tr><td>'+data[0][i].category +'</td><td>'+data[1][i]+'</td></tr></tbody></table> <br/><br/>';
                                 $('.page6 .table-wrapper').append(txt1);
                                 // var txt1 = "<tr><td>" + data[0][i].name + "</td><td>" + data[0][i].category + "</td><td>" + data[1][i] + "</td></tr>";
                                 // $("#showDataSchemes").after(txt1);
@@ -963,12 +1013,27 @@
                     var totalYears = document.getElementById("time").value;
                     var nper = totalYears * per;
                     var pv = 0;
-                    var fv = document.getElementById("amount").value;
+                    var convertAmount=document.getElementById("amount").value;
+                    var fv = convertAmount.replace(/,/g,''); 
                     //document.getElementById("amountMaster").value = fv;
 
                     //if number of years is less then 3 year debt is 100
                     var mn = Math.round(pmt(10, 12, nper, pv, -fv) / 1000) * 1000;
-
+                    
+                    if(mn<1000){
+                         // debugger;
+                        alloc1=0;
+                        alloc2=0;
+                        alloc3=0;
+                       // alert("Enter valid Goal amount and Years");
+                      	$('.page3VldMsg').slideDown();
+                       return false;
+                        
+                    }
+                    else{
+                        	$('.page3VldMsg').slideUp();
+                    }
+                    
                 }
                 console.log(riskProfile + nper);
 
@@ -1021,31 +1086,35 @@
 
                 } else {
                     /*Conservative*/
-                    var eqP1 = <%=data[0].asset.value %>;
-                    var hybP1 = <%=data[1].asset.value %>;
-                    var debtP1 = <%=data[2].asset.value %>;
-            
+                    var eqP1 = 20;/*<%=data[0].asset.value %>*/;
+                    var hybP1 = 15;/*<%=data[1].asset.value %>;*/
+                    var debtP1 = 65;/*<%=data[2].asset.value %>;*/
+           
                     var eqP = eqP1 / 100;
                     var hybP = hybP1 / 100;
                     var debtP = debtP1 / 100;
 
                     //Moderate
-                    var eqMP1 = <%=data[3].asset.value %>;;
-                    var hybMP1 = <%=data[4].asset.value %>;;
-                    var debtMP1 = <%=data[5].asset.value %>;;
-
+                   // debugger;
+                    var eqMP1 = 50;/*<%=data[3].asset.value %>;*/
+                    var hybMP1 = 22.5;/*<%=data[4].asset.value %>;*/
+                    var debtMP1 = 27.5;/*<%=data[5].asset.value %>;*/
+                    
                     var eqMP = eqMP1 / 100;
                     var hybMP = hybMP1 / 100;
                     var debtMP = debtMP1 / 100;
 
                     //*Aggressive*/
-                    var eqAP1 = <%=data[6].asset.value %>;;
-                    var hybAP1 = <%=data[7].asset.value %>;;
-                    var debtAP1 = <%=data[8].asset.value %>;;
+                    var eqAP1 = 75;/*<%=data[6].asset.value %>;*/
+                    var hybAP1 = 25;/*<%=data[7].asset.value %>;*/
+                    var debtAP1 = 0;/*<%=data[8].asset.value %>;*/
+                  
 
                     var eqAP = eqAP1 / 100;
                     var hybAP = hybAP1 / 100;
                     var debtAP = debtAP1 / 100;
+
+
 
 
                 }
@@ -1498,10 +1567,17 @@
 
             $('.page2 #amount').change(function () {
                 var amount = $('.page2 #amount').val();
+                let amount1=amount.replace(/,/g,''); //Replace comma from amount entered
+                amount= amount1;
+                
                 if(!loggedIn) {
                     try {
                         var tempGoals = JSON.parse(sessionStorage.getItem('tempGoals'));
-                        tempGoals.goalAmount = amount;
+                        
+                        let abc=$('#amount').val();
+                        let ConvertedAmount=abc.replace(/,/g,''); //Replace comma from amount entered
+                        tempGoals.goalAmount = ConvertedAmount;
+                        
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
                     } catch (e) {
@@ -1578,23 +1654,33 @@
             }
 
 
+ });
 
 
+$('input#amount').keyup(function(event) {
 
-            //Tab 2 Number validations
-            // $('.page2 #amount').change(function () {
-            //     var x = $('.page2 #amount').val();
-            //     x.replace(/,/g, '');
-            //     x = Number(x);
-            //     if (x < 7000 || x > 10000000) { 
-            //         console.log('number limitation');
-            //     } else if(isNaN(x)) { 
-            //         console.log('isNaN');
-            //     } x=x.toString();
-            //     var lastThree = x.substring(x.length-3);
-            //     var otherNumbers = x.substring(0, x.length - 3); if (otherNumbers != '') lastThree = ',' + lastThree; var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g,",") + lastThree; $('.page2 #amount').val(res);
-            // });
-        });
+  
+  if(event.which >= 48 && event.which <= 57){
+   event.preventDefault();
+  }
+
+  $(this).val(function(index, value) {
+	 value = value.replace(/,/g,'');
+  	return formatNumber(value);
+   });
+  });
+
+function formatNumber(num) {
+
+            var n1, n2;
+            num = num + '' || '';
+            // works for integer and floating as well
+            n1 = num.split('.');
+            n2 = n1[1] || null;
+            n1 = n1[0].replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            num = n2 ? n1 + '.' + n2 : n1;
+            return num;
+        }
 
     </script>
 </body>

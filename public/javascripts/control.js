@@ -2,6 +2,8 @@ var getGoals;
 var selectTab;
 var risk;
 
+
+
 function closeNav(){
 		//alert("dismiss");
         	$("button.navbar-toggle").click();
@@ -188,21 +190,23 @@ $(function(){
 $(".selectMode a.tooltips span#"+pr).hide();                      
                                  
      });
-    
-	
-	
+     
     /*Login Read More*/
     
 	
 	$(".navbar-brand #investory").hover(function(){
         $(".readMore.toolTip").addClass("show");
     });
-    
-    $(document).click(function() {
+    //tooltip appears
+    /*$(document).click(function() {
         $(".readMore.toolTip").removeClass("show");
          $(".goalReportData #invest_withdraw").hide(); 
     });
-	
+	*/ 
+    $(".navbar-brand #investory").mouseout(function(){
+       $(".readMore.toolTip").removeClass("show");
+        $(".goalReportData #invest_withdraw").hide(); 
+    });
      $(".logo-icon,.logo").hover(function(){
      
 
@@ -218,8 +222,12 @@ $(".selectMode a.tooltips span#"+pr).hide();
          
            /*$(".logo a.tooltips span").hide();  */                    
                                  
-                                 });
+   });
 
+    /*$(".page2 #eye").hover(function(){
+        debugger;
+             $(".readMore.toolTip").removeClass("show");
+    });*/
     $(document).click(function() {
         
         $(".logo a.tooltips span").hide(); 
@@ -255,6 +263,30 @@ $(".selectMode a.tooltips span#"+pr).hide();
 		$(this).attr("src","images/social/"+socialname+".png");
 	});
 	
+    
+    
+    
+    /*$(".indexsip .panel").click(function(){ 
+   
+        
+        $(".panel-heading").css("background-color","#35BFD3");
+        $(".panel-heading h2").css("color","#FFFFFF");
+       $(".panel-heading .pDot").css("border","2px #FFFFFF solid");
+       $(".panel-body ul, .panel-body h2").css("color","#333333");
+       
+       
+         $(".panel-body ul, .panel-body h2",this).css("color","#35BFD3");
+        $(".panel-heading",this).css("background-color","#FFDE15");
+       $(".panel-heading h2",this).css("color","#35BFD3");
+       $(".panel-heading .pDot",this).css("border","2px #35BFD3 solid");
+     
+   });*/
+    
+    
+    
+    
+    
+    
 /*Better Plan*/
 
  $(".how-it-works #Bp li").hover(function(){
@@ -383,13 +415,14 @@ var moodFile;
    
 
 //Goals
+   // var $Nerdy="Nerdy";
 var $GoalimgLink = "images/goals/"; 
     
 var Rich = ["Crorepati", "Fancy Car", "Double the money"];
 
-var Broke = ["Emergency", "Medical Corpus", "Splurging"];
+var Broke = ["Medical Corpus", "Emergency", "Splurging"];
     
-var Responsible = ["Childs Education", "Retirement", "Home"];
+var Responsible = ["Child&#39s education", "Retirement", "Home"];
 
 var Nerdy = ["Education", "Gadget", "Build a book collection"];
     
@@ -471,10 +504,10 @@ circleColor = 	moodColorChange(moodId);
       $(this).css("border-bottom","2px solid #35BFD3");
              $("a", this).css("color","#35BFD3");
     
-   
+     $("#homeCircleImg #h1").html($Feeling+" "+moodId);
     $("#homeCircleImg img").attr("src", $imgLink+moodImgName+$imgExtension);
     
-    $("#homeCircleImg h1").html($Feeling+" "+moodId);
+  
     
 });    
     
@@ -489,7 +522,7 @@ circleColor = 	moodColorChange(moodId);
     
     $("#homeCircleImg img").attr("src", $imgLink+moodImgName+$imgExtension);
     
-    $("#homeCircleImg h1").html($Feeling+" "+moodId);
+    $("#homeCircleImg #h1").html($Feeling+" "+moodId);
     
 });    
    
@@ -498,7 +531,7 @@ $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFDE15","col
 //
 //    $(".frogImageMoods img").attr("src", $imgLink+frogMood+$imgExtension);
 
-    $("#homeCircleImg img, #homeCircleImg h1,#homeCircleImg p, .feelingCircularMenu ul li").click(function(){
+    $("#homeCircleImg img, #homeCircleImg #h1,#homeCircleImg p, .feelingCircularMenu ul li").click(function(){
         
         frogMood=moodId;
          window.location.href = "GoalSelection?mood="+frogMood;
@@ -558,7 +591,7 @@ $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFDE15","col
     
     $(".frogImageMoods img").attr("src", $imgLink+moodImgName+$imgExtension);
     
-    $(".frogImageMoods h1").html($Feeling+" "+moodId);
+    $(".frogImageMoods #h1").html($Feeling+" "+moodId);
         
          
         
@@ -587,17 +620,22 @@ $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFDE15","col
         
     });
    
-      
+   
+   
+    
     $(".selectMood ul li > a").click(function(){
         
      
             moodId = $(this).attr("id");
    window.location.href = "/GoalSelection?mood="+moodId;
-    var moodImgName = moodId;
+    var moodImgNam = moodId;
+       
+       
+        
     
     $(".frogImageMoods img").attr("src", $imgLink+moodImgName+$imgExtension);
     
-    $(".frogImageMoods h1").html($Feeling+" "+moodId);
+    $(".frogImageMoods #h1").html($Feeling+" "+moodId);
         
         
         
@@ -616,6 +654,7 @@ $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFDE15","col
     
 
         // Parse the URL
+   // debugger;
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -710,14 +749,14 @@ $(".moods .slider .change").click(function () {
     once = true;
     var moodId = $(this).attr("id");
     // window.location.href = "/GoalSelection?mood=" + moodId;
-    var moodImgName = moodId.toUpperCase();
+    var moodImgName = moodId; //.toUpperCase();
 
     var local;
     local = getGoals(moodId);
 
     $(".frogImageMoods img").attr("src", $imgLink + moodImgName + $imgExtension);
 
-    $(".frogImageMoods h1").html($Feeling + " " + moodId);
+    $(".frogImageMoods #h1").html($Feeling + " " + moodId);
 
     $(".below").empty();
 
@@ -743,7 +782,7 @@ var $smartGoals = "smartGoals";
      var smartSource = getParameterByName('smartGoal');
     var smartMood = getParameterByName('smood');
         if(smartSource){
-              
+             // debugger;
              $("#setMood").attr("src", $imgLink+smartSource+"Mood"+$imgExtension);
 			moodsss= smartSource+"Mood";
          $("#setMoodText").html(" ");
@@ -798,9 +837,11 @@ var $smartGoals = "smartGoals";
 
         $(".tax-savings").click(function () {
 
+           // debugger;
             var sipMood = $(this).children('p').attr("id");
+           // selectTab(8);
             window.location.href = "GoalSelection?smartGoal=" + $taxSavings + "&smood=" + sipMood;
-
+            
         });
 
 
@@ -814,6 +855,7 @@ var $smartGoals = "smartGoals";
 
         $(".smart-goals").click(function () {
             var sipMood = $(this).children('p').attr("id");
+            
             window.location.href = "GoalSelection?smartGoal=" + $smartGoals + "&smood=" + sipMood;
         });
     
@@ -925,7 +967,7 @@ var $smartGoals = "smartGoals";
      
    });
     
-       $(".how-it-works .panel").mouseenter(function(){ 
+       /*$(".how-it-works .panel").mouseenter(function(){ 
    
         
         $(".panel-heading").css("background-color","#35BFD3");
@@ -940,7 +982,7 @@ var $smartGoals = "smartGoals";
        $(".panel-heading .pDot",this).css("border","2px #35BFD3 solid");
      
    });
-    
+    */
     String.prototype.filename=function(extension){
     var s= this.replace(/\\/g, '/');
     s= s.substring(s.lastIndexOf('/')+ 1);
@@ -948,13 +990,24 @@ var $smartGoals = "smartGoals";
 }
     
 
+
     $(document).on("click", '.below .goal', function () {
-        $(this).attr("id", "activ");
-        $("#mood span").css("background-color", "#FFFFFF");
+ 
+        //debugger;
+           
+         // $('.goal').removeAttr('id');
+        var clickActive = $(this).attr("id");
+                $(this).attr("id", "activ");  
+            
+        
+            
+               $("#mood span").css("background-color", "#FFFFFF");
         $("#mood span", this).css("background-color", "#FFDE15");
         moodFile = $("#mood", this).text();
         goalName(moodFile);
+      
         $('.page1 .next').removeAttr('disabled');
+          
         if(!loggedIn) {
             var goal = moodFile;
             goal.substr(goal);
@@ -963,14 +1016,20 @@ var $smartGoals = "smartGoals";
             var moodText = $('.frogImageMoods #setMoodText').html();
             moodText = moodText.substring(moodText.indexOf(" ") + 1);
             sessionStorage.setItem('tempGoals', JSON.stringify({"goal": goal, "mood": mood, "moodText": moodText}));
-            console.log(sessionStorage.getItem("tempGoals"));
-        }
+            console.log(sessionStorage.getItem("tempGoals"));      
+             }
+
     });
 
-    var currentMood;
 
-    $(document).on("mouseenter", '.below .goal', function () {
+     var currentPage=1;
+     var movingTo= 0;
+    
+   
 
+  $(document).on("mouseenter", '.below .goal', function (){
+
+      
         //          $("#mood span").css("background-color","#FFFFFF");
         //        
         //        $("#mood span",this).css("background-color","#FFDE15");
@@ -980,7 +1039,10 @@ var $smartGoals = "smartGoals";
          
          
          if(clickActive == "activ"){
-             
+      
+             $('.goal').removeAttr('id');
+         
+                $(this).attr("id", "activ"); 
 }else{
 
          var goalImg = $("#mood",this).text(); 
@@ -992,15 +1054,17 @@ var $smartGoals = "smartGoals";
      });
     
     var currentPage=1;
-var movingTo= 0;
-
-         $(document).on("mouseleave", '.below .goal',function(){
+var movingTo= 0; 
+    $(document).on("mouseleave", '.below .goal',function(){
         
 //              $("#mood span",this).css("background-color","#FFFFFF");
         
       var clickActive = $(this).attr("id");
          
          if(clickActive == "activ"){
+              $('.goal').removeAttr('id');
+         
+                $(this).attr("id", "activ"); 
 }else{
 
          var goalImg = $("#mood",this).text(); 
@@ -1013,56 +1077,156 @@ var movingTo= 0;
         
           
      });
+  
+/*$(".below .goal").hover(function(){
+    var clickActive = $(this).attr("id");
+         
+         
+         
+         if(clickActive == "activ"){
+      
+             $('.goal').removeAttr('id');
+         
+                $(this).attr("id", "activ"); 
+             var goalImg = $("#mood",this).text(); 
+      currentMood = $("img", this).attr("mood");
+        var currentImg =  $("img", this).attr("src");
+        $("img", this).attr("src",   $GoalimgLink+currentMood+"/"+goalImg+$onHover+$imgExtension);
+}else{
+var goalImg = $("#mood",this).text(); 
+      currentMood = $("img", this).attr("mood");
+        var currentImg =  $("img", this).attr("src");
+        $("img", this).attr("src",   $GoalimgLink+currentMood+"/"+goalImg+$imgExtension);
+              
+}
     
-
+});*/
 
  $(".contentMood .page2, #Indicator,#rpText, #riskSelected, #yp, .contentMood .page3, .page3Sub, .contentMood .page4, .contentMood .page5, .contentMood .page6, #IndicatorNew").hide();
     
 
-    
+   
 
     
     $(".page1 .next, .page1 .skip").click(function(){ 
-        
-        selectTab(2);
+            
+        var smartSource = getParameterByName('smartGoal');
+         $('.page2 #amount').val('');
+        $('.page2 #time').val('');
+       selectTab(2);
+        /*if(smartSource=="taxSavings") 
+            selectTab(8);
+        else
+        selectTab(2);*/
 
     });
-    $(".page2 .next").click(function() { 
-        if( $('#invest').html() >= 1000 ) {
+    /* $(".page8 .next").click(function() { 
+        if( $('.page8 #invest').html() >= 1000 ) {
             selectTab(4);
         }
             
+    });    
+    $(".page8 .go").click(function(){ 
+       
+       let sipTime=$('.page8 #time').val();
+         
+        let amount=$('.page8 #amount').val();
+        alert(amount)
+        let ConAmount=amount.replace(/,/g,''); //Replace comma from amount
+        if (ConAmount < 7000 ){ 
+		$('.page8 .page2VldMsg').slideDown();
+       
+	} else if ( sipTime < 1 || sipTime > 50 ) {
+		 $(".page8 .page2VldMsg").slideUp(); 
+		$('.page8 .page2VldMsg2').slideDown();
+	} else {   
+           // setProfile(0,1,0);
+            selectTab(9);
+            $(".page8 .page2VldMsg2").slideUp();
+             $(".page8 .page2VldMsg").slideUp();
+        } 
+        
+        
+    });*/
+
+    $(".page2 .next").click(function() { 
+
+        let sipTime=$('#time').val();
+        let amount=$('#amount').val();
+        var nexttab;
+        let ConAmount=amount.replace(/,/g,''); //Replace comma from amount
+        if (ConAmount < 7000 || ConAmount >=25000000) {
+		//$('.page2VldMsg').slideDown();
+             nexttab=0;
+        $('.page3VldMsg').slideDown();
+        }
+	   else
+         
+         if(isNaN(ConAmount))
+           {
+         $('.page2VldMsg').slideDown();
+                nexttab=0;
+           }
+       else if ( sipTime < 1 || sipTime > 50 ) {
+		 $(".page2VldMsg").slideUp(); 
+		$('.page2VldMsg2').slideDown();
+            nexttab=0;
+	   } else {
+            nexttab=1;
+          
+            setProfile(0,1,0);
+            selectTab(3);
+            $(".page2VldMsg2").slideUp();
+             $(".page2VldMsg").slideUp();
+            
+         
+       }
+             // debugger;
+        if(nexttab==1){
+      
+            selectTab(4);
+        
+        }       
     });
    $(".page2 .go").click(function(){ 
         
        let sipTime=$('#time').val();
         let amount=$('#amount').val();
         let ConAmount=amount.replace(/,/g,''); //Replace comma from amount
-        if (ConAmount < 7000 ){ 
+        /*if (ConAmount < 7000 || ConAmount >=25000000) {
 		$('.page2VldMsg').slideDown();
-       
-	} else if ( sipTime < 1 || sipTime > 50 ) {
+       $('.page3VldMsg').slideUp();
+        }
+	   else*/ if(isNaN(ConAmount))
+         $('.page2VldMsg').slideDown();
+       else if ( sipTime < 1 || sipTime > 50 ) {
 		 $(".page2VldMsg").slideUp(); 
 		$('.page2VldMsg2').slideDown();
-	} else {   
+	   } else { 
+           
+           
             setProfile(0,1,0);
             selectTab(3);
             $(".page2VldMsg2").slideUp();
              $(".page2VldMsg").slideUp();
-        } 
         
+       }
         
     });
 
+   
+   
     $(".page4 .selectMode button, .sub-page4 .done").not('#dontKnow').click( function() { selectTab(5, this) });
     $(".contentMood #sip").css({"color": "black","font-size":"1.2em"});
     var once = true;
+     var bool = true;
     selectTab = function(tabNo, e) {
         currentPage = tabNo;
         var tempGoals = JSON.parse(sessionStorage.getItem('tempGoals'));
         if(tempGoals) {
             tempGoals.currentPage = currentPage;
         }
+        // debugger;
         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
         $('.pagination li a').removeClass('active');
         $('.pagination li a').removeClass('done');
@@ -1127,10 +1291,16 @@ var movingTo= 0;
                 break;    
             
             case 5:
-            // debugger;
+             //debugger;
                 // var page4Risk;
                 risk = $(e).attr("id");
                 page4Risk = risk;
+                
+                $("#Conservative").removeClass("act");
+                  $("#Moderate").removeClass("act");
+                  $("#Aggressive").removeClass("act");
+                 $("#"+page4Risk).addClass("act");
+                
                 //     if(risk == "dontKnow" ){
                 //         currentPage=4;
                 //         $(".contentMood .page4 .selectMode").hide();
@@ -1143,6 +1313,7 @@ var movingTo= 0;
                 $('.contentMood > div').not('.page5').hide();
                 $('.contentMood .page5').show();
                 $("#riskSelected").text(rp);
+                $("#"+rp).addClass("act");
                 localStorage.clear();
                 $(".contentMood .page4 #sip").css({"color": "black","font-size":"1.2em"});
                 // $("#displayModal").modal("show");
@@ -1166,6 +1337,46 @@ var movingTo= 0;
                 $('.pagination li:nth-child(5) a').addClass('active'); 
                 $('.contentMood > div').not('.page7').hide();
                 $('.contentMood .page7').show();
+                break;
+                
+                case 8:
+                 $('.page8').show();
+                $('#Indicator span:nth-child(1)').addClass('active');
+                $('.pagination li:nth-child(1) a').addClass('done');
+                $('.pagination li:nth-child(2) a').addClass('active');
+
+                $('.contentMood > div').not('.page8').hide();
+                $('.contentMood .page8').show();
+                $(".contentMood .page1, #btm").hide();
+                $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFFFFF","color":"#FFDE15","border-color":"#FFDE15"});
+                $(".pagination li:nth-child(2) a").css({"background-color":"#FFDE15","color":"#35BFD3","border-color":"#FFDE15"});
+                $("#goalSelected").text(moodFile);
+                $(".contentMood .page8, #Indicator").show();
+                $(".contentMood .page8 .login-btn").css("top","65%"); 
+                break;
+                
+                case 9:
+                
+                //currentPage = 3;
+                $('#Indicator span:nth-child(1), #Indicator span:nth-child(2)').addClass('active');
+                $('.pagination li:nth-child(1) a').addClass('done');
+                $('.pagination li:nth-child(2) a').addClass('active');
+                $('.contentMood > div').not('.page3, .page8').hide();
+                $('.contentMood .page8, .contentMood .page3').show();        
+                $(".contentMood .page8 .login-btn").css("top", "15%");
+                $(".contentMood .page3, .page3Sub, #rpText").show();
+
+                if (bool) {
+                    $('.contentMood > div').not('.page8, .page3').hide();
+                    $("#displayModal").modal("show");
+                    $(".contentMood .page3, .page3Sub, #rpText").show();
+                    $(".pagination li:nth-child(2) a").css({ "background-color": "#FFFFFF", "color": "#FFDE15", "border-color": "#FFDE15" });
+                    $(".pagination li:nth-child(3) a").css({ "background-color": "#FFDE15", "color": "#35BFD3", "border-color": "#FFDE15" });    
+                    $(".page2 .dotHr").hide();
+                    $(".contentMood .page3> p").css("color", "#35BFD3");
+                    $('.contentMood .page8, .contentMood .page8 .page3').show();
+                    bool = false;
+                }
                 break;
             }
         }

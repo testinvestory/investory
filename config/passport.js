@@ -42,7 +42,7 @@ var pg = require('pg');
 var config = {
   user: 'postgres', //env var: PGUSER
   database: 'investory', //env var: PGDATABASE
-  password: 'postgres', //env var: PGPASSWORD
+  password: '123', //env var: PGPASSWORD
   host: 'localhost', // Server hosting the postgres database
   port: 5432, //env var: PGPORT
   max: -1, // max number of clients in the pool
@@ -55,8 +55,8 @@ var config = {
 
 
 var pg = require('pg');
-var conString = "postgres://postgres:postgres@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+//var conString = "postgres://postgres:postgres@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 
 var client = new pg.Client(conString);
 client.connect();
@@ -120,7 +120,7 @@ var newUser= new User();
              if (result.rows.length>0)
                {
                   
-                return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+                return done(null, false, req.flash('signupMessage', 'Entered email is already taken.'));
                 }
             else
                 {
@@ -221,7 +221,7 @@ var newUser= new User();
               if(result.rows.length==0)
               {
                 console.log("No user found");
-				return next(null, false, req.flash('loginMessage', 'No user found.'));
+				return next(null, false, req.flash('loginMessage', 'You are currently not registered with us, kindly register.'));
 
 			  }
             else
@@ -243,7 +243,7 @@ var newUser= new User();
                  
 					console.log("Wrong password");
                  zendCreateTicket(email,'Login error, Wrong password');
-                return next(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
+                return next(null, false, req.flash('loginMessage', 'Oops! Entered wrong password.')); // create the loginMessage and save it to session as flashdata
 			}
              					
                 			   zendCreateTicket(email,'Succesfully Logged in');
@@ -283,7 +283,7 @@ var newUser= new User();
               if(result.rows.length==0)
               {
                 console.log("No user found");
-				return next(null, false, req.flash('loginMessage', 'No user found.'));
+				return next(null, false, req.flash('loginMessage', 'You are currently not registered with us, kindly register.'));
 
 			  }
             else

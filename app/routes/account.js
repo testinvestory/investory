@@ -9,8 +9,8 @@ const pg = require('pg');
 const crypto = require('crypto');
 /* common functions */
 const functions = require('./functions');
-const conString = "postgres://postgres:postgres@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+//const conString = "postgres://postgres:postgres@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 var client = new pg.Client(conString);
 client.connect();
 
@@ -25,7 +25,7 @@ exports.getAccount = (req, res) => {
 
 	mobile = req.useragent["isMobile"];
 	if (mobile)
-		pageName = "accountsMobile";
+		pageName = "investmentMobile";
 	else
 		pageName = "yourStory";
 
@@ -86,7 +86,7 @@ exports.getInvoice = (req, res) => {
 	var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
 	mobile = req.useragent["isMobile"];
 	if (mobile)
-		pageName = "myInvoicesMobile";
+		pageName = "invoicesMobile";
 	else
 		pageName = "yourStory";
 	console.log("invoices", req.session.user.userid);
@@ -230,7 +230,12 @@ exports.postupdatePassword = (req, res) => {
 
 	currentPage = req.session.activePage = "/Settings";
         loginStatus = functions.checkLoginStatus(req);
-        
+        mobile = req.useragent["isMobile"];
+	if (mobile)
+		pageName = "settingsMobile";
+	else
+		pageName = "yourStory";
+
         
     let oldPassword=req.body.pwd;
     let newPassword=req.body.newpwd;
@@ -263,7 +268,7 @@ exports.postupdatePassword = (req, res) => {
 			  
             req.flash('SuccessMessage', 'Password update Success');
                    
-        res.render("yourStory",{
+        res.render(pageName,{
                message:req.flash('SuccessMessage'),            
                 val:'1',
                 user: req.user,
@@ -288,7 +293,7 @@ exports.postupdatePassword = (req, res) => {
                console.log("Passwords not matched");  
        req.flash('NotMatched','Passwords not matched');
         
-               res.render("yourStory",{
+               res.render(pageName,{
                    message:req.flash('NotMatched'),
                 val:'2',
             user: req.user,
@@ -310,7 +315,7 @@ exports.postupdatePassword = (req, res) => {
               
          req.flash('OldMatched','Old Password entered is wrong');
         let val=3;
-                res.render("yourStory",{
+                res.render(pageName,{
                  message:req.flash('OldMatched'),   
                val:'3',
             user: req.user,

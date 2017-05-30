@@ -9,6 +9,20 @@ Fonts used
 Colors used inside
 ------------------------------------------------------------------------------------------
 */
+/* the animations */
+/* fade */
+.alert-danger {
+    font-weight: bold;
+}
+#tooltip{
+   display: none;  background: #fff;
+    position: relative;
+}
+  #howAreU{
+    font-size: 21px;
+          font-weight: 700;
+    margin-top: 4%;
+}
 .blue { color: #35BFD3 }
 .yellow { color: #FFDE15 }
 .darkGrey { color: #333333 }
@@ -121,7 +135,7 @@ body { text-align: center; font-family: 'open sans'; -webkit-font-smoothing: ant
 .navbar-default .navbar-toggle, .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:active, .navbar-defaul t.navbar-toggle:focus, .navbar-default .navbar-toggle.collapsed  { background: rgba(255, 255, 255, 0) }
 .login-btn { margin: 20px 15px }
 
-.readMore.toolTip { display: none; min-width: 300px; max-width: 445px; padding: 15px 5px 0; position: absolute; border: 1px solid #35BFD3; border-radius: 5px; margin-left: 25px; left: 0; right: 0; background: #fff }
+.readMore.toolTip { display: none; min-width: 280px; max-width: 370px; padding: 15px 5px 0; position: absolute; border: 1px solid #35BFD3; border-radius: 5px; margin-left: 25px; left: 0; right: 0; background: #fff }
 
 /* Index Page */
 .section { padding-top: 79px }
@@ -173,7 +187,7 @@ Home Page Whats your mood.
 .frogImage > img {  max-width:390px; width: 100%; height: auto; cursor: pointer; }
 .frogImage img:nth-child(2) {    position: absolute; max-width:390px; width: 100%; height: auto; top: 0em; cursor: pointer; }
 .frogImage img:nth-child(3) {   position: absolute; max-width:40px; width: 100%; height: auto; top: 4.5em; left: 19.4em; }
-.frogImage h1 { font-family: mermaid; position: absolute; text-align: center; vertical-align: top; top: 4.5em; left: -0.2em; color: white; font-weight: 900; font-size: 2.5em; width: 100%; cursor: pointer; }
+.frogImage #h1 { font-family: mermaid; position: absolute; text-align: center; vertical-align: top; top: 4.5em; left: -0.2em; color: white; font-weight: 900; font-size: 2.5em; width: 100%; cursor: pointer; }
 
 /*Circle Animation*/
 #bg_color .circle { display: block; position: absolute; width: 1px; transform: translate(-50%,-50%); opacity: 1 }
@@ -189,7 +203,8 @@ What we offer
 .what-we-offer .container { margin-bottom: 35px}
 #indexLookingFor > div { position: relative; height: 200px}
 #indexLookingFor > div > img { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -75%) }
-#indexLookingFor > div > p { position: absolute; bottom: 0; margin: 0 auto; left: 0; right: 0}
+#indexLookingFor > div > p { position: absolute; bottom: 0; margin: 0 auto; left: 0; right: 0; /*font-weight: bold;
+    	font-size: 1.1em;*/}
 /*.what-we-offer h2 { padding-top: 15px }*/
 
 .what-we-offer > .row div > img, .how-it-works > .row div > img{ display: block; margin: auto }
@@ -691,7 +706,7 @@ Feeling Text Circlural Navigation Menu
 
 .feelingCircularMenu ul li a {
 
-    color: #333;
+    color:#333;
     font-weight: 600;
    text-decoration: none;
    font-size: 12px;
@@ -820,7 +835,7 @@ div.col-md-8.selective {
 .contentMood h2{
   
     color: #35BFD3;
-    font-size: 1.6em;
+    font-size: 1.9em;
     font-weight: 600;
     text-align: left;
     margin-bottom: 0;
@@ -851,7 +866,20 @@ margin-top: 0;
     font-weight: 900;
     text-align: left
 }
-
+#goaltabp{
+    color: #35BFD3;
+    font-size: 1em;
+    font-weight: 900;
+    text-align: right;
+    margin-left: 22%;;
+}
+#callus {
+    color: #35BFD3;
+    font-size: 1em;
+    font-weight: 900;
+    text-align: left;
+    margin-left: 2%;
+}
 .contentMood .page4> p{
     
     margin-top: 8px;
@@ -1081,7 +1109,10 @@ h2.h2hstyle
         font-weight: 600;
 }
 
-
+.act{
+    background-color:#35BFD3;
+    color:#FFF;
+}
 .storyBtn:hover,
 .storyBtn:active 
 {
@@ -2608,7 +2639,7 @@ div#savedPlans.row {
 }
 .pageSavedPlan .table>thead>tr>th {
     border-top: 0;
-    border-right: 1px solid #35BFD3;
+    /*border-right: 1px solid #35BFD3;*/
     border-bottom: 1px solid #35BFD3;
     text-align: left;
 }
@@ -2789,12 +2820,12 @@ div#savedPlans.row
     width: auto;
 
 }
-.pageSavedPlan .table>thead>tr>th {
+/*.pageSavedPlan .table>thead>tr>th {
     border-top: 0;
     border-right: 1px solid #35BFD3;
     border-bottom: 1px solid #35BFD3;
     text-align: left;
-}
+}*/
 button.btn.saved{
         color: #35BFD3;
     border: 1px #35BFD3 solid;

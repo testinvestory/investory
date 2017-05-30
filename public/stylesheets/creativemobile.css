@@ -318,6 +318,10 @@ div.mobileWhatWeOffer{
     position: relative;
     left: 0%;
 }
+.dropdown-menu {
+    top: initial;
+    left: initial;
+}
 
 .PAN > img,.Package > img,.Withdraw img {
    
@@ -898,14 +902,15 @@ button#menu1.btn.btn.btn-primary.dropdown-toggle.selectReport {
       content: fixed;
     margin: auto;
     padding: initial;
-        width: 100%;
+            width: 85%;
 }
 
 #invoices .page31 .table>thead>tr>th {
     border-top: 0;
   
     border-bottom: 1px solid #35BFD3;
-    font-size: 1em;
+/*    font-size: 1em;*/
+        font-size: 11px;
     font-weight: 800;
     text-align: center;
     color: #333;
@@ -1466,7 +1471,13 @@ top: 50%;/*ruthu6*/
 .yourMood h1, .yourMood h4, .yourMood p { font-weight: 500 }
 .row.howItWorksRow .column-sm-4 img { width: initial }
 .row.howItWorksRow .column-sm-4 p { font-size: 18px }
-
+.yourMood > p span {
+    font-weight: 600;
+    color: #454c4d;
+    animation: blinker 1s linear infinite;
+    font-size: 13px;
+    line-height:28px ;
+}
 /*ruthu6*/
 footer .newsletter > p {
     width: initial;/*footer Script your story*/
@@ -1492,7 +1503,19 @@ h6.InvestTeamP {/*know us last paragraph*/
 
 /*sohan - Navbar cancel button animation*/
 
-
+.stylingPerMonth {
+    position: absolute;
+    font-weight: 900;
+    color: #35BFD3;
+    padding-top: 3%;
+    padding-left: 3%;
+    margin-top: 0em;
+    font-style: italic;
+    color: #333333;
+    top: 4.25em;
+    left: 6em;
+    font-size: 0.38em;
+}
 .closebtn {
 	padding: 8px 8px 8px 32px;
     text-decoration: none;

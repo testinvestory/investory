@@ -8,8 +8,8 @@ const pg = require('pg')
 const crypto = require('crypto')
 /* common functions */
 const functions = require('./functions')
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
 var client = new pg.Client(conString)
 client.connect()
 
@@ -116,6 +116,13 @@ function getSavedPlansDetail (something, callback) {
 
 
 exports.getSavedPlans = (req, res) => {
+    
+      mobile = req.useragent["isMobile"];
+    if(mobile)
+   		pageName = "savedPlansMobile";
+	else
+		pageName = "savedPlans";
+    
  async.waterfall([
 			function (callback) {
 				var paid = false;
@@ -150,7 +157,7 @@ exports.getSavedPlans = (req, res) => {
 									//req.session.savedplanheader = asetData;
 									callback(null, asetData)
 								} else {
-									res.render('savedPlans', {
+									res.render(pageName, {
 										user: req.user,
 										selectorDisplay: "show",
 										assetPlanDetail: false,
@@ -182,7 +189,7 @@ exports.getSavedPlans = (req, res) => {
 												callback(null, asetData, asetDataAllocationDetail)
 											} else {
 												//only render the data present in the header
-												res.render('savedPlans', {
+												res.render(pageName, {
 													user: req.user,
 													plansHeader: asetData,
 													assetPlanDetail: asetDataAllocationDetail,
@@ -214,7 +221,7 @@ exports.getSavedPlans = (req, res) => {
 										//req.session.savedplandetail = asetDataDetail;
 										console.log("saved detail" + asetDataDetail);
 										/*if (x >= y) {*/
-											res.render('savedPlans', {
+											res.render(pageName, {
 												user: req.user,
 												assetPlanDetail: asetDataAllocationDetail,
 												plansHeader: headerData,

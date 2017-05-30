@@ -1,5 +1,6 @@
 
 
+/*
 $('input#lumpsum').keyup(function(event) {
 
   // skip for arrow keys
@@ -19,6 +20,33 @@ function numberWithCommas(x) {
     return parts.join(".");
 }
 
+
+*/
+ $('input#lumpsum').keyup(function(event) {
+
+  
+  if(event.which >= 37 && event.which <= 40){
+   event.preventDefault();
+  }
+
+  $(this).val(function(index, value) {
+	 value = value.replace(/,/g,'');
+  	return formatNumber(value);
+   });
+  });
+
+function formatNumber(num) {
+
+            var n1, n2;
+            num = num + '' || '';
+            // works for integer and floating as well
+            n1 = num.split('.');
+            n2 = n1[1] || null;
+            n1 = n1[0].replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            num = n2 ? n1 + '.' + n2 : n1;
+            return num;
+        }
+
 var totalYears;
 var lumpsum;
 
@@ -31,16 +59,19 @@ function getLumpsum(){
     
     let lumpAmount=lumpsum.replace(/,/g,'');  
     
-    if ( lumpAmount < 7000 || lumpAmount > 100000){ 
+    if ( lumpAmount < 5000 || lumpAmount > 100000){ 
 		$('#lumpsumInvestErr').slideDown();
-      
-    
-	} else if ( totalYears < 1 || totalYears > 50 ) {
+       $(' #imgcap2').css("top","41.3%");
+        }
+    else if(isNaN(amount))
+         $('#lumpsumInvestErr').slideDown();
+	 else if ( totalYears < 1 || totalYears > 50 ) {
 		$('#lumpsumInvestErr').slideUp(); 
 		$('#lumpsumTimeErr').slideDown();
+         $(' #imgcap2').css("top","41.3%");
 	} else {
 		
-		$('#lumpsumInvestErr').slideUp; 
+		$('#lumpsumInvestErr').slideUp(); 
 		$('#lumpsumTimeErr').slideUp();
 	
 	 localStorage.lumpsum = lumpAmount;
@@ -49,6 +80,9 @@ function getLumpsum(){
 	console.log("years"+totalYears+"amt"+lumpAmount);
      sessionStorage.setItem('tempGoals', JSON.stringify({currentPage:4}));
 	window.location.href = "/GoalSelection";
+    }
+    if($('#lumpsumInvestErr').slideDown() && $('#lumpsumTimeErr').slideDown()){
+        $(' #imgcap2').css("top","45.4%");
     }
 }
 

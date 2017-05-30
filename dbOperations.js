@@ -2,8 +2,8 @@
 var pg = require('pg');
 //var waterfall = require('async-waterfall');
 
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 /*
 
 var conString = {

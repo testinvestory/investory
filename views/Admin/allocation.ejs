@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+  <meta charset="UTF-8">
+      	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+      	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+      <script src="/javascripts/assign.js"></script>
+  <style>
+.row {
+    margin-right: -19px;
+    margin-left: -21px;
+      }
+      #tbl{
+          margin-top:3em;
+          margin-bottom:5em;
+      }
+      #update{
+          margin-top:1em;
+      }
+      #time{
+          width:4em;
+      }
+</style>
+      <script type="application/javascript">
+      function myScore() {
+
+         var total=0;
+        var selectedAnswer = "";
+        var allRadio = document.getElementsByTagName("input");
+
+        for(var i = 0;i<allRadio.length; i++){
+            if(allRadio[i].checked == true){
+
+                var a =parseInt(allRadio[i].value);
+
+                  if(a==0)
+                  total=total+((20*2)/10);
+               else if(a==1)
+                   total=total+((50*2)/10);
+               else
+                   total=total+((75*2)/10);
+
+            }
+        }
+     if(total>=20 && total<35)
+         document.getElementById('display').innerHTML = "Conservative";
+         else if(total>=35 && total<60)
+             document.getElementById('display').innerHTML = "Moderate";
+      else
+    document.getElementById('display').innerHTML = "Aggressive";
+}
+
+
+
+</script>
+  </head>
+  <body>
+
+
+        <div class="conatiner-fluid">
+    <div class="col-md-offset-1">
+        <u><h3>RISK PROFILE QUESTIONS</h3></u>
+
+
+        <div class="input">
+            <label for="Q1" id="1">1.Compared to others, how do you rate your willingness to take financial risks?</label><br/>
+            <input type="Radio" id="Q1" name="Q1" value="0"  checked>Low risk taker<br />
+            <input type="Radio" id="Q1" name="Q1" value="1" >Average risk taker<br />
+            <input type="Radio" id="Q1" name="Q1"  value="2">High risk taker<br />
+
+        </div>
+
+
+        <div class="input">
+            <label for="Q2">2.When you think of the word 'risk' in a financial context, which of the following words come to mind first?</label><br/>
+            <input type="Radio" id="Q2" name="Q2"  value="0" checked>Danger<br />
+            <input type="Radio" id="Q2" name="Q2"  value="1" >Uncertainty<br />
+            <input type="Radio" id="Q2"  name="Q2" value="2">Opportunity<br />
+
+        </div>
+
+        <div class="input">
+            <label for="Q3">3.When faced with a major financial decision, are you most concerned about the possible losses or the possible gains?</label><br/>
+            <input type="Radio" id="Q3" name="Q3" value="0" checked>Always the possible losses<br />
+            <input type="Radio" id="Q3" name="Q3"  value="1" >Usually the possible losses<br />
+            <input type="Radio" id="Q3" name="Q3"  value="2">Always the possible gains<br />
+
+        </div>
+
+
+          <div class="input">
+            <label for="Q4">4.Think of the average return you would expect to earn on an investment portfolio over a fixed deposit the next ten years.</label><br/>
+            <input type="Radio" id="Q4" name="Q4" value="0" checked>About the same rate as from bank fixed deposits<br />
+            <input type="Radio" id="Q4" name="Q4"  value="1" >About one and half time the rate from bank fixed deposits<br />
+            <input type="Radio" id="Q4" name="Q4"  value="2">About twice the rate from bank fixed deposits<br />
+
+        </div>
+
+
+            <div class="input">
+            <label for="Q5">5.Which of the following statement best describes your attitude about the next six month's performance of the investment?</label><br/>
+            <input type="Radio" id="Q5" name="Q5"  value="0" checked>I would have a concern with any sort of loss<br />
+            <input type="Radio" id="Q5" name="Q5"  value="1" >I'd get concerned if the loss was greater than 10%<br />
+            <input type="Radio" id="Q5" name="Q5"  value="2">I wouldn't worry about losses in that time frame<br />
+
+            </div>
+
+
+
+
+
+   <br/><br/>  <input  type="submit"  onclick="myScore();"><br/>
+         <label>Hit referesh every time</label>
+
+  <h3><label>You are: </label>
+  <span id='display'></span></h3>
+     <div class="col-md-offset-1">
+
+        <form action="/admin/sch" method="POST">
+            
+    <label>I need INR </label>
+    <input type="text" name="amount" id="amount">
+    <label>in</label>
+    <input type="text" name="time" id="time">
+ <label>years(no. of years) and</label>
+            <label>intial lumpsum</label>
+              <input type="text" name="lumpsum" id="lumpsum">
+ 
+    <input type="button" name="go" id="go" value="Go" onclick="myinit();"><br /><br />
+    <label>So you need invest monthly</label>
+        <input type="text" name="invest" id="invest">
+
+
+            <input type="text" id="amtc1" name="amtc1" value="" hidden>
+            <input type="text" id="amtc2" name="amtc2" value="" hidden>
+            <input type="text" id="amtc3" name="amtc3" value="" hidden>
+
+            <input type="text" id="amtm1" name="amtm1" value="" hidden>
+            <input type="text" id="amtm2" name="amtm2" value="" hidden>
+            <input type="text" id="amtm3" name="amtm3" value="" hidden>
+
+             <input type="text" id="amta1" name="amta1" value="" hidden>
+            <input type="text" id="amta2" name="amta2" value="" hidden>
+            <input type="text" id="amta3" name="amta3" value="" hidden>
+
+
+        <button type="submit">Show schemes</button><br /> <br />
+
+
+        </form>
+        </div>
+        </div>
+        </div>
+
+
+    <div class="container">
+         <div class="row" id="tbl">
+         <div class="col-md-5">
+   <label>Conservative Profile Allocation</label>
+    <table border="1">
+        <tr>
+        <th>Category</th>
+            <th>Suggested %</th>
+        <th>Allocated %</th>
+        <th>Amount</th>
+            <th>Lumpsum+Amount</th>
+        </tr>
+        <tr>
+            <td>Equity</td>
+            <td id="suggestC1">0%</td>
+            <td id="per1">0%</td>
+            <td id="amount1">0</td>
+            <td id="lumpsumc1">0</td>
+        </tr>
+
+        <tr>
+            <td>Hybrid</td>
+            <td id="suggestC2">0%</td>
+            <td id="per2">0% </td>
+           <td id="amount2">0</td>
+            <td id="lumpsumc2">0</td>
+        </tr>
+
+        <tr>
+            <td>Debt</td>
+            <td id="suggestC3">0%</td>
+            <td id="per3">0%</td>
+              <td id="amount3">0</td>
+            <td id="lumpsumc3">0</td>
+        </tr>
+    </table>
+         </div>
+        <div class="col-md-5">
+
+         <label>Moderate Profile Allocation</label>
+          <table border="1">
+        <tr>
+        <th>Category</th>
+            <th>Suggested %</th>
+        <th>Allocated %</th>
+        <th>Amount</th>
+        <th>Lumpsum+Amount</th>
+        </tr>
+        <tr>
+            <td>Equity</td>
+            <td id="suggestM1">0%</td>
+            <td id="perM1">0%</td>
+            <td id="amountM1">0</td>
+            <td id="lumpsumM1">0</td>
+        </tr>
+
+        <tr>
+            <td>Hybrid</td>
+            <td id="suggestM2">0%</td>
+            <td id="perM2">0% </td>
+           <td id="amountM2">0</td>
+            <td id="lumpsumM2">0</td>
+        </tr>
+
+        <tr>
+            <td>Debt</td>
+            <td id="suggestM3">0%</td>
+            <td id="perM3">0%</td>
+              <td id="amountM3">0</td>
+            <td id="lumpsumM3">0</td>
+        </tr>
+    </table>
+           </div>
+
+
+
+         <div class="col-md-5">
+<br/><br />
+         <label>Aggressive Profile Allocation</label>
+          <table border="1">
+        <tr>
+        <th>Category</th>
+            <th>Suggested %</th>
+        <th>Allocated %</th>
+        <th>Amount</th>
+            <th>Lumpsum+Amount</th>
+        </tr>
+        <tr>
+            <td>Equity</td>
+            <td id="suggestA1">0%</td>
+            <td id="perA1">0%</td>
+            <td id="amountA1">0</td>
+             <td id="lumpsumA1">0</td>
+        </tr>
+
+        <tr>
+            <td>Hybrid</td>
+            <td id="suggestA2">0%</td>
+            <td id="perA2">0% </td>
+           <td id="amountA2">0</td>
+            <td id="lumpsumA2">0</td>
+        </tr>
+
+        <tr>
+            <td>Debt</td>
+            <td id="suggestA3">0%</td>
+            <td id="perA3">0%</td>
+              <td id="amountA3">0</td>
+            <td id="lumpsumA3">0</td>
+        </tr>
+    </table>   </div>
+
+
+                 </div>
+              <h3><b><u>Future Values</u></b></h3>
+        
+        
+        <!--<form action="/fv" method="post" >-->
+        <h4><b>Monthly Sip</b></h4>
+    <label>I have </label>
+    <input type="text" name="fvamount" id="fvamount">
+    <label>invest monthly.</label>
+            <label>Which i need in</label>
+    <input type="text" name="fvtime" id="fvtime">
+ <label>years(no. of years)</label>   <button type="button" onclick="myfv();">Future-Value</button>
+            <br /><br />
+            <label>Future Value :</label>
+           <input type="text" name="fv" id="fv">
+     <br /> <br />     <br /> <br />
+  
+        
+        <h4><b>One time Invest lumpsum</b></h4>
+        
+          <label>I have </label>
+    <input type="text" name="fvamount2" id="fvamount2">
+    <label>to invest now one time.</label>
+            <label>Which i need in</label>
+    <input type="text" name="fvtime2" id="fvtime2">
+ <label>years(no. of years)</label>     <button type="button" onclick="myfvonetime();">Future-Value</button>
+            <br /><br />
+            <label>Future Value :</label>
+           <input type="text" name="fv2" id="fv2">
+     <br /> <br />      <br /> <br />
+        
+        
+        
+        <h4><b>Monthly Sip and Invest lumpsum</b></h4>
+          <label>I have </label>
+    <input type="text" name="fvamount3" id="fvamount3">
+    <label>to invest now one time. </label>
+        
+        <input type="text" name="fvamount4" id="fvamount4">
+        <label>invest monthly. </label>
+            <label>Which i need in</label>
+    <input type="text" name="fvtime3" id="fvtime3">
+ <label>years(no. of years)</label> <br/><br />    <button type="button" onclick="myfvinvestnsip();">Future-Value</button>
+            <br /><br />
+            <label>Future Value :</label>
+           <input type="text" name="fv4" id="fv4">
+     <br /> <br />      <br /> <br />
+
+
+        <!--</form>-->
+
+        <h4 id="update"><a href='/admin'>Click to Update assets allocation</a></h4>
+        </div>
+
+
+
+    <script>
+        
+        
+           
+        function myfv(){
+            var rate=10;
+            var per=12;
+            var nper=document.getElementById("fvtime").value*per;
+            var pmt=document.getElementById("fvamount").value;
+            var pv=0;
+            
+            
+            
+            
+            var futurevalue=Math.round(fv(rate, per, nper, -pmt, pv)/100)*100;
+            
+            document.getElementById("fv").value=futurevalue;
+         rate=0;  per=0; nper=0;pmt=0; pv=0;
+            
+        }
+        
+                
+function myfvonetime(){
+    
+    var rate=10;
+    var per=12;
+    var nper=document.getElementById("fvtime2").value;
+    var pmt=document.getElementById("fvamount2").value;
+    var pv=0;
+    
+     if(pmt>=0 && pmt%5000==0){
+                
+                var lumsum=lumpsum;
+                
+            }
+            else{
+                alert("Invalid lumpsum amount...! \n Amout should be multiple of 5000");
+                 
+            }
+    
+    var futurevalue2=Math.round(fv(rate, per, nper, -pmt, pv)/100)*100;
+    document.getElementById("fv2").value=futurevalue2;
+    rate=0;  per=0; nper=0;pmt=0; pv=0;
+            
+}
+       
+        
+        function myfvinvestnsip(){
+    var rate=10;
+    var per=12;
+    var nper=document.getElementById("fvtime3").value*per;        
+    var pmt=document.getElementById("fvamount4").value;
+    var pv=0;
+    var lumpsum=Math.round(fv(rate, per, nper, -pmt, pv)/100)*100;
+    var pmt=0;
+            
+             var nper=document.getElementById("fvtime3").value;
+             pmt=document.getElementById("fvamount3").value;
+            
+            var sip=Math.round(fv(rate, per, nper, -pmt, pv)/100)*100;
+            var futurevalue2=lumpsum+sip;
+            
+            
+            document.getElementById("fv4").value=futurevalue2; 
+           rate=0;  per=0; nper=0;pmt=0; pv=0;
+            
+ 
+     
+        }
+        
+        
+        function roundup(x){
+            
+        var value=x;
+            /*if(value>=2500)*/
+                value=Math.round((value)/5000)*5000;
+                
+            /*else
+                value=Math.floor((value)/5000)*5000;
+            */
+            return value;
+        }
+        
+    function myinit()
+        {
+            var rate=10;
+            var per=12;
+            var nper=document.getElementById("time").value*per;
+            var years=document.getElementById("time").value;
+            var pv=0;
+            var fv=document.getElementById("amount").value;
+            var lumpsum=document.getElementById("lumpsum").value;
+            //if number of years is less then 3 year debt is 100
+
+                var mn =   Math.round(pmt(10,12,nper,pv,-fv)/1000)*1000;
+
+            
+           
+            if(mn){
+            document.getElementById("invest").value= mn;
+            }
+            else{
+                alert("Future amount error !");
+                
+            }
+
+
+            if(nper<25)
+             {
+
+                var eqP= 0;
+                var hybP =0;
+                var debtP=1;
+
+                var eqMP=0;
+                var hybMP=0;
+                var debtMP=1;
+
+                var eqAP=0;
+                var hybAP=0;
+                var debtAP=1;
+                 
+                  document.getElementById("suggestC1").innerHTML=eqP+"%";
+                  document.getElementById("suggestC2").innerHTML=hybP+"%";
+                  document.getElementById("suggestC3").innerHTML=debtP*100+"%";
+                  document.getElementById("suggestM1").innerHTML=eqMP+"%";
+                  document.getElementById("suggestM2").innerHTML=hybMP+"%";
+                  document.getElementById("suggestM3").innerHTML=debtMP*100+"%";
+                  document.getElementById("suggestA1").innerHTML=eqAP+"%";
+                  document.getElementById("suggestA2").innerHTML=hybAP+"%";
+                  document.getElementById("suggestA3").innerHTML=debtAP*100+"%";
+
+
+             }
+
+            else if(nper>25 && mn<=2000)
+             {
+
+                var eqP= 0;
+                var hybP =1;
+                var debtP=0;
+
+                var eqMP=0;
+                var hybMP=1;
+                var debtMP=0;
+
+                var eqAP=0;
+                var hybAP=1;
+                var debtAP=0;
+                 
+                  document.getElementById("suggestC1").innerHTML=eqP+"%";
+                  document.getElementById("suggestC2").innerHTML=hybP*100+"%";
+                  document.getElementById("suggestC3").innerHTML=debtP+"%";
+                  document.getElementById("suggestM1").innerHTML=eqMP+"%";
+                  document.getElementById("suggestM2").innerHTML=hybMP*100+"%";
+                  document.getElementById("suggestM3").innerHTML=debtMP+"%";
+                  document.getElementById("suggestA1").innerHTML=eqAP+"%";
+                  document.getElementById("suggestA2").innerHTML=hybAP*100+"%";
+                  document.getElementById("suggestA3").innerHTML=debtAP+"%";
+
+             }
+
+            else
+            {
+                 <% for (var i = 0; i < data.length; i++) {%>
+
+                var eqP1=<%= data[0].asset.value %>;
+                var hybP1 =<%= data[1].asset.value %>;
+                var debtP1= <%= data[2].asset.value %>;
+                var eqP=eqP1/100;
+                var hybP=hybP1/100;
+                var debtP=debtP1/100;
+                var eqMP1=<%= data[3].asset.value %>;
+                var hybMP1 =<%= data[4].asset.value %>;
+                var debtMP1= <%= data[5].asset.value %>;
+                var eqMP=eqMP1/100;
+                var hybMP=hybMP1/100;
+                var debtMP=debtMP1/100;
+                 var eqAP1= <%= data[6].asset.value %>;
+                var hybAP1 =<%= data[7].asset.value %>;
+                var debtAP1= <%= data[8].asset.value %>;
+                var eqAP=eqAP1/100;
+                var hybAP=hybAP1/100;
+                var debtAP=debtAP1/100;
+
+                <% } %>
+                 document.getElementById("suggestC1").innerHTML=eqP1+"%";
+                  document.getElementById("suggestC2").innerHTML=hybP1+"%";
+                  document.getElementById("suggestC3").innerHTML=debtP1+"%";
+                  document.getElementById("suggestM1").innerHTML=eqMP1+"%";
+                  document.getElementById("suggestM2").innerHTML=hybMP1+"%";
+                  document.getElementById("suggestM3").innerHTML=debtMP1+"%";
+                  document.getElementById("suggestA1").innerHTML=eqAP1+"%";
+                  document.getElementById("suggestA2").innerHTML=hybAP1+"%";
+                  document.getElementById("suggestA3").innerHTML=debtAP1+"%";
+            }
+
+            if(lumpsum>=0 && lumpsum%5000==0){
+                
+                var lumsum=lumpsum;
+                
+            }
+            else{
+                alert("Invalid lumpsum amount...! \n Amout should be multiple of 5000");
+                 
+            }
+            if(years>=3){
+                
+            
+            if(lumsum==5000)
+                {
+                    var lumpc3=5000;
+                    var lumpc2=0;
+                    var lumpc1=0;
+                    
+                    
+                    var lumpm1=0;
+                    var lumpm2=0;
+                    var lumpm3=5000;
+                    
+                    
+                    var lumpa1=5000;
+                    var lumpa2=0;
+                    var lumpa3=0;
+                }
+            else if(lumsum==10000){
+                
+                var lumpc1=0;    
+                var lumpc2=5000;
+                var lumpc3=5000; 
+                
+                
+                var lumpm1=5000;    
+                var lumpm2=0;
+                var lumpm3=5000;
+                
+                
+                var lumpa1=5000;    
+                var lumpa2=5000;
+                var lumpa3=0;
+                
+            }
+            else if(lumsum==15000){
+                
+                var lumpc1=5000;    
+                var lumpc2=0;
+                var lumpc3=10000; 
+                
+                var lumpm1=10000;    
+                var lumpm2=0;
+                var lumpm3=5000;
+                
+                
+                var lumpa1=10000;    
+                var lumpa2=5000;
+                var lumpa3=0;
+            }
+            else{
+                   var lumc=lumsum;
+                   var lumm=lumsum;
+                   var luma=lumsum;
+               
+                
+                
+                var lumpc1=roundup(eqP*lumc);
+                var lumpc2=roundup(hybP*lumc);    
+                var lumpc3=roundup(debtP*lumc);
+                
+               var totallumpc1=lumpc1+lumpc2+lumpc3;
+            
+                //Roundingoff amount and adjustement towards total of allocation to lumsum conservative
+                if(lumc<totallumpc1)
+                    {
+                        lumpc2=lumpc2-(totallumpc1-lumc); 
+                        
+                    }
+                else if(lumc>totallumpc1)
+                    {
+                        lumpc2=lumpc2+(lumc-totallumpc1); 
+                        
+                    }
+                
+                
+                 var lumpm1=roundup(eqMP*lumm);
+                var lumpm2=roundup(hybMP*lumm);    
+                var lumpm3=roundup(debtMP*lumm);    
+                
+                var totallumpm1=lumpm1+lumpm2+lumpm3;
+                //Roundingoff amount and adjustement towards total of allocation to lumsum moderate
+                if(lumm<totallumpm1)
+                    {
+                        lumpm2=lumpm2-(totallumpm1-lumm); 
+                        
+                        
+                    }
+                else if(lumm>totallumpm1)
+                    {
+                        
+                        lumpm2=lumpm2+(lumc-totallumpm1); 
+                        
+                    }
+                
+                
+                var lumpa1=roundup(eqAP*luma);    
+                var lumpa2=roundup(hybAP*luma);    
+                var lumpa3=roundup(debtAP*luma);    
+                
+                var totallumpa1=lumpa1+lumpa2+lumpa3;
+                //Roundingoff amount and adjustement towards total of allocation to lumsum aggressive
+                if(totallumpa1>luma)
+                    {
+                        lumpa1=lumpa1-(totallumpa1-luma); 
+                        
+                    }
+                
+                
+                
+            }
+            }
+            else{
+                alert("No.of years less than 3...! lumpsum is not allocated");
+                lumpc1=0; lumpc2=0; lumpc3=0;
+                lumpm1=0;lumpm2=0;lumpm3=0;
+                lumpa1=0;lumpa2=0;lumpa3=0;
+                
+                
+            }
+        
+            
+            //var lump3=Math.round((debtP*lumsum)/5000)*5000;
+           
+            var amt1= Math.round((eqP*mn)/1000)*1000;
+            var amt2= Math.round((hybP*mn)/1000)*1000;
+            var amt3= Math.round((debtP*mn)/1000)*1000;
+
+            var total= amt1+amt2+amt3;
+
+
+            if(mn>total)
+                {
+                     var mean=mn-total;
+                     amt2=amt2+mean;
+                     var mean2=total+mean;
+
+                }
+            else if(total>mn)
+            {
+
+                    var mean=total-mn;
+                     amt2=amt2-mean;
+                     var mean2=total-mean;
+
+            }
+            else{
+                mean2=total;
+            }
+
+            amtt4=(amt1+lumpc1);
+            amtt5=(amt2+lumpc2);
+            amtt6=(amt3+lumpc3);
+            
+            document.getElementById("amount1").innerHTML=amt1;
+            document.getElementById("amount2").innerHTML=amt2;
+            document.getElementById("amount3").innerHTML=amt3;
+            
+            //lumpsum + Amount conservative
+             document.getElementById("lumpsumc1").innerHTML=amtt4;
+            document.getElementById("lumpsumc2").innerHTML=amtt5;
+            document.getElementById("lumpsumc3").innerHTML=amtt6;
+
+//schemes amount
+            document.getElementById("amtc1").value=amt1;
+            document.getElementById("amtc2").value=amt2;
+            document.getElementById("amtc3").value=amt3;
+
+            var alloc1=0,alloc2=0,alloc3=0;
+            
+            alloc1= Math.round((amt1/mean2)*100);
+            alloc2=  Math.round((amt2/mean2)*100);
+            alloc3=  Math.round((amt3/mean2)*100);
+
+           /* setmyvalue(alloc1,alloc2,alloc3);*/
+
+
+
+
+              document.getElementById("per1").innerHTML=alloc1+"%";
+            document.getElementById("per2").innerHTML=alloc2+"%";
+            document.getElementById("per3").innerHTML=alloc3+"%";
+
+
+            //Moderate calculations
+
+
+
+             var amtM1= Math.round((eqMP*mn)/1000)*1000;
+            var amtM2= Math.round((hybMP*mn)/1000)*1000;
+            var amtM3= Math.round((debtMP*mn)/1000)*1000;
+
+            var totalM= amtM1+amtM2+amtM3;
+
+            if(mn>totalM)
+                {
+                     var mean=mn-totalM;
+                     amtM2=amtM2+mean;
+                     var mean3=totalM+mean;
+
+                }
+                else if(totalM>mn)
+                {
+
+                        var mean=totalM-mn;
+                         amtM2=amtM2-mean;
+                         var mean3=totalM-mean;
+
+                }
+
+            else
+            {
+                mean3=totalM;
+            }
+
+
+
+            amttm4=(amtM1+lumpm1);
+            amttm5=(amtM2+lumpm2);
+            amttm6=(amtM3+lumpm3);
+
+              document.getElementById("amountM1").innerHTML=amtM1;
+            document.getElementById("amountM2").innerHTML=amtM2;
+            document.getElementById("amountM3").innerHTML=amtM3;
+
+            
+             //lumpsum +amount Moderate
+            document.getElementById("lumpsumM1").innerHTML=amttm4;
+            document.getElementById("lumpsumM2").innerHTML=amttm5;
+            document.getElementById("lumpsumM3").innerHTML=amttm6;
+            
+            
+//schemes amount
+            document.getElementById("amtm1").value=amtM1;
+            document.getElementById("amtm2").value=amtM2;
+            document.getElementById("amtm3").value=amtM3;
+            
+            var allocM1=0,allocM2=0,allocM3=0;
+
+             allocM1= Math.round((amtM1/mean3)*100);
+            allocM2=  Math.round((amtM2/mean3)*100);
+             allocM3=  Math.round((amtM3/mean3)*100);
+
+             document.getElementById("perM1").innerHTML=allocM1+"%";
+            document.getElementById("perM2").innerHTML=allocM2+"%";
+            document.getElementById("perM3").innerHTML=allocM3+"%";
+
+
+            //Aggressive profile
+
+             var amtA1= Math.round((eqAP*mn)/1000)*1000;
+            var amtA2= Math.round((hybAP*mn)/1000)*1000;
+            var amtA3= Math.round((debtAP*mn)/1000)*1000;
+
+            var totalA= amtA1+amtA2+amtA3;
+
+            if(totalA>mn)
+                {
+                     var mean=totalA-mn;
+                     amtA2=amtA2-mean;
+                     var mean4=totalA-mean;
+
+                }
+            else
+            {
+                mean4=totalA;
+            }
+
+            amtta4=(amtA1+lumpa1);
+            amtta5=(amtA2+lumpa2);
+            amtta6=(amtA3+lumpa3);
+
+              document.getElementById("amountA1").innerHTML=amtA1;
+            document.getElementById("amountA2").innerHTML=amtA2;
+            document.getElementById("amountA3").innerHTML=amtA3;
+            
+            //lumpsum +amount Aggressive
+            document.getElementById("lumpsumA1").innerHTML=amtta4;
+            document.getElementById("lumpsumA2").innerHTML=amtta5;
+            document.getElementById("lumpsumA3").innerHTML=amtta6;
+
+
+//schemes amount
+            document.getElementById("amta1").value=amtA1;
+            document.getElementById("amta2").value=amtA2;
+            document.getElementById("amta3").value=amtA3;
+
+            var allocA1=0,allocA2=0,allocA3=0;
+
+                allocA1= Math.round((amtA1/mean4)*100);
+                allocA2=  Math.round((amtA2/mean4)*100);
+                allocA3=  Math.round((amtA3/mean4)*100);
+
+             document.getElementById("perA1").innerHTML=allocA1+"%";
+            document.getElementById("perA2").innerHTML=allocA2+"%";
+            document.getElementById("perA3").innerHTML=allocA3+"%";
+
+
+        }
+
+
+       // console.log(  Math.round(pmt(10,12,24,0,-50000)/1000)*1000);
+
+
+// Function to calculate Periodic Payments.
+
+function pmt(rate, per, nper, pv, fv)
+
+{
+
+fv = parseFloat(fv);
+
+nper = parseFloat(nper);
+
+pv = parseFloat(pv);
+
+per = parseFloat(per);
+
+if (( per == 0 ) || ( nper == 0 )){
+
+alert("Why do you want to test me with zeros?");
+
+return(0);
+
+}
+
+rate = eval((rate)/(per * 100));
+
+if ( rate == 0 ) // Interest rate is 0
+
+{
+
+pmt_value = - (fv + pv)/nper;
+
+}
+
+else
+
+{
+
+x = Math.pow(1 + rate,nper);
+
+pmt_value = -((rate * (fv + x * pv))/(-1 + x));
+
+}
+
+pmt_value = conv_number(pmt_value,2);
+
+return (pmt_value);
+
+}
+
+function conv_number(expr, decplaces)
+
+{ // This function is from David Goodman's Javascript Bible.
+
+var str = "" + Math.round(eval(expr) * Math.pow(10,decplaces));
+
+while (str.length <= decplaces) {
+
+str = "0" + str;
+
+}
+
+var decpoint = str.length - decplaces;
+
+return (str.substring(0,decpoint) + "." + str.substring(decpoint,str.length));
+
+}
+
+// Function to calculate future value of an investment..
+
+function fv(rate, per, nper, pmt, pv)
+
+{
+
+nper = parseFloat(nper);
+
+pmt = parseFloat(pmt);
+
+pv = parseFloat(pv);
+
+rate = eval((rate)/(per * 100));
+
+if (( pmt == 0 ) || ( nper == 0 )) {
+
+alert("Why do you want to test me with zeros?");
+
+return(0);
+
+}
+
+if ( rate == 0 ) // Interest rate is 0
+
+{
+
+fv_value = -(pv + (pmt * nper));
+
+}
+
+else
+
+{
+
+x = Math.pow(1 + rate, nper);
+
+// y = Math.pow(1 + rate, nper);
+
+fv_value = - ( -pmt + x * pmt + rate * x * pv ) /rate;
+
+}
+
+fv_value = conv_number(fv_value,2);
+
+return (fv_value);
+
+}
+
+function conv_number(expr, decplaces)
+
+{ // This function is from David Goodman's Javascript Bible.
+
+var str = "" + Math.round(eval(expr) * Math.pow(10,decplaces));
+
+while (str.length <= decplaces) {
+
+str = "0" + str;
+
+}
+
+var decpoint = str.length - decplaces;
+
+return (str.substring(0,decpoint) + "." + str.substring(decpoint,str.length));
+
+}
+        </script>
+    </div>
+
+  </body>
+</html>

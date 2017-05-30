@@ -50,9 +50,15 @@ $(document).ready(function(){
         
     }
     
-  $(".how-it-works .pagination").hover(function(){
-      
-      var	showSLide = new TimelineMax();
+    
+    //Dots animation previous one
+  /*$(".how-it-works .pagination").hover(function(){
+
+        var expanding = $(this);
+    var timer = window.setTimeout(function () {
+        expanding.data('timerid', null);
+
+           var	showSLide = new TimelineMax({delay:4, repeat:5, repeatDelay:2,onComplete:restart});
 
         showSLide
             .staggerFromTo(dots, 0.3,
@@ -62,9 +68,38 @@ $(document).ready(function(){
 				{x: -50 ,autoAlpha: 0},
 				{x: 0,  autoAlpha: 1, ease:Back.easeOut}, 0.05, "-=0.3")
         ;
+          
 
-  });
-  
+   },350);
+    //store ID of newly created timer in DOM object
+    expanding.data('timerid', timer);
+}, function () {
+    var timerid = $(this).data('timerid');
+    if (timerid != null) {
+        //mouse out, didn't timeout. Kill previously started timer
+        window.clearTimeout(timerid);
+    }
+      
+});*/
+    
+    //Dots animation new one
+     var	showSLide = new TimelineMax({delay:4, repeat:1, repeatDelay:2});
+
+        showSLide
+        .staggerFromTo(".how-it-works .pagination li >a", 0.3,
+				{x: -50 ,autoAlpha: 0},
+				{x: 0,  autoAlpha: 1, ease:Back.easeOut}, 0.05, "-=0.3")
+            .staggerFromTo(dots, 0.3,
+				{x: -50 ,autoAlpha: 0},
+				{x: 0,  autoAlpha: 1, ease:Back.easeOut}, 0.05)
+        
+        ;
+          
+    
+   //restarts Dots animation   
+  function restart() {
+  TweenLite.to(restart, 0.4, {autoAlpha:1})
+}
     
 //  alert($(window).scrollTop());
 
@@ -85,7 +120,7 @@ $(document).ready(function(){
 
 function blink(){
 
-$(headP).append(" <span>?</span> ");
+$(headP).append(" How are you feeling today <span>?</span> ");
 
   QuesBlink = $(".yourMood > p > span ");
       var	textBlink = new TimelineMax({ repeat: 10});

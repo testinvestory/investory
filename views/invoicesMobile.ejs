@@ -1,0 +1,71 @@
+       <!DOCTYPE html>
+<html lang="en">
+     
+<head>
+
+ <% include partials/head %>
+<link rel="stylesheet" href="stylesheets/creativemobile.css">
+</head>
+      <% include partials/headerMobile%>
+    <div class="container">
+        <h3 class="myInvoicesHeadding">My Invoices</h3>
+    <div id="invoices" class="text-center">
+          
+                <div class="page31" style="">
+                                 
+                       <div class="table-responsive tableAccounts"style="" >
+                  
+     <%  if(stmt) {%>                               
+    <% for(i=0; i < stmt.length; i++) {%>                         
+<table class="table" style="
+    border-radius: 21px;
+">
+  <thead>
+    <tr>
+      <th class="thead1" colspan="2">
+          Date :
+       <%= stmt[i].orderdate %>
+      </th>
+
+    </tr>
+  </thead>
+  <thead>
+      
+    <tr>
+      <!--<th class="thead2" colspan="2">ICICI Prudential</th>-->
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>Subscription Id</td>
+      <td style="border-right: none;">Duration</td>
+    </tr>
+    <tr>
+      <td id="eqPer"><%= stmt[i].usersubscriptionorderid %></td>
+      <td id="eqAmt" style="border-right: none;"><%= stmt[i].durationdays %></td>
+    </tr>  
+       <tr>
+
+      <td>Amount (&#x20B9;)</td>
+      <td style="border-right: none;">Renewal Date</td>
+    </tr>
+    <tr>
+      <td id="eqPer"><%= stmt[i].amount %></td>
+      <td id="eqAmt" style="border-right: none;"><%= stmt[i].planrenewaldate %></td>
+    </tr>
+  </tbody>
+</table>
+                           <br />
+     <%}%>
+     <% }else{ %>
+          <h1>No Invoices yet. see you later. bye.</h1>
+          <%}%>
+
+                                 
+          </div>
+    
+    </div>
+        </div>
+         <% include partials/footerMobile %>

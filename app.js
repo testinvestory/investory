@@ -56,6 +56,7 @@ app.use(flash())
 
 app.use('/admin', admin)
 app.get('/KnowUs', about.getKnownUs)
+app.get('/contactus', about.contactus)
 app.get('/FAQs', about.faqs)
 app.get('/Investment', functions.isLoggedIn, investment.getInvestment)
 app.post('/setData', investment.postSetData)

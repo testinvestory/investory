@@ -4,8 +4,8 @@ const pg = require('pg')
 const crypto = require('crypto')
 const functions = require('./functions')
 
-var conString = 'postgres://postgres:postgres@localhost:5432/investory'
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+//var conString = 'postgres://postgres:postgres@localhost:5432/investory'
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 var client = new pg.Client(conString)
 client.connect()
 

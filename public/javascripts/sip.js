@@ -2,24 +2,35 @@ var totalYears;
 var sip;
   var sipInvestValue;  
 var sipTime;
-    $('input#sip').keyup(function(event) {
+ 
 
-  // skip for arrow keys
-  if(event.which >= 37 && event.which <= 40){
+
+$('input#sip').keyup(function(event) {
+
+  
+  if((event.which >= 48 && event.which <= 57) /*|| event.which >= 37 && event.which <= 40*/){
    event.preventDefault();
   }
 
   $(this).val(function(index, value) {
-      value = value.replace(/,/g,'');
-      return numberWithCommas(value);
+	 value = value.replace(/,/g,'');
+  	return formatNumber(value);
+   });
   });
-});
 
-function numberWithCommas(x) {
-    var parts = x.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-}
+function formatNumber(num) {
+
+            var n1, n2;
+            num = num + '' || '';
+            // works for integer and floating as well
+            n1 = num.split('.');
+            n2 = n1[1] || null;
+            n1 = n1[0].replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+            num = n2 ? n1 + '.' + n2 : n1;
+            return num;
+        }
+
+
 
 function getSIP(){
 	// debugger;	
@@ -30,14 +41,19 @@ function getSIP(){
  let amount=sipInvestValue.replace(/,/g,'');  
 	if ( amount < 1000 || amount > 100000 ){ 
 		$('#sipInvestErr').slideDown();
-       
-	} else if ( sipTime < 1 || sipTime > 50 ) {
+        $(' #imgcap').css("top","41.3%");
+       } 
+       else if(isNaN(amount))
+         $('#sipInvestErr').slideDown();
+	 else if ( sipTime < 1 || sipTime > 50 ) {
 		$('#sipInvestErr').slideUp(); 
 		$('#sipTimeErr').slideDown();
+        $(' #imgcap').css("top","41.3%");
 	} else {
 		// debugger;
-		$('#sipInvestErr').slideUp; 
+		$('#sipInvestErr').slideUp(); 
 		$('#sipTimeErr').slideUp();
+        
 		totalYears = document.getElementById("years").value;
 		sip=amount; 
 		localStorage.sip = sip;
@@ -47,6 +63,9 @@ function getSIP(){
 		sessionStorage.setItem('tempGoals', JSON.stringify({currentPage:4}));
 		window.location.href = "/GoalSelection";
 	}
+    if($('#sipInvestErr').slideDown() && $('#sipTimeErr').slideDown()){
+        $(' #imgcap').css("top","45.4%");
+    }
 }
 
 function showSIP(){	

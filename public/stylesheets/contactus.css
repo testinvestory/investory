@@ -1,0 +1,31 @@
+.addr{
+            padding-top:5%;
+             padding-bottom:3%;
+            padding-left:10%;
+            padding-right:10%
+        }
+        .map{
+         height:400px; 
+         padding-top:4%;
+          margin-bottom: 4%;
+           
+        }
+          .h14{
+              line-height: 35px;
+              color: #35BFD3;
+              font-size: 26px;
+              font-weight: 900;
+              font-size: 2em;
+              padding: 15px 0px 7px 0px;
+              text-align: left;
+             }
+        
+              .p22 {
+    color: #666;
+    font-size: 18px;
+    line-height: 27px;
+    padding: 15px 0px 10px 0px;
+    text-align: left;
+    margin: 0;
+    font-weight: 800;
+}       

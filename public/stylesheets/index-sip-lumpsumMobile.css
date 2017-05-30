@@ -1,0 +1,216 @@
+/*
+-----------------------------------------------------------------------------------------
+index page sip and lumpsum panels.//Nisant
+-----------------------------------------------------------------------------------------
+*/
+
+#imgcap{
+ position: absolute;
+    top: 37.1%;
+    left: 29.65%;
+    
+}
+
+#imgcap2{
+ position: absolute;
+/*
+    top: 37.1%;
+    left: 69.45%;
+*/
+     position: absolute;
+    left: 46%;
+    top: 145.5%;   
+}
+#imgbluecap{
+     position: absolute;
+/*
+    top: -17px;
+    left: 46%;   
+*/
+}
+/*
+#imgbluecap2{
+     position: absolute;
+    top: -17px;
+    left: 46%;   
+}
+*/
+
+.indexsip .panel-heading {
+          border: 1px solid #35BFD3;
+    background-color: #35BFD3;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    position: relative
+}
+.sipBtn {
+    background-color: #35BFD3;
+    border: 1px #35BFD3 solid;
+    color: #F2F5FB;
+    font-weight: 600;
+    
+}
+.lumBtn {
+     font-size: 1.2em;
+    background-color: #35BFD3;
+    border: 1px #35BFD3 solid;
+    color: #F2F5FB;
+    font-weight: 600;
+   
+}
+#sipbtn {
+    width: 7em;
+    margin-bottom: auto;
+    margin-left: auto;
+    width: initial;
+    background-image: url("images/btncap.png");
+}
+
+
+#lumpsumbtn {
+    margin-bottom: 1em;
+    margin-left: auto;
+    width: initial;
+    margin-top: 13%;
+}
+#sipflow1{
+    padding-top: 2em;
+    font-size: 1.2em;
+    font-weight: 700;
+   /* visibility: hidden;*/
+}
+#lumpsumflow1{
+    padding-top: 2em;
+    font-size: 1.2em;
+    font-weight: 700;
+   /* visibility: hidden; */
+}
+.indexsip input[type='radio'] {
+    background-color: #FFDE15;
+}
+
+
+.indexsip h3 {
+ color: #35BFD3;
+    font-weight: 600;
+    font-size: 2em;
+    font-weight: 700;/*added ruthu6*/
+     font-size: 1.96em;/*added ruthu6*/
+   
+}
+
+.indexsip #sipcontent{
+  /* font-family: 'Josefin Sans', sans-serif;*/
+    line-height: 1.2;
+    font-weight: 700;
+}
+.indexsip h2 {
+   
+    padding-top: 10px;
+}
+
+.indexsip .btn-hr-wrapper {
+       position: relative;
+   margin: auto;
+}
+.indexsip h4 {
+    font-weight: 700;
+    margin-bottom: 3em;
+    padding-bottom: 0;
+    
+}
+/*ruthu6 remove gap abovr pricing paragraphs*/
+.indexsip h3{
+    margin-top: auto;
+}
+/*Panel Pricing*/
+
+.indexsip .panel-body ul li {
+    
+    text-align: left;
+}
+
+.indexsip .panel-body ul {
+    
+ padding-left: 15px;
+   color: #333333;
+    font-size: 1em;
+    font-weight: 600;
+      
+}
+
+.indexsip .panel-body h2 {
+    
+  color: #333333;
+      margin: 0;
+    padding: 0;
+    text-align: left;
+    font-size: 2em;
+}
+
+.indexsip .panel-heading h2 {
+    
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    color: #F2F5FB;
+    font-size: 1.2em;
+}
+
+.indexsip .panel-body {
+    
+    padding-top: 7px; 
+        border: 1px solid #35BFD3;
+    border-top: transparent;
+}
+
+
+#pricingDot {
+ position: absolute;
+    right: 11em;
+    width: initial;
+    height: initial;
+    top: 24%;
+    left: 90%;
+
+}
+
+#active {
+     border: 2px #35BFD3 solid;
+    background-color: #FFDE15;
+    
+}
+.activ{      
+    border: 1px #35BFD3 solid;
+    color: #F2F5FB;
+}
+
+.pDot {
+ 
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    border-radius: 100%;
+    border: 2px #F2F5FB solid;
+    background-color: #FFDE15;
+    margin-right: 4px;
+    margin-bottom: 5px;
+}
+
+
+
+#Indicator, #IndicatorNew, #IndicatorNew1  {
+    
+    color: #333333;
+    font-size: 1.2em;
+    font-style: italic;
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 0;
+    margin-bottom: 10px;
+    
+}
+

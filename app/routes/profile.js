@@ -8,8 +8,8 @@ const pg = require('pg');
 const crypto = require('crypto');
 /* common functions */
 const functions = require('./functions');
-const conString = "postgres://postgres:postgres@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+//const conString = "postgres://postgres:postgres@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 var client = new pg.Client(conString);
 client.connect();
 
@@ -86,8 +86,10 @@ exports.postProfile = (req, res) => {
 
 loginStatus = functions.checkLoginStatus(req);
 
-                var dob=req.body.calendar;
+                var dob=req.body.dob;
+    console.log("DOB",dob);
                 var age=req.body.age;
+     console.log("DOB",age);
                 var gender=req.body.gender;
                 var maritalstatus=req.body.maritalstatus;
                 var address=req.body.address;
@@ -105,7 +107,7 @@ loginStatus = functions.checkLoginStatus(req);
        
       // console.log(dob,age,gender,maritalstatus,address,pincode,city,pan);
         console.log("profile Post",req.user.userid);
-	var query=client.query("update profile set userid=$1,age=$2,gender=$3,maritalstatus=$4,address=$5,pincode=$6,city=$7,pan=$8,createdby=$9,dob=to_date($10, 'DD-MM-YYYY') where userid=$1", [req.session.user.userid, age, gender, maritalstatus, address, pincode, city, pan, req.session.user.name,dob
+	var query=client.query("update profile set userid=$1,age=$2,gender=$3,maritalstatus=$4,address=$5,pincode=$6,city=$7,pan=$8,createdby=$9,dob=$10 where userid=$1", [req.session.user.userid, age, gender, maritalstatus, address, pincode, city, pan, req.session.user.name,dob
 	],function(err,result){
 	        if(err)
 	            console.log("Cant get update profile details from users table",err);
@@ -127,7 +129,9 @@ exports.postprofilebank = (req, res) => {
                     var ifsc=req.body.ifsc;
                     var branch=req.body.branch;
                     var account=req.body.accno;
-              var query=client.query("insert into pandetails(userid,bankname,accno,ifsc,branch,createdby) values($1,$2,$3,$4,$5,$6)", [req.session.user.userid, bank,account,ifsc, branch, req.session.user.name],function(err,result){
+    
+              var query=client.query("insert into pandetails(userid,bankname,accno,ifsc,branch,createdby) values($1,$2,$3,$4,$5,$6)", [req.session.user.userid, bank,account,ifsc, branch, req.session.user.name],function(err,result)
+   	/*var query=client.query("update pandetails set bankname=$2,accno=$3,ifsc=$4,branch=$5 where userid=$1", [req.session.user.userid,bank,account,ifsc, branch],function(err,result)*/{ 
                   if(err)
                        console.log("Cant insert new row to pan details",err);
                   if(result.rows.length>0)

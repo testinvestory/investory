@@ -3,8 +3,8 @@ const pg = require('pg')
 var request = require('request')
 var parseString = require('xml2js').parseString
 const functions = require('./functions')
-const conString = 'postgres://postgres:postgres@localhost:5432/investory'
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+//const conString = 'postgres://postgres:postgres@localhost:5432/investory'
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 var client = new pg.Client(conString)
 client.connect()
 
@@ -163,7 +163,7 @@ exports.postPay = (req, res, next) => {
         email: email,
         phone: phone,
        // surl: 'http://localhost:3000/Pricing/success',
-    //    furl: 'http://localhost:3000/Pricing/failure',
+       //furl: 'http://localhost:3000/Pricing/failure',
             surl: 'http://54.152.36.19:3000/Pricing/success',
             surl: 'http://54.152.36.19:3000/Pricing/success',
           

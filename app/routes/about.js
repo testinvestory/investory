@@ -48,3 +48,30 @@ exports.faqs = (req, res) => {
 		footerData2: "FAQs"
 	});
 };
+
+exports.contactus = (req,res)=>{
+
+  currentPage = req.session.activePage = '/contactus'
+ 
+loginStatus = functions.checkLoginStatus(req);
+    
+    mobile = req.useragent["isMobile"]
+	if (mobile)
+		pageName = "contact-usMobile";
+	else
+		pageName = "contact-us";
+    
+    res.render(pageName, {
+     user: req.user,
+     selectorDisplay: "show",
+     smessage: req.flash('signupMessage'),
+     lmessage: req.flash('loginMessage'),
+     loggedIn: loginStatus,
+      selectorDisplay: 'show',
+      footerDisplay: 'show',
+      footerData1: 'Blog',
+      footerData2: 'FAQs',
+      
+
+    });
+               };

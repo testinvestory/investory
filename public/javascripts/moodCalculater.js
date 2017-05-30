@@ -25,7 +25,7 @@ function setProfile(profileRate, table, storeAllocation){
 
 	if(!loggedIn) {
 		try{
-			sessionStorage.setIten('test', 'test');
+			sessionStorage.setItem('test', 'test');
 			var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
 			tempGoals.riskProfile = riskProfile;
 			sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));

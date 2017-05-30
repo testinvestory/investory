@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+  <meta charset="UTF-8">
+      	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- 
+
+load bootstrap css -->
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+      	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> 
+
+<!-- load fontawesome -->
+
+
+</head>
+
+    <body>
+<script>
+<%var amtrounded1=0;%>
+
+</script>
+
+
+
+        <label><h4>Conservative scheme allocation</h4></label>
+      <table border="1">
+        <tr>
+        <th>Risk Profile</th>
+        <th>Scheme Name</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+
+        <th>Rating</th>
+             <th>Amount</th>
+ 
+          </tr>
+
+
+         <% for (i = 0; i < firslist.length; i++) { %>
+
+            
+                <%if((firslist[i].riskprofile)=="Conservative"){ %>
+<% var amtamount1=0,amtamount2=0,amtmd5=0;%>
+                <tr>
+                    <td> <%=firslist[i].riskprofile %></td>
+                    <td><%= firslist[i].name %></td>
+                    <td><%= firslist[i].category %></td>
+                   <td><%= firslist[i].subcategory %></td>
+                   <td><%= firslist[i].rating %> </td>
+                <td>
+
+                    <%if((firslist[i].category)=="Equity"){ %>
+
+
+
+                        <%if((firslist[i].rating)>1){%>
+                        <%amtrounded1=Math.floor((amtce1)/1000)*1000;%>
+                        
+                        <%=amtrounded1%>
+                        <%}%>
+                    
+                        <%if((firslist[i].rating)==1){ %>
+                      <%amtamount1=Math.round(amtce1/1000)*1000;%>
+                        
+                        <%=amtamount1%>
+                        <%}%>
+                        <%if((firslist[i].rating)==0){%>
+                        <%=amtce1%>
+                        <%}%>
+
+
+                   <%}%>
+                  <% var amtamount1=0,amtamount2=0,amtmd5=0;%>
+                    <%if((firslist[i].category)=="Hybrid"){ %>
+
+                            <%if((firslist[i].rating)>1){%>
+                            <%amtrounded1=Math.floor((amtch2)/1000)*1000;%>
+                           
+                            <%=amtrounded1%>
+                            <%}%>
+                            <%if((firslist[i].rating)==1){ %>
+                              <%amt2=Math.round(amtmd4/1000)*1000;%>
+                            <%=amt2%>
+                            <%}%>
+                            <%if((firslist[i].rating)==0){%>
+                            <%=amtch2%>
+                            <%}%>
+
+
+                   <%}%>
+                    
+                    <%var amtamount1=0,amtmd4=0%>
+                <%if((firslist[i].category)=="Debt"){ %>
+                    <% var amtamount1=0,amtamount2=0,amtmd5=0;%>
+                  <%if((firslist[i].rating)>1){
+                  amtrounded1=Math.floor((amtcd3)/1000)*1000;%>
+                 
+                  <%=amtrounded1%>
+                  <%}%>
+                  <%if((firslist[i].rating)==1){ %>   
+                    <%amt3=Math.round(amtcd3/1000)*1000;%>
+                  <%=amt3%>
+                  <%}%>
+                  <%if((firslist[i].rating)==0){%>
+                  <%=amtcd3%>
+                  <%}%>
+
+
+
+
+                   <%}%>
+                    </td>
+                </tr>
+                <% }%>
+
+         <% } %>
+          
+              </table>  </br></br>
+<label><h4>Moderate scheme allocation</h4></label>
+      <table border="1">
+        <tr>
+        <th>Risk Profile</th>
+        <th>Scheme Name</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+
+        <th>Rating</th>
+        <th>Amount</th>
+          </tr>
+
+
+        <% for (i = 0; i < firslist.length; i++) { %>
+         <%if((firslist[i].riskprofile)=="Moderate"){ %>
+                <tr><td><%=firslist[i].riskprofile %></td>
+                <td><%= firslist[i].name %></td>
+                    <td><%= firslist[i].category %> </td>
+                <td><%= firslist[i].subcategory %></td>
+
+                   <td><%= firslist[i].rating %> </td>
+          <td>
+<%var amtamount1=0,amtmd4=0%>
+                    <%if((firslist[i].category)=="Equity"){ %>
+
+                      <%if((firslist[i].rating)>1){%>
+                          
+                      <%amtrounded1=Math.floor((amtme3)/1000)*1000;%>
+                     
+                     
+                      <%=amtrounded1%>
+                        
+                      <%}%>
+                      <%if((firslist[i].rating)==1){ %>
+                        <%amt4=Math.round((amtme3)/1000)*1000;%>
+                      <%=amt4%>
+                      <%}%>
+                    
+                <%if((firslist[i].rating)==0){%>
+                            <%=amtme3%>
+                            <%}%>
+
+                   <%}%>
+
+                    <%if((firslist[i].category)=="Hybrid"){ %>
+
+                            <%if((firslist[i].rating)>1){
+                            amtrounded1=Math.floor((amtmh2)/1000)*1000;%>
+                            <%=amtrounded1%>
+                            <%}%>
+                            <%if((firslist[i].rating)==1){ %>
+                              <%amt5=Math.round(amtmh2/1000)*1000;%>
+                            <%=amt5%>
+                            <%}%>
+                            <%if((firslist[i].rating)==0){%>
+                            <%=amtmh2%>
+                            <%}%>
+
+                   <%}%>
+
+                <%if((firslist[i].category)=="Debt"){ %>
+
+                            <%if((firslist[i].rating)>1){%>
+                          <%amtrounded1=Math.floor((amtmd3)/1000)*1000;%>
+                            <%=amtrounded1%>
+                            <%}%>
+                            <%if((firslist[i].rating)==1){ %>
+                              <%amt6=Math.round(amtmd3/1000)*1000;%>
+                            <%=amt6%>
+                            <%}%>
+                            <%if((firslist[i].rating)==0){%>
+                            <%=amtmd3%>
+                            <%}%>
+
+
+                   <%}%>
+                    </td>
+          </tr>
+          <% }%>
+
+          <% } %>
+        </table> </br></br>
+<label><h4>Aggressive scheme allocation</h4></label>
+          <table border="1">
+        <tr>
+        <th>Risk Profile</th>
+        <th>Scheme Name</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+
+        <th>Rating</th>
+         <th>Amount</th>
+          </tr>
+
+<%var amtamount1=0,amtmd4=0%>
+         <% for (i = 0; i < firslist.length; i++) { %>
+     <%if((firslist[i].riskprofile)=="Aggressive"){ %>
+                <tr><td><%=firslist[i].riskprofile %></td>
+                <td><%= firslist[i].name %></td>
+                    <td><%= firslist[i].category %></td>
+                   <td><%= firslist[i].subcategory %> </td>
+                    <td><%= firslist[i].rating %> </td>
+                <td>
+
+                    <%if((firslist[i].category)=="Equity"){ %>
+                        
+                 
+                    <%var amtamount1=0,amtamount2=0,amtmd4=0%>    
+                
+<%if((firslist[i].rating)>=1){%>
+                    
+<%amtrounded1=Math.floor((amtae1)/1000)*1000;%>
+<%amtamount1=amtae1-amtrounded1;%>
+<%amtamount2+=amtamount1;%>  
+<%amtmd4=amtae1+amtamount1;%>
+<%amtae2=Math.round(amtmd4/1000)*1000;%>
+                    
+                  
+                    <%if((firslist[i].rating)>2){%>
+                            <%=amtrounded1%>
+                        <%}%>
+                    <%if((firslist[i].rating)==1){ %>
+                        <%=amtae2%>
+                    <%}%>
+                <%if((firslist[i].rating)==2){ %>
+                        <%=amtae2%>
+                    <%}%>
+
+                    <%if((firslist[i].rating)==0){%>
+                            <%=amtae1%>
+                        <%}%>
+                    
+                    
+                    
+                    
+                   <%}%>
+                    
+
+<%}%>
+                    <%var amtamount1=0,amtmd4=0%>
+                    <%if((firslist[i].category)=="Hybrid"){ %>
+                            
+                          <%amtrounded1=Math.floor((amtah2)/1000)*1000;%>
+                            <%amtamount1=amtah2-amtrounded1;%>
+                            <%amtamount1+=amtamount1;%>
+                                
+                                <%amtmd4=amtah2+amtamount1;%>
+                              <%amt7=Math.round(amtmd4/1000)*1000;%>      
+                        <%if((firslist[i].rating)>=1){%>
+                            <%if((firslist.rating)>1){%>
+                           
+                            <%=amtrounded1%>
+                            <%}%>
+                            
+                                <%if((firslist[i].rating)==1){ %>
+                              
+                            <%=amt7%>
+                            <%}%>
+                    <%}%>
+                            <%if((firslist[i].rating)==0){%>
+                            <%=amtah2%>
+                            <%}%>
+
+
+
+                   <%}%>
+<%var amtamount1=0,amtmd4=0%>
+                <%if((firslist[i].category)=="Debt"){ %>
+
+                <%amtrounded1=Math.floor((amtad3)/1000)*1000;%>
+                  <%amtamount1=amtad3-amtrounded1;%>
+                  <%amtamount1+=amtamount1;%>
+                    <%amtmd4=amtad3+amtamount1;%>
+                    <%amt8=Math.round(amtmd4/1000)*1000;%>
+                    <%if((firslist[i].rating)>=1){%>
+                  <%if((firslist[i].rating)>1){%>
+                
+                  <%=amtrounded1%>
+                  <%}%>
+                  <%if((firslist[i].rating)==1){ %>
+                    
+                  <%=amt8%>
+                  <%}%>
+                    <%}%>                    
+                  <%if((firslist[i].rating)==0){%>
+                    
+                  <%=amtad3%>
+                  <%}%>
+
+                   <%}%>
+                    </td>
+        </tr>
+                <% }%>
+              <% } %>
+
+
+
+
+</table>
+
+
+
+</body>
+</html>

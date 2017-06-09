@@ -63,7 +63,7 @@ function getLumpsum(){
 		$('#lumpsumInvestErr').slideDown();
        $(' #imgcap2').css("top","41.3%");
         }
-    else if(isNaN(amount))
+    else if(isNaN(lumpAmount))
          $('#lumpsumInvestErr').slideDown();
 	 else if ( totalYears < 1 || totalYears > 50 ) {
 		$('#lumpsumInvestErr').slideUp(); 

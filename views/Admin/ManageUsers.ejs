@@ -17,9 +17,6 @@
     <!-- Custom CSS -->
     <link href="/stylesheets/sb-admin.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="/stylesheets/plugins/morris.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="/stylesheets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -30,13 +27,15 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-</head>
+</head>  
+<script>
+   
+    </script>
+<body  ng-app="postgreSQL">
 
-<body ng-app="postgreSQL">
+    <div id="wrapper" ng-controller="postgreSQLCtrl">
 
-    <div id="wrapper" >
-
-        <!-- Navigation -->
+       <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -155,8 +154,9 @@
                     <li>
                         <a href="/admin"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Upload File to DB</a>
+
                     </li>
                     <li>
                         <a href="/admin/tables"><i class="fa fa-fw fa-table"></i> KYC</a>
@@ -170,10 +170,10 @@
                     <li>
                         <a href="/admin/reports"><i class="fa fa-fw fa-desktop"></i> Reports</a>
                     </li>
-                    <!-- <li>
-                        <a href="/admin/allocation"><i class="fa fa-fw fa-wrench"></i>Assets Allocation</a>
+                     <!--<li>
+                        <a href="/admin/allocation"><i class="fa fa-fw fa-wrench"></i> Assets Allocation</a>
                     </li>-->
-                   <li>
+                    <li>
                         <a href="/admin/assetsUpload"><i class="fa fa-fw fa-wrench"></i> Update Asset allocation matrix</a>
                     </li>
                     <li>
@@ -185,13 +185,10 @@
                      <li>
                         <a href="/admin/createuser"><i class="fa fa-fw fa-wrench"></i> Create Users</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="/admin/Manage_users"><i class="fa fa-fw fa-wrench"></i> Manage Users</a>
                     </li>
-                    <!--<li>
-                        <a href="/admin/bootstrap-grid"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-                    </li>
-                    <li>
+                  <!--  <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
@@ -221,124 +218,217 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Upload Files To DB
+                            Manage Users
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                                <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-bar-chart-o"></i> Upload Files To DB
+                                <i class="fa fa-table"></i> Manage Users
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
 
-                <div class="container">
- <form id=  "uploadForm"
-     enctype   =  "multipart/form-data"
-     action    =  "/admin/uploadcamsfile"
-     method    =  "post">
-           
-                    
-  <div class="form-group">
- <label>Input</label>
-<label>CAMS File :</label>
-<input type="file" name="doc"/>
-          <br>               
-<button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>
-</div>                    
-         <br><br>                    
-         <br><br>
-</form>
-                    
-                    
-<form id=  "uploadForm2"
-     enctype   =  "multipart/form-data"
-     action    =  "/admin/uploadkarvysfile"
-     method    =  "post">
-           
-                    
-<div class="form-group">
-<label>Input</label>
-<label>KARVYS File :</label>
-<input type="file" name="doc"/>
-          <br>               
-<button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>                                         
-</div>                    
-         <br><br>                    
-         <br><br>
-</form>
+                <div class="row">
+                      
+      
+                    <div class="col-lg-10">
+                        <h2>Manage Users</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="50px">No</th>
+                                         <th width="50px">User Id</th>
+                                            <th>User Name</th>
+                                            <th>Password</th>
+                                            <th>Role</th>
+                                            <th width="120px">Action</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <% if(usersData.length>0){ 
+                                
+                                            for(var i = 0;i < usersData.length;i++) { %>
+                 
+                                       
+                                    <tr>
+                                         
+                                       <td><%=(i+1)%></td>
+                                        <td><%=usersData[i].adminuserid%></td>
+                                            <td><%=usersData[i].uname%></td>
+                                            <td><%=usersData[i].password%></td>
+                                            <td><%=usersData[i].role%></td>
+                                             <td>
+                                        <a class="a-inside edit" style="cursor:pointer;" 
+                                            href="/admin/Manage/<%=usersData[i].adminuserid%>">Edit</a>
+                       
+                                        <a class="a-inside delete" data-toggle="modal" data-target="#myModalDiscard" >Delete</a>
+                       
+                                            </td>
+                                    </tr>
+                                      <div class="container">
 
-<form id=  "uploadForm3"
-     enctype   =  "multipart/form-data"
-     action    =  "/admin/uploadftfile"
-     method    =  "post">
-           
-                    
-<div class="form-group">
-<label> Input</label>
-<label>TEMPLETON File :</label>
-<input type="file" name="doc"/>
-          <br>               
-<button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>                                         
-</div>                    
-         <br><br>                    
-         <br><br>
-</form>
-                    
-                    
-                    
-                    
-                 </div>
+
+
+                                    <div class="modal fade" id="myModalDiscard" role="dialog">
+                                <div class="modal-dialog">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete user ?</p>
+                                              <button class="btn saved" id="" onClick="discard(<%=usersData[i].adminuserid%>)" data-dismiss="modal">YES</button>
+                                            <button class="btn saved" data-dismiss="modal">No</button>
+                                        </div>
+
+                                    </div>
+
+                                            </div>
+                                          </div>
+ 
+                                    </div>
+                                    <%}%>
+                                     <%}else{ %>
+                                    <tr>
+                                        <td colspan="3">No user</td>
+                                    </tr>
+                                <% } %>
+                                </tbody>
+                            </table>
+                   </div>
+                    </div>
+    
+                  </div>
+                  
         
-           
-                </div>
-            </div>
-            <!-- /.container-fluid -->
-
-        </div>
+    </div>
+        <!-- /.container-fluid -->
+          
+            
         <!-- /#page-wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
-
-    
+ <script src="/lib/angular.min.js"></script>
     <script>
+  
+        
     
-     var myApp = angular.module('postgreSQL',[ ]); 
+	  function discard(clicked_id){
+			   
+			     var data = {};
+					data.id = clicked_id;
+					console.log(data.id);
+			    //alert(data.pan);
+			   
+				
+				   
+					$.ajax({
+						type: 'POST',
+						data: JSON.stringify(data),
+				        contentType: 'application/json',
+                        url: '/admin/Managedelete',						
+                        success: function(data)
+                        {       
+                            window.location = data.redirect   
+                        }
+			   
+		          })
+					 
+					
+			   
+		   }
+	
+      
+		
+        
+      
+      
+       /*
+          var myApp = angular.module('postgreSQL',[ ]); 
+            
+     
        
    myApp.controller('postgreSQLCtrl', ['$scope' ,'$http',  function($scope,$http) {
-                $scope.val1 = 'This is temp Val' ;     
-                        
-                $scope.upload(){
-                    
-                    $http({method:'GET',url:'/admin/uploadcsv'}).
-                    success(function(data, status){
-                        
-                    });
+                $scope.val1 = 'This is temp Val' ;  
+                $scope.name = '';
+                $scope.email = '';
+                $scope.mobile = ''; 
+                $scope.selected = '';  
+                $scope.id = '' ;
+                $flag=0;
+                $scope.status='';
+                $scope.saveId='';
+                $scope.remarks='';
+                 
+                $scope.showSelectValue = function(selected)
+                {
+                    $scope.status=selected;
+                  
                 }
-            }]);   
-    </script>
+            
+              
+                $scope.getAllRec = function(){ 
+                     $http({method: 'GET', url: '/admin/tables/get'}).
+                        success(function(data, status) { 
+                              $scope.dataset = data;
+                       
+                        }).
+                        error(function(data, status) {
+                          $scope.dataset = data || "Request failed "; 
+                      }); 
+                    }       
+                   
+                
+                
+            $scope.updateRecord = function(recId)
+                {
+                   // console.log(recId);
+                   if(confirm('update this record ? '))
+                    {  
+                        $http({method: 'GET', url: '/admin/saveChanges?id='+recId+'&selected='+$scope.status}).
+                            success(function(data, status) {  
+                         
+                            });   
+                       
+                        }
+                        $scope.getAllRec();  
+                }
+                  
+                        $scope.getAllRec();
+                
+                   $scope.saveDocId=function(pan,id)
+                  {
+                       
+                  
+                      $scope.saveId=pan;
+                      $http({method: 'GET', url: '/admin/saveId?pan='+pan+'&id='+id}).
+                            success(function(data, status) {  
+                         
+                  });  
+                        
+                 }
+                 
+   
+            }]);*/
+ 
+        </script>
+        
+ 
+       
+          
+        
+ 
+    
     <!-- jQuery -->
-    <script src="/javasripts/jquery.js"></script>
+    <script src="/javascripts/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="/javasripts/bootstrap.min.js"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="/javasripts/plugins/morris/raphael.min.js"></script>
-    <script src="/javasripts/plugins/morris/morris.min.js"></script>
-    <script src="/javasripts/plugins/morris/morris-data.js"></script>
-
-    <!-- Flot Charts JavaScript -->
-    <!--[if lte IE 8]><script src="js/excanvas.min.js"></script><![endif]-->
-    <script src="/javasripts/plugins/flot/jquery.flot.js"></script>
-    <script src="/javasripts/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="/javasripts/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="/javasripts/plugins/flot/jquery.flot.pie.js"></script>
-    <script src="/javasripts/plugins/flot/flot-data.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
 
 </body>
 

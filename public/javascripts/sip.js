@@ -61,6 +61,7 @@ function getSIP(){
 		localStorage.sipInvestment = true;	
 		console.log("years"+totalYears+"time"+amount);
 		sessionStorage.setItem('tempGoals', JSON.stringify({currentPage:4}));
+        
 		window.location.href = "/GoalSelection";
 	}
     if($('#sipInvestErr').slideDown() && $('#sipTimeErr').slideDown()){
@@ -69,6 +70,7 @@ function getSIP(){
 }
 
 function showSIP(){	
+    
 	$("#setMood").attr("src", "images/emergencyFundsMood.png");  
 	$("#setMoodText").hide(); 
 	$(".moodGoals > img").css("visibility","hidden");  
@@ -79,4 +81,4 @@ function showSIP(){
 	$(".contentMood .page4,.contentMood .page4 .selectMode").show();
 	/*	console.log("years"+localStorage.years+"time"+	 localStorage.sip);*/
 }
-
+ 

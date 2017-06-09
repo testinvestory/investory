@@ -13,7 +13,9 @@ var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:
 var client = new pg.Client(conString);
 client.connect();
 
+var multer  =   require('multer');
 
+var fs = require('node-fs');
 var currentPage;
 
 exports.getProfile = (req, res) => {
@@ -124,7 +126,7 @@ exports.postprofilebank = (req, res) => {
     currentPage = req.session.activePage = "/profile";
 
 	loginStatus = functions.checkLoginStatus(req);
- console.log("Insert error in bank details");
+
                     var bank=req.body.bank;
                     var ifsc=req.body.ifsc;
                     var branch=req.body.branch;
@@ -133,7 +135,7 @@ exports.postprofilebank = (req, res) => {
               var query=client.query("insert into pandetails(userid,bankname,accno,ifsc,branch,createdby) values($1,$2,$3,$4,$5,$6)", [req.session.user.userid, bank,account,ifsc, branch, req.session.user.name],function(err,result)
    	/*var query=client.query("update pandetails set bankname=$2,accno=$3,ifsc=$4,branch=$5 where userid=$1", [req.session.user.userid,bank,account,ifsc, branch],function(err,result)*/{ 
                   if(err)
-                       console.log("Cant insert new row to pan details",err);
+                       console.log("Insert error in bank details",err);
                   if(result.rows.length>0)
                 {
             		 console.log("Insert to pan details Success..!");
@@ -143,3 +145,85 @@ exports.postprofilebank = (req, res) => {
     
 };
 
+
+var store =   multer.diskStorage({    
+                destination: function (req, file, callback) 
+                    {
+
+        				//callback(null,'/home/ubuntu/dbfiles');
+                       callback(null, 'C:/Users/Nishant/Desktop/new code/30.05.17/investory-master/investory-master/public/images/profiles');
+                         //   /home/ubuntu/investory-master06.06/public/images/profiles
+      
+                     },
+                 filename : function (req, file, callback) 
+                    {
+                        
+                        callback(null, file.originalname/*feildname originalname+ '-' + Date.now()*/);
+                    }
+
+                    });
+                var uploadPic = multer({ storage : store}).single('doc');
+
+            
+exports.postProfilePic = (req ,res ) => {
+    currentPage = req.session.activePage = "/profile";
+
+	loginStatus = functions.checkLoginStatus(req);
+   
+ 
+    async.waterfall([
+      function(callback)
+        {
+            
+            
+            uploadPic(req,res,function(err) 
+                {
+                    if(err) 
+                    {
+                     console.log(err);
+                     console.log("Error uploading pic.");
+                    }
+                  console.log("Pic is uploaded");
+                
+                    file_name=req.file.originalname;
+
+                   console.log("in upload ",file_name);
+                
+                //var paths="../dbfiles/"+file_name;
+				 var paths="/images/profiles/"+file_name;
+                callback(null,paths)
+                });
+            
+            
+           
+        },
+       function(paths,callback)
+         {
+            console.log("paths",paths);
+        
+             var query=client.query("update users set image=$2 where userid=$1", [req.session.user.userid,paths
+	],function(err,result){
+	        if(err)
+	            console.log("Cant get update profile details from users table",err);
+	        else
+	            {
+	        		 console.log("Upadte to profile details Success..!");
+			  }
+             });
+             
+           
+             
+             
+         }
+        ], function (err, result) 
+          {
+            if (err)
+              {
+                console.log(err);   
+              }
+        res.redirect('/profile');
+      });   
+
+
+    res.redirect('/profile');
+};

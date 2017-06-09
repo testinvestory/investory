@@ -155,7 +155,7 @@
                     <li>
                         <a href="/admin"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
-                    <li class="active">
+                    <li >
                         <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Upload File to DB</a>
                     </li>
                     <li>
@@ -170,28 +170,26 @@
                     <li>
                         <a href="/admin/reports"><i class="fa fa-fw fa-desktop"></i> Reports</a>
                     </li>
-                    <!-- <li>
+                      <!-- <li>
                         <a href="/admin/allocation"><i class="fa fa-fw fa-wrench"></i>Assets Allocation</a>
                     </li>-->
-                   <li>
-                        <a href="/admin/assetsUpload"><i class="fa fa-fw fa-wrench"></i> Update Asset allocation matrix</a>
+                      <li  class="active">
+                        <a href="/admin/assetsUpload"><i class="fa fa-fw fa-wrench"></i> Update allocation matrix</a>
                     </li>
-                    <li>
+                     <li>
                         <a href="/admin/funds"><i class="fa fa-fw fa-wrench"></i> Upload Schemes Matrix</a>
                     </li>
                     <li>
-                        <a href="/admin/schemelist"><i class="fa fa-fw fa-wrench"></i> Schemes allocation matrix</a>
+                        <a href="/admin/schemelist"><i class="fa fa-fw fa-wrench"></i> Schemes allocation matrix </a>
                     </li>
-                     <li>
+                   <li class="active">
+                       
                         <a href="/admin/createuser"><i class="fa fa-fw fa-wrench"></i> Create Users</a>
                     </li>
                     <li>
                         <a href="/admin/Manage_users"><i class="fa fa-fw fa-wrench"></i> Manage Users</a>
                     </li>
-                    <!--<li>
-                        <a href="/admin/bootstrap-grid"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-                    </li>
-                    <li>
+                    <!-- <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
@@ -221,80 +219,44 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Upload Files To DB
+                            Create Users
                         </h1>
                         <ol class="breadcrumb">
                             <li>
                                 <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-bar-chart-o"></i> Upload Files To DB
+                                <i class="fa fa-bar-chart-o"></i>   Create Users 
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
-
-                <div class="container">
- <form id=  "uploadForm"
-     enctype   =  "multipart/form-data"
-     action    =  "/admin/uploadcamsfile"
-     method    =  "post">
-           
-                    
-  <div class="form-group">
- <label>Input</label>
-<label>CAMS File :</label>
-<input type="file" name="doc"/>
-          <br>               
-<button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>
-</div>                    
-         <br><br>                    
-         <br><br>
-</form>
-                    
-                    
-<form id=  "uploadForm2"
-     enctype   =  "multipart/form-data"
-     action    =  "/admin/uploadkarvysfile"
-     method    =  "post">
-           
-                    
-<div class="form-group">
-<label>Input</label>
-<label>KARVYS File :</label>
-<input type="file" name="doc"/>
-          <br>               
-<button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>                                         
-</div>                    
-         <br><br>                    
-         <br><br>
-</form>
-
-<form id=  "uploadForm3"
-     enctype   =  "multipart/form-data"
-     action    =  "/admin/uploadftfile"
-     method    =  "post">
-           
-                    
-<div class="form-group">
-<label> Input</label>
-<label>TEMPLETON File :</label>
-<input type="file" name="doc"/>
-          <br>               
-<button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>                                         
-</div>                    
-         <br><br>                    
-         <br><br>
-</form>
-                    
-                    
-                    
-                    
-                 </div>
+<div class="container">
+    <form action="createusr" method="post">
+    User Name:
+        <input type="text" id="uname" placeholder="User Name" name="uname">  <br> <br>
+    Password :
+            <input type="password" id="upassword" placeholder="Password" name="upassword">  <br> <br>
+    Confirm Password :
+            <input type="password" id="cpassword" placeholder="Password" name="cpassword">  <br> <br>
+    Role Type :
+         <select id="roletype"  name="roletype"> 
+            <option value="admin user">Admin user </option>
+            <option value="advisor user">Advisor user </option>
+             <option value="operation user">Operation user </option></select> <br> 
+       
+   <br><input type="submit" value="Create">
         
-           
-                </div>
+       
+    </form>
+     <div class="col-md-3 ">
+     <% if(message.length>0){ %>
+                    <div class="alert alert-danger" style="margin-top:10px;"><%=message %></div>
+  <%}%>
+        </div>
+    </div>
+       
             </div>
             <!-- /.container-fluid -->
 
@@ -304,23 +266,6 @@
     </div>
     <!-- /#wrapper -->
 
-    
-    <script>
-    
-     var myApp = angular.module('postgreSQL',[ ]); 
-       
-   myApp.controller('postgreSQLCtrl', ['$scope' ,'$http',  function($scope,$http) {
-                $scope.val1 = 'This is temp Val' ;     
-                        
-                $scope.upload(){
-                    
-                    $http({method:'GET',url:'/admin/uploadcsv'}).
-                    success(function(data, status){
-                        
-                    });
-                }
-            }]);   
-    </script>
     <!-- jQuery -->
     <script src="/javasripts/jquery.js"></script>
 

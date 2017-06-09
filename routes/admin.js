@@ -265,13 +265,253 @@ router.get('/uploadcsv',function(req,res,next)
 res.render('Admin/uploadcsv');
 });
 
+router.get('/assetsUpload',function(req,res,next)
+{
+    
+    var query = client.query(" select * from categoryallocationmatrix order by riskprofile", function (err, result) {
+						if (err)
+							console.log("Cant get portfolio details in goal selection");
+						if (result.rows.length > 0) {
+                            var assetsdata=result.rows;
+                            console.log("assetsDat...!",assetsdata);
+                         res.render('Admin/assetsUpload',{assetsData:assetsdata});
+                        }
+    });
+});
+
+router.post('/assetsValueUpdate',function(req,res,next)
+{
+   var riskprofile=req.body.riskprofileval;
+    var category=req.body.categoryval;
+    var value=req.body.valueval;
+    var val=parseInt(value);
+   
+    var query = client.query(" update categoryallocationmatrix set value=$3  where riskprofile=$1 and category=$2",[riskprofile,category,value], function (err, result) {
+						if (err)
+							console.log("Cant get portfolio details in goal selection");
+						else {
+                       alert("Updated Asset value.")     
+                    res.redirect("/admin/assetsUpload")        
+                    
+                        }
+    });
+});
+
+router.get('/funds',function(req,res)
+{    
+    console.log("Hi..");
+  
+   res.render("Admin/uploadSchemes");
+   });
+
+
+//Assets able
+router.get('/allocation',function(req,res,next)
+{    
+    console.log("Hi..");
+   var assets;
+   var query = client.query("select to_json(row) as asset from (select * from categoryallocationmatrix) row", function (err, result) {
+     if (err)
+	    console.log("Cant get Aeets values");
+
+    	assets = result.rows;
+   res.render("Admin/allocation",{data:assets});
+   });
+});
+
+router.post('/sch',function(req,res)
+{    
+      var schemecamntde=0,schemecamnteq=0,schemecamnthy=0;
+  var schememamntde=0,schememamnteq=0,schememamnthy=0;
+  var schemeagamnthy=0,schemeagamnteq=0,schemeagamnteq=0;
+    
+var amtce1=req.body.amtc1;
+    var amtch2=req.body.amtc2;
+    var amtcd3=req.body.amtc3;
+
+    var amtme1=req.body.amtm1;
+    var amtmh2=req.body.amtm2;
+    var amtmd3=req.body.amtm3;
+
+        var amtae1=req.body.amta1;
+    var amtah2=req.body.amta2;
+    var amtad3=req.body.amta3;
+    var AmountM1=req.body.AmountM1
+
+                 var time=req.body.time;
+                    console.log(req.body.time);
+                var sip = req.body.invest;
+    console.log("sip",req.body.invest);
+
+
+var query = client.query("select * from schemesmaster where $1 between sipfrom and sipto and $2 between yearfrom and yearto",[sip, time],function (err, result) {
+     //console.log("schemes",docs); 
+    
+	if (err)
+	console.log("Cant get assets values");
+    
+  else{
+    
+
+  var j=0,k=0,l=0,m=0,n=0,o=0,p=0,q=0,r=0;
+
+
+  var schemecamntde=0,schemecamnteq=0,schemecamnteq1=0,schemecamnteq2=0,schemecamnthy=0;
+
+      docs=result.rows;
+  
+ for (i = 0; i < docs.length; i++) {
+//Conservative
+       if((docs[i].riskprofile)=="Conservative"){
+
+    if((docs[i].category)=="Equity"){
+    j=j+1;
+
+      }
+      if((docs[i].category)=="Hybrid"){
+  k=k+1;
+  }
+  if((docs[i].category)=="Debt"){
+    l=l+1;
+  }
+
+  }
+  //Moderate
+      if((docs[i].riskprofile)=="Moderate"){
+      if((docs[i].category)=="Equity"){
+      m=m+1;
+        }
+        if((docs[i].category)=="Hybrid"){
+    n=n+1;
+    }
+    if((docs[i].category)=="Debt"){
+      o=o+1;
+    }
+    }
+//Aggressive
+    if((docs[i].riskprofile)=="Aggressive"){
+    if((docs[i].category)=="Equity"){
+    p=p+1;
+      }
+      if((docs[i].category)=="Hybrid"){
+  q=q+1;
+  }
+  if((docs[i].category)=="Debt"){
+    r=r+1;
+  }
+  }
+}
+
+for (i = 0; i < docs.length; i++) {
+  if((docs[i].riskprofile)=="Conservative"){
+
+if(j==0 || j==1){
+    schemecamnteq=amtce1;
+}
+else{
+      schemecamnteq=amtce1/2;
+     }
+  if(k==0 || k==1){
+   schemecamnthy=amtch2;
+  }
+  else{
+    schemecamnthy=amtch2/2;
+    }
+    if(l==0 || l==1){
+          schemecamntde=amtcd3;
+      }else{
+        schemecamntde=amtcd3/2;
+    }
+        }
+
+
+ if((docs[i].riskprofile)=="Moderate"){
+ if(m==0 || m==1){
+schememamnteq=amtme1;
+
+}
+else{
+schememamnteq=amtme1/m;
+
+}
+if(n==0 || n==1){
+
+  schememamnthy=amtmh2;
+
+}
+else{
+schememamnthy=amtmh2/n;
+
+}
+if(o==0 || o==1){
+      schememamntde=amtmd3;
+  }else{
+schememamntde=amtmd3/o;
+
+}
+    }
+
+
+if((docs[i].riskprofile)=="Aggressive"){
+
+  if(p==0 || p==1){
+                schemeagamnteq=amtae1;
+
+                }
+
+                 else{
+                   schemeagamnteq=amtae1/p;
+                  }
+    if(q==0 || q==1){
+                    schemeagamnthy=amtah2;
+                  }
+                  else{
+                 schemeagamnthy=amtah2/q;
+               }
+        if(r==0 || r==1){
+
+                        schemeagamntde=amtad3;
+                    }else{
+                  schemeagamntde=amtad3/r;
+                  
+                  }
+
+                      }
+
+
+
+}
+    console.log(schemecamnteq,schemecamnthy,schemecamntde);
+
+    res.render('Admin/schemes', {
+                firslist :  docs,
+        amtce1:schemecamnteq,
+        amtch2:schemecamnthy,
+        amtcd3:schemecamntde,
+         amtme3:schememamnteq,
+        amtmh2:schememamnthy,
+        amtmd3:schememamntde,
+        amtae1:schemeagamnteq,
+        amtah2:schemeagamnthy,
+        amtad3:schemeagamntde,
+        sip:sip
+            });
+ }
+
+});
+    
+    
+   });
+
+
+
 //upload files to dumplog
 var store =   multer.diskStorage({    
                 destination: function (req, file, callback) 
                     {
 
-        				callback(null,'/home/ubuntu/dbfiles');
-                        //callback(null, '../dbfiles');
+        				//callback(null,'/home/ubuntu/dbfiles');
+                        callback(null, 'C:/Users/Nishant/Desktop/localchanges20-4-17/Testinvestory-master25.4/dbfiles');
 
       
                      },
@@ -285,6 +525,7 @@ var store =   multer.diskStorage({
                 var uploaddb = multer({ storage : store}).single('doc');
 
             
+
 
 router.post('/uploadcamsfile',function(req,res,next)
 {
@@ -423,13 +664,90 @@ router.post('/uploadftfile',function(req,res,next)
 });
 
 
+//Upload file assets
+router.post('/updateSchemes',function(req,res,next)
+{
+    console.log("upload Schemes");
+    var tbl="schemesmaster";
+     var file_name;
+    async.waterfall([
+      function(callback)
+        {
+            uploaddb(req,res,function(err) 
+                {
+                    if(err) 
+                    {
+                     console.log(err);
+                     console.log("Error uploading file.");
+                    }
+                  console.log("File is uploaded");
+                
+                    file_name=req.file.originalname;
 
+                   console.log("in upload ",file_name);
+                
+                var paths="C:/Users/Nishant/Desktop/dbfiles/"+file_name;
+               
+				 //var paths="/home/ubuntu/dbfiles/"+file_name;
+                callback(null,paths)
+                });
+            
+            
+        },
+       function(paths,callback)
+         {
+             updateAssetsValues(tbl,paths);
+            callback(null)
+             
+             
+         }
+        ], function (err, result) 
+          {
+            if (err)
+              {
+                console.log(err);   
+              }
+        res.render('Admin/uploadSchemes');
+      });   
+});
+
+router.get('/createuser',function(req,res){
+    
+    res.render('Admin/createUser',{
+        message:req.flash()
+    });
+});
+
+
+router.post('/createusr',function(req,res){
+    var name=req.body.uname;
+    var password= req.body.upassword;
+     var cpassword= req.body.cpassword;
+    var roletype=req.body.roletype;
+     let date=new Date();
+    
+    if(password==cpassword){
+            var query = client.query("insert into adminusers(uname,password,role,modified,created) values($1,$2,$3,$4,$5)", [name,password,roletype,date,date], function (err, result) {
+						if (err)
+							console.log("error",err);
+						else {
+                            console.log("user created");
+                        }
+                });
+        req.flash('SuccessMessage', 'Success user created ');
+            res.render('Admin/createUser',{
+                      message:req.flash('SuccessMessage')
+                });
+        }
+    else{
+       req.flash('NotMatched','Passwords not matched');
+         res.render('Admin/createUser',{
+                      message:req.flash('NotMatched')
+                });
+        }
+});
 //rows insert from Uploaded file  
-
-function updateuploaddumplog(tbl,path){
-    
-    
-  //  client.connect();
+function updateAssetsValues(tbl,path){
     
     pg.connect(conString,function(err,client,done)
     {      
@@ -438,19 +756,19 @@ function updateuploaddumplog(tbl,path){
               return console.error('Could not connect to postgres' , err);
          }
         
-       //console.log(path);
+      
         
          var qury="'"+path+"'";
         console.log(qury);
-        //console.log(qury);
+      
        var query = client.query("COPY "+tbl+" FROM " +qury+" DELIMITER ',' CSV HEADER",function(err, result)
             {
                 if (err) 
-                    //callback(err,null); 
+                  
                     console.log("error",err)
                 else
                 {
-                    //callback(null,result.rows);
+                  
                     console.log("insert to "+tbl+" table Success...!");
         
                 }
@@ -458,8 +776,138 @@ function updateuploaddumplog(tbl,path){
         done();
      });
     
-     //client.end();
+}
+router.get('/schemelist',function(req,res){
+     var query = client.query(" select * from schemesmaster", function (err, result) {
+						if (err)
+							console.log("Cant get portfolio details in goal selection");
+						if (result.rows.length > 0) {
+                            var schemesData=result.rows;
+                            console.log("assetsDat...!",schemesData);
+                        
+                            res.render('Admin/schemesList',{schemesData});
+                        }
+    });
+    
+});
 
+router.get('/Manage_users',function(req,res){
+        
+    var query = client.query(" select * from adminusers", function (err, result) {
+						if (err)
+							console.log("Cant get portfolio details in goal selection");
+						if (result.rows.length > 0) {
+                            var usersData=result.rows;
+                            console.log("assetsDat...!",usersData);
+                            
+                            res.render('Admin/ManageUsers',{usersData});
+                        }
+                        else{
+                            var usersData=0;
+                            res.render('Admin/ManageUsers',{usersData});
+                        }
+    });
+});
+
+
+
+ router.get('/Manage/:id',function(req,res){   
+    var id = req.params.id;
+      
+       console.log("id",id);
+     
+     var query = client.query('SELECT * FROM adminusers WHERE adminuserid = $1',[id],function(err,result)
+                            {
+                                if(err)
+                                    console.log("Error Selecting : %s ",err );
+            
+                               
+                           if (result.rows.length > 0) {
+                            var data=result.rows;
+                            console.log("assetsDat...!",data);
+                            res.render('Admin/editUsers',{data});
+       
+                           }
+     });
+        
+});
+
+router.post('/Managedelete',function(req,res){   
+    var id = req.body.id;
+     console.log("id",id);
+     
+     var query = client.query('delete from adminusers WHERE adminuserid = $1',[id],function(err,result)
+                            {
+                                if(err)
+                                    console.log("Error Selecting : %s ",err );
+            
+                               
+                           else {
+                            
+                            console.log("delete success...!");
+                           res.send({redirect: '/admin/Manage_Users'});
+       
+                           }
+     });
+        
+   
+});
+
+
+    
+     router.post('/Userupdate',function(req,res){ 
+        
+         console.log("update");
+    var id = req.body.uid;
+    var password=req.body.password;
+    var role=req.body.roletype;
+         
+     console.log("id",id,password,role);
+     
+     var query = client.query('update adminusers set role=$2 , password=$3  WHERE adminuserid=$1',[id,role,password],function(err,result)
+                            {
+                                if(err)
+                                    console.log("Error Selecting : %s ",err );
+            
+                               
+                                else{
+                                    console.log("Update success");
+                                    res.redirect("/admin/Manage_Users")
+                                }
+                             
+                           }
+     );
+        
+   
+});
+//rows insert from Uploaded file  
+
+function updateuploaddumplog(tbl,path){
+    
+    pg.connect(conString,function(err,client,done)
+    {      
+        if(err)
+         {
+              return console.error('Could not connect to postgres' , err);
+         }
+         
+         var qury="'"+path+"'";
+        console.log(qury);
+        
+       var query = client.query("COPY "+tbl+" FROM " +qury+" DELIMITER ',' CSV HEADER",function(err, result)
+            {
+                if (err) 
+        
+                    console.log("error",err)
+                else
+                {
+                    
+                    console.log("insert to "+tbl+" table Success...!");
+        
+                }
+            });
+        done();
+     });
     
 }
 
@@ -468,7 +916,6 @@ function updatedumplogfromcams()
 {
     
     console.log("dumplog update");
-   // client.connect();
     pg.connect(conString,function(err,client,done){
         if(err){
             return console.log("Could not connect to postgres",err);
@@ -483,7 +930,6 @@ function updatedumplogfromcams()
         });
         done();
     });
-    //client.end();
 }
 
 //Insert rows to dumplog from karvystrxnlog table

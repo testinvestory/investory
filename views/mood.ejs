@@ -5,15 +5,17 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="stylesheets/updated.css">
     <link rel="stylesheet" href="stylesheets/responsive.css">
     <link rel="stylesheet" href="stylesheets/responsive2560.css" media="screen and (width:2560px) and (height:1600px)">
     <script src="javascripts/sip.js"></script>
     <!--lumpsum sohan include js file-->
+
+
+
     <script src="javascripts/lumpsum.js"></script>
     <style>
         .popover{
@@ -234,18 +236,18 @@
                                 <h2>Please select your goal</h2>
                                <!-- <p >You can always add or change a goal after you have signed up</p>-->
                                 <div class="col-sm-12 below">
-                                    <div class="goal" id="">
-                                        <img src="images/goals/Rich/Crorepati.png" mood="Rich" alt="Home view">
+                                    <div class="goal " id="">
+                                        <img src="images/goals/Rich/Crorepati.png" id="myimage1" mood="Rich" alt="Home view">
                                         <p id="mood"><span></span>Crorepati</p>
                                     </div>
 
-                                    <div class="goal" id="">
-                                        <img src="images/goals/Rich/Fancy%20Car.png" mood="Rich" alt="Home view">
+                                    <div class="goal " id="">
+                                        <img src="images/goals/Rich/Fancy%20Car.png" id="myimage2" mood="Rich" alt="Home view">
                                         <p id="mood"><span></span>Fancy Car</p>
                                     </div>
 
                                     <div class="goal" id="">
-                                        <img src="images/goals/Rich/Double%20the%20money.png" mood="Rich" alt="Home view">
+                                        <img src="images/goals/Rich/Double%20the%20money.png"id="myimage3" mood="Rich" alt="Home view">
                                         <p id="mood"><span></span>Double the money</p>
                                     </div>
                                     
@@ -264,7 +266,7 @@
                                     <div class="row">
                                         
                                     
-                                     <p id="callus">For any query, call us on XXXXXXXXXX  <span id="goaltabp"> * You can always add or change a goal after you have signed up </span></p>
+                                     <p id="callus">For any query, call us on 080 4049 3939  <span id="goaltabp"> * You can always add or change a goal after you have signed up </span></p>
                                        
                                   </div>
                                     <div class="login-btn text-center page-buttons"></div>
@@ -275,7 +277,7 @@
                             <div class="page2" style="display: none; text-align: left; padding: 10px 0 15px">
                                 <p style="display: inline-block;vertical-align: bottom; margin-right: 47px">I need &#x20B9; <input style="box-shadow: -2px 5px 0px -3px #333; border: 0"name="amount" id="amount" placeholder="" min="1000" max="10000000" value="" />
                                 <!-- <span ng-show="signUpForm.mnumber.$touched && signUpForm.mnumber.$invalid">Phone number is invalid.</span>-->
-                                in<input style="margin: 0 10px; width: 50px;padding:0px"class="blankInput" type="number" min="1" max="50" placeholder="" id="time" value="" />Years</p>
+                                in<input style="margin: 0 10px; width: 50px;padding:0px"class="blankInput" type="number" min="1" max="50" placeholder="" id="time" value="" />years</p>
                                 <div  style="display: inline-block">
                                     <button type="button" id="go" class="btn btn-lg moodNav go">Calculate </button>
                                     <button type="" class="btn btn-lg moodNav next page3Sub"> Next </button>
@@ -308,7 +310,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Category</th>
-                                                <th>Allocation percent</th>
+                                                <th>Allocation %</th>
                                                 <th>Amount (&#x20B9;)</th>
                                             </tr>
                                         </thead>
@@ -511,7 +513,7 @@
                                    
                                     <% } %>
                                 <div class="clearfix"></div></div>
-                             <p id="callus">For any query, call us on XXXXXXXXXX </p>
+                             <p id="callus">For any query, call us on 080 4049 3939  </p>
                             </div>
 
                             <!--Tab 6-->
@@ -636,8 +638,16 @@
     </div>
         
     <!--Custom Js links -->
+
+<!--JQuery link   -->
+       <script src="javascripts/jquery-3.1.1.min.js"></script>
+
+   
+<!--Bootstrap Js link   -->
+ 
+
     <script>
-      
+     var $j = jQuery.noConflict();
         $(document).ajaxComplete(function() {
     $('[data-toggle="popover"]').popover({
                                  placement: 'right',
@@ -792,6 +802,7 @@
                             //alert(data[1][0]);
                             $(".page6 #invest1").html(sip);
                              $(".page6 #total1").html(sip);
+                            
                             $(".page6 .table tbody > tr").not('#showDataSchemes').empty();
                             // debugger;
                            
@@ -837,12 +848,12 @@
 
 
         }
-
+ 
         function myinit(riskRate, chooseTable, storeAllocation) {
             // alert(localStorage.sipInvestment);
             /*lumpsum sohan start -- the alert is removed and else if for lumpsum is included.*/
-            
            
+   
             if (storeAllocation == 1)
                 store = true;
             else
@@ -947,11 +958,14 @@
                 }
                 else {
 
+                    
+                    
                     var riskProfile = riskRate;
                     var t = chooseTable;
                     var rate = 10;
                     var per = 12;
-                    //debugger;
+                    
+                   
                         
                  
                     var totalYears = document.getElementById("time").value;
@@ -962,7 +976,44 @@
                     //document.getElementById("amountMaster").value = fv;
 
                     //if number of years is less then 3 year debt is 100
-                    var mn = Math.round(pmt(10, 12, nper, pv, -fv) / 1000) * 1000;
+                    //var mn = Math.round(pmt(10, 12, nper, pv, -fv) / 1000) * 1000;
+                    
+                    //For new allocation calculate FV ---###
+                    var pmtFV=fv;     //get amount from above initilise
+                    var ir=8;       //Interest rate currently same for all profiles 8%
+                    var years=totalYears;   //get years from above initilise
+                    
+                    //function to calculate the FV
+                    var fvvalue= Math.round(pmtFV*(Math.pow((1+ir/100),years))/ 1000) * 1000;
+                    
+                    console.log("New value to be calculated",fvvalue);
+            
+                    //New pmt function to calculate the required amount calculations based on risk profiles
+            //var per=12;               //Months in year
+            //var nper=10*per;          //years and months to calculate the no.of payments
+            var pmtAmt=fv;          // Goal amount
+            var pv=0;                  //present value default 0
+            var expectC=0.10/12;        //Conservative %
+            var expectM=0.12/12;        //Moderate %
+            var expectA=0.0116/*0.14/12*/;        //Aggressive %
+
+             
+            if(riskProfile=="Conservative"){
+                var mn=Math.round((pmt4(expectC,nper,0,-fvvalue,0))/1000)*1000;  //Conservative
+                console.log("New sip..! Conservative",mn)
+            }else if(riskProfile=="Moderate"){
+               var mn= Math.round((pmt4(expectM,nper,0,-fvvalue,0))/1000)*1000;  //Moderate
+                console.log("New sip..! Modearte",mn)
+            }else{
+                var mn=Math.round((pmt4(expectA,nper,0,-fvvalue,0))/1000)*1000;  //Aggressive*/
+                console.log("New sip..! Aggressive",mn)
+            }
+                      /*var Csipval=Math.round((pmt4(expectC,nper,0,-fvvalue,0))/1000)*1000;  //Conservative
+                    var Msipval=Math.round((pmt4(expectM,nper,0,-fvvalue,0))/1000.000)*1000.000;  //Moderate
+                    var Asipval=Math.round((pmt4(expectA,nper,0,-fvvalue,0))/1000)*1000;  //Aggressive
+                    
+                    console.log("New sip...!",Csipval,Msipval,Asipval);*/
+                    
                     if(mn<1000){
                          // debugger;
                         alloc1=0;
@@ -1097,6 +1148,8 @@
                         tempGoals.amt1 = amt1;
                         tempGoals.amt2 = amt2;
                         tempGoals.amt3 = amt3;
+                        
+                        
                     
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
@@ -1369,7 +1422,7 @@
             // Function to calculate Periodic Payments.
         
         }
-           
+          
         
         
         function pmt(rate, per, nper, pv, fv) {
@@ -1414,7 +1467,7 @@
 
         }
 
-        function conv_number(expr, decplaces) { // This function is from David Goodman's Javascript Bible.
+        function conv_number(expr, decplaces) { 
 
             var str = "" + Math.round(eval(expr) * Math.pow(10, decplaces));
 
@@ -1429,10 +1482,63 @@
             return (str.substring(0, decpoint) + "." + str.substring(decpoint, str.length));
 
         }
+//Function to find new sip on FV value
+        function pmt4(rate_per_period, number_of_payments, present_value, future_value, type){
+                  future_value = typeof future_value !== 'undefined' ? future_value : 0;
+                  type = typeof type !== 'undefined' ? type : 0;
 
+              	if(rate_per_period != 0.0){
+              		// Interest rate exists
+              		var q = Math.pow(1 + rate_per_period, number_of_payments);
+              		return -(rate_per_period * (future_value + (q * present_value))) / ((-1 + q) * (1 + rate_per_period * (type)));
+                    
+
+              	} else if(number_of_payments != 0.0){
+              		// No interest rate, but number of payments exists
+              		return -(future_value + present_value) / number_of_payments;
+              	}
+
+              	return 0;
+              }
+//rounding off
+function round_decimals(original_number, decimals) {
+  var result1 = original_number * Math.pow(10, decimals)
+  var result2 = Math.round(result1)
+  var result3 = result2 / Math.pow(10, decimals)
+  return (result3)
+}
+        
+        
+        
         // Function to calculate future value of an investment..
 
         function fv(rate, per, nper, pmt, pv) {
+            nper = parseFloat(nper);
+            pmt = parseFloat(pmt);
+            pv = parseFloat(pv);
+            rate = eval((rate) / (per * 100));
+            if ((pmt == 0) || (nper == 0)) {
+                // alert("Why do you want to test me with zeros?");
+                return (0);
+            }
+            if (rate == 0) // Interest rate is 0
+            {
+                fv_value = -(pv + (pmt * nper));
+            }
+            else {
+                x = Math.pow(1 + rate, nper);
+                // y = Math.pow(1 + rate, nper);
+
+                fv_value = - (-pmt + x * pmt + rate * x * pv) / rate;
+
+            }
+
+            fv_value = conv_number(fv_value, 2);
+
+            return (fv_value);
+
+        }
+          function FV(rate, per, nper, pmt, pv) {
             nper = parseFloat(nper);
             pmt = parseFloat(pmt);
             pv = parseFloat(pv);
@@ -1500,6 +1606,7 @@
         });
 
         $(document).ready(function () {
+           
             if(location.search.split('tab=')[1] == '6') {
                 selectTab(6);
             }
@@ -1516,7 +1623,7 @@
                 $(".sub-page4").show();
             });
 
-            $('.page8 #amount').change(function () {
+           /* $('.page8 #amount').change(function () {
                 var amount = $('.page8 #amount').val();
                 let amount1=amount.replace(/,/g,''); //Replace comma from amount entered
                 amount= amount1;
@@ -1546,7 +1653,7 @@
                         console.log(e);
                     }
                 }
-            });
+            });*/
             $('.page2 #amount').change(function () {
                 var amount = $('.page2 #amount').val();
                 let amount1=amount.replace(/,/g,''); //Replace comma from amount entered
@@ -1583,6 +1690,7 @@
             var initializeTabs = function () {
                 try {
                    // ;
+                   
                     var tempGoals = JSON.parse(sessionStorage.getItem('tempGoals'));
                     if (loggedIn && tempGoals.currentPage) {
                         selectTab(tempGoals.currentPage);
@@ -1629,24 +1737,6 @@
                 }
 
             }
-
-
-
-
-
-            //Tab 2 Number validations
-            // $('.page2 #amount').change(function () {
-            //     var x = $('.page2 #amount').val();
-            //     x.replace(/,/g, '');
-            //     x = Number(x);
-            //     if (x < 7000 || x > 10000000) { 
-            //         console.log('number limitation');
-            //     } else if(isNaN(x)) { 
-            //         console.log('isNaN');
-            //     } x=x.toString();
-            //     var lastThree = x.substring(x.length-3);
-            //     var otherNumbers = x.substring(0, x.length - 3); if (otherNumbers != '') lastThree = ',' + lastThree; var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g,",") + lastThree; $('.page2 #amount').val(res);
-            // });
         });
 
    $('input#amount').keyup(function(event) {

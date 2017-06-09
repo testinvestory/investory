@@ -197,22 +197,33 @@ exports.getUserData = (req, res) => {
 exports.getFacebookLogin = (req, res) => { passport.authenticate('facebook', { scope: ['email'] })(req, res) }
 
 exports.getFacebookCallback = (req, res) => {
+//    console.log("Hi in fb---");
   passport.authenticate('facebook', {
-    successRedirect: '/tocurrent',
+    successRedirect: '/',
     failureRedirect: '/',
     scope: ['email']
-  }), (function (req, res, next) {
-
-  }(req, res))
+  })(req, res)
 }
-
+/*
 exports.getAuthGoogle = (req, res) =>	{
   passport.authenticate('google', { scope: ['profile', 'email'] })
-  router.get('/auth/google/callback',
+  passport.get('/auth/google/callback',
 	passport.authenticate('google', {
   successRedirect: '/tocurrent',
   failureRedirect: '/'
 }))(req, res)
+}*/
+
+
+exports.getAuthGoogleLogin = (req, res) =>	{ passport.authenticate('google', { scope: ['profile', 'email'] })(req, res)  }
+  
+exports.getAuthGoogleCallback = (req, res) => {
+ 
+	passport.authenticate('google', {
+  successRedirect: '/',
+  failureRedirect: '/'
+})(req, res)
 }
 
 // module.exports = router;
+

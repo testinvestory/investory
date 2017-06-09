@@ -45,7 +45,7 @@ exports.getAccount = (req, res) => {
 			res.render(pageName, {
 
 				user: req.user,
-				stmt: result.rows,
+				stmtt: result.rows,
 				length: len,
 				selectorDisplay: "show",
 				loggedIn: loginStatus,
@@ -62,7 +62,7 @@ exports.getAccount = (req, res) => {
 			res.render(pageName, {
 
 				user: req.user,
-				stmt: false,
+				stmtt: false,
 				selectorDisplay: "show",
 				loggedIn: loginStatus,
 				path: 'accountData',
@@ -99,6 +99,26 @@ exports.getInvoice = (req, res) => {
 			res.render(pageName, {
 				user: req.user,
 				stmt: result.rows,
+				length: len,
+				selectorDisplay: "show",
+				loggedIn: loginStatus,
+				path: 'accountData',
+				smessage: req.flash('signupMessage'),
+				lmessage: req.flash('loginMessage'),
+				path1: 'accountInvoicesData',
+				footerDisplay: "hide",
+				footerData1: "Blog",
+				footerData2: "FAQs",
+				date: date,
+				currentPage: currentPage
+			});
+		}
+        else {
+			console.log("statements");
+			var len = result.rows.length;
+			res.render(pageName, {
+				user: req.user,
+				stmt: false,
 				length: len,
 				selectorDisplay: "show",
 				loggedIn: loginStatus,

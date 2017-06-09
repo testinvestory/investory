@@ -2,8 +2,8 @@
 var pg = require('pg');
 //var waterfall = require('async-waterfall');
 
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 /*
 
 var conString = {
@@ -238,6 +238,31 @@ var query=client.query(
   }
      
 });
+    
+},
+    getSchemes:function(req, res)
+{
+        
+        //client.connect();
+  /* pg.connect(conString,function(err,client,done)
+   {      
+     if(err)
+      {
+        return console.error('Could not connect to postgres' , err);
+      }*/
+    var query=client.query("select * from schemesmaster",function(err, result)          
+        {
+        if (err) 
+            console.log(err); 
+        else
+        {
+        console.log(null,result.rows);
+        
+        }
+     });
+  
+     
+/*});*/
     
 },
 

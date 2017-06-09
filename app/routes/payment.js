@@ -140,8 +140,8 @@ exports.postPay = (req, res, next) => {
 
   async.waterfall([
     function (callback) {
-      const merchantKey = 'gtKFFx'
-      const salt = 'eCwWELxi'
+      const merchantKey = 'rECGZ0'
+      const salt = 'pTIyMt9L'
       const txnid = functions.getTransactionID(req.session.user.userid)
       const amount = req.body.planPrice
       const productinfo = req.body.plan
@@ -154,8 +154,8 @@ exports.postPay = (req, res, next) => {
       const hash = functions.checksum(str, 'sha512').toLowerCase()
 
       data = {
-        merchantKey: 'gtKFFx',
-        hash: 'eCwWELxi',
+        merchantKey: 'rECGZ0',
+        hash: 'rECGZ0',
         amount: amount,
         txnid: txnid,
         firstname: firstname,
@@ -164,12 +164,12 @@ exports.postPay = (req, res, next) => {
         phone: phone,
        // surl: 'http://localhost:3000/Pricing/success',
        //furl: 'http://localhost:3000/Pricing/failure',
-            surl: 'http://54.152.36.19:3000/Pricing/success',
-            surl: 'http://54.152.36.19:3000/Pricing/success',
+            surl: 'http://34.201.143.108/Pricing/success',
+            surl: 'http://34.201.143.108/Pricing/success',
           
         hash: hash,
         service_provider: 'payu_paisa',
-        action: 'https://test.payu.in/_payment'
+        action: 'https://secure.payu.in/_payment'
       }
 
       callback(null, data)

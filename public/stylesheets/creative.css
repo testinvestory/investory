@@ -11,6 +11,11 @@ Colors used inside
 */
 /* the animations */
 /* fade */
+
+#uploadProfilepic{
+    padding-left:0%; 
+    
+}
 .alert-danger {
     font-weight: bold;
 }

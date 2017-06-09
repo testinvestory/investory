@@ -17,9 +17,6 @@
     <!-- Custom CSS -->
     <link href="/stylesheets/sb-admin.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="/stylesheets/plugins/morris.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="/stylesheets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -30,13 +27,15 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-</head>
+</head>  
+<script>
+   
+    </script>
+<body  ng-app="postgreSQL">
 
-<body ng-app="postgreSQL">
+    <div id="wrapper" ng-controller="postgreSQLCtrl">
 
-    <div id="wrapper" >
-
-        <!-- Navigation -->
+       <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -155,8 +154,9 @@
                     <li>
                         <a href="/admin"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Upload File to DB</a>
+
                     </li>
                     <li>
                         <a href="/admin/tables"><i class="fa fa-fw fa-table"></i> KYC</a>
@@ -171,15 +171,15 @@
                         <a href="/admin/reports"><i class="fa fa-fw fa-desktop"></i> Reports</a>
                     </li>
                     <!-- <li>
-                        <a href="/admin/allocation"><i class="fa fa-fw fa-wrench"></i>Assets Allocation</a>
+                        <a href="/admin/allocation"><i class="fa fa-fw fa-wrench"></i> Assets Allocation</a>
                     </li>-->
-                   <li>
+                    <li>
                         <a href="/admin/assetsUpload"><i class="fa fa-fw fa-wrench"></i> Update Asset allocation matrix</a>
                     </li>
                     <li>
                         <a href="/admin/funds"><i class="fa fa-fw fa-wrench"></i> Upload Schemes Matrix</a>
                     </li>
-                    <li>
+                     <li class="active">
                         <a href="/admin/schemelist"><i class="fa fa-fw fa-wrench"></i> Schemes allocation matrix</a>
                     </li>
                      <li>
@@ -220,125 +220,130 @@
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Upload Files To DB
-                        </h1>
+                        <h2 class="page-header">
+                           Schemes Allocation Matrix
+                        </h2>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                                <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-bar-chart-o"></i> Upload Files To DB
+                                <i class="fa fa-table"></i> Schemes Allocation Matrix
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
 
-                <div class="container">
- <form id=  "uploadForm"
-     enctype   =  "multipart/form-data"
-     action    =  "/admin/uploadcamsfile"
-     method    =  "post">
-           
-                    
-  <div class="form-group">
- <label>Input</label>
-<label>CAMS File :</label>
-<input type="file" name="doc"/>
-          <br>               
-<button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>
-</div>                    
-         <br><br>                    
-         <br><br>
-</form>
-                    
-                    
-<form id=  "uploadForm2"
-     enctype   =  "multipart/form-data"
-     action    =  "/admin/uploadkarvysfile"
-     method    =  "post">
-           
-                    
-<div class="form-group">
-<label>Input</label>
-<label>KARVYS File :</label>
-<input type="file" name="doc"/>
-          <br>               
-<button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>                                         
-</div>                    
-         <br><br>                    
-         <br><br>
-</form>
-
-<form id=  "uploadForm3"
-     enctype   =  "multipart/form-data"
-     action    =  "/admin/uploadftfile"
-     method    =  "post">
-           
-                    
-<div class="form-group">
-<label> Input</label>
-<label>TEMPLETON File :</label>
-<input type="file" name="doc"/>
-          <br>               
-<button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>                                         
-</div>                    
-         <br><br>                    
-         <br><br>
-</form>
-                    
-                    
-                    
-                    
-                 </div>
+                <div class="row">
+                      
+      
+                    <div class="col-lg-12">
+                        <h2>Schemes Allocation Matrix</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Year From</th>
+                                        <th>Year To</th>
+                                        <th>Sip From</th>
+                                        <th>Sip To</th>
+                                         <th>Name</th>
+                                        <th>Code</th>
+                                        
+                                        <th>Category</th>
+                                         <th>Sub Category</th>
+                                        <th>Risk Profile</th>
+                                        <th>Rating</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        
+                                    <%for (var i=0;i<schemesData.length;i++){%>      
+                                    <tr>
+                                         
+                                        <td id="yearfrom" name="yearfrom" ng-model="yearfrom"><%=schemesData[i].yearfrom%></td>
+                                        <td id="yearto" name="yearto" ng-model="yearto"><%=schemesData[i].yearto%></td>
+                                        <td id="sipfrom" name="sipfrom" ng-model="sipfrom"><%=schemesData[i].sipfrom%></td>
+                                        <td id="sipto" name="sipto" ng-model="sipto"><%=schemesData[i].sipto%></td>  
+                                
+                                         <td id="name"><%=schemesData[i].name%></td>
+                                        <td id="name"><%=schemesData[i].code%></td>
+                                        <td  id="category" name="category" ng-model="category"
+                                            ><%=schemesData[i].category%> </td>
+                                     <td id="subcategory" name="subcategory" ng-model="subcategory"><%=schemesData[i].subcategory%></td>  
+                                      
+                                          <td id="riskprofile" name="riskprofile" ng-model="riskprofile"><%=schemesData[i].riskprofile%></td>     
+            
+                                        <td id="rating" name="rating" ng-model="rating"><%=schemesData[i].rating%></td>
+      
+         
+                                    </tr>
+                                
+                                         <%}%> 
+                                    
+                                   
+                                </tbody>
+                            </table>
+                   </div>
+                    </div>
+    
+                  </div>
+                  
         
-           
-                </div>
-            </div>
-            <!-- /.container-fluid -->
+    </div>
+        <!-- /.container-fluid -->
 
-        </div>
         <!-- /#page-wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
-
-    
-    <script>
-    
-     var myApp = angular.module('postgreSQL',[ ]); 
+ <script src="/lib/angular.min.js"></script>
+   <script>
+ 
+       
+        /*  var myApp = angular.module('postgreSQL',[ ]); 
+            
+       myApp.controller('myCtrl', function($scope) {
+    $scope.status = ["Pending", "Approved"];
+  
+});
        
    myApp.controller('postgreSQLCtrl', ['$scope' ,'$http',  function($scope,$http) {
-                $scope.val1 = 'This is temp Val' ;     
-                        
-                $scope.upload(){
-                    
-                    $http({method:'GET',url:'/admin/uploadcsv'}).
-                    success(function(data, status){
-                        
-                    });
-                }
-            }]);   
-    </script>
+                $scope.val1 = 'This is temp Val' ;  
+                $scope.yearfrom = '';
+                $scope.yearto = '';
+                $scope.sipfrom = ''; 
+                $scope.sipto = '';  
+                $scope.category = '' ;
+                $flag=0;
+                $scope.subcategory='';
+                $scope.riskprofile='';
+                $scope.rating='';
+                 
+             
+            
+                $scope.getAllRec = function(){ 
+                      console.log("in schemes angular");
+                     $http({method: 'GET', url: '/admin/schemeslist/get'}).
+                        success(function(data, status) { 
+                              $scope.dataset = data;
+                       
+                        }).
+                        error(function(data, status) {
+                          $scope.dataset = data || "Request failed "; 
+                      }); 
+                    }       
+   
+            }]);*/
+ 
+        </script>
+        
+ 
+    
     <!-- jQuery -->
-    <script src="/javasripts/jquery.js"></script>
+    <script src="/javascripts/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="/javasripts/bootstrap.min.js"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="/javasripts/plugins/morris/raphael.min.js"></script>
-    <script src="/javasripts/plugins/morris/morris.min.js"></script>
-    <script src="/javasripts/plugins/morris/morris-data.js"></script>
-
-    <!-- Flot Charts JavaScript -->
-    <!--[if lte IE 8]><script src="js/excanvas.min.js"></script><![endif]-->
-    <script src="/javasripts/plugins/flot/jquery.flot.js"></script>
-    <script src="/javasripts/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="/javasripts/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="/javasripts/plugins/flot/jquery.flot.pie.js"></script>
-    <script src="/javasripts/plugins/flot/flot-data.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
 
 </body>
 

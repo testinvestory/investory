@@ -422,7 +422,7 @@ var Rich = ["Crorepati", "Fancy Car", "Double the money"];
 
 var Broke = ["Medical Corpus", "Emergency", "Splurging"];
     
-var Responsible = ["Child&#39s education", "Retirement", "Home"];
+var Responsible = ["Child education", "Retirement", "Home"];
 
 var Nerdy = ["Education", "Gadget", "Build a book collection"];
     
@@ -580,7 +580,7 @@ $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFDE15","col
 
     
     $(".selectGoal ul li > a").click(function(){
-        
+       // debugger;
        
             moodId = $(this).attr("id");
 	
@@ -604,27 +604,38 @@ $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFDE15","col
         
         for(i=local.length-1; i>= 0; i--){
             if(i==goalId){
-           
-                $(".below").prepend("<div class='goal' id='activ'><img src='"+$GoalimgLink+moodId+"/"+local[i]+$onHover+$imgExtension+"' mood="+moodId+" alt='Home view'><p id='mood'><span style='background-color: #FFDE15'></span>"+local[i]+"</p></div>");
                 
-               moodFile =  local[i]; 
+                if(local[i]=="Child education"){
+                     $(".below").prepend("<div class='goal' id='activ'><img src='"+$GoalimgLink+moodId+"/"+local[i]+$onHover+$imgExtension+"' mood="+moodId+" alt='Home view'><p id='mood'><span style='background-color: #FFDE15'></span>"+"Child&#39s education"+"</p></div>");
+                    moodFile='Child&#39s education';
+                }
+               else {
+                $(".below").prepend("<div class='goal' id='activ'><img src='"+$GoalimgLink+moodId+"/"+local[i]+$onHover+$imgExtension+"' mood="+moodId+" alt='Home view'><p id='mood'><span style='background-color: #FFDE15'></span>"+local[i]+"</p></div>");
+                    
+                     moodFile =  local[i]; 
+                }
+              
                
             }else{
-                
+                if(local[i]=="Child education"){
+                    $(".below").prepend("<div class='goal' id=''><img src='"+$GoalimgLink+moodId+"/"+local[i]+$imgExtension+"' mood="+moodId+" alt='Home view'><p id='mood'><span></span>"+"Child&#39s education"+"</p></div>");
+                    }
+            
+                else{
     $(".below").prepend("<div class='goal' id=''><img src='"+$GoalimgLink+moodId+"/"+local[i]+$imgExtension+"' mood="+moodId+" alt='Home view'><p id='mood'><span></span>"+local[i]+"</p></div>");
-}
+                }
             
         }
         
         
-        
+        }
     });
    
    
    
-    
+   
     $(".selectMood ul li > a").click(function(){
-        
+       // debugger;
      
             moodId = $(this).attr("id");
    window.location.href = "/GoalSelection?mood="+moodId;
@@ -645,8 +656,12 @@ $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFDE15","col
          $(".below").empty();
         
         for(i=local.length-1; i>= 0; i--){
-            
+             if(local[i]=="Child education"){
+                    $(".below").prepend("<div class='goal' id=''><img src='"+$GoalimgLink+moodId+"/"+local[i]+$imgExtension+"' mood="+moodId+" alt='Home view'><p id='mood'><span></span>"+"Child&#39s education"+"</p></div>");
+                    }
+            else{
     $(".below").prepend("<div class='goal' id=''><img src='"+$GoalimgLink+moodId+"/"+local[i]+$imgExtension+"' mood="+moodId+" alt='Home view'><p id='mood'><span></span>"+local[i]+"</p></div>");
+        }
         }
         
         
@@ -700,7 +715,7 @@ if ( source != "" && sourceGoal != "" ) {
           $("#setMoodText").html($Feeling+" "+source);
 	moodsss=source;
             
-      
+    //  debugger;
           var local;
 		local = getGoals(source);
         
@@ -711,15 +726,24 @@ if ( source != "" && sourceGoal != "" ) {
 			
 			if(sourceGoal && i==sourceGoal){
            	
+                 if(local[i]=="Child education"){
+                   $(".below").prepend("<div class='goal' id='activ'><img src='"+$GoalimgLink+source+"/"+local[i]+$onHover+$imgExtension+"' mood="+source+" alt='Home view'><p id='mood'><span style='background-color: #FFDE15'></span>"+"Child&#39s education"+"</p></div>");
+                   }
+                else{
                 $(".below").prepend("<div class='goal' id='activ'><img src='"+$GoalimgLink+source+"/"+local[i]+$onHover+$imgExtension+"' mood="+source+" alt='Home view'><p id='mood'><span style='background-color: #FFDE15'></span>"+local[i]+"</p></div>");
-                
+                }
              
                 
             }else{
                 
-  
+                if(local[i]=="Child education"){
+                    $(".below").prepend("<div class='goal' id=''><img src='"+$GoalimgLink+source+"/"+local[i]+$imgExtension+"' mood="+source+" alt='Home view'><p id='mood'><span></span>"+"Child&#39s education"+"</p></div>");
+                   }
+                
+                else{
                $(".below").prepend("<div class='goal' id=''><img src='"+$GoalimgLink+source+"/"+local[i]+$imgExtension+"' mood="+source+" alt='Home view'><p id='mood'><span></span>"+local[i]+"</p></div>");
-}
+                }
+                }
 			
         }
         
@@ -745,10 +769,10 @@ function setFrogMood(mood){
 //Moods 
   
 $(".moods .slider .change").click(function () {
-
+//debugger;
     once = true;
     var moodId = $(this).attr("id");
-    // window.location.href = "/GoalSelection?mood=" + moodId;
+     window.location.href = "/GoalSelection?mood=" + moodId;
     var moodImgName = moodId; //.toUpperCase();
 
     var local;
@@ -820,13 +844,24 @@ var $smartGoals = "smartGoals";
         
          $(".below").empty();
         
-       
-               $(".below").prepend("<div class='goal' id=''><img src='"+$GoalimgLink+smartMood+"/"+local+$imgExtension+"' mood="+smartMood+" alt='Home view'><p id='mood'><span></span>"+local+"</p></div>");
-        
-        
+           if(local=="Tax Saving"){
+
+               $(".contentMood .page1, .contentMood .page2,.contentMood .page3, .page3Sub,.contentMood .page4 .sub-page4").hide();
+             
+	$("#setMoodText").hide(); 
+	$(".moodGoals > img").css("visibility","hidden");  
+	$(".slider").css("visibility","hidden");
+	$(".contentMood .page4 #invest").css("visibility","hidden");
+	$(".contentMood .page1, .contentMood .page2,.contentMood .page3, .page3Sub,.contentMood .page4 .sub-page4").hide();
+	$(".page2 .dotHr").hide();
+	$(".contentMood .page4,.contentMood .page4 .selectMode").show();
+           }else{
+              $(".below").prepend("<div class='goal' id=''><img src='"+$GoalimgLink+smartMood+"/"+local+$imgExtension+"' mood="+smartMood+" alt='Home view'><p id='mood'><span></span>"+local+"</p></div>");
+           }
+           
             
+        
         }
-    
 
         $(".emergency-funds").click(function () {
             var sipMood = $(this).children('p').attr("id");
@@ -837,14 +872,16 @@ var $smartGoals = "smartGoals";
 
         $(".tax-savings").click(function () {
 
-           // debugger;
-            var sipMood = $(this).children('p').attr("id");
+           debugger;
+            //var sipMood = $(this).children('p').attr("id");
            // selectTab(8);
-            window.location.href = "GoalSelection?smartGoal=" + $taxSavings + "&smood=" + sipMood;
-            
-        });
+          //  window.location.href = "GoalSelection?smartGoal=" + $taxSavings + "&smood=" + sipMood;
+            /* var sipMood = $(this).attr("id");  */
+           
+         });
 
 
+  
         $(".build-wealth").click(function () {
 
             var sipMood = $(this).children('p').attr("id");
@@ -896,13 +933,12 @@ var $smartGoals = "smartGoals";
              $(this).attr("src", $imgLink+$taxSavings+$imgExtension);
          }, 
         
-         click: function()
+          click: function()
          {
               var sipMood = $(this).attr("id");
               window.location.href = "GoalSelection?smartGoal="+$taxSavings+"&smood="+sipMood;
          
          }
-          
      });
     
         
@@ -943,14 +979,17 @@ var $smartGoals = "smartGoals";
         
          click: function()
          {
+            
               var sipMood = $(this).attr("id");
               window.location.href = "GoalSelection?smartGoal="+$smartGoals+"&smood="+sipMood;
-         
+          
          }
           
      });
 
     
+	
+
    $(".how-it-works .panel").click(function(){ 
    
         
@@ -988,47 +1027,89 @@ var $smartGoals = "smartGoals";
     s= s.substring(s.lastIndexOf('/')+ 1);
     return extension? s.replace(/[?#].+$/, ''): s.split('.')[0];
 }
-    
 
 
     $(document).on("click", '.below .goal', function () {
- 
-        //debugger;
-           
-         // $('.goal').removeAttr('id');
-        var clickActive = $(this).attr("id");
-                $(this).attr("id", "activ");  
-            
+
+
+            $('.goal').removeAttr('id');
+         var clickActive = $(this).attr("id");
+       
+     $(this).attr("id", "activ");
+        var abc=$(this).attr('id');
         
+      /* $("#mood span").css("background-color", "#FFFFFF");
+        $("#mood span", this).css("background-color", "#FFDE15");*/
+        moodgoal = $("#mood", this).text();
+        if(moodgoal=="Child"+"'"+"s education"){
+            moodFile='Child education';
             
-               $("#mood span").css("background-color", "#FFFFFF");
-        $("#mood span", this).css("background-color", "#FFDE15");
-        moodFile = $("#mood", this).text();
-        goalName(moodFile);
-      
+        }
+        else{
+           moodFile=moodgoal;
+        }
+        
+        goalName(moodFile);  
         $('.page1 .next').removeAttr('disabled');
           
-        if(!loggedIn) {
+        /*if(!loggedIn) {*/
             var goal = moodFile;
             goal.substr(goal);
             goal = goal.substr(goal);
             var mood = $('.frogImageMoods #setMood').attr('src');
+        
+        
             var moodText = $('.frogImageMoods #setMoodText').html();
             moodText = moodText.substring(moodText.indexOf(" ") + 1);
-            sessionStorage.setItem('tempGoals', JSON.stringify({"goal": goal, "mood": mood, "moodText": moodText}));
-            console.log(sessionStorage.getItem("tempGoals"));      
-             }
+        
+           /*}*/
+  
+        var moodText = $('.frogImageMoods #setMoodText').html();
+            moodText = moodText.substring(moodText.indexOf(" ") + 1);
+    var moodImgName =  moodText ;
 
+    var local;
+    local = getGoals(moodImgName);
+
+    $(".frogImageMoods img").attr("src", $imgLink + moodImgName + $imgExtension);
+
+    $(".frogImageMoods #h1").html($Feeling + " " + moodId);
+
+    $(".below").empty();
+
+        
+    for (i = 0; i < local.length; i++) {
+        
+        if(local[i]==goal  && abc=='activ'){
+           if(local[i]=="Child education"){
+               $(".below").append("<div class='goal' id=''><img src='" + $GoalimgLink+moodText+"/"+goal+$onHover+$imgExtension+ "' mood=" + moodId + " alt='Home view'><p id='mood'><span style='background-color:#FFDE15;'></span>" + "Child&#39s education"+ "</p></div>"); 
+           }
+            else{
+        $(".below").append("<div class='goal' id=''><img src='" + $GoalimgLink+moodText+"/"+goal+$onHover+$imgExtension+ "' mood=" + moodId + " alt='Home view'><p id='mood'><span style='background-color:#FFDE15;'></span>" + local[i] + "</p></div>");         
+            }
+        }
+      
+        else{
+            
+            if(local[i]=="Child education"){
+               $(".below").append("<div class='goal' id=''><img src='" + $GoalimgLink+moodText+"/"+local[i]+$imgExtension+ "' mood=" + moodId + " alt='Home view'><p id='mood'><span></span>" + "Child&#39s education"+ "</p></div>"); 
+           }else{
+        $(".below").append("<div class='goal' id=''><img src='" + $GoalimgLink + moodImgName + "/" + local[i] + $imgExtension + "' mood=" + moodId + " alt='Home view'><p id='mood'><span></span>" + local[i] + "</p></div>");
+                
+           }
+        }
+    }
+ sessionStorage.setItem('tempGoals', JSON.stringify({"goal": goal, "mood": mood, "moodText": moodText}));
+            console.log(sessionStorage.getItem("tempGoals"));    
     });
-
 
      var currentPage=1;
      var movingTo= 0;
     
    
 
-  $(document).on("mouseenter", '.below .goal', function (){
-
+/* $(document).on("mouseenter", '.below .goal', function (){
+  // debugger;
       
         //          $("#mood span").css("background-color","#FFFFFF");
         //        
@@ -1055,7 +1136,7 @@ var $smartGoals = "smartGoals";
     
     var currentPage=1;
 var movingTo= 0; 
-    $(document).on("mouseleave", '.below .goal',function(){
+     $(document).on("mouseleave", '.below .goal',function(){
         
 //              $("#mood span",this).css("background-color","#FFFFFF");
         
@@ -1076,13 +1157,13 @@ var movingTo= 0;
 
         
           
-     });
+     });*/
   
 /*$(".below .goal").hover(function(){
     var clickActive = $(this).attr("id");
          
          
-         
+         debugger;
          if(clickActive == "activ"){
       
              $('.goal').removeAttr('id');
@@ -1249,12 +1330,13 @@ var goalImg = $("#mood",this).text();
                 $(".contentMood .page1, #btm").hide();
                 $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFFFFF","color":"#FFDE15","border-color":"#FFDE15"});
                 $(".pagination li:nth-child(2) a").css({"background-color":"#FFDE15","color":"#35BFD3","border-color":"#FFDE15"});
-                $("#goalSelected").text(moodFile);
+                $("#goalSelected").text(moodgoal);
                 $(".contentMood .page2, #Indicator").show();
                 $(".contentMood .page2 .login-btn").css("top","65%"); 
                 break;
 
             case 3:
+              
                 currentPage = 3;
                 $('#Indicator span:nth-child(1), #Indicator span:nth-child(2)').addClass('active');
                 $('.pagination li:nth-child(1) a').addClass('done');
@@ -1291,7 +1373,7 @@ var goalImg = $("#mood",this).text();
                 break;    
             
             case 5:
-             //debugger;
+              //debugger;
                 // var page4Risk;
                 risk = $(e).attr("id");
                 page4Risk = risk;
@@ -1338,7 +1420,7 @@ var goalImg = $("#mood",this).text();
                 $('.contentMood > div').not('.page7').hide();
                 $('.contentMood .page7').show();
                 break;
-                
+                //added by nishant for tax not using
                 case 8:
                  $('.page8').show();
                 $('#Indicator span:nth-child(1)').addClass('active');

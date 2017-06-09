@@ -74,7 +74,11 @@
            <div class="">
                <div class="row testimonyRow">
                    <div class="col-sm-6 TestimonyProfile" >
-                                <img src="images/avatar.png" border="20" width="96"  height="96"  style="float: right; border-radius: 50%;">
+                       <%if(user.image){%>
+                    <img src='<%=user.image%>' border="20" width="96"  height="96"  style="float: right; border-radius: 50%;">
+                        <%}else{%><img src='images/avatar.png' border="20" width="96"  height="96"  style="float: right; border-radius: 50%;">
+                        <%}%>
+                                
                    </div>
 				   <% var monthNames = [
     "January", "February", "March",
@@ -100,6 +104,18 @@
 										<%=user.created.getFullYear(); %>
 										<!--29thAugust 2016-->
 						 </p></img>
+                   <form id=  "uploadProfilepic"
+     enctype   =  "multipart/form-data"
+     action    =  "/profilePic"
+     method    =  "post">
+           
+                    
+  <div class="form-group">
+ <label style="color: #35BFD3;">Upload Profile Picture:</label>
+<input type="file" name="doc"/>              
+<button type="submit" class="btn btn-default btn-sm pull-left" style="margin-top:0.7%"> Upload</button>
+</div>              <br>
+</form>
                                     </div>
 
 

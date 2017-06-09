@@ -311,43 +311,31 @@ var newUser= new User();
 		
     }));
     	
-	
-	
-      var newUser=new User();
+ var newUser=new User();
     passport.use(new FacebookStrategy({
-    clientID: '1620502528254783',
-    clientSecret: '724b87f6243da3bae2f2e5ddcc7e729d',
-    callbackURL: 'http://localhost:3000/auth/facebook/callback',
+    clientID: '222135224947258',
+    clientSecret: '028ceae4ea2eed122d97c447e626dd1b',
+    callbackURL: 'http://investory.in/auth/facebook/callback',
          profileFields: ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified'],
         
   },
-  function(accessToken, refreshToken, profile,done) {
+  function(accessToken, refreshToken, profile,next) {
    process.nextTick(function(){
              // User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
-       var query=client.query("SELECT * FROM users where facebookid=$1 OR email=$2",[profile.id,profile.emails[0].value],function(err,result){
+console.log("in auth fb");       
+var query=client.query("SELECT * FROM users where facebookid=$1 OR email=$2",[profile.id,profile.emails[0].value],function(err,result){
             // if there are any errors, return the error
-            if (err)
-                return done(err);
-
-            // check to see if theres already a user with that email
-
-            if (result.rows.length>0) {
-                email=result.rows[0]['email'];
-                 zendCreateTicket(email,'Succesfully Logged in with facebook');
-              return done(null, result.rows[0]);
-                
-            } 
-           else 
-           {
-               // if there is no user with that email
-                // create the user
-               
-                newUser.facebookid = profile.id;
+console.log(profile.emails[0].value);       
+   
+		if(result.rows.length==0){
+            
+		console.log("User not found");
+              newUser.facebookid = profile.id;
                 newUser.fbtoken = accessToken;
                  newUser.email =(profile.emails[0].value || '').toLowerCase();
                  newUser.name  = profile.name.givenName + ' ' + profile.name.familyName; 
                  
-                    newUser.name=profile.name.givenName + ' ' + profile.name.familyName; ;
+          newUser.name=profile.name.givenName + ' ' + profile.name.familyName;
                     newUser.email = profile.emails[0].value;     
                     newUser.creation_date=new Date();
                     newUser.modified_date=new Date();
@@ -363,11 +351,18 @@ var newUser= new User();
                       //newUser.userid=result.rows[0].userid;
                     zendCreateTicket(newUser.userid,'Succesfully Logged in with facebook');
                      //req.session.userEmail = email;
-                    return done(null, newUser);
+                    return next(null,result.rows[0]);
                 });
-                
+		
             }
-            
+    
+            if (result.rows.length>0) {
+                email=result.rows[0]['email'];
+                 //zendCreateTicket(email,'Succesfully Logged in with facebook');
+              return next(null, result.rows[0]);
+                
+            } 
+           
 
         });
 
@@ -375,16 +370,16 @@ var newUser= new User();
        
    });
   }
-));
+));	
+	
+ 
     let em;
     passport.use(new GoogleStrategy({
 
         clientID        : '87658927996-i8ovbtoljd8tir2e9pki4i8uagshb38c.apps.googleusercontent.com',
         clientSecret    : 'vUjKOhsz8f1_ovtzN4weOT7u',
-        callbackURL     : 'http://localhost:3000/auth/google/callback',
-
-    },
-    function(token, refreshToken, profile, done) {
+        callbackURL     : 'http://investory.in/auth/google/callback',
+    },    function(token, refreshToken, profile, done) {
 
         // make the code asynchronous
         // User.findOne won't fire until we have all our data back from Google

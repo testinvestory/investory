@@ -7,6 +7,8 @@ var bodyParser = require('body-parser')
 var passport = require('passport')
 var session = require('express-session')
 var admin = require('./routes/admin')
+
+
 var flash = require('connect-flash')
 var useragent = require('express-useragent')
 var dotenv = require('dotenv')
@@ -104,13 +106,21 @@ app.post('/forgot', user.postForgot)
 app.get('/reset/:token', user.getReset)
 app.post('/reset/:token', user.postReset)
 app.get('/user_data', functions.isLoggedIn, user.getUserData)
+
 app.get('/auth/facebook', user.getFacebookLogin)
 app.get('/auth/facebook/callback', user.getFacebookCallback)
-app.get('/auth/google', user.getAuthGoogle)
+/*app.get('/auth/google', user.getAuthGoogle)*/
 
+app.get('/auth/google', user.getAuthGoogleLogin)
+app.get('/auth/google/callback', user.getAuthGoogleCallback)
 
 app.get('/Privacy', policies.getPrivacy)
 app.get('/Policies', policies.getPolicies)
+
+app.post('/profilePic', profile.postProfilePic)
+
+
+
 
 app.use('/', index)
 

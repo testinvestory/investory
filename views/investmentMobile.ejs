@@ -17,20 +17,20 @@
                        <div class="table-responsive tableAccounts"style="" >
                            
                    <br> 
-                           <% if(stmt) { %>
-                            <%for(var i=0;i<stmt.length;i++){%>
+                           <% if(stmtt) { %>
+                            <%for(var i=0;i<stmtt.length;i++){%>
              <table class="table" style="
     border-radius: 21px;
 ">
                                  <thead>
                                      <tr>
-                                      <th class="thead1" colspan="2">Date :<%=stmt[i].investdate%> </th>
+                                      <th class="thead1" colspan="2">Date :<%=stmtt[i].investdate%> </th>
                                      
                                      </tr>
                                 </thead>
                              <thead>
                                      <tr>
-                                      <th class="thead2" colspan="2"><%=stmt[i].name%></th>
+                                      <th class="thead2" colspan="2"><%=stmtt[i].name%></th>
                                      
                                      </tr>
                                 </thead>
@@ -42,8 +42,8 @@
                                       <td style="border-right: none;">Units</td>
                                         </tr>
                                         <tr>
-                                          <td id="eqPer"><%=stmt[i].amount%></td>
-                                          <td id="eqAmt" style="border-right: none;"><%=stmt[i].units%></td>
+                                          <td id="eqPer"><%=stmtt[i].amount%></td>
+                                          <td id="eqAmt" style="border-right: none;"><%=stmtt[i].units%></td>
                                         </tr>
                                  </tbody>
                           </table>  
@@ -52,7 +52,7 @@
           <%}%>                 
 
       <% }else { %>
-					<h1>No transactions yet. see you later. bye.</h1>
+					<h1>No investments yet. see you later. bye.</h1>
 					<% } %>                           
           </div>
     

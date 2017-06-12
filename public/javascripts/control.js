@@ -685,7 +685,7 @@ if ( source != "" && sourceGoal != "" ) {
 
 
 	
-	/*if(source && sourceGoal){
+	if(source && sourceGoal){
 		
 		          var local;
 		local = getGoals(source);
@@ -706,7 +706,7 @@ if ( source != "" && sourceGoal != "" ) {
             
         }
 	}
-   */
+   
 	
 	var moodsss="";
         if(source){
@@ -842,20 +842,23 @@ var $smartGoals = "smartGoals";
         
 
         
-         $(".below").empty();
+        
         
            if(local=="Tax Saving"){
-
-               $(".contentMood .page1, .contentMood .page2,.contentMood .page3, .page3Sub,.contentMood .page4 .sub-page4").hide();
              
-	$("#setMoodText").hide(); 
-	$(".moodGoals > img").css("visibility","hidden");  
-	$(".slider").css("visibility","hidden");
-	$(".contentMood .page4 #invest").css("visibility","hidden");
-	$(".contentMood .page1, .contentMood .page2,.contentMood .page3, .page3Sub,.contentMood .page4 .sub-page4").hide();
-	$(".page2 .dotHr").hide();
-	$(".contentMood .page4,.contentMood .page4 .selectMode").show();
-           }else{
+//debugger;
+               
+               $(".contentMood .page1, .contentMood .page2,.contentMood .page3, .page3Sub").hide();
+              
+	          // $("#setMoodText").hide(); 
+	           $(".moodGoals > img").css("visibility","hidden");  
+              // $(".slider").css("visibility","hidden");
+             //  $(".contentMood .page4 #invest").css("visibility","hidden");
+             //  $(".contentMood .page1, .contentMood .page2,.contentMood .page3, .page3Sub,.contentMood .page4 .sub-page4").hide();
+              // $(".page2 .dotHr").hide();
+	           $(".contentMood .page8").show();
+                  }else{
+                $(".below").empty();
               $(".below").prepend("<div class='goal' id=''><img src='"+$GoalimgLink+smartMood+"/"+local+$imgExtension+"' mood="+smartMood+" alt='Home view'><p id='mood'><span></span>"+local+"</p></div>");
            }
            
@@ -870,15 +873,15 @@ var $smartGoals = "smartGoals";
         });
 
 
-        $(".tax-savings").click(function () {
+       /* $(".tax-savings").click(function () {
 
-           debugger;
+           
             //var sipMood = $(this).children('p').attr("id");
            // selectTab(8);
           //  window.location.href = "GoalSelection?smartGoal=" + $taxSavings + "&smood=" + sipMood;
             /* var sipMood = $(this).attr("id");  */
            
-         });
+         //});
 
 
   
@@ -1031,8 +1034,7 @@ var $smartGoals = "smartGoals";
 
     $(document).on("click", '.below .goal', function () {
 
-
-            $('.goal').removeAttr('id');
+   $('.goal').removeAttr('id');
          var clickActive = $(this).attr("id");
        
      $(this).attr("id", "activ");
@@ -1052,7 +1054,7 @@ var $smartGoals = "smartGoals";
         goalName(moodFile);  
         $('.page1 .next').removeAttr('disabled');
           
-        /*if(!loggedIn) {*/
+       /* if(!loggedIn) {*/
             var goal = moodFile;
             goal.substr(goal);
             goal = goal.substr(goal);
@@ -1062,7 +1064,7 @@ var $smartGoals = "smartGoals";
             var moodText = $('.frogImageMoods #setMoodText').html();
             moodText = moodText.substring(moodText.indexOf(" ") + 1);
         
-           /*}*/
+          /* }*/
   
         var moodText = $('.frogImageMoods #setMoodText').html();
             moodText = moodText.substring(moodText.indexOf(" ") + 1);
@@ -1089,7 +1091,7 @@ var $smartGoals = "smartGoals";
             }
         }
       
-        else{
+        else{   
             
             if(local[i]=="Child education"){
                $(".below").append("<div class='goal' id=''><img src='" + $GoalimgLink+moodText+"/"+local[i]+$imgExtension+ "' mood=" + moodId + " alt='Home view'><p id='mood'><span></span>" + "Child&#39s education"+ "</p></div>"); 
@@ -1099,10 +1101,12 @@ var $smartGoals = "smartGoals";
            }
         }
     }
+         
  sessionStorage.setItem('tempGoals', JSON.stringify({"goal": goal, "mood": mood, "moodText": moodText}));
             console.log(sessionStorage.getItem("tempGoals"));    
     });
-
+debugger;
+         
      var currentPage=1;
      var movingTo= 0;
     
@@ -1182,8 +1186,11 @@ var goalImg = $("#mood",this).text();
 }
     
 });*/
-
- $(".contentMood .page2, #Indicator,#rpText, #riskSelected, #yp, .contentMood .page3, .page3Sub, .contentMood .page4, .contentMood .page5, .contentMood .page6, #IndicatorNew").hide();
+ if(local=="Tax Saving"){}
+    else{
+        $(".contentMood .page2, #Indicator,#rpText, #riskSelected, #yp, .contentMood .page3, .page3Sub, .contentMood .page4, .contentMood .page5, .contentMood .page6, #IndicatorNew").hide();
+ 
+    }
     
 
    
@@ -1201,35 +1208,7 @@ var goalImg = $("#mood",this).text();
         selectTab(2);*/
 
     });
-    /* $(".page8 .next").click(function() { 
-        if( $('.page8 #invest').html() >= 1000 ) {
-            selectTab(4);
-        }
-            
-    });    
-    $(".page8 .go").click(function(){ 
-       
-       let sipTime=$('.page8 #time').val();
-         
-        let amount=$('.page8 #amount').val();
-        alert(amount)
-        let ConAmount=amount.replace(/,/g,''); //Replace comma from amount
-        if (ConAmount < 7000 ){ 
-		$('.page8 .page2VldMsg').slideDown();
-       
-	} else if ( sipTime < 1 || sipTime > 50 ) {
-		 $(".page8 .page2VldMsg").slideUp(); 
-		$('.page8 .page2VldMsg2').slideDown();
-	} else {   
-           // setProfile(0,1,0);
-            selectTab(9);
-            $(".page8 .page2VldMsg2").slideUp();
-             $(".page8 .page2VldMsg").slideUp();
-        } 
-        
-        
-    });*/
-
+    
     $(".page2 .next").click(function() { 
 
         let sipTime=$('#time').val();
@@ -1321,6 +1300,7 @@ var goalImg = $("#mood",this).text();
                 break;
 
             case 2:
+               
                 $('#Indicator span:nth-child(1)').addClass('active');
                 $('.pagination li:nth-child(1) a').addClass('done');
                 $('.pagination li:nth-child(2) a').addClass('active');

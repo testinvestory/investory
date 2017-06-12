@@ -127,9 +127,10 @@ exports.getSavedPlans = (req, res) => {
 			function (callback) {
 				var paid = false;
 				var query = client.query(" select * from usersubscriptions where userid=" + req.session.user.userid + " and current_date <= planrenewaldate", function (err, result) {
-					if (err)
+					if (err){
 						console.log("Cant get portfolio details in goal selection");
-					console.log("Lenght" + result.rows.length);
+					   //console.log("Lenght" + result.rows.length);
+                    }
 					if (result.rows.length > 0) {
 						paid = true;
 						//req.session.paid = true;
@@ -473,7 +474,267 @@ exports.postPlanHeaders = (req, res) => {
 								// res.redirect("/Pricing");
   callback(null, amt)
 })
-      } else {
+        }else if(req.body.taxSaving){
+                 
+                 console.log("I am in=============><=========Nishant");
+          var type='Tax';
+            
+            var riskProfile=req.body.riskProfile;
+              var schemecamntde = 0, schemecamnteq = 0, schemecamnthy = 0
+        var schememamntde = 0, schememamnteq = 0, schememamnthy = 0
+        var schemeagamnthy = 0, schemeagamnteq = 0, schemeagamnteq = 0
+						// select * from schemesmaster where $1 between sipfrom and sipto and $2 between yearfrom and yearto and riskprofile = $3
+        var j = 0, k = 0, l = 0
+             var query = client.query('select * from schemesmaster where type=$1 and riskprofile = $2 order by category ', [type, riskProfile],
+							function (err, result) {
+  if (err) {
+    console.log('Cant get assets values')
+  }
+        scheme = result.rows
+                 console.log("1234567 "+scheme.length+"scheme"+scheme[1].name+scheme[1].category);
+            
+           /*  for (i = 0; i < scheme.length; i++) {
+    if ((scheme[i].category) == 'Equity') {
+      j = j + 1
+    }
+
+    if ((scheme[i].category) == 'Hybrid') {
+      k = k + 1
+    }
+
+    if ((scheme[i].category) == 'Debt') {
+      l = l + 1
+    }
+  }
+  console.log('j' + j + 'k' + k + 'l' + l)
+
+  for (i = 0; i < scheme.length; i++) {
+    if (j == 0 || j == 1) {
+      schemecamnteq = amount.amount1
+    } else {
+      schemecamnteq = amount.amount1 / j
+    }
+    if (k == 0 || k == 1) {
+      schemecamnthy = amount.amount2
+    } else {
+      schemecamnthy = amount.amount2 / k
+    }
+    if (l == 0 || l == 1) {
+      schemecamntde = amount.amount3
+    } else {
+      schemecamntde = amount.amount3 / l
+    }
+  }
+*/
+                 
+ /* console.log('Equity' + equityAmt + 'Hybrid' + hybridAmt + 'Debt' + debtAmt)*/
+
+  var schemeAmount = {
+
+    equityAmt: schemecamnteq,
+    hybridAmt: schemecamnthy,
+    debtAmt: schemecamntde
+
+  }
+
+  var amt = []
+  amt[0]=amount.amount1;
+  amt[1]=amount.amount2;
+  amt[2]=amount.amount3;
+
+  /*for (i = 0; i < scheme.length; i++) {
+    if (scheme[i].riskprofile == 'Aggressive') {
+      var amtamount1 = 0, amtmd4 = 0
+
+      if ((scheme[i].category) == 'Equity') {
+        var amtamount2 = 0, remainamt = 0, amtremainadded = 0, amtagg = 0
+
+        var amtrounded1 = 0, amtrounded2 = 0, amtrounded5 = 0
+
+											// remainamt=amount.amount1-totalrounded;
+
+        console.log('Equity j value', j)
+
+        for (var n = 0; n < j; n++) {
+          amtrounded5 = Math.floor((schemecamnteq) / 1000) * 1000
+          amtamount1 = schemecamnteq - amtrounded5
+          amtagg += amtamount1
+          console.log('Equity rating 1', amtagg, amtrounded5)
+        }
+
+        if ((scheme[i].rating) >= 2) {
+          console.log('Equity in schemes', amtrounded5)
+          amt[i] = amtrounded5
+        }
+        if ((scheme[i].rating) == 1) {
+          console.log('Equity in schemes' + amtrounded5)
+          var amountagg = amtrounded5 + amtagg
+          amountagg = Math.round((amountagg) / 1000) * 1000
+          amt[i] = amountagg
+        }
+
+        if ((scheme[i].rating) == 0) {
+          console.log('Equity' + schemecamnteq)
+          amt[i] = schemecamnteq
+        }
+      }
+
+      var amtamount1 = 0, amtmd4 = 0, amtrounded1 = 0
+      if ((scheme[i].category) == 'Hybrid') {
+        var amtamount2 = 0
+        amtrounded1 = Math.floor((schemecamnthy) / 1000) * 1000
+        amtamount1 = schemecamnthy - amtrounded1
+        amtamount1 += amtamount1
+
+        amtmd4 = schemecamnthy + amtamount1
+        amt7 = Math.round(amtmd4 / 1000) * 1000
+        if ((scheme[i].rating) >= 1) {
+          if ((scheme[i].rating) > 1) {
+            console.log('Hybrid' + amtrounded1)
+            amt[i] = amtrounded1
+          }
+
+          if ((scheme[i].rating) == 1) {
+            console.log('Hybrid' + amt7)
+            amt[i] = amt7
+          }
+        }
+        if ((scheme[i].rating) == 0) {
+          console.log('Hybrid' + schemecamnthy)
+          amt[i] = schemecamnthy
+        }
+      }
+
+      var amtamount1 = 0, amtmd4 = 0, amtrounded1 = 0
+      if ((scheme[i].category) == 'Debt') {
+        var amtamount2 = 0
+        amtrounded1 = Math.floor((schemecamntde) / 1000) * 1000
+        amtamount1 = schemecamntde - amtrounded1
+        amtamount1 += amtamount1
+        amtmd4 = schemecamntde + amtamount1
+        amt8 = Math.round(amtmd4 / 1000) * 1000
+        if ((scheme[i].rating) >= 1) {
+          if ((scheme[i].rating) > 1) {
+            console.log('Debt' + amtrounded1)
+            amt[i] = amtrounded1
+          }
+          if ((scheme[i].rating) == 1) {
+            console.log('Debt' + amt8)
+            amt[i] = amt8
+          }
+        }
+        if ((scheme[i].rating) == 0) {
+          console.log('Debt' + schemecamntde)
+          amt[i] = schemecamntde
+        }
+      }
+    } else {
+      var amtrounded1 = 0
+      if ((scheme[i].category) == 'Equity') {
+        if ((scheme[i].rating) > 1) {
+          amtrounded1 = Math.floor((schemecamnteq) / 1000) * 1000
+          console.log('Equity' + amtrounded1)
+          amt[i] = amtrounded1
+        }
+        if ((scheme[i].rating) == 1) {
+          amtme1 = Math.round(schemecamnteq / 1000) * 1000
+          console.log('Equity' + amtme1)
+          amt[i] = amtme1
+        }
+        if ((scheme[i].rating) == 0) {
+          console.log('Equity' + schemecamnteq)
+          amt[i] = schemecamnteq
+        }
+      }
+      var amtamount1 = 0, amtmd4 = 0, amtrounded1 = 0
+      if ((scheme[i].category) == 'Hybrid') {
+        if ((scheme[i].rating) > 1) {
+          amtrounded1 = Math.floor((schemecamnthy) / 1000) * 1000
+          console.log('Hybrid' + amtrounded1)
+          amt[i] = amtrounded1
+        }
+        if ((scheme[i].rating) == 1) {
+          amtme1 = Math.round(schemecamnthy / 1000) * 1000
+          console.log('Hybrid' + amtme1)
+          amt[i] = amtme1
+        }
+        if ((scheme[i].rating) == 0) {
+          console.log('Hybrid' + schemecamnthy)
+          amt[i] = schemecamnthy
+        }
+      }
+      var amtamount1 = 0, amtmd4 = 0, amtrounded1 = 0
+      if ((scheme[i].category) == 'Debt') {
+        if ((scheme[i].rating) > 1) {
+          amtrounded1 = Math.floor((schemecamntde) / 1000) * 1000
+
+          console.log('Debt' + amtrounded1)
+          amt[i] = amtrounded1
+        }
+        if ((scheme[i].rating) == 1) {
+          amtme4 = Math.round(schemecamntde / 1000) * 1000
+          console.log('Debt' + amtme4)
+          amt[i] = amtme4
+        }
+        if ((scheme[i].rating) == 0) {
+          console.log('Debt' + schemecamntde)
+          amt[i] = schemecamntde
+        }
+      }
+    }
+  }
+*/
+								// insert into the details
+
+								/* var	schemeData = {[
+
+												  ]}
+
+											var panJSON = JSON.stringify(data);	*/
+
+  for (i = 0; i < scheme.length; i++) {
+    var percentage = 0
+
+    var type = 'scheme'
+    var category = scheme[i].category
+   
+    var schemeDescription = scheme[i].name
+    var schemeCode = scheme[i].code
+    var schemeId = scheme[i].schemeid
+    console.log(scheme[i].code)
+									// var schemeCode = scheme[i].code;
+    creation_date = new Date()
+    modified_date = new Date()
+    console.log('amt=' + amt[i])
+
+									
+
+    var query = client.query('INSERT INTO savedplansdetail(savedplanid,allocationtype,allocationcategory, allocationdescription, allocationpercentage, allocationamount,created,modified,createdby,schemecode,schemeid) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)', [headerData.savedplanid, type, category, schemeDescription, percentage, amt[i], creation_date, modified_date, req.session.user.name, schemeCode, schemeId]
+										, function (err, result) {
+  if (err) {
+    console.log('cant insert assets detail allocation data', err)
+												// res.send("false");
+  } else {
+												// res.send(1);
+    console.log('result' + result.rows)
+
+												// callback(null)
+  }
+})
+  }
+
+								
+  callback(null, amt)
+            
+                 
+                 
+             });
+            
+            
+            
+            
+                 
+                 }else {
         var schemecamntde = 0, schemecamnteq = 0, schemecamnthy = 0
         var schememamntde = 0, schememamnteq = 0, schememamnthy = 0
         var schemeagamnthy = 0, schemeagamnteq = 0, schemeagamnteq = 0

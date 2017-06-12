@@ -71,6 +71,9 @@ app.get('/SavedPlans', functions.isLoggedIn, savedPlans.getSavedPlans)
 app.post('/discardPlans', functions.isLoggedIn, savedPlans.postDiscardplans)
 app.post('/SavedPlansHeader', functions.isLoggedIn, savedPlans.postPlanHeaders)
 
+
+
+
 app.get('/Pricing', functions.isLoggedIn, payment.getPrice)
 app.post('/Pricing/failure', functions.isLoggedIn, payment.postPaymentFailure)
 app.post('/Pricing/success', functions.isLoggedIn, payment.postPaymentSuccess)

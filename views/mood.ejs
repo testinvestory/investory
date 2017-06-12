@@ -289,15 +289,15 @@
                             </div>
                             <!--Tax saving-->
                             <div class="page8" style="display: none; text-align: left; padding: 10px 0 15px">
-                                <p style="display: inline-block;vertical-align: bottom; margin-right: 47px">I want to invest &#x20B9; <input style="box-shadow: -2px 5px 0px -3px #333; border: 0" name="amount" id="amount" placeholder="" min="1000" max="10000000" value="" />
+                                <p style="display: inline-block;vertical-align: bottom; margin-right: 5px">Invest &#x20B9; <input style="box-shadow: -2px 5px 0px -3px #333; border: 0" name="amount" id="amount" placeholder="" min="1000" max="10000000" value="" />
                                 <!-- <span ng-show="signUpForm.mnumber.$touched && signUpForm.mnumber.$invalid">Phone number is invalid.</span>-->
-                               towards saving tax. I need it back in <input style="margin: 0 10px; width: 50px;padding:0px"class="blankInput" type="number" min="1" max="50" placeholder="" id="time" value="" />Years</p>
+                               in the Equity Linked Savings Scheme (ELSS) to save tax now! </p>
                                 <div  style="display: inline-block">
-                                    <button type="button" id="go" class="btn btn-lg moodNav go">Calculate </button>
+                                    <button type="button" id="go" class="btn btn-lg moodNav go">Save Now </button>
                                     <button type="" class="btn btn-lg moodNav next page3Sub"> Next </button>
                                     <!--<button type="" class="btn btn-lg moodNav save page3Sub" > Save </button>-->
                                 </div>
-                                <p class="page2VldMsg" style="color: red; display: none;">Minimum goal amount should be &#x20B9; 7000</p>
+                                <p class="page2VldMsg" style="color: red; display: none;">Minimum taxamount should be &#x20B9; 7000</p>
                                 <p class="page2VldMsg2" style="color: red; display: none;">Please Select years between 1 to 50</p>
                                 <div class="dotHr"></div>
                             </div>
@@ -756,7 +756,7 @@
        
         
         function storeAssets(goalName, riskProfile, masterAmount, totalYears, sip, alloc1, amt1, alloc2, amt2, alloc3, amt3) {
-
+debugger;
             if (once && store) {
                 if (localStorage.sipInvestment || localStorage.lumpsumInvestment) {
                     var data = {};
@@ -774,7 +774,24 @@
                     if (localStorage.lumpsumInvestment) {
                         data.lumpsum = localStorage.lumpsumInvestment;
                     }
-                } else {
+                }else if(localStorage.taxInvestment){
+                     var data = {};
+                    data.goalName = goalName;
+                    data.riskProfile = riskProfile;
+                    data.masterAmount = masterAmount;
+                    data.totalYears = 0;
+                    data.sip = sip;
+                    data.equityAmount = amt1;
+                    data.hybridAmount = amt2;
+                    data.debtAmount = amt3;
+                    data.equityPercentage = alloc1;
+                    data.hybridPercentage = alloc2;
+                    data.debtPercentage = alloc3;
+                    data.taxSaving = localStorage.taxInvestment;
+                    
+                    
+                }
+           else{
                     var data = {};
                     data.goalName = goalNameFromControl;
                     data.riskProfile = riskProfile;
@@ -852,7 +869,7 @@
         function myinit(riskRate, chooseTable, storeAllocation) {
             // alert(localStorage.sipInvestment);
             /*lumpsum sohan start -- the alert is removed and else if for lumpsum is included.*/
-           
+           debugger;
    
             if (storeAllocation == 1)
                 store = true;
@@ -939,7 +956,62 @@
                 }
 
 
-            } else {
+            }else if(localStorage.taxInvestment){
+                    
+                    alert("Tax");
+                      var riskProfile = riskRate;
+                    var t = chooseTable;
+                    var rate = 10;
+                    var per = 12;
+                    var totalYears = localStorage.years;
+                    var nper = totalYears * per;
+                    var pv = 0;
+                    var fv = localStorage.taxSaveAmt;
+                    var mn = localStorage.taxSaveAmt;
+                    
+                     var eqP1 = 65;/*<%=data[0].asset.value %>*/;
+                    var hybP1 = 35;/*<%=data[1].asset.value %>;*/
+                  var debtP1 =0;
+                    
+                     var eqTax = eqP1 / 100;
+                    var hybTax = hybP1 / 100;
+                    var debtTax = debtP1 / 100;
+                    
+                      var amt1 = Math.round((eqTax * mn) / 1000) * 1000;
+                    var amt2 = Math.round((hybTax * mn) / 1000) * 1000;
+                    var amt3 = Math.round((debtTax * mn) / 1000) * 1000;
+                    
+                     var alloc1 = Math.round((amt1 / mn) * 100);
+                    var alloc2 = Math.round((amt2 / mn) * 100);
+                    var alloc3 = Math.round((amt3 / mn) * 100);
+                
+                 document.getElementById("eqAmt" + t).innerHTML = amt1;
+                    document.getElementById("hybAmt" + t).innerHTML = amt2;
+                    document.getElementById("debAmt" + t).innerHTML = amt3;
+                   
+                  
+                    
+                    document.getElementById("eqPer" + t).innerHTML = alloc1 + "%";
+                    document.getElementById("hybPer" + t).innerHTML = alloc2 + "%";
+                    document.getElementById("debPer" + t).innerHTML = alloc3 + "%";
+                
+                 if (!loggedIn) {
+                        var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
+                        tempGoals.alloc1 = alloc1;
+                        tempGoals.alloc2 = alloc2;
+                        tempGoals.alloc3 = alloc3;
+                        tempGoals.amt1 = amt1;
+                        tempGoals.amt2 = amt2;
+                        tempGoals.amt3 = amt3;
+                        sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
+                        console.log(sessionStorage.getItem("tempGoals"));
+                    }
+                
+                
+                
+                storeAssets("Tax Saving", riskProfile, fv, 0, mn, alloc1, amt1, alloc2, amt2, alloc3, amt3);
+                    
+                }else {
 
 
                 if (localStorage.sipInvestment) {
@@ -955,7 +1027,7 @@
                     var fv = localStorage.sip * nper;
                     var mn = localStorage.sip;
 
-                }
+                } 
                 else {
 
                     
@@ -1586,7 +1658,7 @@ function round_decimals(original_number, decimals) {
     <script src="javascripts/TextPlugin.min.js"></script>
     <script src="javascripts/main.js"></script>
 
-
+<script src="javascripts/taxInvest.js"></script>
     <script src="javascripts/control.js" type="text/javascript"></script>
     <script src="javascripts/moodCalculater.js" type="text/javascript"></script>
 
@@ -1623,7 +1695,7 @@ function round_decimals(original_number, decimals) {
                 $(".sub-page4").show();
             });
 
-           /* $('.page8 #amount').change(function () {
+            $('.page8 #amount').change(function () {
                 var amount = $('.page8 #amount').val();
                 let amount1=amount.replace(/,/g,''); //Replace comma from amount entered
                 amount= amount1;
@@ -1653,7 +1725,7 @@ function round_decimals(original_number, decimals) {
                         console.log(e);
                     }
                 }
-            });*/
+            });
             $('.page2 #amount').change(function () {
                 var amount = $('.page2 #amount').val();
                 let amount1=amount.replace(/,/g,''); //Replace comma from amount entered

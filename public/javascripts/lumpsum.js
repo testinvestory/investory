@@ -59,7 +59,7 @@ function getLumpsum(){
     
     let lumpAmount=lumpsum.replace(/,/g,'');  
     
-    if ( lumpAmount < 5000 || lumpAmount > 100000){ 
+    if ( lumpAmount < 5000 || lumpAmount > 1000000){ 
 		$('#lumpsumInvestErr').slideDown();
        $(' #imgcap2').css("top","41.3%");
         }
@@ -89,9 +89,10 @@ function getLumpsum(){
 
 function showLumpsum(){
 	
-	$("#setMood").attr("src", "images/emergencyFundsMood.png");  
-	$("#setMoodText").hide(); 
-	$(" .moodGoals > img,.page5 > p,.page6 > p").css("visibility","hidden");  
+	$("#setMood").attr("src", "images/buildWealthMood.png");  
+	$("#setMoodText").hide();
+     $("#goalSelected").text("Build Wealth");
+	$(" .moodGoals > img,.page6 > p").css("visibility","hidden");  
 	$(" .slider").css("visibility","hidden");
 	$(" .contentMood .page4 #invest").css("visibility","hidden");
 	  $(".contentMood .page1, .contentMood .page2,.contentMood .page3, .page3Sub,.contentMood .page4 .sub-page4").hide();

@@ -514,8 +514,8 @@ circleColor = 	moodColorChange(moodId);
     
     $(".feelingCircularMenu ul li, .photosInner .change").click(function(){
   
-
-    
+//debugger;
+   
     moodId = $(this).attr("id");
     
     var moodImgName = moodId;
@@ -523,6 +523,7 @@ circleColor = 	moodColorChange(moodId);
     $("#homeCircleImg img").attr("src", $imgLink+moodImgName+$imgExtension);
     
     $("#homeCircleImg #h1").html($Feeling+" "+moodId);
+         
     
 });    
    
@@ -532,7 +533,7 @@ $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFDE15","col
 //    $(".frogImageMoods img").attr("src", $imgLink+frogMood+$imgExtension);
 
     $("#homeCircleImg img, #homeCircleImg #h1,#homeCircleImg p, .feelingCircularMenu ul li").click(function(){
-        
+        sessionStorage.clear();
         frogMood=moodId;
          window.location.href = "GoalSelection?mood="+frogMood;
             
@@ -581,7 +582,8 @@ $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFDE15","col
     
     $(".selectGoal ul li > a").click(function(){
        // debugger;
-       
+       resetSession();
+        sessionStorage.clear();
             moodId = $(this).attr("id");
 	
       var   goalId = $(this).attr("goal");
@@ -636,7 +638,7 @@ $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFDE15","col
    
     $(".selectMood ul li > a").click(function(){
        // debugger;
-     
+     resetSession();
             moodId = $(this).attr("id");
    window.location.href = "/GoalSelection?mood="+moodId;
     var moodImgNam = moodId;
@@ -792,6 +794,7 @@ $(".moods .slider .change").click(function () {
     $('#time').val('');
     selectTab(1);
     sessionStorage.clear();
+    resetSession();
 });    
   
     
@@ -806,6 +809,7 @@ var $smartGoals = "smartGoals";
      var smartSource = getParameterByName('smartGoal');
     var smartMood = getParameterByName('smood');
         if(smartSource){
+            resetSession();
              // debugger;
              $("#setMood").attr("src", $imgLink+smartSource+"Mood"+$imgExtension);
 			moodsss= smartSource+"Mood";
@@ -839,31 +843,18 @@ var $smartGoals = "smartGoals";
                 
                 
         }
-        
-
-        
-        
+     
+      //  debugger;
         
            if(local=="Tax Saving"){
-             
-//debugger;
-               
+            resetSession();
                $(".contentMood .page1, .contentMood .page2,.contentMood .page3, .page3Sub").hide();
-              
-	          // $("#setMoodText").hide(); 
-	           $(".moodGoals > img").css("visibility","hidden");  
-              // $(".slider").css("visibility","hidden");
-             //  $(".contentMood .page4 #invest").css("visibility","hidden");
-             //  $(".contentMood .page1, .contentMood .page2,.contentMood .page3, .page3Sub,.contentMood .page4 .sub-page4").hide();
-              // $(".page2 .dotHr").hide();
+	           $(".moodGoals > img").css("visibility","hidden"); 
 	           $(".contentMood .page8").show();
                   }else{
                 $(".below").empty();
               $(".below").prepend("<div class='goal' id=''><img src='"+$GoalimgLink+smartMood+"/"+local+$imgExtension+"' mood="+smartMood+" alt='Home view'><p id='mood'><span></span>"+local+"</p></div>");
            }
-           
-            
-        
         }
 
         $(".emergency-funds").click(function () {
@@ -1033,7 +1024,77 @@ var $smartGoals = "smartGoals";
 
 
     $(document).on("click", '.below .goal', function () {
+//debugger;
+        
+        
+        resetSession();
+      
+              var smartSource = getParameterByName('smartGoal');
+    var smartMood = getParameterByName('smood');
+        if(smartSource){
+             // debugger;
+             $("#setMood").attr("src", $imgLink+smartSource+"Mood"+$imgExtension);
+			moodsss= smartSource+"Mood";
+         $("#setMoodText").html(" ");
+			
+            $(".moods .slider").hide();
+            
+             var local; 
+    
+        switch(smartSource){
+                
+            case "emergencyFunds": 
+               
+                local="Emergency";
+                break;
+                
+             case "taxSavings": 
+               
+                local="Tax Saving";
+                break;
+                
+             case "buildWealth": 
+               
+                local="Crorepati";
+                break;
+                
+             case "smartGoals": 
+               
+                local="Retirement";
+                break;
+                
+                
+        }
+        
 
+     
+        
+        
+           if(local=="Tax Saving"){
+             resetSession();
+
+               
+               $(".contentMood .page1, .contentMood .page2,.contentMood .page3, .page3Sub").hide();
+              
+	          // $("#setMoodText").hide(); 
+	           $(".moodGoals > img").css("visibility","hidden");  
+              // $(".slider").css("visibility","hidden");
+             //  $(".contentMood .page4 #invest").css("visibility","hidden");
+             //  $(".contentMood .page1, .contentMood .page2,.contentMood .page3, .page3Sub,.contentMood .page4 .sub-page4").hide();
+              // $(".page2 .dotHr").hide();
+	           $(".contentMood .page8").show();
+                  }else{
+                $(".below").empty();
+                     moodgoal= local; 
+                      goalName(moodgoal);
+              $(".below").prepend("<div class='goal' id=''><img src='"+$GoalimgLink+smartMood+"/"+local+$onHover+$imgExtension+"' mood="+smartMood+" alt='Home view'><p id='mood'><span style='background-color:#FFDE15;'></span>"+local+"</p></div>");
+                       $('.page1 .next').removeAttr('disabled');
+           }
+           
+            
+        
+        }
+           else{
    $('.goal').removeAttr('id');
          var clickActive = $(this).attr("id");
        
@@ -1044,6 +1105,7 @@ var $smartGoals = "smartGoals";
         $("#mood span", this).css("background-color", "#FFDE15");*/
         moodgoal = $("#mood", this).text();
         if(moodgoal=="Child"+"'"+"s education"){
+            moodFile='Child education';
             moodFile='Child education';
             
         }
@@ -1101,11 +1163,11 @@ var $smartGoals = "smartGoals";
            }
         }
     }
-         
+    }
  sessionStorage.setItem('tempGoals', JSON.stringify({"goal": goal, "mood": mood, "moodText": moodText}));
             console.log(sessionStorage.getItem("tempGoals"));    
     });
-debugger;
+
          
      var currentPage=1;
      var movingTo= 0;
@@ -1161,7 +1223,7 @@ var movingTo= 0;
 
         
           
-     });*/
+     });
   
 /*$(".below .goal").hover(function(){
     var clickActive = $(this).attr("id");
@@ -1186,7 +1248,10 @@ var goalImg = $("#mood",this).text();
 }
     
 });*/
- if(local=="Tax Saving"){}
+ if(local=="Tax Saving"){
+     
+ }
+    
     else{
         $(".contentMood .page2, #Indicator,#rpText, #riskSelected, #yp, .contentMood .page3, .page3Sub, .contentMood .page4, .contentMood .page5, .contentMood .page6, #IndicatorNew").hide();
  
@@ -1350,6 +1415,7 @@ var goalImg = $("#mood",this).text();
                 $(".pagination li:nth-child(4) a").css({ "background-color": "#FFDE15", "color": "#35BFD3", "border-color": "#FFDE15" });
                 $(".contentMood .page4 #invest").css("color", "#35BFD3");
                 $(".contentMood .page4,.contentMood .page4 .selectMode").show();
+                 $("#goalSelected").text(moodgoal);
                 break;    
             
             case 5:
@@ -1376,7 +1442,7 @@ var goalImg = $("#mood",this).text();
                 $('.contentMood .page5').show();
                 $("#riskSelected").text(rp);
                 $("#"+rp).addClass("act");
-                localStorage.clear();
+               localStorage.clear();
                 $(".contentMood .page4 #sip").css({"color": "black","font-size":"1.2em"});
                 // $("#displayModal").modal("show");
                 // $("#displayModal h3").html("You are a "+rp+" risk taker and we have recommended you the best.");
@@ -1473,8 +1539,15 @@ var goalImg = $("#mood",this).text();
         $(".contentMood .page6, #IndicatorNew").show();
 	});
 	
-	
+	$(".moodGoals #back").click(function(){
+  
+        window.location.href = "GoalSelection";
+        selectTab(5);
+      
+         
+    });
 	$(".moodGoals > img").click(function(){
+       
 	movingTo = currentPage-1;	
     selectTab(movingTo);
 // 		switch(movingTo){

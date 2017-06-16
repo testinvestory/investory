@@ -8,8 +8,8 @@ const pg = require('pg');
 const crypto = require('crypto');
 /* common functions */
 //const functions = require('./functions');
-//const conString = "postgres://postgres:postgres@localhost:5432/investory";
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+const conString = "postgres://postgres:postgres@localhost:5432/investory";
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 var client = new pg.Client(conString);
 client.connect();
 
@@ -148,7 +148,102 @@ exports.getSaveAsset = (req, res) => {
 						//using the json data
 						//pass the query
 
-						var amount = {
+						
+                        if(req.session.offlinegoalName=='Tax Saving'){
+                            
+                             var amount = {
+
+							amount1: detailData[0].allocationamount,
+							amount2: detailData[1].allocationamount,
+							amount3: detailData[2].allocationamount
+
+						}
+						
+						
+                            
+                            
+                            
+                 
+                 console.log("I am in=============><=========Nishant");
+          var type='Tax';
+            
+            var riskProfile=headerData.riskprofile;
+              var schemecamntde = 0, schemecamnteq = 0, schemecamnthy = 0
+        var schememamntde = 0, schememamnteq = 0, schememamnthy = 0
+        var schemeagamnthy = 0, schemeagamnteq = 0, schemeagamnteq = 0
+						// select * from schemesmaster where $1 between sipfrom and sipto and $2 between yearfrom and yearto and riskprofile = $3
+        var j = 0, k = 0, l = 0
+             var query = client.query('select * from schemesmaster where type=$1 and riskprofile = $2 order by category ', [type, riskProfile],
+							function (err, result) {
+  if (err) {
+    console.log('Cant get assets values')
+  }
+        scheme = result.rows
+                 console.log("1234567 "+scheme.length+"scheme"+scheme[1].name+scheme[1].category);
+            
+  
+  
+
+  var amt = []
+  amt[0]=amount.amount1;
+  amt[1]=amount.amount2;
+  amt[2]=amount.amount3;
+
+  
+
+								// insert into the details
+
+								/* var	schemeData = {[
+
+												  ]}
+
+											var panJSON = JSON.stringify(data);	*/
+
+  for (i = 0; i < scheme.length; i++) {
+    var percentage = 0
+
+    var type = 'scheme'
+    var category = scheme[i].category
+   
+    var schemeDescription = scheme[i].name
+    var schemeCode = scheme[i].code
+    var schemeId = scheme[i].schemeid
+    console.log(scheme[i].code)
+									// var schemeCode = scheme[i].code;
+    creation_date = new Date()
+    modified_date = new Date()
+    console.log('amt=' + amt[i])
+
+									
+
+    var query = client.query('INSERT INTO savedplansdetail(savedplanid,allocationtype,allocationcategory, allocationdescription, allocationpercentage, allocationamount,created,modified,createdby,schemecode,schemeid) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)', [headerData.savedplanid, type, category, schemeDescription, percentage, amt[i], creation_date, modified_date, req.session.user.name, schemeCode, schemeId]
+										, function (err, result) {
+  if (err) {
+    console.log('cant insert assets detail allocation data', err)
+												// res.send("false");
+  } else {
+												// res.send(1);
+    console.log('result' + result.rows)
+
+												// callback(null)
+  }
+})
+  }
+
+								
+  callback(null)
+            
+                 
+                 
+             });
+            
+            
+            
+            
+                 
+                 }
+                        else{
+                        var amount = {
 
 							amount1: detailData[0].allocationamount,
 							amount2: detailData[1].allocationamount,
@@ -465,7 +560,7 @@ exports.getSaveAsset = (req, res) => {
 								callback(null);
 							})
 						//fetch the scheme info
-
+                        }
 					}], function (err, result) {
 
 

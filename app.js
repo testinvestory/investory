@@ -64,6 +64,8 @@ app.get('/Investment', functions.isLoggedIn, investment.getInvestment)
 app.post('/setData', investment.postSetData)
 app.post('/showScheme', functions.isLoggedIn, investment.postScheme)
 
+
+
 app.get('/GoalSelection', functions.isLoggedIn, goal.goalSelection)
 app.get('/GoalInvest', functions.isLoggedIn, goal.goalInvest)
 

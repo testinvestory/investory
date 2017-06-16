@@ -3,8 +3,8 @@ const pg = require('pg')
 var request = require('request')
 var parseString = require('xml2js').parseString
 const functions = require('./functions')
-//const conString = 'postgres://postgres:postgres@localhost:5432/investory'
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+const conString = 'postgres://postgres:postgres@localhost:5432/investory'
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 var client = new pg.Client(conString)
 client.connect()
 
@@ -85,7 +85,7 @@ exports.postPaymentSuccess = (req, res) => {
 
   var orderDate = req.body.addedon
   var days = 30
-  var renewDate ='2017-06-07'// renewalDate(days, orderDate)
+  var renewDate =functions.renewalDate(days, orderDate)
   var planId = 1
   var amount = req.body.amount
   var status = req.body.status
@@ -140,8 +140,8 @@ exports.postPay = (req, res, next) => {
 
   async.waterfall([
     function (callback) {
-      const merchantKey = 'rECGZ0'
-      const salt = 'pTIyMt9L'
+      const merchantKey = 'gtKFFx'
+      const salt = 'eCwWELxi'
       const txnid = functions.getTransactionID(req.session.user.userid)
       const amount = req.body.planPrice
       const productinfo = req.body.plan
@@ -154,8 +154,8 @@ exports.postPay = (req, res, next) => {
       const hash = functions.checksum(str, 'sha512').toLowerCase()
 
       data = {
-        merchantKey: 'rECGZ0',
-        hash: 'rECGZ0',
+        merchantKey: 'gtKFFx',
+        hash: 'eCwWELxi',
         amount: amount,
         txnid: txnid,
         firstname: firstname,
@@ -164,12 +164,12 @@ exports.postPay = (req, res, next) => {
         phone: phone,
        // surl: 'http://localhost:3000/Pricing/success',
        //furl: 'http://localhost:3000/Pricing/failure',
-            surl: 'http://34.201.143.108/Pricing/success',
-            surl: 'http://34.201.143.108/Pricing/success',
+            surl: 'http://54.152.36.19:3000/Pricing/success',
+            furl: 'http://54.152.36.19:3000/Pricing/failure',
           
         hash: hash,
         service_provider: 'payu_paisa',
-        action: 'https://secure.payu.in/_payment'
+        action: 'https://test.payu.in/_payment'
       }
 
       callback(null, data)

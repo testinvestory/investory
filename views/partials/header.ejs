@@ -53,7 +53,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="dropdownForLogOut">
                                 <li><a href="/myStory">My Story</a></li>
-                                <li><a href="/reports">Reports</a></li>
+                               <!-- <li><a href="/reports">Reports</a></li>-->
                                 <li><a href="/Profile">Edit Profile</a></li>
                                 <li><a href="/invoices">Account</a></li>
                                 <li><a href="#">Message</a></li>
@@ -68,7 +68,8 @@
             </ul>
             </div>
             <div id="<%= selectorDisplay %>" class="moodGoals">
-                <img src="images/backarrow.png" alt="">
+               <img  src="images/backarrow.png" id="back"  alt="">
+                <img src="images/backarrow.png"  id="back1" alt="">
                 <div class="dropdown selectMood">
                 <button class="btn btn-round btn-primary dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Your Moods
                     <span class="caret"></span>
@@ -269,7 +270,20 @@
                         </div>
                   </div>
              </div>
-          </div>	
+          </div>
+         <div class="modal fade" id="displayModal2" role="dialog" style="top:8em">                  
+  <div class="modal-dialog modal-md" style=" "> 
+                 <!-- Modal content--> 
+
+                  <div class="modal-content">           
+                        <div class="modal-body "  style="font-size:1em;padding-bottom: 0em;"><img src="images/Pop-ups.png" class="popUPImg" height="90" width="90">
+                            <p style="font-size:21px;" class="PANHead">Did you know that investments in ELSS have one of the lowest lock-in period of 3 years? In comparison, an investment in the Public Provident Fund (PPF) has a lock-in of 15 years.<!--<strong>Conservative</strong> risk profile.--></p>
+  <button type="" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal">OK</button>
+   
+                        </div>
+                  </div>
+             </div>
+          </div>
 		
 <script>
     $(document).ready(function(){

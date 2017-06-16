@@ -11,7 +11,14 @@ Colors used inside
 */
 /* the animations */
 /* fade */
-
+#back{
+    position: relative;
+    float: left;
+    margin-right: 1em;
+/*position:absolute;
+    float: left;
+    margin-left: -15.2em;
+margin-right: 1em;*/}
 #uploadProfilepic{
     padding-left:0%; 
     
@@ -208,8 +215,8 @@ What we offer
 .what-we-offer .container { margin-bottom: 35px}
 #indexLookingFor > div { position: relative; height: 200px}
 #indexLookingFor > div > img { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -75%) }
-#indexLookingFor > div > p { position: absolute; bottom: 0; margin: 0 auto; left: 0; right: 0; /*font-weight: bold;
-    	font-size: 1.1em;*/}
+#indexLookingFor > div > p { position: absolute; bottom: 0; margin: 0 auto; left: 0; right: 0; font-weight: bold;
+    	font-size: 1.1em;}
 /*.what-we-offer h2 { padding-top: 15px }*/
 
 .what-we-offer > .row div > img, .how-it-works > .row div > img{ display: block; margin: auto }

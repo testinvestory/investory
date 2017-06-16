@@ -18,6 +18,7 @@
 
     <script src="javascripts/lumpsum.js"></script>
     <style>
+        .moodGoals > #back {display:none;}
         .popover{
             border:solid 2px #35BFD3; 
         }
@@ -60,8 +61,18 @@
                                  
     </script>
     <% include partials/header %>
-
-    
+<div class="modal fade" id="displayPanModal" role="dialog" style="top:8em">                  
+  <div class="modal-dialog modal-md" style=" "> 
+    <div class="modal-content">           
+                        <div class="modal-body "  style="font-size:1em;padding-bottom: 0em;"><img src="images/Pop-ups.png" class="popUPImg" height="90" width="90">
+                            <p style="font-size:21px;" class="PANHead">Enter a valid PAN or contact investory team to the needful.
+</p>
+  <button type="" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal">OK</button>
+   
+                        </div>
+                  </div>
+    </div>
+    </div>
 
     <!--Pan Modal Window-->
     <div class="modal fade" id="myPanModal" role="dialog">
@@ -82,6 +93,7 @@
                         <button class="btn btn-lg moodNav  pricing RP1 pull-left submit submitPan" style="margin-top:10%;width:5.5em;" id="panCheck" type="submit"
                             onclick="checkPanStaus()"> Submit </button>
                         <p id="errMsg"></p>
+                        <div id="loader1"></div>
 
                         <!--</form>-->
                     </div>
@@ -286,6 +298,8 @@
                                 <p class="page2VldMsg" style="color: red; display: none;">Minimum goal amount should be &#x20B9; 7000</p>
                                 <p class="page2VldMsg2" style="color: red; display: none;">Please Select years between 1 to 50</p>
                                 <div class="dotHr"></div>
+                                
+                                
                             </div>
                             <!--Tax saving-->
                             <div class="page8" style="display: none; text-align: left; padding: 10px 0 15px">
@@ -298,6 +312,7 @@
                                     <!--<button type="" class="btn btn-lg moodNav save page3Sub" > Save </button>-->
                                 </div>
                                 <p class="page2VldMsg" style="color: red; display: none;">Minimum taxamount should be &#x20B9; 7000</p>
+                                <p class="page8VldMsg" style="color: red; display: none;"> You can invest Maximum &#x20B9; 1,50,000 towads tax saving.</p>
                                 <p class="page2VldMsg2" style="color: red; display: none;">Please Select years between 1 to 50</p>
                                 <div class="dotHr"></div>
                             </div>
@@ -503,10 +518,10 @@
                                 </div>
                                 <div class="btn-hr-wrapper clean showDataSchemes">
                                     <% if(loggedIn && paid){ %>
-                                        <button type="submit" class="btn btn-lg moodNav signUp pull-left" id="schemeNext"> Next </button>
+                                        <button type="submit" class="btn btn-lg moodNav signUp pull-left" id="schemeNext"  > Next </button>
                                     <%  } else if(loggedIn && !paid) { %>
                                         <form action="/Pricing" method="get">
-                                            <button type="submit" class="btn btn-lg moodNav signUp pull-left">Pay </button>
+                                            <button type="submit" class="btn btn-lg moodNav signUp pull-left" onclick="storeTemp();">Pay </button>
                                         </form>
                                     <%  } else { %>
                                         <button type="" data-toggle="modal" data-target="#loginModal" class="btn btn-lg moodNav signUp pull-left"> login </button>
@@ -560,11 +575,11 @@
                                             </tfoot>
                                     </table>
                                 </div>
-                                 <div class = "readMore toolTip">
+                                <!-- <div class = "readMore toolTip">
             <p class="txtSmall">Our name is inspired by two words - invest and story.<br/>
                 Here we help you write your financial story with honest investment advice.<br/><br/>
             Our brand mascot is "Tory" the frog.</p>
-            </div>
+            </div>-->
                             </div>
 
 
@@ -656,7 +671,8 @@
 });
         var goalNameFromControl;
         function goalName(name) {
-            goalNameFromControl = name;
+                goalNameFromControl = name;
+                
             console.log(name);
         }
 
@@ -715,10 +731,21 @@
                     <% }%>
             
         }
+      
+        
+       
+        
+        
+        function resetSession(){
+       
+          sessionStorage.removeItem('tempGoals');
+    
+}
+       
         function checkPanStaus() {
             if($('.panNumber').val().length == 10){
                 $('.panErr').slideUp();
-                $('.btn.pricing.RP1.submitPan').parent().html('<img src = "images/loader.gif" >');
+                $('#loader1').html('<img src = "images/loader.gif" >');
                 var data = {};
                 data.pan = document.getElementById("pan").value;
                 console.log("pan" + data.pan);
@@ -733,17 +760,29 @@
                         url: '/PANValidation',
                         success: function (data) {
                             // console.log('success');
-                            $("#myPanModal .loader").html('');
+                           $("#loader1").hide();
+                            $("#loader1").html('');
+                            document.getElementById("bseInvest").style.display = 'block';
+                            document.getElementById("pan").style.display = 'block';
+                            $('.btn.pricing.RP1.submitPan').show();
                             var myObj = JSON.parse(data);
-
+                            if(myObj.statusCode=='not complaint'){
+                               
+                               $("#displayPanModal").modal('show');
+                                 $("#myPanModal").modal('hide');
+                                
+                            }
+                            else{
+                                
                             //document.getElementById("responseData").style.display='none';
                             document.getElementById("bseInvest").style.display = 'block';
-                            document.getElementById("pan").style.display = 'none';
+                            document.getElementById("pan").style.display = 'block';
                             // document.getElementById("panCheck").style.display = 'none';
 
                             var displayMsg = "Hi " + myObj.name + " your PAN No. " + myObj.pan + " is " + myObj.msg;
                             document.getElementById("data1").innerHTML = displayMsg;
                             $('.btn-Next-Pan-Modal').css('display', 'block');
+                            }
                         }
                     })
                     <% }%>
@@ -753,14 +792,14 @@
 
         }
       
-       
+
         
         function storeAssets(goalName, riskProfile, masterAmount, totalYears, sip, alloc1, amt1, alloc2, amt2, alloc3, amt3) {
-debugger;
+
             if (once && store) {
                 if (localStorage.sipInvestment || localStorage.lumpsumInvestment) {
-                    var data = {};
-                    data.goalName = "Crorepati";
+                var data = {};
+                    data.goalName = "Build Wealth";
                     data.riskProfile = riskProfile;
                     data.masterAmount = masterAmount;
                     data.totalYears = totalYears;
@@ -771,6 +810,9 @@ debugger;
                     data.equityPercentage = alloc1;
                     data.hybridPercentage = alloc2;
                     data.debtPercentage = alloc3;
+                    var tempGoals = JSON.parse(sessionStorage.getItem('tempGoals'));
+                        tempGoals.goalName = data.goalName;
+                        sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                     if (localStorage.lumpsumInvestment) {
                         data.lumpsum = localStorage.lumpsumInvestment;
                     }
@@ -789,9 +831,12 @@ debugger;
                     data.debtPercentage = alloc3;
                     data.taxSaving = localStorage.taxInvestment;
                     
-                    
+                     var tempGoals = JSON.parse(sessionStorage.getItem('tempGoals'));
+                        tempGoals.goalName = data.goalName;
+                        sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                 }
            else{
+                   
                     var data = {};
                     data.goalName = goalNameFromControl;
                     data.riskProfile = riskProfile;
@@ -804,9 +849,14 @@ debugger;
                     data.equityPercentage = alloc1;
                     data.hybridPercentage = alloc2;
                     data.debtPercentage = alloc3;
+                        var tempGoals = JSON.parse(sessionStorage.getItem('tempGoals'));
+                        tempGoals.goalName = data.goalName;
+                        sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                 }
+                
                 <% if(loggedIn) {%>
               
+               
                     $.ajax({
                         type: 'POST',
                         data: JSON.stringify(data),
@@ -856,7 +906,7 @@ debugger;
                             once= false;
             }
         }
-
+        
 
         function setForScheme(riskProfile, sip, amt1, amt2, amt3) {
 
@@ -869,8 +919,10 @@ debugger;
         function myinit(riskRate, chooseTable, storeAllocation) {
             // alert(localStorage.sipInvestment);
             /*lumpsum sohan start -- the alert is removed and else if for lumpsum is included.*/
-           debugger;
-   
+        // debugger;
+  
+            
+            
             if (storeAllocation == 1)
                 store = true;
             else
@@ -888,6 +940,7 @@ debugger;
                 var pv=0;*/
                 var fv = localStorage.lumpsum;
                 var mn = 0;
+                var mn1=localStorage.lumpsum;
 
                 if (riskProfile == "Conservative") {
 
@@ -909,8 +962,26 @@ debugger;
                     document.getElementById("eqPer" + t).innerHTML = alloc1 + "%";
                     document.getElementById("hybPer" + t).innerHTML = alloc2 + "%";
                     document.getElementById("debPer" + t).innerHTML = alloc3 + "%";
+                    
+                    
+                     
+                    
+                    $(".page5 #invest1").html(mn1);
+                    $(".page5 #total1").html(mn1);
+                    
+                    var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
+                        tempGoals.alloc1 = alloc1;
+                        tempGoals.alloc2 = alloc2;
+                        tempGoals.alloc3 = alloc3;
+                        tempGoals.amt1 = amt1;
+                        tempGoals.amt2 = amt2;
+                        tempGoals.amt3 = amt3;
+                         tempGoals.mn = mn1;
+                        tempGoals.riskProfile=riskProfile;
+                        sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
+                        console.log(sessionStorage.getItem("tempGoals"));
 
-                    storeAssets("Broke", riskProfile, fv, totalYears, mn, alloc1, amt1, alloc2, amt2, alloc3, amt3);
+                    storeAssets("Build Wealth", riskProfile, fv, totalYears, mn, alloc1, amt1, alloc2, amt2, alloc3, amt3);
 
                 } else if (riskProfile == "Moderate") {
 
@@ -930,8 +1001,23 @@ debugger;
                     document.getElementById("eqPer" + t).innerHTML = alloc1 + "%";
                     document.getElementById("hybPer" + t).innerHTML = alloc2 + "%";
                     document.getElementById("debPer" + t).innerHTML = alloc3 + "%";
+                    
+                      $(".page5 #invest1").html(mn1);
+                    $(".page5 #total1").html(mn1);
+                    
+                    var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
+                        tempGoals.alloc1 = alloc1;
+                        tempGoals.alloc2 = alloc2;
+                        tempGoals.alloc3 = alloc3;
+                        tempGoals.amt1 = amt1;
+                        tempGoals.amt2 = amt2;
+                        tempGoals.amt3 = amt3;
+                         tempGoals.mn = mn1;
+                        tempGoals.riskProfile=riskProfile;
+                        sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
+                        console.log(sessionStorage.getItem("tempGoals"));
 
-                    storeAssets("Broke", riskProfile, fv, totalYears, mn, alloc1, amt1, alloc2, amt2, alloc3, amt3);
+                    storeAssets("Build Wealth", riskProfile, fv, totalYears, mn, alloc1, amt1, alloc2, amt2, alloc3, amt3);
 
                 } else {
                     var alloc1 = 100;
@@ -951,14 +1037,30 @@ debugger;
                     document.getElementById("eqPer" + t).innerHTML = alloc1 + "%";
                     document.getElementById("hybPer" + t).innerHTML = alloc2 + "%";
                     document.getElementById("debPer" + t).innerHTML = alloc3 + "%";
+                    
+                    
+                    $(".page5 #invest1").html(mn1);
+                    $(".page5 #total1").html(mn1);
+                    
+                    var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
+                        tempGoals.alloc1 = alloc1;
+                        tempGoals.alloc2 = alloc2;
+                        tempGoals.alloc3 = alloc3;
+                        tempGoals.amt1 = amt1;
+                        tempGoals.amt2 = amt2;
+                        tempGoals.amt3 = amt3;
+                         tempGoals.mn = mn1;
+                        tempGoals.riskProfile=riskProfile;
+                        sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
+                        console.log(sessionStorage.getItem("tempGoals"));
 
-                    storeAssets("Broke", riskProfile, fv, totalYears, mn, alloc1, amt1, alloc2, amt2, alloc3, amt3);
+                    storeAssets("Build Wealth", riskProfile, fv, totalYears, mn, alloc1, amt1, alloc2, amt2, alloc3, amt3);
                 }
 
 
             }else if(localStorage.taxInvestment){
                     
-                    alert("Tax");
+                    //alert("Tax");
                       var riskProfile = riskRate;
                     var t = chooseTable;
                     var rate = 10;
@@ -995,7 +1097,7 @@ debugger;
                     document.getElementById("hybPer" + t).innerHTML = alloc2 + "%";
                     document.getElementById("debPer" + t).innerHTML = alloc3 + "%";
                 
-                 if (!loggedIn) {
+                // if (!loggedIn) {
                         var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
                         tempGoals.alloc1 = alloc1;
                         tempGoals.alloc2 = alloc2;
@@ -1003,9 +1105,12 @@ debugger;
                         tempGoals.amt1 = amt1;
                         tempGoals.amt2 = amt2;
                         tempGoals.amt3 = amt3;
+                         tempGoals.mn = mn;
+                        tempGoals.riskProfile=riskProfile;
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
-                    }
+                  //  }
+               
                 
                 
                 
@@ -1104,15 +1209,15 @@ debugger;
                 console.log(riskProfile + nper);
 
                 try {
-                    if (!loggedIn) {
+                   // if (!loggedIn) {
                         var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
                         if(tempGoals == undefined) {
                             tempGoals = {};
                         }
                         tempGoals.mn = mn;
-                       
+                        tempGoals.riskProfile=riskProfile;
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
-                    }
+                    //}
                 } catch(e) {
                     console.log("Session Storage thing didn't work >>> "+ e );
                 }
@@ -1125,6 +1230,7 @@ debugger;
                         $('.page2VldMsg').slideDown();
                     }
                 });
+                document.getElementById("invest1").innerHTML = mn;
                 document.getElementById("invest2").innerHTML = mn;
                 document.getElementById("total").innerHTML = mn;
                 document.getElementById("total1").innerHTML = mn;
@@ -1215,7 +1321,7 @@ debugger;
                         mean2 = total;
                     }
 
-                    if (!loggedIn) {
+                    //if (!loggedIn) {
                         var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
                         tempGoals.amt1 = amt1;
                         tempGoals.amt2 = amt2;
@@ -1225,7 +1331,7 @@ debugger;
                     
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
-                    }
+                    //}
 
                     document.getElementById("eqAmt" + t).innerHTML = amt1;
                     document.getElementById("hybAmt" + t).innerHTML = amt2;
@@ -1269,14 +1375,14 @@ debugger;
                     }
 
 
-                    if (!loggedIn) {
+                   // if (!loggedIn) {
                         var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
                         tempGoals.alloc1 = alloc1;
                         tempGoals.alloc2 = alloc2;
                         tempGoals.alloc3 = alloc3;
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
-                    }
+                  //  }
                     document.getElementById("eqPer" + t).innerHTML = alloc1 + "%";
                     document.getElementById("hybPer" + t).innerHTML = alloc2 + "%";
                     document.getElementById("debPer" + t).innerHTML = alloc3 + "%";
@@ -1318,14 +1424,15 @@ debugger;
 
 
 
-                    if (!loggedIn) {
+                   // if (!loggedIn) {
                         var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
                         tempGoals.amt1 = amtM1;
                         tempGoals.amt2 = amtM2;
                         tempGoals.amt3 = amtM3;
+                   
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
-                    }
+                    //}
                     document.getElementById("eqAmt" + t).innerHTML = amtM1;
                     document.getElementById("hybAmt" + t).innerHTML = amtM2;
                     document.getElementById("debAmt" + t).innerHTML = amtM3;
@@ -1369,14 +1476,14 @@ debugger;
 
 
 
-                    if (!loggedIn) { 
+                    //if (!loggedIn) { 
                         var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
                        tempGoals.alloc1 = allocM1;
                         tempGoals.alloc2 = allocM2;
                         tempGoals.alloc3 = allocM3;
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
-                    }
+                    //}
                     document.getElementById("eqPer" + t).innerHTML = allocM1 + "%";
                     document.getElementById("hybPer" + t).innerHTML = allocM2 + "%";
                     document.getElementById("debPer" + t).innerHTML = allocM3 + "%";
@@ -1411,14 +1518,15 @@ debugger;
                         mean4 = totalA;
                     }
 
-                    if (!loggedIn) {
+                   // if (!loggedIn) {
                         var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
                         tempGoals.amt1 = amtA1;
                         tempGoals.amt2 = amtA2;
                         tempGoals.amt3 = amtA3;
+                   
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
-                    }
+                  //  }
                     document.getElementById("eqAmt" + t).innerHTML = amtA1;
                     document.getElementById("hybAmt" + t).innerHTML = amtA2;
                     document.getElementById("debAmt" + t).innerHTML = amtA3;
@@ -1460,14 +1568,14 @@ debugger;
                     }
 
 
-                    if (!loggedIn) {
+                  //  if (!loggedIn) {
                         var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
                         tempGoals.alloc1 = allocA1;
                         tempGoals.alloc2 = allocA2;
                         tempGoals.alloc3 = allocA3;
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
-                    }
+                    //}
                    
                     document.getElementById("eqPer" + t).innerHTML = allocA1 + "%";
                     document.getElementById("hybPer" + t).innerHTML = allocA2 + "%";
@@ -1746,7 +1854,7 @@ function round_decimals(original_number, decimals) {
 
             $('.page2 #time').change(function () {
                 var time = $('.page2 #time').val();
-                if(!loggedIn) {
+             //   if(!loggedIn) {
                     try{
                         var tempGoals = JSON.parse(sessionStorage.getItem('tempGoals'));
                         tempGoals.time = time;
@@ -1755,14 +1863,14 @@ function round_decimals(original_number, decimals) {
                     } catch(e) {
                         console.log(e);
                     }
-                }
+              //  }
             });
 
 
             var initializeTabs = function () {
                 try {
-                   // ;
                    
+              
                     var tempGoals = JSON.parse(sessionStorage.getItem('tempGoals'));
                     if (loggedIn && tempGoals.currentPage) {
                         selectTab(tempGoals.currentPage);
@@ -1782,26 +1890,56 @@ function round_decimals(original_number, decimals) {
                         $("#invest2").html(tempGoals.mn);
                         $("#amount").val(tempGoals.goalAmount);
                         $('#time').val(Number(tempGoals.time));
+                        $('#riskSelected').html(tempGoals.riskProfile);
+                        $('span#goalSelected').html(tempGoals.goalName);
                         console.log(JSON.parse(sessionStorage.getItem('sessionStorage')));
-                        // debugger;
+                    
                         // if (tempGoals.riskProfile) {
                             // showRiskProfile(tempGoals.riskProfile);
-                        $('#riskSelected').html(tempGoals.riskProfile);
+                        //$('#riskSelected').html(tempGoals.riskProfile);
                         // }
                         $('#Indicator span').css('display', 'inline');
                         var moodId = tempGoals.moodText;
                         var local;
                         local = getGoals(moodId);
+                         
+                         if(tempGoals.goalName=="Tax Saving"){
+                               
+	                          
+                              
+                              $("#setMood").attr("src", "images/taxSavingsMood.png"); 
+                              $("#setMoodText").hide(); 
+                              $(".slider-control").hide(); 
+                              
+	                           $("#setMoodText").hide(); 
+                               $(".photosInner").hide(); 
+                             
+                          }else if(tempGoals.goalName=="Build Wealth"){
+                               
+                              $("#setMood").attr("src", "images/buildWealthMood.png");
+                              $("#setMoodText").hide(); 
+                              $(".slider-control").hide(); 
+                              
+	                           $("#setMoodText").hide(); 
+                               $(".photosInner").hide();
+                              
+                          }
+                            
+                        else{
                         // $(".frogImageMoods img").attr("src", "images/" + moodImgName + $imgExtension);
                         $(".frogImageMoods img").attr("src", tempGoals.mood);
                         $(".frogImageMoods h1").html("Feeling " + moodId);
                         $(".below").empty();
+                       
                         for (i = 0; i < local.length; i++) {
                             $(".below").append("<div class='goal' id=''><img src='images/goals/" + moodId + "/" + local[i] + ".png' mood=" + moodId + " alt='Home view'><p id='mood'><span></span>" + local[i] + "</p></div>");
                         }
-                        $('p:contains(' + tempGoals.goal + ')').children('span').css('background', 'yellow');
+                        $('p:contains(' + tempGoals.goal + ')').children('span').css(/*'background', 'yellow'*/);
                         $('span#goalSelected').html(tempGoals.goal);
-                        sessionStorage.removeItem('tempGoals');
+                         //$('span#goalSelected').html(tempGoals.goalName);
+                       
+                        //sessionStorage.removeItem('tempGoals');
+                    }
                     }
 
                 } catch (e) {

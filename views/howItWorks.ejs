@@ -4,14 +4,28 @@
 
    <% include partials/head %>
 	  <style>
-    .moodGoals > img { display: none }
+          .moodGoals > #back1 {display:none;}
+          
+          <%if(loggedIn){%>
+          .moodGoals > #back {}
+             <%}else{%>
+          .moodGoals > #back {display:none;}
+          <%}%>
     </style>	
     <link rel="stylesheet" href="stylesheets/updated.css">
     <link rel="stylesheet" href="stylesheets/responsive.css">
        <link rel="stylesheet" href="stylesheets/responsive2560.css"  media="screen and (width:2560px) and (height:1600px)">
 </head>
+    <script>
+         
+        /*$(".moodGoals > img").click(function(){
+            window.location.href = "/GoalSelection"
+        });*/
+    </script>
 <body style>
-
+ 
+ 
+   
   <% include partials/header %>
   <div class="wrapper">
 	  <div class="main">
@@ -466,7 +480,7 @@ var data = {};
 
 }
 
-
+ 
 
 </script> 
 

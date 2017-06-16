@@ -6,7 +6,8 @@ $(".indexsip .panel").click(function() {
 
     // alert(myClass);  
 });
-$(".pagesip .go").click(function(){  
+$(".pagesip .go").click(function(){
+   
     if(myClassId=="sipcal")
     {
        
@@ -25,7 +26,7 @@ $(".pagesip .go").click(function(){
                 
     }
     });
-$(".indexsip .sip1").click(function(){ 
+/*$(".indexsip .sip1").click(function(){ 
     $("#imgbluecap").show();
     $("#imgbluecap2").hide();
 });
@@ -33,7 +34,7 @@ $(".indexsip .sip2").click(function(){
     $("#imgbluecap").hide();
     $("#imgbluecap2").show();
 });
-                            
+    */                        
 
 $(".indexsip .panel").click(function(){ 
    
@@ -55,7 +56,7 @@ $(".indexsip .panel").click(function(){
                    
 function showSIP(){
    
-   
+    resetSession()
     
     $(".pagesip > div").not('.pagesip').hide();
     $('#pagelumpcalculate').hide();
@@ -66,7 +67,7 @@ function showSIP(){
    
 }
 function showLumpsum(){
-    
+    resetSession()
    
      $(".pagesip > div").not('.pagesip').hide();
     $('#pagesipcalculate').hide();

@@ -14,11 +14,14 @@
         if (ConAmount < 7000 ){ 
 		$('.page8 .page2VldMsg').slideDown();
        
-	} else if ( sipTime < 1 || sipTime > 50 ) {
+	}else if(ConAmount >=150001 ){
+        $('.page8 .page8VldMsg').slideDown();
+    }
+        else if ( sipTime < 1 || sipTime > 50 ) {
 		 $(".page8 .page2VldMsg").slideUp(); 
 		$('.page8 .page2VldMsg2').slideDown();
 	} else {  
-        debugger;
+       // debugger;
         
         
        // totalYears = document.getElementById("years").value;
@@ -28,12 +31,13 @@
 		localStorage.taxInvestment = true;	
 		console.log("years"+totalYears+"time"+amount);
 		sessionStorage.setItem('tempGoals', JSON.stringify({currentPage:4}));
-        
-        
+        moodgoal="Tax Saving";
+         $("#displayModal2").modal("show");
             setProfile(0,1,0);
             selectTab(4);
             $(".page8 .page2VldMsg2").slideUp();
              $(".page8 .page2VldMsg").slideUp();
+        $('.page8 .page8VldMsg').slideDown();
         } 
         
         

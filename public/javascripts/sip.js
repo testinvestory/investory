@@ -71,8 +71,9 @@ function getSIP(){
 
 function showSIP(){	
     
-	$("#setMood").attr("src", "images/emergencyFundsMood.png");  
+	$("#setMood").attr("src", "images/buildWealthMood.png");  
 	$("#setMoodText").hide(); 
+     $("#goalSelected").text("Build Wealth");
 	$(".moodGoals > img").css("visibility","hidden");  
 	$(".slider").css("visibility","hidden");
 	$(".contentMood .page4 #invest").css("visibility","hidden");

@@ -3,8 +3,8 @@ var router = express.Router();
 var async = require('async');
 var path=require('path');
 var pg = require('pg');
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 /*var conString = {
   user: 'user1', //env var: PGUSER
   database: 'investory', //env var: PGDATABASE
@@ -319,6 +319,15 @@ router.get('/allocation',function(req,res,next)
    });
 });
 
+router.get('/uploadInvestory',function(req,res,next)
+{    
+    console.log("Hi..");
+  
+   res.render("Admin/uploadInvestory");
+   
+});
+
+
 router.post('/sch',function(req,res)
 {    
       var schemecamntde=0,schemecamnteq=0,schemecamnthy=0;
@@ -510,9 +519,9 @@ var store =   multer.diskStorage({
                 destination: function (req, file, callback) 
                     {
 
-        				//callback(null,'/home/ubuntu/dbfiles');
-                        callback(null, 'C:/Users/Nishant/Desktop/localchanges20-4-17/Testinvestory-master25.4/dbfiles');
-
+        				callback(null,'/home/ubuntu/dbfiles');
+                       // callback(null, 'C:/Users/Nishant/Desktop/dbfiles');
+                       // callback(null,'E:/dbfiles');
       
                      },
                  filename : function (req, file, callback) 
@@ -525,7 +534,51 @@ var store =   multer.diskStorage({
                 var uploaddb = multer({ storage : store}).single('doc');
 
             
+router.post('/uploadInvestoryFile',function(req,res,next)
+{
+    console.log("upload csv to Db");
+    var tbl="investoryupload";
+     var file_name;
+    async.waterfall([
+      function(callback)
+        {
+            uploaddb(req,res,function(err) 
+                {
+                    if(err) 
+                    {
+                     console.log(err);
+                     console.log("Error uploading file.");
+                    }
+                  console.log("File is uploaded");
+                
+                    file_name=req.file.originalname;
 
+                   console.log("in upload ",file_name);
+               //  var paths="E:/dbfiles/"+file_name;
+                //var paths="C:/Users/Nishant/Desktop/dbfiles/"+file_name;
+				 var paths="/home/ubuntu/dbfiles/"+file_name;
+                callback(null,paths)
+                });
+            
+            
+        },
+       function(paths,callback)
+         {
+             updateuploaddumplog(tbl,paths);
+             updatedumplogfrominvestoryupload();
+            callback(null)
+             
+             
+         }
+        ], function (err, result) 
+          {
+            if (err)
+              {
+                console.log(err);   
+              }
+        res.render('Admin/uploadInvestory');
+      });   
+});
 
 router.post('/uploadcamsfile',function(req,res,next)
 {
@@ -686,9 +739,9 @@ router.post('/updateSchemes',function(req,res,next)
 
                    console.log("in upload ",file_name);
                 
-                var paths="C:/Users/Nishant/Desktop/dbfiles/"+file_name;
+               // var paths="C:/Users/Nishant/Desktop/dbfiles/"+file_name;
                
-				 //var paths="/home/ubuntu/dbfiles/"+file_name;
+				 var paths="/home/ubuntu/dbfiles/"+file_name;
                 callback(null,paths)
                 });
             
@@ -926,6 +979,25 @@ function updatedumplogfromcams()
                 console.log("Cant insert to dumplog from camstrxnlog",err);
             else
                 console.log("Dumplog Insert success..!");
+            
+        });
+        done();
+    });
+}
+function updatedumplogfrominvestoryupload()
+{
+    
+    console.log("dumplog update");
+    pg.connect(conString,function(err,client,done){
+        if(err){
+            return console.log("Could not connect to postgres",err);
+        }
+        var query=client.query("INSERT INTO dumplog(foliono,pan,schemecode,amount,transaction_type,transaction_id,transaction_ref,transaction_status,remarks,nav,units,transaction_date,orderid) SELECT foliono,pan,schemecode,amount,transaction_type,transaction_ref,transaction_ref,transaction_status,remarks,nav,units,transaction_date,order_id from investoryupload",function(err,result){
+            
+            if(err)
+                console.log("Cant insert to dumplog from camstrxnlog",err);
+            else
+                console.log("Dumplog from investory Insert success..!");
             
         });
         done();

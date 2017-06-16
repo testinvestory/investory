@@ -7,17 +7,18 @@ var soap = require('soap');
 var parseString = require('xml2js').parseString;
 var request = require("request");
 const pg = require('pg')
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 var client = new pg.Client(conString)
 client.connect()
 
 
 
 exports.postPanStatus = (req, res) => {
-	currentPage = req.session.activePage = "/PANStatus";
+	//currentPage = req.session.activePage = "/PANStatus";
 	loginStatus = functions.checkLoginStatus(req);
 	if (loginStatus) {
+        
 	} else {
 		console.log("end");
 	}
@@ -33,23 +34,27 @@ exports.postPanValidation = (req, res) => {
 	if (loginStatus) {
  console.log("inside login status",loginStatus);
 
-		password = "web@12345";
-		passKey = "test";
+		//password = "web@12345";
+		//passKey = "test";
 		
 		PAN = req.body.pan;
        // PAN='AKBPB7607H';
-		username = "WEBINTMM";
-		POSCODE = "MONEYMATTER";
+		//username = "WEBINTMM";
+		//POSCODE = "MONEYMATTER";
 		var ePass = ""; //= "FjFMCDg4YPtsxrGRtJmeVQ%3d%3d";
-
+       //live
+        username = "IMMPL";
+        POSCODE = "2500001173";
+        password = "Hello@123";
+        passKey = "test@123";
         async.waterfall([
             
 				function (callback) {
                     console.log("Inside callback");
 					
                     var optionsForPassword = {
-						hostname: "test.cvlkra.com",
-						path: '/PANInquiry.asmx/GetPassword?password=' + password + '&PassKey=' + passKey
+						hostname: "www.cvlkra.com",
+						path: '/paninquiry.asmx/GetPassword?password=' + password + '&PassKey=' + passKey
 					};
 
 					var getPassword = http.get(optionsForPassword, function (response) {
@@ -77,7 +82,7 @@ exports.postPanValidation = (req, res) => {
 
 					// get the PAN Status
 					var optionsForPANStaus = {
-						hostname: "test.cvlkra.com",
+						hostname: "www.cvlkra.com",
 						path: '/PANInquiry.asmx/GetPanStatus?panNo=' + PAN + '&userName=' + username + '&PosCode=' + POSCODE + '&password=' + ePass + '&PassKey=' + passKey
 						//path: '/PANInquiry.asmx/GetPanStatus?panNo=BDKPS1141N&userName=WEBINTMM&PosCode=MONEYMATTER&password='+ePass+'&PassKey='+passKey
 					};
@@ -135,7 +140,7 @@ exports.postPanValidation = (req, res) => {
                                 
                                 
                                 var pan=PAN;
-                                if(msg=='KRA Verified')
+                                if(appStatus=='002')
                                     {
                                         var kycstatus="Complaint";    
                                     }
@@ -145,6 +150,7 @@ exports.postPanValidation = (req, res) => {
                                 
                                 
                                 console.log("PAN details",pan,kycstatus);
+                              if(kycstatus=="Complaint"){
                               var query = client.query("INSERT INTO pandetails(userid,pan,kycstatus,createdby) values($1,$2,$3,$4)", [req.session.user.userid,pan,kycstatus,req.session.user.name], function (err, result) {
 							if (err) {
 								console.log("cant insert to pandetails", err);
@@ -152,13 +158,24 @@ exports.postPanValidation = (req, res) => {
 							} else {
 							         	console.log("Insertion success to pandetails");
 									}
-						});                                
-								data = {
+						});
+                                   data = {
 									"statusCode": appStatus,
 									"msg": msg,
 									"pan": panNo,
 									"name": panData
 								}
+                              
+                              }
+                                else{
+                                    data = {
+									"statusCode": "not complaint"
+								}
+                                    
+                                }
+                                    
+                                                             
+								
 
 								var panJSON = JSON.stringify(data);
 								//console.log(panJSON+"dad")

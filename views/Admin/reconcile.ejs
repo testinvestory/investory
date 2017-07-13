@@ -27,16 +27,39 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!--<script src="dirPagination.js"></script>-->
-  
-
+ 
+<style>
+    .loader {
+	position: fixed;
+	left: 15%;
+	top: 7%;
+	 width:84%; 
+	height: 100%;
+	z-index: 9999;
+	background: url('../../../images/ellipsis.gif') 50% 50% no-repeat rgb(249,249,249);
+}  
+    </style>
+      <script>
+             
+        $(window).load(function() {
+	$(".loader").fadeOut("slow");
+})
+    
+    
+    $(document).ready(function() {
+    $('#main-content').fadeIn();
+});
+    </script>
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
 </head>  
 <script>
    
     </script>
-<body  ng-app="postgreSQL">
-
-    <div id="wrapper" ng-controller="postgreSQLCtrl">
+<body  ng-app="postgreSQL" id="main-content">
+ 
+    <div id="wrapper" ng-controller="postgreSQLCtrl" ng-init="init()" >
 
        <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -162,7 +185,7 @@
                         <a href="/admin/uploadInvestory"><i class="fa fa-fw fa-bar-chart-o"></i> Investory File to DB</a>
                     </li>
                     <li>
-                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Upload File to DB</a>
+                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Fund house File to DB</a>
 
                     </li>
                     <li>
@@ -241,7 +264,7 @@
                     </div>
                 </div>
                 <!-- /.row -->
-
+                <div class="loader"></div>
                 <div class="row">
                       
       
@@ -250,19 +273,19 @@
                        <div class="table-responsive">
                            
                             <div ng-controller="checkBoxController">
-                            <table class="table table-bordered table-hover">
+                            <table class="table table-bordered table-hover" id="id01">
                                 <thead>
                                  <div class="row">
                                     
                                   <div class="col-md-4">
                                     <label >Search</label>
                                       
-                                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                                    <input type="text" oninput="w3.filterHTML('#id01', '.item', this.value)" class="form-control" placeholder="Search">
                                          </div>
                                        <div class="col-md-3 col-md-offset-5">
                             <div class="push-right">
-                              <button type="button" class="btn btn-default btn-sm" data-toggle="modal" ng-click="getDumpUpdate()"> Reconcile</button>
-                            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" ng-click="statusReconcile()">Update</button> 
+                              <button type="button" class="btn btn-default btn-sm"  ng-click="getDumpUpdate()"> Reconcile</button>
+                            <button type="button" class="btn btn-default btn-sm"  ng-click="statusReconcile()">Update</button> 
                                 </div>
                                      </div>
                                                                               </div>
@@ -302,42 +325,42 @@
                                          <th>Transaction Ref</th>
                                         <th>NAV</th>
                                         <th>Units</th>
-                                        <th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll(item.userinvestmentorderid)"/> Select All<br/></th>
+                                       
+                                        <th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()"/> Select All<br/></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                         
-                                       
-                                    <tr ng-repeat="item in dataset | orderBy:sortType:sortReverse | filter:search">
+                                      <% for( var i=0;i<item.length;i++){ %>  
+                                    <tr class="item">
                                    <!--track by $index-->
-                                        <td id="pan" name="pan" ng-model="pan">{{item.userpan}}</td>
-                                        <td type="number" id="orderid" name="orderid" ng-model="orderid">{{item.userinvestmentorderid}}</td>
-                                        <td>{{item.name}}</td>
+                                        <td id="pan" name="pan" ng-model="pan"><%=item[i].userpan%></td>
+                                        <td type="number" id="orderid" name="orderid" ng-model="orderid"><%=item[i].userinvestmentorderid%></td>
+                                        <td><%=item[i].name%></td>
                                       <!--  <td>{{item.email}}</td>-->
                                         
                                       <!--  <td id="schemecode" name="schemecode" ng-model="schemecode">{{item.schemeid}}</td>-->
-                                        <td>{{item.sname}}</td>
-                                        <td id="amount" name="amount" ng-model="amount">{{item.amount}}</td>  
+                                        <td><%=item[i].sname%></td>
+                                        <td id="amount" name="amount" ng-model="amount"><%=item[i].amount%></td>  
                                         
-                                        <td>{{item.ageing}}</td>
+                                        <td><%=item[i].ageing%></td>
                                         
-                                         <td id="status">{{item.reconcile_status}}</td>
-                                        <td id="foliono">{{item.foliono}}</td>
-                                        <td id="transaction" name="transaction" ng-model="transaction">{{item.bsetxnreference}} </td>
-                                     <td id="nav" name="nav" ng-model="nav">{{item.nav}}</td>  
-                                        <td id="units" name="units" ng-model="units">  {{item.units}}      </td>
+                                         <td id="status"><%=item[i].reconcile_status%></td>
+                                        <td id="foliono"><%=item[i].foliono%></td>
+                                        <td id="transaction" name="transaction" ng-model="transaction"><%=item[i].bsetxnreference%> </td>
+                                     <td id="nav" name="nav" ng-model="nav"><%=item[i].nav%></td>  
+                                        <td id="units" name="units" ng-model="units"><%=item[i].units%></td>
                                               
                                            <td><!--<input type="checkbox" ng-checked="selectAll" ng-model="item.userinvestmentorderid"/>&nbsp;-->
-                                               
-              	<input id="{{item.userinvestmentorderid}}" type="checkbox" value="{{item.userinvestmentorderid}}"
-                     ng-model="item.Selected"  ng-checked="selection.indexOf(item.userinvestmentorderid) > -1"  ng-click="toggleSelection(item.userinvestmentorderid)" />
+                        <input id="<%=item[i].userinvestmentorderid%>" type="checkbox" value="<%=item[i].userinvestmentorderid%>"
+                    ng-checked="selection.indexOf(<%=item[i].userinvestmentorderid%>) > -1"  ng-click="toggleSelection(<%=item[i].userinvestmentorderid%>)" />            
                                                
           </td>
       
          
                                     </tr>
                                 
-                                     
+                                    <%}%> 
                                     
                                    
                                 </tbody>
@@ -357,12 +380,9 @@
 
  <script src="/lib/angular.min.js"></script>
    <script>
- 
+       
+    var myReconcile = angular.module('postgreSQL',[]); 
          
-           var myReconcile = angular.module('postgreSQL',[]); 
-       
-       
-        
        var idArray,flag;
        myReconcile.value('idArray', 0);
        
@@ -371,11 +391,36 @@
        
         myReconcile.controller('checkBoxController', function ($scope) {
 	
-            
+       /* $('#select_all').click(function(event) {
+  if(this.checked) {
+      // Iterate each checkbox
+      $(':checkbox').each(function() {
+          this.checked = true;
+          
+      });
+  }
+  else {
+    $(':checkbox').each(function() {
+          this.checked = false;
+        
+      });
+  }
        
-            
-	    
-            $scope.checkAll = function () {
+})
+            $scope.toggleSelection = function toggleSelect(id){
+               $(':checkbox').each(function() {
+                    if(this.checked == true){
+                        $scope.selection.push(id);
+                    }
+          
+      });
+             idArray=$scope.selection;
+        //  console.log($rootScope.idArray);
+            console.log("all",idArray);   
+               
+            };
+	    */ 
+        /*   $scope.checkAll = function () {
                 console.log("Check all");
         if ($scope.selectedAll) 
           {
@@ -388,6 +433,7 @@
              $scope.selectionAll=[];
             flag=0;
         }
+                
         angular.forEach($scope.dataset, function (dataset) {
             dataset.Selected = $scope.selectedAll;
             if(flag==1){
@@ -399,7 +445,7 @@
             idArray= $scope.selectionAll;
             console.log(idArray);
 
-    };
+    };*/
 		// toggle selection for a given employee by name
 		$scope.toggleSelection = function toggleSelection(id) {
 	    //console.log(id);
@@ -418,7 +464,7 @@
           
          idArray=$scope.selection;
         //  console.log($rootScope.idArray);
-              
+        console.log(idArray);      
           
 	  };
     
@@ -431,13 +477,7 @@
    
         });
 
-      
-
-
-
-
- 
-
+    
    myReconcile.controller('postgreSQLCtrl', ['$scope','$http',  function($scope,$http) {
                 $scope.val1 = 'This is temp Val' ;  
                 $scope.pan = '';
@@ -450,13 +490,14 @@
                 $scope.nav='';
                 $scope.units='';
                 $scope.foliono='';
-    
+                
+                
+      
+       //$scope.dataset=abc;
        $scope.selectionAll=[];
          $scope.selection=[];
             
-
-                //Get all records function
-                $scope.getAllRec = function(){ 
+                    /*$scope.getAllRec = function(){ 
                      $http({method: 'GET', url: '/admin/reconcile/get'}).
                         success(function(data, status) { 
                         
@@ -464,8 +505,9 @@
                           angular.forEach($scope.data, function (data) {
                         data.userinvestmentorderid = parseInt(data.userinvestmentorderid);
                         }); 
+                         
                             $scope.dataset = data;
-                          datasets=$scope.dataset ;
+                            datasets=$scope.dataset ;
                          
                     
                         }).
@@ -473,32 +515,39 @@
                           $scope.dataset = data || "Request failed "; 
                       }); 
                      
-                    }       
-                
+                    }     
+          $scope.getAllRec(); */  
                    //check box update function
                   $scope.getDumpUpdate=function(){
+                      
                       console.log(idArray); 
                       $http({method:'GET', url:'/admin/getDumpUpdates?'+$.param({id: idArray})}).
                       success(function(data,status){
-                            
+                        
+                            location.href='/admin/reconcile'
+                          
                         });  
-                        $scope.getAllRec();  
+                       
                        }
-                  $scope.getAllRec();
+                  
+                 // $scope.getAllRec();
                   //update status as reconcile
+                   
                   $scope.statusReconcile=function(){
+                      console.log("in recon",idArray); 
                       $http({method:'GET',url:'/admin/setReconcileAsStatus?'+$.param({id:idArray})}).
                       success(function(data,status)
-                               {          
+                               { 
+                     
+                         location.href = '/admin/reconcile';
+                       
                       });
-                      $scope.getAllRec();
-                  }
-                  $scope.getAllRec();
+                      
+                  }  
    
             }]);
             
-       
-       
+      
  
         </script>
         

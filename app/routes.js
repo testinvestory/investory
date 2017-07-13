@@ -1,10 +1,7 @@
-var pg = require('pg')
+
 var functions = require('./routes/functions')
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL
-var client = new pg.Client(conString)
-client.connect()
+//DB connection
+var client = require('../config/database');
 
 module.exports = function (app, passport) {
   app.post('/Discard', functions.isLoggedIn, function (req, res) {

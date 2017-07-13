@@ -159,7 +159,7 @@
                         <a href="/admin/uploadInvestory"><i class="fa fa-fw fa-bar-chart-o"></i> Investory File to DB</a>
                     </li>
                     <li>
-                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Upload File to DB</a>
+                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Fund house File to DB</a>
                     </li>
                     <li>
                         <a href="/admin/tables"><i class="fa fa-fw fa-table"></i> KYC</a>
@@ -251,11 +251,36 @@
 <input type="file" name="doc"/>
           <br>               
 <button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>
+       
 </div>                    
-         <br><br>                    
+     <% if(message.length>0){ %>
+                    <div class="alert alert-danger" style="margin-top:35px;width:220px;"><%=message %></div>
+  <%}%>  
+     <br><br>                    
          <br><br>
 </form>
-                 </div>
+              <form id=  "uploadTnvestory"
+     enctype   =  "multipart/form-data"
+     action    =  "/admin/uploadReportData"
+     method    =  "post">
+           
+                    
+  <div class="form-group">
+ <label>Input</label>
+<label>Report Data File :</label>
+<input type="file" name="doc"/>
+          <br>               
+<button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>
+</div>                    
+       
+         <% if(message2.length>0){ %>
+                    <div class="alert alert-danger" style="margin-top:35px;width:220px;"><%=message2 %></div>
+  <%}%>          
+        <br><br>                    
+         <br><br>
+</form>
+        
+                </div>
         
            
                 </div>

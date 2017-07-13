@@ -57,6 +57,8 @@ function getTransactionID (userid) {
   return year + month + day + hour + min + sec + userid
 }
 
+
+
 function checkPan (req) {
   if (req.session.panMessage) {
     return true

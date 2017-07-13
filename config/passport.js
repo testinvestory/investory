@@ -14,6 +14,9 @@ var bcrypt = require('bcrypt-nodejs');
 var async = require('async');
 var crypto = require('crypto');
 
+//DB connection
+var client = require('../config/database');
+
 // load up the user model
 var User       		= require('../app/models/user');
 var Profile       	= require('../app/models/profile');
@@ -33,6 +36,7 @@ var client = new pg.Client(conString);
 */
 
 
+/*
 var pg = require('pg');
 
 // create a config to configure both pooling behavior
@@ -55,11 +59,12 @@ var config = {
 
 
 var pg = require('pg');
-var conString = "postgres://postgres:postgres@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+//var conString = "postgres://postgres:postgres@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 
 var client = new pg.Client(conString);
 client.connect();
+*/
 
 
 module.exports = function(passport) {
@@ -132,17 +137,18 @@ var newUser= new User();
                     newUser.email = email;
                     newUser.name = req.body.username;
                     newUser.mobile=req.body.mnumber;
+                    newUser.clientid="not client";
                     newUser.creation_date=new Date();
                     newUser.modified_date=new Date();
                    // console.log(name,password,mobile,creation_date,modified_date);
                     
-                    var query=client.query("INSERT INTO users(email,password,mobile,name,created,modified,createdby) values($1,$2,$3,$4,$5,$6,$7) RETURNING userid",[newUser.email,newUser.password,newUser.mobile,newUser.name,newUser.creation_date,newUser.modified_date,newUser.name],function(err, result) {
+                    var query=client.query("INSERT INTO users(email,password,mobile,name,created,modified,createdby,clientid) values($1,$2,$3,$4,$5,$6,$7,$8) RETURNING userid",[newUser.email,newUser.password,newUser.mobile,newUser.name,newUser.creation_date,newUser.modified_date,newUser.name,newUser.clientid],function(err, result) {
                     if(err)
                         console.log("cant create new user",err);
                         
                         console.log(result.rows[0].userid);
                         newUser.userid=result.rows[0].userid;
-                    req.session.userEmail = email;
+                        req.session.userEmail = email;
 						console.log(req.body.assetStoreOffline);
 						callback(null,newUser)
                    // return done(null, newUser);
@@ -160,7 +166,8 @@ var newUser= new User();
 			//insert the assets
 			 var   	creation_date=new Date();
                 var    modified_date=new Date();
-			
+			     var aof='null';
+                 var nach='null';
 				
 						 var query=client.query("INSERT INTO profile(userid,created,modified,createdby) values($1,$2,$3,$4) RETURNING profileid",[newUser.userid, creation_date,modified_date,newUser.name],function(err, result) {
                     if(err){
@@ -171,11 +178,50 @@ var newUser= new User();
 						 console.log("profileid"+result.rows[0]['profileid']);
 						
 						//callback(null,result.rows[0]['savedplanid'])
+						
+					}
+                         });
+            
+             var query=client.query("INSERT INTO pandetails(userid,created,modified,createdby) values($1,$2,$3,$4) RETURNING userid",[newUser.userid, creation_date,modified_date,newUser.name],function(err, result) {
+                    if(err){
+						console.log("cant insert pandetails",err);
+						res.send("false");
+					}else{
+						 //res.send(1);
+						 console.log("profileid"+result.rows[0]['userid']);
+						
+						//callback(null,result.rows[0]['savedplanid'])
+						
+					}
+                         });
+                     var query=client.query("INSERT INTO bseformdetail(userid,aof,created,modified) values($1,$2,$3,$4) RETURNING userid",[newUser.userid,aof,creation_date,modified_date],function(err, result) {
+                    if(err){
+						console.log("cant insert bseformdetail data",err);
+						res.send("false");
+					}else{
+						 //res.send(1);
+						 console.log("userid"+result.rows[0]['userid']);
+						
+						//callback(null,result.rows[0]['savedplanid'])
+						
+					}
+                                    
+                  
+                     });
+                var query=client.query("INSERT INTO nachformdetail(userid,nach,created,modified) values($1,$2,$3,$4) RETURNING userid",[newUser.userid,nach,creation_date,modified_date],function(err, result) {
+                    if(err){
+						console.log("cant insert nachformdetail data",err);
+						res.send("false");
+					}else{
+						 //res.send(1);
+						 console.log("userid"+result.rows[0]['userid']);
+						
+						//callback(null,result.rows[0]['savedplanid'])
 						callback(null,newUser)
 					}
                                     
                   
-            });
+                });
 				
 			
 		}],function(err,result){
@@ -339,10 +385,10 @@ console.log(profile.emails[0].value);
                     newUser.email = profile.emails[0].value;     
                     newUser.creation_date=new Date();
                     newUser.modified_date=new Date();
-                
+                     newUser.clientid="not client";
                 
 				// save the user
-                var query=client.query("insert into users(email,name,created,modified,createdby,facebookid,fbtoken) values($1,$2,$3,$4,$5,$6,$7) RETURNING userid",[newUser.email,newUser.name,newUser.creation_date,newUser.modified_date,newUser.name,newUser.facebookid,newUser.fbtoken],function(err, result) {
+                var query=client.query("insert into users(email,name,created,modified,createdby,facebookid,fbtoken,clientid) values($1,$2,$3,$4,$5,$6,$7,$8) RETURNING userid",[newUser.email,newUser.name,newUser.creation_date,newUser.modified_date,newUser.name,newUser.facebookid,newUser.fbtoken,newUser.clientid],function(err, result) {
                     if(err)
                         console.log("cant create new user",err);
                         
@@ -408,7 +454,7 @@ console.log(profile.emails[0].value);
                     newUser.g_token = token;
                     newUser.name  = profile.displayName;
                     newUser.email = profile.emails[0].value; // pull the first email
-                    
+                     newUser.clientid="not client";
                     
                    // newUser.email = profile.emails[0].value;     
                     // save the user
@@ -430,7 +476,7 @@ console.log(profile.emails[0].value);
                   }
                else{
 				*/// save the user
-                var query=client.query("insert into users(email,name,created,modified,createdby,googleid,g_token) values($1,$2,$3,$4,$5,$6,$7) RETURNING userid",[newUser.email,newUser.name,newUser.creation_date,newUser.modified_date,newUser.name,newUser.googleid,newUser.g_token],
+                var query=client.query("insert into users(email,name,created,modified,createdby,googleid,g_token,clientid) values($1,$2,$3,$4,$5,$6,$7,$8) RETURNING userid",[newUser.email,newUser.name,newUser.creation_date,newUser.modified_date,newUser.name,newUser.googleid,newUser.g_token,newUser.clientid],
                     function(err, result) {
                     if(err)     
                         console.log("cant create new user",err);

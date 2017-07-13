@@ -56,7 +56,7 @@ $(".indexsip .panel").click(function(){
                    
 function showSIP(){
    
-    resetSession()
+  //  resetSession();
     
     $(".pagesip > div").not('.pagesip').hide();
     $('#pagelumpcalculate').hide();
@@ -67,7 +67,7 @@ function showSIP(){
    
 }
 function showLumpsum(){
-    resetSession()
+  //  resetSession();
    
      $(".pagesip > div").not('.pagesip').hide();
     $('#pagesipcalculate').hide();

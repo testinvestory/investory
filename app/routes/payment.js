@@ -1,12 +1,10 @@
 const async = require('async')
-const pg = require('pg')
+
 var request = require('request')
 var parseString = require('xml2js').parseString
 const functions = require('./functions')
-const conString = 'postgres://postgres:postgres@localhost:5432/investory'
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
-var client = new pg.Client(conString)
-client.connect()
+//DB connection
+var client = require('../../config/database');
 
 exports.getPrice = (req, res) => {
   currentPage = req.session.activePage = '/Pricing'
@@ -144,6 +142,8 @@ exports.postPay = (req, res, next) => {
       const salt = 'eCwWELxi'
       const txnid = functions.getTransactionID(req.session.user.userid)
       const amount = req.body.planPrice
+      var rs=req.body.rs;
+        console.log("AMOUNT--------------------------------------------",req.body);
       const productinfo = req.body.plan
 
 			// Get from session or User database
@@ -162,10 +162,10 @@ exports.postPay = (req, res, next) => {
         productinfo: productinfo,
         email: email,
         phone: phone,
-       // surl: 'http://localhost:3000/Pricing/success',
-       //furl: 'http://localhost:3000/Pricing/failure',
-            surl: 'http://54.152.36.19:3000/Pricing/success',
-            furl: 'http://54.152.36.19:3000/Pricing/failure',
+        surl: 'http://localhost:3000/Pricing/success',
+       furl: 'http://localhost:3000/Pricing/failure',
+        //    surl: 'http://54.152.36.19:3000/Pricing/success',
+          //  furl: 'http://54.152.36.19:3000/Pricing/failure',
           
         hash: hash,
         service_provider: 'payu_paisa',

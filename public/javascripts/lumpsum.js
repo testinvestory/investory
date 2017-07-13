@@ -61,17 +61,17 @@ function getLumpsum(){
     
     if ( lumpAmount < 5000 || lumpAmount > 1000000){ 
 		$('#lumpsumInvestErr').slideDown();
-       $(' #imgcap2').css("top","41.3%");
+  //     $(' #imgcap2').css("top","41.3%");
         }
     else if(isNaN(lumpAmount))
          $('#lumpsumInvestErr').slideDown();
 	 else if ( totalYears < 1 || totalYears > 50 ) {
 		$('#lumpsumInvestErr').slideUp(); 
 		$('#lumpsumTimeErr').slideDown();
-         $(' #imgcap2').css("top","41.3%");
+        // $(' #imgcap2').css("top","41.3%");
 	} else {
 		
-		$('#lumpsumInvestErr').slideUp(); 
+		//$('#lumpsumInvestErr').slideUp(); 
 		$('#lumpsumTimeErr').slideUp();
 	
 	 localStorage.lumpsum = lumpAmount;
@@ -81,9 +81,9 @@ function getLumpsum(){
      sessionStorage.setItem('tempGoals', JSON.stringify({currentPage:4}));
 	window.location.href = "/GoalSelection";
     }
-    if($('#lumpsumInvestErr').slideDown() && $('#lumpsumTimeErr').slideDown()){
+    /*if($('#lumpsumInvestErr').slideDown() && $('#lumpsumTimeErr').slideDown()){
         $(' #imgcap2').css("top","45.4%");
-    }
+    }*/
 }
 
 
@@ -92,7 +92,9 @@ function showLumpsum(){
 	$("#setMood").attr("src", "images/buildWealthMood.png");  
 	$("#setMoodText").hide();
      $("#goalSelected").text("Build Wealth");
-	$(" .moodGoals > img,.page6 > p").css("visibility","hidden");  
+    $(" .moodGoals > img").css("visibility","show"); 
+	//$(" .moodGoals > img,.page6 > p").css("visibility","hidden"); 
+  //$(".moodGoals #back").css("visibility","show");
 	$(" .slider").css("visibility","hidden");
 	$(" .contentMood .page4 #invest").css("visibility","hidden");
 	  $(".contentMood .page1, .contentMood .page2,.contentMood .page3, .page3Sub,.contentMood .page4 .sub-page4").hide();

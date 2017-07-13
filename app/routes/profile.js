@@ -4,14 +4,12 @@
 const express = require('express');
 const router = express.Router();
 const async = require('async');
-const pg = require('pg');
 const crypto = require('crypto');
 /* common functions */
 const functions = require('./functions');
-const conString = "postgres://postgres:postgres@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
-var client = new pg.Client(conString);
-client.connect();
+
+//DB connection
+var client = require('../../config/database');
 
 var multer  =   require('multer');
 
@@ -151,8 +149,8 @@ var store =   multer.diskStorage({
                     {
 
         				//callback(null,'/home/ubuntu/dbfiles');
-                       callback(null, 'C:/Users/Nishant/Desktop/new code/30.05.17/investory-master/investory-master/public/images/profiles');
-                         //   /home/ubuntu/investory-master06.06/public/images/profiles
+                       callback(null, '/home/ubuntu/investory-master06.06/public/images/profiles');
+                         // C:/Users/Nishant/Desktop/new code/30.05.17/investory-master/investory-master/public/images/profiles  /home/ubuntu/investory-master06.06/public/images/profiles
       
                      },
                  filename : function (req, file, callback) 

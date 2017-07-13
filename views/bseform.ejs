@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css">
+</head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript">
+</script>
+    <style>
+       
+    
+     @import url("http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
+@import url("http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Roboto Mono");
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
+@font-face {
+  font-family: 'Dosis';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Dosis Light'), local('Dosis-Light'), url(http://fonts.gstatic.com/l/font?kit=RoNoOKoxvxVq4Mi9I4xIReCW9eLPAnScftSvRB4WBxg&skey=a88ea9d907460694) format('woff2');
+}
+@font-face {
+  font-family: 'Dosis';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Dosis Medium'), local('Dosis-Medium'), url(http://fonts.gstatic.com/l/font?kit=Z1ETVwepOmEGkbaFPefd_-CW9eLPAnScftSvRB4WBxg&skey=21884fc543bb1165) format('woff2');
+}
+body {
+  
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif,  Open Sans;
+    font-size: 13px;
+    line-height: 1.42857;
+    height: 350px;
+    padding: 0;
+    margin: 0;
+}   
+        .input-group-addon:not(:first-child):not(:last-child), .input-group-btn:not(:first-child):not(:last-child), .input-group .form-control:not(:first-child):not(:last-child){
+               width: 298px; 
+        }
+        .form-control {
+            
+            height: 29px;
+            padding-top: 6px;
+            padding-right: 12px;
+            padding-bottom: 6px;
+            padding-left: 12px;
+            font-size: 12px;
+            font-weight:600;
+        }
+        .form-group{
+        margin-bottom: 8px;
+        }
+
+    </style>  
+    <script type="text/javascript">
+       
+     
+
+     var validateName = function() {
+        var name = $('#name').val();
+         
+         var regExp3=/^[a-zA-Z]{3,30}$/;
+        if (name.match(regExp3)) {  
+            $('#errMasgName').slideUp();
+            return true;
+        } else {
+             $('#errMasgName').slideDown();
+            return false;
+        }
+    };   
+
+    var validatePinCode = function() {
+        var pincode = $('#pincode').val();
+        if (pincode.length != 6) {
+            $('#errMasgPincode').slideDown();
+            return false;
+        } else {
+            $('#errMasgPincode').slideUp();
+            return true;
+        }
+    };
+
+    var validatePan  = function() {
+        var pan = $('#pan').val();
+        var regExp = /[a-zA-z]{5}\d{4}[a-zA-Z]{1}/;
+        if (pan.length == 10 && pan.match(regExp) ) {
+            var pan = $('#errMasgPan').slideUp();
+            return true;
+        } else {
+            var pan = $('#errMasgPan').slideDown();
+            return false;
+        }
+    };
+
+    var checkDOB = function() {
+       var dob = $('#dob').val();
+            if (dob.length ==0){
+            $('#errMasgDate').slideDown();
+            return false;
+        } else {
+            $('#errMasgDate').slideUp();
+            return true;
+        }
+    };
+        
+       var bankName=function(){
+           var regExp3=/^[a-zA-Z]{3,30}$/;
+           var bankName=$('#bankname').val();
+           if(bankName.match(regExp3)){
+               
+               $('#errMasgBankname').slideUp();
+               return true;
+           }
+           else{
+              $('#errMasgBankname').slideDown();
+               return false;
+           }
+           
+       };
+        
+        var bankBranch=function(){
+           var bankbranch=$('#branch').val();
+            var regExp3=/^[a-zA-Z]{3,30}$/;
+           if(bankbranch.match(regExp3)){
+                $('#errMasgBranch').slideUp();
+               return true;
+           }
+           else{
+             
+               $('#errMasgBranch').slideDown();
+               return false;
+               
+           }
+           
+       };
+        
+       var accno=function(){
+           var accno=$('#accno').val();
+           if(accno.length<=9){
+               $('#errMasgAccno').slideDown();
+               return false;
+           }
+           else{
+              $('#errMasgAccno').slideUp();
+               return true;
+           }
+           
+       };
+         var acctype=function(){
+           var acctype=$('#acctype').val();
+             var regExp3=/^[a-zA-Z]{3,30}$/;
+           if(acctype.match(regExp3)){
+               $('#errMasgAcctype').slideUp();
+               return true;
+           }
+           else{
+               $('#errMasgAcctype').slideDown();
+               return false;
+              
+           }
+           
+       };
+        
+        var ifsc=function(){
+           var ifsc=$('#ifsc').val();
+           if(ifsc.length<=5){
+               $('#errMasgIfsc').slideDown();
+               return false;
+           }
+           else{
+              $('#errMasgIfsc').slideUp();
+               return true;
+           }
+           
+       };
+        
+       
+                
+
+        var nomineename=function(){
+           var nomineename=$('#nomineename').val();
+            var regExp3=/^[a-zA-Z]{3,30}$/;
+           if(nomineename.match(regExp3)){
+              $('#errMasgNomineename').slideUp();
+               return true;
+           }
+           else{
+              
+                $('#errMasgNomineename').slideDown();
+               return false;
+           }
+           
+       };
+        
+        var nrelationship=function(){
+           var nrelationship=$('#nrelationship').val();
+            var regExp3=/^[a-zA-Z]{2,30}$/;
+           if(nrelationship.match(regExp3)){
+               $('#errMasgNomineerelate').slideUp();
+               return true;
+           }
+           else{
+               $('#errMasgNomineerelate').slideDown();
+               return false;
+              
+           }
+           
+       };
+        
+       
+        var nomineeaddress=function(){
+           var nomineeaddress=$('#nomineeaddress').val();
+             var regExp3=/^[a-zA-Z0-9\s,'-]{10,50}$/;
+           if(nomineeaddress.match(regExp3)){
+              $('#errMasgNomineeaddr').slideUp();
+               return true;
+           }
+           else{
+              
+                $('#errMasgNomineeaddr').slideDown();
+               return false;
+           }
+           
+       };
+        
+         var holding=function(){
+           var holding=$('#holding').val();
+             var regExp3=/^[a-zA-Z]{4,30}$/;
+           if(holding.match(regExp3)){
+              $('#errMasgHold').slideUp();
+               return true;
+           }
+           else{
+              
+                $('#errMasgHold').slideDown();
+               return false;
+           }
+           
+       };
+        
+        var country=function(){
+           var country=$('#country').val();
+            var regExp3=/^[a-zA-Z]{3,30}$/;
+           if(country.match(regExp3)){
+               
+               $('#errMasgCountry').slideUp();
+               return true;
+           }
+           else{
+             $('#errMasgCountry').slideDown();
+               return false; 
+           }
+           
+       };
+        var state=function(){
+           var state=$('#state').val();
+            var regExp3=/^[a-zA-Z]{2,30}$/;
+           if(state.match(regExp3)){
+              $('#errMasgState').slideUp();
+               return true;
+           }
+           else{
+              
+                $('#errMasgState').slideDown();
+               return false;
+           }
+           
+       };
+         var email=function(){
+           var email=$('#email').val();
+           if(email.length<=4){
+               $('#errMasgEmail').slideDown();
+               return false;
+           }
+           else{
+              $('#errMasgEmail').slideUp();
+               return true;
+           }
+           
+       };
+        var mobile=function(){    
+            var regExp1 =/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
+           var mobile=$('#mobile').val();
+           if(mobile.length==10 && mobile.match(regExp1)){
+              
+               $('#errMasgMobile').slideUp();
+               
+               return true;
+           }
+           else{
+               $('#errMasgMobile').slideDown();
+               return false;
+           }
+           
+       };
+        var address=function(){
+             var regExp3=/^[a-zA-Z0-9\s,'-]{10,50}$/;
+           var address=$('#address').val();
+           if(address.match(regExp3)){
+               $('#errMasgAddress').slideUp();
+               return true;
+           }
+           else{
+                $('#errMasgAddress').slideDown();
+               return false;
+             
+           }
+           
+       };
+        
+         var city=function(){
+           var city=$('#city').val();
+            var regExp3=/^[a-zA-Z]{2,30}$/;
+           if(city.match(regExp3)){
+              
+               $('#errMasgCity').slideUp();
+               return true;
+           }
+           else{
+               $('#errMasgCity').slideDown();
+               return false;
+           }
+           
+       };
+        
+        var occupation=function(){
+           var occupation=$('#occupation').val();
+            var regExp3=/^[a-zA-Z]{2,30}$/;
+           if(occupation.match(regExp3)){
+               $('#errMasgOccupation').slideUp();
+               return true;
+           }
+           else{
+                $('#errMasgOccupation').slideDown();
+               return false;
+           }
+           
+       };
+        
+        var validateFrom = function() {
+         
+        var dobOk = checkDOB();
+        var pinOk = validatePinCode();
+        var panOK = validatePan();
+        var banknameOk=bankName();
+        var nameOk=validateName();
+        var bankBranchOk=bankBranch();
+        var accnoOk=accno(); 
+        var acctypeOk=acctype();
+        var ifscOk=ifsc();
+        var nomineenameOk=nomineename();
+        var nrelationshipOk=nrelationship();
+        var nomineeaddressOk=nomineeaddress();
+        var holdingOk=holding();
+        var countryOk=country();
+        var stateOk=state();
+        var addressOk=address();
+        var emailOk=email();
+        var mobileOk=mobile();
+        var occupationOk=occupation();
+        var cityOk=city();
+            
+        if (dobOk && pinOk && panOK && banknameOk && nameOk && bankBranchOk && accnoOk && acctypeOk && ifscOk && nomineenameOk && nrelationshipOk && nomineeaddressOk && holdingOk && countryOk && stateOk && addressOk && emailOk &&  mobileOk && occupationOk && cityOk)
+            return true;
+        else
+            return false;
+    };
+              
+    function display(){
+        
+          var dobOk = checkDOB();
+        var pinOk = validatePinCode();
+       // var panOK = validatePan();
+        var banknameOk=bankName();
+        var nameOk=validateName();
+        var bankBranchOk=bankBranch();
+        var accnoOk=accno(); 
+        var acctypeOk=acctype();
+        var ifscOk=ifsc();
+        var nomineenameOk=nomineename();
+        var nrelationshipOk=nrelationship();
+        var nomineeaddressOk=nomineeaddress();
+        var holdingOk=holding();
+        var countryOk=country();
+        var stateOk=state();
+        var addressOk=address();
+        var emailOk=email();
+        var mobileOk=mobile();
+        var occupationOk=occupation();
+        var cityOk=city();  
+              
+        if (dobOk && pinOk && banknameOk && nameOk && bankBranchOk && accnoOk && acctypeOk && ifscOk && nomineenameOk && nrelationshipOk && nomineeaddressOk && holdingOk && countryOk && stateOk && addressOk && emailOk &&  mobileOk && occupationOk && cityOk)
+            {
+              window.location.href ="/pdf";    
+              return true;
+            }
+        else{
+            alert("Please Fill all Details")
+            return false;
+        }
+        }
+        </script>
+<body ng-app="" id="target">
+
+    
+    
+  <div class="container" id="HTMLtoPDF">
+<div class="row">
+      <div class="col-md-2"> </div>
+      <div class="col-md-8">
+          <h2 style="text-align: center;margin-bottom:2px;"><b>BSE Account Opening Form</b></h2>
+        <br> 
+         
+        <!-- BEGIN DOWNLOAD PANEL -->
+        <div class="panel panel-default well">
+          <div class="panel-body">
+            <form onsubmit="return validateFrom()"  name="aofinfo" id="aofinfo" class="form-horizontal track-event-form bv-form" action="/bseInputData" method="post"  >
+            <div class="form-group">               
+                <div class="col-sm-4">
+                    
+                  <div class="input-group">
+                     
+                    <label>Broker/Agent Code ARN :</label>
+                      
+                    <input type="text" align="right" class="form-control" value="ARN-30846">
+                                   
+                        </div>
+                    </div>
+                <div class="col-sm-4">
+                  <div class="input-group">
+                    <label>SUB-BROKER : </label>
+                    <input type="text" align="right" class="form-control"  value="Investory">
+                     
+                    </div>
+                        
+                        </div>
+                 <div class="col-sm-4">
+                  <div class="input-group">
+                    <label>EUIN :</label>
+                    <input type="text" align="right" class="form-control"  value="E030236">
+                     
+                    </div>
+                        
+                        </div>
+                  </div>
+
+              <div class="form-group">               
+                <div class="col-sm-6">
+                    
+                  <div class="input-group">
+                     
+                    <label>Name of  the First Applicant :</label>
+                      
+                    <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" value="<%=user.name%>">
+                     <p id="errMasgName" style="display: none; color: red">Please Enter a Valid Name</p>               
+                     
+                        </div>
+                    </div>
+                <div class="col-sm-6">
+                  <div class="input-group">
+                    <label>PAN Number :</label>
+                    <input type="text" class="form-control" id="pan" placeholder="PAN" name="pan" value="<%=panstatus.pan%>">
+                      <p id="errMasgPan" style="display: none; color: red">Please Enter a Valid Pan Number</p>
+                    </div>
+                        
+                        </div>
+                  </div>
+     
+                
+                <div class="form-group">               
+                <div class="col-sm-6">
+                    
+                  <div class="input-group">
+                     
+                    <label>Date Of Birth :</label>
+                      
+                    <input type="text" class="form-control" id="dob" placeholder="Enter Date Of Birth" name="dob" value="<%=data.dob%>">
+                      <p id="errMasgDate" style="display: none; color: red">Please Enter DOB DD-MM-YYYY</p> 
+                        </div>
+                </div>         
+                <div class="col-sm-6">
+                  <div class="input-group">
+                    <label>Mode of Holding :</label>
+                    
+                    
+                    <input type="text" class="form-control" id="holding" placeholder="Enter Holding type Single/Multi" name="holding" value="<%=data.holdingtype%>">   
+                     <p id="errMasgHold" style="display: none; color: red">Please select Holding type</p>
+                    </div>
+                        </div>
+
+                </div>
+                
+              <div class="form-group">               
+                          <div class="col-sm-6">
+                              
+                            <div class="input-group">
+                             <label>Email :</label> 
+                            <input type="text" class="form-control" id="email" placeholder="Enter email" name="email" value="<%=user.email%>">
+                                <p id="errMasgEmail" style="display: none; color: red">Please Enter Valid Email</p>
+                        </div>
+                              </div>
+                                    
+                          <div class="col-sm-6">
+                            <div class="input-group">
+                               <label>KYC:</label> 
+                            <input type="text" class="form-control" id="kyc" placeholder="KYC" name="kyc" value="<%=panstatus.kycstatus%>">
+                  </div>
+                        </div>
+              </div>
+                
+               
+                
+                 <div class="form-group">
+                <div class="col-sm-6">
+                  <div class="input-group">
+                      <label>Mobile :</label> 
+                           
+                    <input type="text" class="form-control" id="mobile" placeholder="mobile" name="mobile" value="<%=user.mobile%>">
+                      <p id="errMasgMobile" style="display: none; color: red">Please Enter Valid Mobile</p>
+                  </div>                                    
+                </div>
+                     
+                     <div class="col-sm-6">
+                            <div class="input-group">
+                              <label>Telephone :</label> 
+                            <input type="text" class="form-control" id="tel" placeholder="Enter Telephone" name="tel" value="<%=data.telephone%>">
+                  </div>
+                        </div>
+                      </div>
+              
+                
+                <div class="form-group">
+                <div class="col-sm-6">
+                  <div class="input-group">
+                      <label>City :</label> 
+                          
+                    <input type="text" class="form-control" id="city" placeholder="Enter City" name="city" value="<%=data.city%>">
+                        <p id="errMasgCity" style="display: none; color: red">Please Enter City</p>
+                  </div>                                    
+                </div>
+                     <div class="col-sm-6">
+                            <div class="input-group">
+                               <label>Pincode :</label>
+                            <input type="text" class="form-control" id="pincode" placeholder="Enter Pincode" name="pincode" value="<%=data.pincode%>">
+                                <p id = "errMasgPincode" style= "display: none; color: red">Pincode should be 6 digits long</p>
+                  </div>
+                        </div>
+                     
+                      </div>
+                
+                
+                      <div class="form-group">
+                          <div class="col-sm-6">
+                            <div class="input-group">
+                               <label>State :</label>
+                              <!-- <select data-placeholder="Choose state" class="C_State_Prov_Modal form-control" id="state" name="state" >
+                              <option value="" selected="selected">- Select -</option>
+                             <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                   <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                   <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                   <option value="Assam">Assam</option>
+                                   <option value="Bihar">Bihar</option>
+                                   <option value="Chandigarh">Chandigarh</option>
+                                   <option value="Chhattisgarh">Chhattisgarh</option>
+                                   <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                   <option value="Daman and Diu">Daman and Diu</option>
+                                   <option value="Delhi">Delhi</option>
+                                   <option value="Goa">Goa</option>
+                                   <option value="Gujarat">Gujarat</option>
+                                   <option value="Haryana">Haryana</option>
+                                   <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                   <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                   <option value="Jharkhand">Jharkhand</option>
+                                   <option value="Karnataka">Karnataka</option>
+                                   <option value="Kerala">Kerala</option>
+                                   <option value="Lakshadweep">Lakshadweep</option>
+                                   <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                   <option value="Maharashtra">Maharashtra</option>
+                                   <option value="Manipur">Manipur</option>
+                                   <option value="Meghalaya">Meghalaya</option>
+                                   <option value="Mizoram">Mizoram</option>
+                                   <option value="Nagaland">Nagaland</option>
+                                   <option value="Orissa">Orissa</option>
+                                   <option value="Pondicherry">Pondicherry</option>
+                                   <option value="Punjab">Punjab</option>
+                                   <option value="Rajasthan">Rajasthan</option>
+                                   <option value="Sikkim">Sikkim</option>
+                                   <option value="Tamil Nadu">Tamil Nadu</option>
+                                   <option value="Tripura">Tripura</option>
+                                   <option value="Uttaranchal">Uttaranchal</option>
+                                   <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                   <option value="West Bengal">West Bengal</option>
+                            </select>-->
+                                <input type="text" class="form-control" id="state" placeholder="Enter State" name="state" value="<%=data.state%>">
+                                <p id = "errMasgState" style= "display: none; color: red">Please Enter State</p>
+                  </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="input-group">
+                                <label>Country :</label>                    
+                        
+                      <input type="text" class="form-control" id="country" placeholder="Enter Country" name="country" value="<%=data.country%>"> 
+                              <p id = "errMasgCountry" style= "display: none; color: red">Please Enter Country</p>  
+                              
+                  </div>
+                    
+      
+                        <div class="col-sm-6">
+                          <div class="input-group" >
+                              
+                            
+                 
+                  </div>
+                        </div>
+                      </div>
+                      
+                </div>
+                
+                      <div class="form-group">
+                        <div class="col-sm-6">
+                  <div class="input-group">
+                         <label>Address :</label>                 
+                    <textarea class="form-control" name="address" id="address" rows="3" style="width:117%" placeholder="Enter Address" ><%=data.address%></textarea>
+                      
+                      <p id = "errMasgAddress" style= "display: none; color: red">Please Enter Valid Address</p>
+                  </div>    
+                       </div>     
+                                  <div class="col-sm-6">
+                  <div class="input-group">
+                         <label>Occupation :</label>                 
+                   <input type="text" class="form-control" id="occupation" placeholder="Enter Occupation" name="occupation" value="<%=data.occupation%>">
+                       <p id = "errMasgOccupation" style= "display: none; color: red">Please Enter Occupation</p>
+                  </div> 
+                </div>
+                      
+                </div>
+                <br>
+                <h4><b>Bank Mandate Details :</b></h4>
+         
+                <div class="form-group">               
+                <div class="col-sm-6">
+                   
+                  <div class="input-group">
+                     
+                   
+                    <label>Bank Name :</label>  
+                    <input type="text" class="form-control" id="bankname" placeholder="Enter Bank name" name="bankname" value="<%=data.bankname%>">
+                       <p id = "errMasgBankname" style= "display: none; color: red">Enter Bank name</p>
+                      
+                        </div>
+                        </div>          
+                <div class="col-sm-6">
+                  <div class="input-group">
+                    <label>Branch :</label>
+                    <input type="text" class="form-control" id="branch" placeholder="Enter branch" name="branch" data-bv-field="branch" value="<%=data.branch%>">
+                       <p id = "errMasgBranch" style= "display: none; color: red">Please Enter Bank's branch</p>
+                    </div>
+                        
+                    </div>
+                </div>
+                    
+                <div class="form-group">               
+                <div class="col-sm-6">
+                   
+                  <div class="input-group">
+                     
+                   
+                    <label>Account Number :</label>  
+                    <input type="text" class="form-control" id="accno" placeholder="Enter Account Number" name="accno" value="<%=data.accountno%>">
+                      <p id = "errMasgAccno" style= "display: none; color: red">Please Enter Account Number</p>
+                        </div>
+                    </div>            
+                <div class="col-sm-6">
+                  <div class="input-group">
+                    <label>A/c Type :</label>
+                    <input type="text" class="form-control" id="acctype" placeholder="Enter Account Type" name="acctype" data-bv-field="acctype" value="<%=data.accounttype%>"></div>
+                       <p id = "errMasgAcctype" style= "display: none; color: red">Please Enter Account type</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">               
+                <div class="col-sm-6">
+                  <div class="input-group">
+                    <label>IFSC Code :</label>  
+                    <input type="text" class="form-control" id="ifsc" placeholder="Enter IFSC Code" name="ifsc" value="<%=data.ifsc%>">
+                      <p id = "errMasgIfsc" style= "display: none; color: red">Please Enter IFSC Code</p>
+                        </div>
+                    </div>            
+              
+                </div>
+                <br>
+                <h4><b>Nominee Details :</b></h4>
+                  <div class="form-group">               
+                <div class="col-sm-6">
+                   
+                  <div class="input-group">
+                     
+                   
+                    <label>Nominee Name :</label>  
+                    <input type="text" class="form-control" id="nomineename" placeholder="Enter Nominee Name" name="nomineename" value="<%=data.nominee%>">
+                      <p id = "errMasgNomineename" style= "display: none; color: red">Please Enter Nominee name</p>
+                        </div>
+                      </div>               
+                <div class="col-sm-6">
+                  <div class="input-group">
+                    <label>Relationship :</label>
+                    <input type="text" class="form-control" id="nrelationship" placeholder="Enter Relationship" name="nrelationship" value="<%=data.nomineerelation%>">
+                    <p id = "errMasgNomineerelate" style= "display: none; color: red">Please Enter Nominee relationship with Applicant</p>
+                    </div>
+                    
+                    
+                    </div>
+                </div>
+                
+                 <div class="form-group">               
+                <div class="col-sm-6">
+                   
+                  <div class="input-group">       
+                    <label>Guardian Name (if nominee is minor) :</label>  
+                                 
+                <input type="text" class="form-control" id="guardianname" placeholder="Enter Guardian Name" name="guardianname" value="<%=data.guardianname%>">
+                    </div>
+            
+                     </div>
+                      <div class="col-sm-6">
+                   
+                  <div class="input-group">
+                     
+                   
+                    <label>Nominee Address :</label>  
+                      <textarea class="form-control" name="nomineeaddress" id="nomineeaddress" rows="3" style="width:99.9%" placeholder="Enter Nominee Address"><%=data.nomineeaddress%></textarea>
+                      
+                        <p id = "errMasgNomineeaddr" style= "display: none; color: red">Please Enter Nominee address</p>
+                        </div>
+                     </div> 
+                     
+                </div>
+                <h5><u>Declaration and Signature</u></h5>
+                <p>I/We confirm that details provided by me/us are true and correct. I/We has/have invested or desirous to invest in the Scheme(s) Mutual Fund under Direct Plan and agree to comply with the terms and conditions of the Scheme related documents.</p>
+                <br>
+                <p>I/We hereby give you my/our consent to share/provide the transactions data feed/portfolio holdings/NAV etc. in respect of my/our investments under Direct Plan of all Schemes managed by you, to the above mentioned RIA.</p>
+                <br>
+                 <div class="form-group">               
+                <div class="col-sm-6">
+                   
+                  <div class="input-group">       
+                    <label>Date :</label>  
+                                 
+             
+                    </div>
+            
+                     </div>
+                      <div class="col-sm-6">
+                   
+                  <div class="input-group">
+                     
+                   
+                    <label>Place :</label>  
+                     
+                        </div>
+                     </div>
+                </div>
+                <div class="form-group">               
+                <div class="col-sm-6">
+                     <label>Signature :</label>  
+                    </div>
+                </div>
+             <div class="form-group">
+        <div class="col-xs-8 col-xs-offset-4">
+            <button type="submit" class="btn btn-primary">Save</button>
+             <button type="button" class="btn btn-primary" onclick="display();" style="align:right">Get AOF pdf</button>
+              <a href="/nachinputs"><button type="button" class="btn btn-primary" style="align:right">NACH</button></a>
+        </div>
+                  <div class="col-xs-1 col-xs-offset-0">
+                
+        </div>
+    </div>
+          </form>
+             
+          </div><!-- end panel-body -->
+        </div><!-- end panel -->
+       
+      </div><!-- end col-md-8 -->
+     
+        </div>
+</div>
+<!-- these js files are used for making PDF -->
+	
+</body>
+</html>

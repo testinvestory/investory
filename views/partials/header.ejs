@@ -1,7 +1,7 @@
 
    
 <!--Bootstrap Js link   -->
-   
+  
 <!--The fixed header of the page    -->
 <nav class="navbar navbar-default navbar-fixed-top mod-nav">
     <div class="container-fluid">
@@ -70,6 +70,7 @@
             <div id="<%= selectorDisplay %>" class="moodGoals">
                <img  src="images/backarrow.png" id="back"  alt="">
                 <img src="images/backarrow.png"  id="back1" alt="">
+                 <!-- <img src="images/backarrow.png"  id="backsiplumsum" alt="">-->
                 <div class="dropdown selectMood">
                 <button class="btn btn-round btn-primary dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">Your Moods
                     <span class="caret"></span>
@@ -237,8 +238,17 @@
                         
                           <input type="email" class="form-control" id="email" name="email" placeholder="Email" ng-model="email" ng-pattern="/^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/" required />
                         <span ng-show="newsletterEmail.email.$touched && newsletterEmail.email.$invalid  "  >Enter your Email id.</span>
+                        <div class="bg-success" id="responseData">
+                        <p id="data2"></p>
+                    </div>
+                          <p class="panErr" id="subErr" style="display: none; color: red ; font-size: 1em;
+    font-weight: 600;" >Please Login to subscribe.</p>
                         <div class="dotHr">
-                            <button class="btn btn-lg moodNav  pricing RP1 pull-left submit " style="margin-top:10%;width:5.5em;"  type="submit" ng-disabled="newsletterEmail.$invalid"> Submit </button> 
+                            
+                          
+                            
+                            <button class="btn btn-lg moodNav  pricing RP1 pull-left submit " style="margin-top:10%;width:5.5em;"  type="submit" ng-disabled="newsletterEmail.$invalid" onClick=subscribeNews();> Submit </button> 
+                            
                             <div></div>
                             <div></div>
                             <div></div>
@@ -298,7 +308,38 @@
         <% } %>
     });
     
-   
+    function subscribeNews() {
+       var data = {};
+                data.email = document.getElementById("email").value;
+                
+                
+               <% if(loggedIn) {%>
+                $('#subErr').slideUp();
+                    $.ajax({
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        url: '/newsLetterSub',
+                        success: function (data) {
+                            // console.log('success');
+                           //$("#loader1").hide();
+                            
+                        
+                            var myObj = JSON.parse(data);
+                        var displayMsg = "Hi "+ myObj.subcribe;
+                            document.getElementById("data2").innerHTML = displayMsg;
+                           
+                            }
+                        }
+                    )
+            <%}else{%>
+                $('#subErr').slideDown();
+                
+                <%}%>
+                   
+            } 
+
+      
     
 
 </script>

@@ -39,11 +39,20 @@
        font-weight:700;
        font-size:14px;
         }
+        
+      #overlay{
+    display:none;
+    background:red;
+} 
+       .main1{ display:none;}
     </style>
 </head>
-
+<script>
+     </script>
 <body>
+    
     <script>
+            
         <%var amtrounded1 = 0;%>
         
         
@@ -65,7 +74,7 @@
   <div class="modal-dialog modal-md" style=" "> 
     <div class="modal-content">           
                         <div class="modal-body "  style="font-size:1em;padding-bottom: 0em;"><img src="images/Pop-ups.png" class="popUPImg" height="90" width="90">
-                            <p style="font-size:21px;" class="PANHead">Enter a valid PAN or contact investory team to the needful.
+                            <p style="font-size:21px;" class="PANHead">Enter a valid PAN or contact investory team do the needful.
 </p>
   <button type="" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal">OK</button>
    
@@ -74,6 +83,34 @@
     </div>
     </div>
 
+    <div class="modal fade" id="bsenotclient" role="dialog" style="top:8em">                  
+  <div class="modal-dialog modal-md" style=" "> 
+    <div class="modal-content">           
+                        <div class="modal-body "  style="font-size:1em;padding-bottom: 0em;"><img src="images/Pop-ups.png" class="popUPImg" height="90" width="90">
+                            <p style="font-size:21px;padding-bottom:0.2em;" class="PANHead">
+                                <b><u>You are few steps away from Investing. </u></b><br/></p>
+                                <ol style="text-align:left;font-size:19px;font-weight:500">
+                                    <li>Fill in the <u><a href="/bseinputs" style="color:#35BFD3;font-weight:500">Account Opening Form.</a></u></li>
+                                    <li>Post filling all details generate and download the PDF.</li>
+                                    <li>Fill in the details for <u><a href="/bseinputs" style="color:#35BFD3;font-weight:500">NACH</a></u> .</li>
+                                    <li>Post filling all details generate and download the PDF.</li>
+                                    <li>Sign the PDF documents Account Opening form and NACH.</li>
+                                    <li>Upload the signed Account Opening From as PDF under Profile -> <u><a href="/Profile" style="color:#35BFD3;font-weight:500">documents</a></u> section.
+                                    <%if(clientData[0].aof=="null"){%><img src="images/pending.png" alternate="Hello" height="50" width="auto">
+                                    <%}else{%>  <img src="images/uploaded.png" alternate="Hi"; height="50" width="auto"> <%}%></li>
+                                    
+                                    <li>Upload the signed NACH as PDF under Profile -> <u><a href="/Profile" style="color:#35BFD3;font-weight:500">documents</a></u> section.<%if(clientData[0].nach=="null"){%><img src="images/pending.png" alternate="Hello" height="50" width="auto">
+                                    <%}else{%>  <img src="images/uploaded.png" alternate="Hi"; height="50" width="auto"> <%}%></li>
+                            </ol>
+                              
+                          
+  <button type="" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal">Close</button><br/>
+                            <div style="text-align:left;padding-left:2em;font-size:14px;font-weight:600"> Note: All above steps are mandatory before investing.</div>
+                        </div>
+                  </div>
+    </div>
+    </div>
+    
     <!--Pan Modal Window-->
     <div class="modal fade" id="myPanModal" role="dialog">
         <div class="modal-dialog modal-sm" style="top: -8%;width: 512px;margin-left: 36em;">
@@ -100,20 +137,20 @@
 
 
                     <legend> PAN Details</legend>
-                    <input class="form-control PANnumber" type="text" id="panName" placeholder="Name" name="panName">
+                    <input class="form-control PANnumber" type="text" id="panName" placeholder="Name" name="panName" id="panName">
+                     <input class="form-control PANnumber" type="text" id="status" placeholder="status" name="status">
+                   <!--  <input class="form-control PANnumber" type="text" id="address" placeholder="Address" name="address">
+                   <input class="form-control PANnumber" type="text" id="panDOB" placeholder="Date of Birth" name="panDOB">
+                    <input class="form-control PANnumber" type="text" id="accountNumber" placeholder="Account Number" name="accountNumber">-->
 
-                    <input class="form-control PANnumber" type="text" id="address" placeholder="Address" name="address">
-                    <input class="form-control PANnumber" type="text" id="panDOB" placeholder="Date of Birth" name="panDOB">
-                    <input class="form-control PANnumber" type="text" id="accountNumber" placeholder="Account Number" name="accountNumber">
-
-                    <input class="form-control PANnumber" type="text" id="ifscCode" placeholder="IFSC Code" name="ifscCode">
+                    <!--<input class="form-control PANnumber" type="text" id="ifscCode" placeholder="IFSC Code" name="ifscCode">-->
 
                     <!--    <form action="/InsertOrders" method="post">	
                     <button class="btn btn-lg moodNav  pricing RP1 pull-left submit " style="margin-top:2%;width:5.5em;display:none;" id="bseInvest"  type="submit">Proceed </button> 
             </form>	
             -->
                     <button class="btn btn-lg moodNav  pricing RP1 pull-right submit btn-Next-Pan-Modal" style="margin-top:2%;width:5.5em; display: none" data-toggle="modal"
-                        data-target="#uploadModal" data-dismiss="modal">Next </button>
+                        data-target="#bsenotclient" data-dismiss="modal">Next </button>
 
                 </div>
             </div>
@@ -130,28 +167,30 @@
 
 
                     <form action="#" method="post">
-
+                        
+                        
                         <div class="DOCUMENTS">
-
-                            <label class="control-label" style="" title="">Address Proof</label>
-                            <input type="file" name="doc" id="file" class="inputfile" multiple />
+                            
+                            
+                            <!--<label class="control-label" style="" title="">Address Proof</label>
+                            <input type="file" name="doc" id="file" class="inputfile" multiple />-->
 
                             <!--  <label for="file" style="font-size:1em;">Choose a file</label>-->
                             <!-- <button class="captureButton pull-right">Capture</button>-->
-                            <br/>
-                            <label class="control-label" style="" title="">ID Proof</label>
-                            <input type="file" name="doc" id="file" class="inputfile" />
+                            <!--<br/>-->
+                           <!-- <label class="control-label" style="" title="">ID Proof</label>
+                            <input type="file" name="doc" id="file" class="inputfile" />-->
 
                             <!--<label for="file" style="font-size:1em;">Choose a file</label>-->
                             <!-- <button class="captureButton pull-right">Capture</button>-->
-                            <br/>
+                           <!-- <br/>
                             <label class="control-label" style="" title="">Signature Proof</label>
-                            <input type="file" name="doc" id="file" class="inputfile" />
+                            <input type="file" name="doc" id="file" class="inputfile" />-->
 
                             <!-- <label for="file" style="font-size:1em;">Choose a file</label>-->
                             <!--<button class="captureButton pull-right">Capture</button>-->
-                            <br/>
-                            <label class="control-label" style="" title="">KYC Video</label>
+                           <!-- <br/>-->
+                            <label class="control-label" style="" title="">BSE AOF</label>
                             <input type="file" name="doc" id="file" class="inputfile" />
 
                             <!-- <label for="file" style="font-size:1em;">Choose a file</label>-->
@@ -164,6 +203,10 @@
                             <!-- <button class="captureButton pull-right">Capture</button>-->
                             <br/>
                         </div>
+                      
+                        
+                        <p style="font-size:21px;" class="PANHead">Please download the Account Opeing Form by enetering needed details from following link before you invest, Its mandatory. <br><a href="/bseinputs">AOF</a> </p>
+                       
 
 
                     </form>
@@ -179,7 +222,8 @@
             </div>
         </div>
     </div>
-
+   
+<div class="main1">
     <!--<section id="section1">-->
     <div class="container-fluid moods text-center">
         <div class="container">
@@ -536,8 +580,12 @@
                             <div class="page6" style="display: none">
                                 
                                 <%if(loggedIn && panstatus[0].kycstatus=="Complaint"){%>
-                                <form action="/InsertOrders" method="post">
-                                    <button type="submit" class="btn btn-lg moodNav go" id="initInvest" style="top: 25px;"> Invest </button></form>
+                                    <%if(clientData[0].aof!="null" && clientData[0].nach!="null" ){%>
+                                      <form action="/InsertOrders" method="post">
+                                      <button type="submit" class="btn btn-lg moodNav go" id="initInvest" style="top: 25px;"> Invest </button></form>
+                                     <%}else{%>
+                                              <button type="" data-toggle="modal" data-target="#bsenotclient" class="btn btn-lg moodNav go" style="top: 25px;"> Invest </button>
+                                      <%}%>
                                 <%}else{%>
                                  <button type="" data-toggle="modal" data-target="#myPanModal" class="btn btn-lg moodNav go" id="initInvest" style="top: 25px;"> Invest </button>
                                 
@@ -644,14 +692,14 @@
                 </div>
             </div>
         </div>
-    </div>
+    
     <!--    </section>-->
 
     <!--Footer-->
     <div id="" class="container footFixer">
         <% include partials/footer %>
     </div>
-        
+      </div>  
     <!--Custom Js links -->
 
 <!--JQuery link   -->
@@ -662,6 +710,12 @@
  
 
     <script>
+    
+      $(document).ready(function() {
+          
+    $(".main1").delay(0).fadeIn(5);
+       
+})  
      var $j = jQuery.noConflict();
         $(document).ajaxComplete(function() {
     $('[data-toggle="popover"]').popover({
@@ -760,7 +814,7 @@
                         url: '/PANValidation',
                         success: function (data) {
                             // console.log('success');
-                           $("#loader1").hide();
+                           //$("#loader1").hide();
                             $("#loader1").html('');
                             document.getElementById("bseInvest").style.display = 'block';
                             document.getElementById("pan").style.display = 'block';
@@ -778,9 +832,11 @@
                             document.getElementById("bseInvest").style.display = 'block';
                             document.getElementById("pan").style.display = 'block';
                             // document.getElementById("panCheck").style.display = 'none';
-
-                            var displayMsg = "Hi " + myObj.name + " your PAN No. " + myObj.pan + " is " + myObj.msg;
-                            document.getElementById("data1").innerHTML = displayMsg;
+                         
+                            /*var displayMsg = "Hi " + myObj.name + " your PAN No. " + myObj.pan + " is " + myObj.msg;
+                            document.getElementById("data1").innerHTML = displayMsg;*/
+                             document.getElementById("panName").value =myObj.name;
+                             document.getElementById("status").value = myObj.msg;
                             $('.btn-Next-Pan-Modal').css('display', 'block');
                             }
                         }
@@ -919,10 +975,8 @@
         function myinit(riskRate, chooseTable, storeAllocation) {
             // alert(localStorage.sipInvestment);
             /*lumpsum sohan start -- the alert is removed and else if for lumpsum is included.*/
-        // debugger;
+        //debugger;
   
-            
-            
             if (storeAllocation == 1)
                 store = true;
             else
@@ -1071,9 +1125,9 @@
                     var fv = localStorage.taxSaveAmt;
                     var mn = localStorage.taxSaveAmt;
                     
-                     var eqP1 = 65;/*<%=data[0].asset.value %>*/;
-                    var hybP1 = 35;/*<%=data[1].asset.value %>;*/
-                  var debtP1 =0;
+                     var eqP1 = <%=data[0].asset.value %>;
+                    var hybP1 = <%=data[1].asset.value %>;
+                  var debtP1 =<%=data[2].asset.value %>;
                     
                      var eqTax = eqP1 / 100;
                     var hybTax = hybP1 / 100;
@@ -1177,13 +1231,13 @@
              
             if(riskProfile=="Conservative"){
                 var mn=Math.round((pmt4(expectC,nper,0,-fvvalue,0))/1000)*1000;  //Conservative
-                console.log("New sip..! Conservative",mn)
+                //console.log("New sip..! Conservative",mn)
             }else if(riskProfile=="Moderate"){
                var mn= Math.round((pmt4(expectM,nper,0,-fvvalue,0))/1000)*1000;  //Moderate
-                console.log("New sip..! Modearte",mn)
+               // console.log("New sip..! Modearte",mn)
             }else{
                 var mn=Math.round((pmt4(expectA,nper,0,-fvvalue,0))/1000)*1000;  //Aggressive*/
-                console.log("New sip..! Aggressive",mn)
+               // console.log("New sip..! Aggressive",mn)
             }
                       /*var Csipval=Math.round((pmt4(expectC,nper,0,-fvvalue,0))/1000)*1000;  //Conservative
                     var Msipval=Math.round((pmt4(expectM,nper,0,-fvvalue,0))/1000.000)*1000.000;  //Moderate
@@ -1266,10 +1320,11 @@
                     var debtAP = 0;
 
                 } else {
+                    
                     /*Conservative*/
-                    var eqP1 = 20;/*<%=data[0].asset.value %>*/;
-                    var hybP1 = 15;/*<%=data[1].asset.value %>;*/
-                    var debtP1 = 65;/*<%=data[2].asset.value %>;*/
+                    var eqP1 =<%=data[0].asset.value %>;
+                    var hybP1 = <%=data[1].asset.value %>;
+                    var debtP1 =<%=data[2].asset.value %>;
            
                     var eqP = eqP1 / 100;
                     var hybP = hybP1 / 100;
@@ -1277,18 +1332,18 @@
 
                     //Moderate
                    // debugger;
-                    var eqMP1 = 50;/*<%=data[3].asset.value %>;*/
-                    var hybMP1 = 22.5;/*<%=data[4].asset.value %>;*/
-                    var debtMP1 = 27.5;/*<%=data[5].asset.value %>;*/
+                    var eqMP1 = <%=data[3].asset.value %>;
+                    var hybMP1 = <%=data[4].asset.value %>;
+                    var debtMP1 = <%=data[5].asset.value %>;
                     
                     var eqMP = eqMP1 / 100;
                     var hybMP = hybMP1 / 100;
                     var debtMP = debtMP1 / 100;
 
                     //*Aggressive*/
-                    var eqAP1 = 75;/*<%=data[6].asset.value %>;*/
-                    var hybAP1 = 25;/*<%=data[7].asset.value %>;*/
-                    var debtAP1 = 0;/*<%=data[8].asset.value %>;*/
+                    var eqAP1 = <%=data[6].asset.value %>;
+                    var hybAP1 = <%=data[7].asset.value %>;
+                    var debtAP1 = <%=data[8].asset.value %>;
                   
 
                     var eqAP = eqAP1 / 100;
@@ -1870,7 +1925,7 @@ function round_decimals(original_number, decimals) {
             var initializeTabs = function () {
                 try {
                    
-              
+             
                     var tempGoals = JSON.parse(sessionStorage.getItem('tempGoals'));
                     if (loggedIn && tempGoals.currentPage) {
                         selectTab(tempGoals.currentPage);

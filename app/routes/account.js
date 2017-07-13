@@ -5,15 +5,12 @@ var bcrypt = require('bcrypt-nodejs');
 const express = require('express');
 const router = express.Router();
 const async = require('async');
-const pg = require('pg');
+
 const crypto = require('crypto');
 /* common functions */
 const functions = require('./functions');
-const conString = "postgres://postgres:postgres@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
-var client = new pg.Client(conString);
-client.connect();
-
+//DB connection
+var client = require('../../config/database');
 
 var currentPage;
 
@@ -33,7 +30,7 @@ exports.getAccount = (req, res) => {
 	var query = client.query("select to_char(a.userinvestmentorderdate,'dd-Mon-yyyy') as investdate, b.name, a.amount,NULLIF(a.units,0) as units from userinvestmentorders a, schemesmaster b where a.schemeid = b.schemeid and a.userid=$1", [req.session.user.userid], function (err, result) {
 		if (err)
 			console.log("Cant get portfolio details in goal selection" + err);
-		console.log("ja be loude" + result.rows.length)
+		console.log("Invoices" + result.rows.length)
 
 		if (result.rows.length > 0) {
 			console.log("statements");

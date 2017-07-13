@@ -24,10 +24,11 @@
 
 
 
-          <%for(var i=0;i<stmt.length;i++){%>
+          <%for(var i=0;i<stmtt.length;i++){%>
            <tr>
           <td><%=stmtt[i].investdate%></td>
-        <td ><%=stmtt[i].name%></td>
+        <td style="text-align: left;
+    padding-left: 4em;"><%=stmtt[i].name%></td>
         <td ><%=stmtt[i].amount%></td>
         <td><%=stmtt[i].units%></td>
            </tr>

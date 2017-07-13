@@ -2,8 +2,9 @@
 var pg = require('pg');
 //var waterfall = require('async-waterfall');
 
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
+/*var client = require('/config/database');*/
+//var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
+var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
 /*
 
 var conString = {
@@ -17,7 +18,6 @@ var conString = {
 };
 */
 var client = new pg.Client(conString);
-
 
 module.exports = { 
  
@@ -195,7 +195,7 @@ getReconciledDumpUpdates: function(req, res,ids)
        
 var query=client.query(
                       "UPDATE "+tbl+  
-" SET nav =(SELECT "+tbl2+".nav FROM " +tbl2+" WHERE " +tbl+".userinvestmentorderid = "+tbl2+".orderid and userinvestmentorderid ="+ids[i]+" ),foliono =(SELECT "+tbl2+".foliono FROM " +tbl2+" WHERE " +tbl+".userinvestmentorderid = "+tbl2+".orderid and userinvestmentorderid ="+ids[i]+" ),bsetxnreference =(SELECT "+tbl2+".transaction_ref FROM " +tbl2+" WHERE " +tbl+".userinvestmentorderid = "+tbl2+".orderid and userinvestmentorderid ="+ids[i]+" ), units =(SELECT "+tbl2+".units FROM " +tbl2+" WHERE " +tbl+".userinvestmentorderid = "+tbl2+".orderid and userinvestmentorderid ="+ids[i]+" ) WHERE " +tbl+".userinvestmentorderid=(SELECT " +tbl2+".orderid FROM "+tbl2+ " WHERE  "+tbl+".userinvestmentorderid="+tbl2+".orderid and userinvestmentorderid ="+ids[i]+")",function(err, result)          
+" SET nav =(SELECT "+tbl2+".nav FROM " +tbl2+" WHERE " +tbl+".userinvestmentorderid = "+tbl2+".orderid and userinvestmentorderid ="+ids[i]+" LIMIT 1 ),foliono =(SELECT "+tbl2+".foliono FROM " +tbl2+" WHERE " +tbl+".userinvestmentorderid = "+tbl2+".orderid and userinvestmentorderid ="+ids[i]+" LIMIT 1 ),bsetxnreference =(SELECT "+tbl2+".transaction_ref FROM " +tbl2+" WHERE " +tbl+".userinvestmentorderid = "+tbl2+".orderid and userinvestmentorderid ="+ids[i]+" LIMIT 1 ), units =(SELECT "+tbl2+".units FROM " +tbl2+" WHERE " +tbl+".userinvestmentorderid = "+tbl2+".orderid and userinvestmentorderid ="+ids[i]+" LIMIT 1) WHERE " +tbl+".userinvestmentorderid=(SELECT " +tbl2+".orderid FROM "+tbl2+ " WHERE  "+tbl+".userinvestmentorderid="+tbl2+".orderid and userinvestmentorderid ="+ids[i]+" LIMIT 1)",function(err, result)          
     {
       if (err) 
         console.log(err); 

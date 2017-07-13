@@ -6,7 +6,9 @@ var sipTime;
 
 
 $('input#sip').keyup(function(event) {
-
+     $(".below").empty();
+$(".row slider").css("visibility","hidden");
+        $(".page1").css("visibility","hidden");
   
   if((event.which >= 48 && event.which <= 57) /*|| event.which >= 37 && event.which <= 40*/){
    event.preventDefault();
@@ -35,23 +37,25 @@ function formatNumber(num) {
 function getSIP(){
 	// debugger;	
 	//alert("dad");
+     $(".below").empty();
+     
 	var sipInvestValue = $('#sip').val();
 	var sipTime = $('#years').val();
    
  let amount=sipInvestValue.replace(/,/g,'');  
 	if ( amount < 1000 || amount > 100000 ){ 
 		$('#sipInvestErr').slideDown();
-        $(' #imgcap').css("top","41.3%");
+      //  $(' #imgcap').css("top","41.3%");
        } 
        else if(isNaN(amount))
          $('#sipInvestErr').slideDown();
 	 else if ( sipTime < 1 || sipTime > 50 ) {
 		$('#sipInvestErr').slideUp(); 
 		$('#sipTimeErr').slideDown();
-        $(' #imgcap').css("top","41.3%");
+        //$(' #imgcap').css("top","41.3%");
 	} else {
 		// debugger;
-		$('#sipInvestErr').slideUp(); 
+		//$('#sipInvestErr').slideUp(); 
 		$('#sipTimeErr').slideUp();
         
 		totalYears = document.getElementById("years").value;
@@ -64,22 +68,23 @@ function getSIP(){
         
 		window.location.href = "/GoalSelection";
 	}
-    if($('#sipInvestErr').slideDown() && $('#sipTimeErr').slideDown()){
+    /*if($('#sipInvestErr').slideDown() && $('#sipTimeErr').slideDown()){
         $(' #imgcap').css("top","45.4%");
-    }
+    }*/
 }
 
 function showSIP(){	
-    
+ //  $('#overlay').fadeIn('fast').delay(1000).fadeOut('fast');
 	$("#setMood").attr("src", "images/buildWealthMood.png");  
 	$("#setMoodText").hide(); 
      $("#goalSelected").text("Build Wealth");
-	$(".moodGoals > img").css("visibility","hidden");  
+	$(".moodGoals #back").css("visibility","show");  
 	$(".slider").css("visibility","hidden");
 	$(".contentMood .page4 #invest").css("visibility","hidden");
 	$(".contentMood .page1, .contentMood .page2,.contentMood .page3, .page3Sub,.contentMood .page4 .sub-page4").hide();
 	$(".page2 .dotHr").hide();
 	$(".contentMood .page4,.contentMood .page4 .selectMode").show();
+     
 	/*	console.log("years"+localStorage.years+"time"+	 localStorage.sip);*/
 }
  

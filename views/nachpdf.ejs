@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css">
+</head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript">
+</script>
+    <style>
+       
+    
+     @import url("http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
+@import url("http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Roboto Mono");
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
+@font-face {
+  font-family: 'Dosis';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Dosis Light'), local('Dosis-Light'), url(http://fonts.gstatic.com/l/font?kit=RoNoOKoxvxVq4Mi9I4xIReCW9eLPAnScftSvRB4WBxg&skey=a88ea9d907460694) format('woff2');
+}
+@font-face {
+  font-family: 'Dosis';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Dosis Medium'), local('Dosis-Medium'), url(http://fonts.gstatic.com/l/font?kit=Z1ETVwepOmEGkbaFPefd_-CW9eLPAnScftSvRB4WBxg&skey=21884fc543bb1165) format('woff2');
+}
+body {
+        
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.42857;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif,  Open Sans;
+    
+    line-height: 1.42857;
+    height: 350px;
+    padding: 0;
+    margin: 0;
+}   
+        table, th, td {
+    border: 1px solid black;
+            padding-left: 12px;
+    border-collapse: collapse;
+}
+    </style>    
+    <script src="js/jspdf.debug.js"></script>
+    <script src="js/jspdf.plugin.autotable.js"></script>
+    <script type="text/javascript">    
+ function generate() {      
+    var pdf = new jsPDF("p", "mm", "a4");
+    var res1 = document.getElementById('tb1');
+    var res = pdf.autoTableHtmlToJson(res1);
+          
+    var elem3 = document.getElementById('tb3');
+    var data3 = pdf.autoTableHtmlToJson(elem3);
+  
+    var header = function(data) {
+      pdf.text(30,20,'NACH/ECS/AUTO DEBIT MANDATE INSTRUCTION FORM'); 
+      pdf.setFontSize(18);
+      pdf.setTextColor(40);
+      pdf.setFontStyle('normal');
+      //  doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
+      pdf.text("", data.settings.margin.left, 30);
+  };
+
+pdf.autoTable(res.columns, res.data, {
+      startY: pdf.autoTableEndPosY() + 30,
+      pageBreak: 'auto',
+      theme: 'grid',
+      beforePageContent: header,
+      margin: {horizontal: 10, top: 10, bottom: 10},
+	  headerStyles: {fillColor: [204, 204, 204],textColor: 20},
+      styles: {
+      overflow: 'linebreak',
+      fontSize: 10,
+      tableWidth: 280,
+      columnWidth: 'auto',
+	  valign: 'middle',
+       rowHeight: 10
+    },
+      drawHeaderRow: function(row, data) {
+     row.height = 10;
+    }
+    
+});
+ 
+pdf.autoTable(data3.columns, data3.data, {
+     startY : pdf.autoTableEndPosY() + 10,
+     pageBreak: 'auto',
+     theme: 'grid',
+     beforePageContent: header,
+	 headerStyles: {fillColor: [204, 204, 204],textColor: 20},
+      styles: {
+      overflow: 'linebreak',
+      fontSize: 10,
+      tableWidth: 280,
+      columnWidth: 'auto',
+	  valign: 'middle',
+       rowHeight: 10
+    },
+       drawHeaderRow: function(row, data) {
+     row.height = 10;
+    },
+    margin: {horizontal:10, top: 10, bottom:10}
+});
+  pdf.save("Nach.pdf");
+}    
+   
+        </script>
+<body ng-app="" id="target">
+  
+  <div class="container" id="HTMLtoPDF">
+<div class="row">
+      <div class="col-md-3"> </div>
+      <div class="col-md-7">
+          <h2 style="text-align: center;margin-bottom:2px;"><b>NACH/ECS/AUTO DEBIT MANDATE INSTRUCTION FORM</b></h2>
+        <br>       
+<table id="tb1" style="width:100%;font-size:12px;padding-left: 12px;padding-right:0px;padding-top:2px;padding-bottom:2px;margin-top:0px;margin-bottom:10px;">
+   <tr><td><h4 style="text-align: left;margin-bottom:2px;"><b>Details :</b></h4> </td><td></td></tr>
+    <tr>
+      
+    <td>UMRN : <%=data.umrn%></td>
+    <td>Date : <%=data.createddate%></td>
+      
+  </tr>
+    <tr>
+       <td>Sponsor Bank Code : <%=data.sbankcode%></td> 
+         <td>Utility Code : <%=data.utilitycode%></td>
+    </tr>
+    <tr>
+        <td>I/We hereby authorize : BSE Limited</td>
+        <td></td>
+    </tr>
+  <tr>
+   
+    <td>to debit (tick) : SB/CA/CC/SB-NRE/SB-NRO/other</td>
+    <td>Account Number : <%=data.accountno%></td>
+  </tr>
+  <tr>
+    <td>Bank Name : <%=data.bankname%></td>
+    <td>IFSC Code : <%=data.ifsc%></td>
+   
+  </tr>
+    <tr>
+         <td>MICR : <%=data.micr%></td>
+        <td>an amount of Rupees : <%=data.rupees%></td>
+    </tr>
+    <tr>
+     <td>FREQUENCY : <%=data.frequencyofdebit%></td>
+    <td>DEBIT TYPE : <%=data.debittype%></td>
+   
+   
+  </tr>
+    <tr>
+         <td>Reference 1 (Mandate Reference No.) : <%=data.mandatereference1%></td>
+    <td> Reference 2 (Unique Client Code-UCC) : <%=data.mandatereference2%></td>
+  </tr>
+    <tr>
+    <td>Mobile : <%=data.mobile%></td>
+    <td>Email : <%=data.email%></td>    
+  </tr>
+  
+  <tr>
+    <td>PERIOD From : <%=data.periodefrom%></td>
+    <td>PERIOD To : <%=data.periodeto%></td>     
+  </tr>
+     </table>      
+       
+         
+          <table id="tb3" style="width:100%;font-size:12px;padding-left: 12px;padding-right:0px;padding-top:2px;padding-bottom:0px;margin-top:0px;margin-bottom:4px;">
+     
+
+<tr>
+ <td colspan="2"><h5><u>Declaration and Signature</u></h5> </td>
+    
+</tr>
+              <tr>
+                  <td >
+    <p>I agree for the debit of mandate processing charges by the bank whom I am authorizing to debit my account as per latest schedule of charges of the bank.</p>
+
+    <p>This is to confirm that the declaration has been carefully read, understood and made by me/us. I am authorizing the user entity/ Corporate to debit my account, based on the instructions as agreed and signed by me.<br/>I have understood that I am authorised to cancel/amend this mandate by appropriately communicating the cancellation / amendment request to the User entity / Corporate or the bank where I have authorized the debit.</p>
+    
+        <h5 style="text-align: left;">1 :      </h5>
+          <h5 style="text-align: left;">2 : </h5>      
+
+          <h5 style="text-align: left;padding-right:55px;">3 :</h5>
+        </td>
+              </tr>
+</table>
+     
+    <div class="form-group">
+        <div class="col-xs-4 col-xs-offset-4">      
+    <button type="" style="align:center;" class="btn btn-primary" id="cmd" onclick="generate()">Download As Pdf</button>
+        </div>
+          </div>
+      </div><!-- end col-md-8 -->
+     
+        </div>
+</div>
+<!-- these js files are used for making PDF -->
+    
+</body>
+</html>

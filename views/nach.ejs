@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css">
+</head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript">
+</script>
+    <style>
+       
+    
+     @import url("http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
+@import url("http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Roboto Mono");
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
+@font-face {
+  font-family: 'Dosis';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Dosis Light'), local('Dosis-Light'), url(http://fonts.gstatic.com/l/font?kit=RoNoOKoxvxVq4Mi9I4xIReCW9eLPAnScftSvRB4WBxg&skey=a88ea9d907460694) format('woff2');
+}
+@font-face {
+  font-family: 'Dosis';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Dosis Medium'), local('Dosis-Medium'), url(http://fonts.gstatic.com/l/font?kit=Z1ETVwepOmEGkbaFPefd_-CW9eLPAnScftSvRB4WBxg&skey=21884fc543bb1165) format('woff2');
+}
+body {
+  
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif,  Open Sans;
+    font-size: 13px;
+    line-height: 1.42857;
+    height: 350px;
+    padding: 0;
+    margin: 0;
+}   
+        .input-group-addon:not(:first-child):not(:last-child), .input-group-btn:not(:first-child):not(:last-child), .input-group .form-control:not(:first-child):not(:last-child){
+               width: 298px; 
+        }
+        .form-control {
+            
+            height: 29px;
+            padding-top: 6px;
+            padding-right: 12px;
+            padding-bottom: 6px;
+            padding-left: 12px;
+            font-size: 12px;
+            font-weight:600;
+        }
+        .form-group{
+        margin-bottom: 8px;
+        }
+
+    </style>  
+    <script type="text/javascript">
+       
+    
+    
+
+        var bankName=function(){
+           var regExp3=/^[a-zA-Z]{3,30}$/;
+           var bankName=$('#bankname').val();
+           if(bankName.match(regExp3)){
+               
+               $('#errMasgBankname').slideUp();
+               return true;
+           }
+           else{
+              $('#errMasgBankname').slideDown();
+               return false;
+           }
+           
+       };
+        
+        
+       var accno=function(){
+           var accno=$('#accno').val();
+           if(accno.length<=9){
+               $('#errMasgAccno').slideDown();
+               return false;
+           }
+           else{
+              $('#errMasgAccno').slideUp();
+               return true;
+           }
+           
+       };
+        
+        
+        var ifsc=function(){
+           var ifsc=$('#ifsc').val();
+           if(ifsc.length<=5){
+               $('#errMasgIfsc').slideDown();
+               return false;
+           }
+           else{
+              $('#errMasgIfsc').slideUp();
+               return true;
+           }
+           
+       };
+        
+    
+         var email=function(){
+           var email=$('#email').val();
+           if(email.length<=4){
+               $('#errMasgEmail').slideDown();
+               return false;
+           }
+           else{
+              $('#errMasgEmail').slideUp();
+               return true;
+           }
+           
+       };
+        var mobile=function(){    
+            var regExp1 =/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
+           var mobile=$('#mobile').val();
+           if(mobile.length==10 && mobile.match(regExp1)){
+              
+               $('#errMasgMobile').slideUp();
+               
+               return true;
+           }
+           else{
+               $('#errMasgMobile').slideDown();
+               return false;
+           }
+           
+       };
+      var umrn=function(){
+       
+           var umrn=$('#umrn').val();
+           if(umrn.length>=4){
+              
+               $('#errMasgUmrn').slideUp();
+               
+               return true;
+           }
+           else{
+               $('#errMasgUmrn').slideDown();
+               return false;
+           } 
+          
+      };
+        
+         var Date1=function(){
+           var date1=$('#date1').val();
+           if(date1.length>=4){
+              
+               $('#errMasgDate1').slideUp();
+               
+               return true;
+           }
+           else{
+               $('#errMasgDate1').slideDown();
+               return false;
+           } 
+          
+      };
+        
+         var utilitycode=function(){
+           var utilitycode=$('#utilitycode').val();
+           if(utilitycode.length>=3){
+              
+               $('#errMasgUtilitycode').slideUp();
+               
+               return true;
+           }
+           else{
+               $('#errMasgUtilitycode').slideDown();
+               return false;
+           } 
+          
+      };
+        
+        
+          var ref1=function(){
+           var ref1=$('#ref1').val();
+           if(ref1.length>=3){
+              
+               $('#errMasgRef1').slideUp();
+               
+               return true;
+           }
+           else{
+               $('#errMasgRef1').slideDown();
+               return false;
+           } 
+          
+      };
+          var ref2=function(){
+           var ref2=$('#ref2').val();
+           if(ref2.length>=3){
+              
+               $('#errMasgRef2').slideUp();
+               
+               return true;
+           }
+           else{
+               $('#errMasgRef2').slideDown();
+               return false;
+           } 
+          
+      };
+        
+         var from=function(){
+           var from=$('#from').val();
+           if(from.length>=3){
+              
+               $('#errMasgFrom').slideUp();
+               
+               return true;
+           }
+           else{
+               $('#errMasgFrom').slideDown();
+               return false;
+           } 
+          
+      };
+         var to=function(){
+           var to=$('#to').val();
+           if(to.length>=3){
+              
+               $('#errMasgTo').slideUp();
+               
+               return true;
+           }
+           else{
+               $('#errMasgTo').slideDown();
+               return false;
+           } 
+          
+      };
+        
+        
+        var validateFrom = function() {
+     
+            var accnoOk=accno(); 
+        var ifscOk=ifsc();
+        var emailOk=email();
+        var mobileOk=mobile();
+        var fromok=from();
+        var took=to();
+        var ref1ok=ref1();
+        var ref2ok=ref2();
+        var utilitycodeok=utilitycode();
+        var umrnok = umrn();
+        var Dateok = Date1();
+        var banknameOk=bankName();
+        
+            
+        
+        if (utilitycodeok && umrnok && Dateok && banknameOk && accnoOk && ifscOk && emailOk && mobileOk && fromok && fromok && took && ref1ok && ref2ok )
+            return true;
+        else
+            return false;
+    };
+              
+    function display(){
+        
+            var accnoOk=accno(); 
+        var ifscOk=ifsc();
+        var emailOk=email();
+        var mobileOk=mobile();
+        var fromok=from();
+        var took=to();
+        var ref1ok=ref1();
+        var ref2ok=ref2();
+        var utilitycodeok=utilitycode();
+        var umrnok = umrn();
+        var Dateok = Date1();
+        var banknameOk=bankName();
+        
+            
+        
+        if (utilitycodeok && umrnok && Dateok && banknameOk && accnoOk && ifscOk && emailOk && mobileOk && fromok && fromok && took && ref1ok && ref2ok )
+            {
+              window.location.href ="/nachpdf";    
+              return true;
+            }
+        else{
+            alert("Please Fill all Details")
+            return false;
+        }
+        }
+        </script>
+<body ng-app="" id="target">
+
+    
+    
+  <div class="container" id="HTMLtoPDF">
+<div class="row">
+      <div class="col-md-2"> </div>
+      <div class="col-md-8">
+          <h2 style="text-align: center;margin-bottom:2px;"><b>NACH/ECS/AUTO DEBIT MANDATE INSTRUCTION FORM</b></h2>
+        <br> 
+         
+        <!-- BEGIN DOWNLOAD PANEL -->
+        <div class="panel panel-default well">
+          <div class="panel-body">
+            <form onsubmit="return validateFrom()"  name="aofinfo" id="aofinfo" class="form-horizontal track-event-form bv-form" action="/nachInputData" method="post"  >
+            <div class="form-group">               
+                <div class="col-sm-6">
+                    
+                  <div class="input-group">
+                     
+                    <label>UMRN :</label>
+                      
+                    <input type="text"  placeholder="Enter UMRN" id="umrn" name="umrn" class="form-control" value="<%=data.umrn%>">
+                          <p id="errMasgUmrn" style="display: none; color: red">Please Enter a Valid UMRN</p>          
+                        </div>
+                    </div>
+                <div class="col-sm-6">
+                  <div class="input-group">
+                    <label>Date : </label>
+                    <input type="date" id="date1" name="date1" align="right" class="form-control"  value="<%=data.createddate%>" placeholder="Enter Date">
+                      <p id="errMasgDate1" style="display: none; color: red">Please Select Date</p>
+                    </div>
+                        
+                        </div>
+                 
+                  </div>
+
+              <div class="form-group">               
+               
+                    
+                  <div class="input-group">
+                     <div class="col-sm-6">
+                  <div class="input-group">
+                    <label>Sponsor Bank Code :</label>
+                    <input type="text" align="right" class="form-control" id="sbankcode" name="sbankcode" placeholder="Enter Sponsor Bank Code"  value="<%=data.sbankcode%>">
+                      <p id="errMasgSponsorbank" style="display: none; color: red">Please Enter a Valid Sponsor Bank Code</p>  
+                    </div>
+                        
+                        </div>
+                    
+                 
+                  
+                <div class="col-sm-6">
+             
+                    <label>Utility Code :</label>
+                      
+                    <input type="text" class="form-control" id="utilitycode" placeholder="Enter Utility code" name="utilitycode" value="<%=data.utilitycode%>">
+                     <p id="errMasgUtilitycode" style="display: none; color: red">Please Enter a Valid Utility code</p>               
+                     
+                      
+                    </div>
+                        
+                        </div>
+                  </div>
+     
+                
+                <div class="form-group">               
+                <div class="col-sm-6">
+                    
+                  <div class="input-group">
+                     
+                  <label>I/We hereby authorize :</label>
+                    <input type="text" class="form-control" id="bselimited" placeholder="" name="bselimited" value="BSE Limited">
+                      
+                        </div>
+                </div>         
+                <div class="col-sm-6">
+                  <div class="input-group">
+                    <label>to debit (tick &#10004; ) :</label>
+                    
+                    
+                    <input type="text" class="form-control" id="" placeholder="" name="" value="SB/CA/CC/SB-NRE/SB-NRO/Other">   
+                    </div>
+                        </div>
+
+                </div>
+                
+              <div class="form-group">               
+                          <div class="col-sm-6">
+                              
+                            <div class="input-group">
+                            <label>Account Number :</label>  
+                    <input type="text" class="form-control" id="accno" placeholder="Enter Account Number" name="accno" value="<%=data.accountno%>">
+                      <p id = "errMasgAccno" style= "display: none; color: red">Please Enter Account Number</p> 
+                 
+                        </div>
+                              </div>
+                                    
+                          <div class="col-sm-6">
+                            <div class="input-group">
+                                 <label>Bank Name :</label>  
+                    <input type="text" class="form-control" id="bankname" placeholder="Enter Bank name" name="bankname" value="<%=data.bankname%>">
+                       <p id = "errMasgBankname" style= "display: none; color: red">Enter Bank name</p>
+                  </div>
+                        </div>
+              </div>
+                
+               
+                
+                 <div class="form-group">
+                <div class="col-sm-6">
+                  <div class="input-group">
+                     <label>IFSC Code :</label>  
+                    <input type="text" class="form-control" id="ifsc" placeholder="Enter IFSC Code" name="ifsc" value="<%=data.ifsc%>">
+                      <p id = "errMasgIfsc" style= "display: none; color: red">Please Enter IFSC Code</p>
+                  </div>                                    
+                </div>
+                     
+                     <div class="col-sm-6">
+                            <div class="input-group">
+                              <label>MICR :</label> 
+                            <input type="text" class="form-control" id="micr" placeholder="Enter MICR" name="micr" value="<%=data.micr%>">
+                  </div>
+                        </div>
+                      </div>
+              
+                
+                <div class="form-group">
+                <div class="col-sm-6">
+                  <div class="input-group">
+                      <label>an amount of Rupees :</label> 
+                          
+                    <input type="text" class="form-control" id="rs" placeholder="Enter Rupees" name="rs" value="<%=data.rupees%>">
+                       
+                  </div>                                    
+                </div>
+                     <div class="col-sm-6">
+                            <div class="input-group">
+                               <label>FREQUENCY :</label>
+                                  <input type="text" class="form-control" id="frequency" placeholder="" name="frequency" value="As and When Presented">
+                          <!-- <select data-placeholder="Choose FREQUENCY" class="C_Country_Modal form-control" id="frequency" name="frequency" >
+                      <option value="Monthly">Monthly</option>
+                      <option value="Quarterly">Quarterly</option>
+                               <option value="Half yearly">Half yearly</option>
+                               <option value="Yearly">Yearly</option>
+                                <option value="As and When Presented">As and When Presented</option>
+                                </select>-->
+                  </div>
+                        </div>
+                     
+                      </div>
+                
+                
+                      <div class="form-group">
+                          <div class="col-sm-6">
+                            <div class="input-group">
+                               <label>DEBIT TYPE :</label>
+                         
+                                <input type="text" class="form-control" id="Debit" placeholder="" name="Debit" value="Maximum Amount">
+                               
+                  </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="input-group">
+                                <label>Reference 1 (Mandate Reference No.) :</label>                    
+                        
+                     <input type="text" class="form-control" id="ref1" placeholder="Enter Reference 1 " name="ref1" value="<%=data.mandatereference1%>"> 
+                              <p id = "errMasgRef1" style= "display: none; color: red">Please Enter Reference 1 </p>  
+                              
+                  </div>
+                    
+      </div>
+                          </div>
+                          <div class="form-group">
+                        <div class="col-sm-6">
+                          <div class="input-group" >
+                              <label> Reference 2 (Unique Client Code-UCC)  </label> 
+                              <input type="text" class="form-control" id="ref2" placeholder="Enter Reference 2 " name="ref2" value="<%=data.mandatereference2%>"> 
+                              <p id = "errMasgRef2" style= "display: none; color: red">Please Enter Reference 2 </p>  
+                 
+                  </div>
+                        </div>
+                      </div>
+                      
+                
+                
+                      <div class="form-group">
+                        <div class="col-sm-6">
+                  <div class="input-group">
+                          <label>Mobile :</label> 
+                           
+                    <input type="text" class="form-control" id="mobile" placeholder="Eneter Mobile" name="mobile" value="<%=user.mobile%>">
+                      <p id="errMasgMobile" style="display: none; color: red">Please Enter Valid Mobile</p>
+                      
+                  </div>    
+                       </div>     
+                <div class="col-sm-6">
+                  <div class="input-group">
+                    <label>Email :</label> 
+                            <input type="text" class="form-control" id="email" placeholder="Enter email" name="email" value="<%=user.email%>">
+                                <p id="errMasgEmail" style="display: none; color: red">Please Enter Valid Email</p>
+                  </div> 
+                </div>
+                      
+                </div>
+         
+                <div class="form-group">               
+                <div class="col-sm-6">
+                   
+                  <div class="input-group">
+                     
+                   
+                    <label>PERIOD From :</label>  
+                    <input type="date" class="form-control" id="from" placeholder="Enter PERIOD From" name="from" value="<%=data.periodefrom%>">
+                       <p id = "errMasgFrom" style= "display: none; color: red">Select PERIOD From</p>
+                      
+                        </div>
+                        </div>          
+                <div class="col-sm-6">
+                  <div class="input-group">
+                    <label>PERIOD To :</label>
+                    <input type="date" class="form-control" id="to" placeholder="Enter PERIOD To" name="to" data-bv-field="branch" value="<%=data.periodeto%>">
+                       <p id = "errMasgTo" style= "display: none; color: red">Select Enter PERIOD To</p>
+                    </div>
+                        
+                    </div>
+                </div>
+                
+                    
+                
+                   
+                  <div class="input-group">
+                     
+                   
+                    
+                        </div>
+                      
+              
+               
+                <h5><u>Declaration and Signature</u></h5>
+                <p>I agree for the debit of mandate processing charges by the bank whom I am authorizing to debit my account as per latest schedule of charges of the bank.</p>
+               
+                <p>This is to confirm that the declaration has been carefully read, understood and made by me/us. I am authorizing the user entity/ Corporate to debit my account, based on the instructions as agreed and signed by me.<br/>I have understood that I am authorised to cancel/amend this mandate by appropriately communicating the cancellation / amendment request to the User entity / Corporate or the bank where I have authorized the debit.</p>
+                <br>
+                 <div class="form-group">               
+                <div class="col-sm-6">
+                   
+                  <div class="input-group">       
+                    <label>1 :</label>  
+                                 
+             
+                    </div>
+            
+                     </div>
+                      <div class="col-sm-6">
+                   
+                  <div class="input-group">
+                     
+                   
+                    <label>2 :</label>  
+                     
+                        </div>
+                     </div>
+                </div>
+                <div class="form-group">               
+                <div class="col-sm-6">
+                     <label>3 :</label>  
+                    </div>
+                </div>
+             <div class="form-group">
+       <div class="col-xs-8 col-xs-offset-4">
+            <button type="submit" class="btn btn-primary">Save</button>
+             <button type="button" class="btn btn-primary" onclick="display();" style="align:right">Get NACH pdf</button>
+            <a href="/bseinputs"><button type="button" class="btn btn-primary" style="align:right">AOF</button></a>
+        </div>
+                  <div class="col-xs-1 col-xs-offset-0">
+                
+        </div>
+    </div>
+          </form>
+             
+          </div><!-- end panel-body -->
+        </div><!-- end panel -->
+       
+      </div><!-- end col-md-8 -->
+     
+        </div>
+</div>
+<!-- these js files are used for making PDF -->
+	
+</body>
+</html>

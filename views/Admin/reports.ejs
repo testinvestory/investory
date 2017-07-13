@@ -28,7 +28,43 @@
     <![endif]-->
 
 </head>
+<script>
+   
+    
+      
+function download_investorycsv() {
+    
+  
+  
+  var data = [];
+    
+  <%   for(var i=0;i<reconciledata.length;i++){ %>
+        
+         var da=new Array([
+     ['<%=reconciledata[i].userid%>','<%=reconciledata[i].userpan%>','<%=reconciledata[i].name%>','<%=reconciledata[i].userinvestmentorderid%>','<%=reconciledata[i].date%>','<%=reconciledata[i].schemecode%>','<%=reconciledata[i].scheme%>','<%=reconciledata[i].amount%>','<%=reconciledata[i].bsetxnreference%>','<%=reconciledata[i].foliono%>','<%=reconciledata[i].nav%>','<%=reconciledata[i].units%>','<%=reconciledata[i].transaction_type%>','<%=reconciledata[i].remarks%>'
+     ]
+                  ]);
+       data[<%=i%>]= da;
+       
+<%    } %>
+    
+   var csv = 'User id,Pan,Name,Order id,Order date,Scheme code,Scheme,Amount,Bse Trxn Ref,Folio no,Nav,Units,Trxn type,Remarks\n';
+    data.forEach(function(row) {
+            csv += row.join(',');
+            csv += "\n";
+    });
+ 
+    console.log(csv);
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+    hiddenElement.target = '_blank';
+    hiddenElement.download = 'investoryFile.csv';
+    hiddenElement.click();
+    
 
+}
+    
+</script>
 <body>
 
     <div id="wrapper">
@@ -156,7 +192,7 @@
                         <a href="/admin/uploadInvestory"><i class="fa fa-fw fa-bar-chart-o"></i> Investory File to DB</a>
                     </li>
                     <li>
-                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Upload File to DB</a>
+                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Fund house File to DB</a>
 
                     </li>
                     <li>
@@ -229,20 +265,28 @@
                                 <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-desktop"></i> Bootstrap Elements
+                                <i class="fa fa-desktop"></i>  Reports
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
 
-                <!-- Main jumbotron for a primary marketing message or call to action -->
-                <div class="jumbotron">
-                    <h1>Hello, world!</h1>
-                    <p>This is a report template for a simple marketing or informational website. </p>
-                    <p><a href="#" class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a>
-                    </p>
-                </div>
+                             <div class="container">
+ 
+           
+                    
+  <div class="form-group">
+
+<label>Download Investory File :</label>
+
+          <br>               
+<button type="button" class="btn btn-default btn-sm pull-left" onclick="download_investorycsv()"  ng-click=''> Download</button>
+</div>                    
+         <br><br>                    
+         <br><br>
+
+                 </div>
 
             </div>
             <!-- /.container-fluid -->

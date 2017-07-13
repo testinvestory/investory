@@ -2,29 +2,14 @@ var express = require('express');
 var router = express.Router();
 var async = require('async');
 var path=require('path');
-var pg = require('pg');
-var conString = process.env.DATABASE_URL ||  "postgres://postgres:postgres@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
-/*var conString = {
-  user: 'user1', //env var: PGUSER
-  database: 'investory', //env var: PGDATABASE
-  password: '12345', //env var: PGPASSWORD
-  host: 'localhost', // Server hosting the postgres database
-  port: 5432, //env var: PGPORT
-  max: -1, // max number of clients in the pool
-  idleTimeoutMillis: 5000, // how long a client is allowed to remain idle before being closed
-};*/
 
-
-var client = new pg.Client(conString);
-client.connect();
+var client = require('../config/database');
+var pg = require('../config/database');
 var dbOperations = require("../dbOperations.js");
 
 var multer  =   require('multer');
 
 var fs = require('node-fs');
-
-
 
 var storage =   multer.diskStorage({    
 destination: function (req, file, callback) 
@@ -193,16 +178,33 @@ router.get('/tables/changeStatus',function(req,res,next)
 
 //reconcile page to render page 
 router.get('/reconcile',function(req,res){
-   
-    res.render("Admin/reconcile");
+    
+     var query = client.query("SELECT t1.userpan,t1.userinvestmentorderid,t1.amount,t1.schemeid,t1.bsestatus,t1.nav,t1.units,t1.foliono,t1.bsetxnreference,t2.name,t2.email,t3.name as sname,now()::date-t1.created::date as ageing from userinvestmentorders as t1 inner join users as t2 on t1.userid=t2.userid  inner join schemesmaster as t3 on t3.schemeid=t1.schemeid where t1.reconcile_status is null",function(err,result){
+         
+                if (err){ 
+                   console.log("doc update error "+err);
+                  var  recon=false;
+                }
+                else
+                {
+                    console.log("doc update sucess");
+                   var recon=result.rows;
+                    
+                }
+         //console.log("Recon",recon);
+         res.render("Admin/reconcile",{item:recon});
+         
+     });    
+    
 });
 
 //get reconcile records 
 router.get('/reconcile/get',function(req,res)
 {
-    dbOperations.insertinto();
+   // dbOperations.insertinto();
     console.log("reconcile");
     dbOperations.getReconcileRecords(req,res);
+    //res.rediirect("/reconcile");
     
    
 });
@@ -217,7 +219,7 @@ router.get('/failedorders/get',function(req,res)
     
     console.log("failedorders");
     dbOperations.failedOrders(req,res);
-    
+    //res.redirect("/admin/failedorders");
    
 });
 
@@ -226,7 +228,7 @@ router.get('/getDumpUpdates',function(req,res)
 {
     var ids=req.query.id;
     dbOperations.getReconciledDumpUpdates(req,res,ids);
-    res.redirect("Admin/reconcile"); 
+    res.redirect("/admin/reconcile"); 
 });
 
 
@@ -235,8 +237,24 @@ router.get('/setReconcileAsStatus',function(req,res)
 {
     console.log("Hi update reconcile");
     var ids=req.query.id;
-    dbOperations.updateStatusAsReconcile(req,res,ids);
-    res.redirect("Admin/reconcile"); 
+    tbl="userinvestmentorders";         
+        //client.connect();
+
+   for(let i=0;i<ids.length;i++)
+   {
+var query=client.query("UPDATE "+tbl+  
+" SET reconcile_status='reconcile' WHERE userinvestmentorderid ="+ids[i],function(err, result)          
+    {
+      if (err) 
+        console.log(err); 
+      else
+      {
+        console.log(null,result.rows);
+        
+      }
+     });
+  }  // dbOperations.updateStatusAsReconcile(req,res,ids);
+   res.redirect("/admin/reconcile");
 });
 
 
@@ -252,7 +270,21 @@ router.get('/bootstrap-grid',function(req,res,next)
 
 router.get('/reports',function(req,res,next)
 {
-    res.render('Admin/reports');
+   
+  
+     var query = client.query("SELECT t1.userid,t1.userpan,t1.userinvestmentorderid,t1.amount,t1.bsestatus,t1.nav,t1.units,t1.foliono,t1.bsetxnreference, to_char(t1.userinvestmentorderdate,'dd-mm-yyyy') as date,t2.name,t2.email,t3.name as scheme,t3.code as schemecode from userinvestmentorders as t1 inner join users as t2 on t1.userid=t2.userid  inner join schemesmaster as t3 on t3.schemeid=t1.schemeid where t1.reconcile_status is null", function (err, result){
+                    if (err)
+                        console.log("Cant get reconcile details in report selection");
+						if (result.rows.length > 0) {
+                            var reconciledata=result.rows;
+                            console.log("assetsDat...!");
+                        res.render('Admin/reports',{reconciledata:reconciledata});
+                        }
+                        else{
+                             res.render('Admin/reports');
+                        }
+     
+     });
 });
 
 router.get('/index-rtl',function(req,res,next)
@@ -262,7 +294,10 @@ router.get('/index-rtl',function(req,res,next)
 
 router.get('/uploadcsv',function(req,res,next)
 {
-res.render('Admin/uploadcsv');
+res.render('Admin/uploadcsv',{message:req.flash(),
+                              message2:req.flash(),
+                              message3:req.flash()
+                             });
 });
 
 router.get('/assetsUpload',function(req,res,next)
@@ -273,8 +308,8 @@ router.get('/assetsUpload',function(req,res,next)
 							console.log("Cant get portfolio details in goal selection");
 						if (result.rows.length > 0) {
                             var assetsdata=result.rows;
-                            console.log("assetsDat...!",assetsdata);
-                         res.render('Admin/assetsUpload',{assetsData:assetsdata});
+                            //console.log("assetsDat...!",assetsdata);
+                         res.render('Admin/assetsUpload',{assetsData:assetsdata,message:req.flash()});
                         }
     });
 });
@@ -287,12 +322,18 @@ router.post('/assetsValueUpdate',function(req,res,next)
     var val=parseInt(value);
    
     var query = client.query(" update categoryallocationmatrix set value=$3  where riskprofile=$1 and category=$2",[riskprofile,category,value], function (err, result) {
-						if (err)
+						if (err){
 							console.log("Cant get portfolio details in goal selection");
-						else {
-                       alert("Updated Asset value.")     
-                    res.redirect("/admin/assetsUpload")        
-                    
+                            req.flash('FailedMessage', 'Failed to upload file. ');
+                           res.redirect('/admin/assetsUpload');
+                        }
+						else { 
+                            
+                               
+                       message=req.flash('successMessage', 'Updated asset value. '+riskprofile+" category "+category+" to"+val);
+                      // res.redirect('');
+                            req.flash('message');
+                            res.redirect('/admin/assetsUpload');
                         }
     });
 });
@@ -301,7 +342,7 @@ router.get('/funds',function(req,res)
 {    
     console.log("Hi..");
   
-   res.render("Admin/uploadSchemes");
+   res.render("Admin/uploadSchemes",{message:req.flash()});
    });
 
 
@@ -321,9 +362,10 @@ router.get('/allocation',function(req,res,next)
 
 router.get('/uploadInvestory',function(req,res,next)
 {    
-    console.log("Hi..");
-  
-   res.render("Admin/uploadInvestory");
+   res.render("Admin/uploadInvestory",{
+        message:req.flash(),
+        message2:req.flash()
+    });
    
 });
 
@@ -519,9 +561,9 @@ var store =   multer.diskStorage({
                 destination: function (req, file, callback) 
                     {
 
-        				callback(null,'/home/ubuntu/dbfiles');
+        				 callback(null,'/home/ubuntu/dbfiles');
                        // callback(null, 'C:/Users/Nishant/Desktop/dbfiles');
-                       // callback(null,'E:/dbfiles');
+                       //callback(null,'E:/dbfiles');
       
                      },
                  filename : function (req, file, callback) 
@@ -548,22 +590,32 @@ router.post('/uploadInvestoryFile',function(req,res,next)
                     {
                      console.log(err);
                      console.log("Error uploading file.");
+                        req.flash('FailedMessage', 'Failed to upload file. ');
+                       // callback(null,null)
+                        res.render('Admin/uploadInvestory',{
+                      message:req.flash('FailedMessage'),
+                            message2:req.flash()
+                });
                     }
+                else{
                   console.log("File is uploaded");
                 
                     file_name=req.file.originalname;
 
                    console.log("in upload ",file_name);
-               //  var paths="E:/dbfiles/"+file_name;
+                //var paths="E:/dbfiles/"+file_name;
                 //var paths="C:/Users/Nishant/Desktop/dbfiles/"+file_name;
 				 var paths="/home/ubuntu/dbfiles/"+file_name;
+                    req.flash('SuccessMessage', 'File uploaded successfully.');
                 callback(null,paths)
+                }
                 });
             
             
         },
        function(paths,callback)
          {
+             
              updateuploaddumplog(tbl,paths);
              updatedumplogfrominvestoryupload();
             callback(null)
@@ -576,10 +628,67 @@ router.post('/uploadInvestoryFile',function(req,res,next)
               {
                 console.log(err);   
               }
-        res.render('Admin/uploadInvestory');
+    
+        res.render('Admin/uploadInvestory',{message:req.flash('SuccessMessage'),
+                                           message2:req.flash()});
       });   
 });
 
+
+           
+router.post('/uploadReportData',function(req,res,next)
+{
+    console.log("upload csv to Db");
+    var tbl="reportholding";
+     var file_name;
+    async.waterfall([
+      function(callback)
+        {
+            uploaddb(req,res,function(err) 
+                {
+                   
+                    if(err) 
+                    {
+                     console.log(err);
+                     console.log("Error uploading file.");
+                        req.flash('FailedMessage', 'Failed to upload file. ');
+                       // callback(null,null)
+                        res.render('Admin/uploadInvestory',{
+                      message2:req.flash('FailedMessage'),
+                            message:req.flash()
+                });
+                    }
+                else{
+                   
+                    file_name=req.file.originalname;
+                       console.log("in upload ",file_name);
+                  // var paths="E:/dbfiles/"+file_name;
+                    //var paths="C:/Users/Nishant/Desktop/dbfiles/"+file_name;
+				  var paths="/home/ubuntu/dbfiles/"+file_name;
+                req.flash('SuccessMessage', 'File uploaded successfully.');
+                callback(null,paths)
+             
+            }
+              }); 
+        },
+       function(paths,callback)
+         {
+            updateuploaddumplog(tbl,paths);
+             //updateReportData();
+            callback(null)
+             
+             
+         }
+        ], function (err, result) 
+          {
+            if (err)
+              {
+                console.log(err);   
+              }
+        res.render('Admin/uploadInvestory',{message2:req.flash('SuccessMessage'),
+                message:req.flash()});
+      });   
+});
 router.post('/uploadcamsfile',function(req,res,next)
 {
     console.log("upload csv to Db");
@@ -593,17 +702,27 @@ router.post('/uploadcamsfile',function(req,res,next)
                     if(err) 
                     {
                      console.log(err);
+                    
                      console.log("Error uploading file.");
+                         req.flash('FailedMessage', 'Failed to upload file. ');
+                        res.render('Admin/uploadcsv',{
+                      message:req.flash('FailedMessage'),
+                            message2:req.flash(),
+                            message3:req.flash()});
                     }
-                  console.log("File is uploaded");
+
+                else{
+                    console.log("File is uploaded");
                 
                     file_name=req.file.originalname;
 
                    console.log("in upload ",file_name);
-                
+                  
                 //var paths="../dbfiles/"+file_name;
 				 var paths="/home/ubuntu/dbfiles/"+file_name;
+                req.flash('SuccessMessage', 'File uploaded successfully.');
                 callback(null,paths)
+                }
                 });
             
             
@@ -622,7 +741,9 @@ router.post('/uploadcamsfile',function(req,res,next)
               {
                 console.log(err);   
               }
-        res.render('Admin/uploadcsv');
+        res.render('Admin/uploadcsv',{message:req.flash('SuccessMessage'),
+                                           message2:req.flash(),
+                                      message3:req.flash()});
       });   
 });
 
@@ -638,17 +759,25 @@ router.post('/uploadkarvysfile',function(req,res,next)
                 {
                     if(err) 
                     {
-                     console.log(err);
+                        console.log(err);
+                      req.flash('FailedMessage', 'Failed to upload file. ');
                      console.log("Error uploading file.");
+                        res.render('Admin/uploadcsv',{
+                             message2:req.flash('FailedMessage'),
+                            message:req.flash(),
+                            message3:req.flash()});
                     }
+                 else{
                   console.log("File is uploaded");
                 
                     file_name=req.file.originalname;
-
+                        
                    console.log("in upload ",file_name);
                 var paths="/home/ubuntu/dbfiles/"+file_name;
               //  var paths="../dbfiles/"+file_name;
+                          req.flash('SuccessMessage', 'File uploaded successfully.');
                 callback(null,paths)
+                }
                 });
             
             
@@ -667,7 +796,10 @@ router.post('/uploadkarvysfile',function(req,res,next)
               {
                 console.log(err);   
               }
-        res.render('Admin/uploadcsv');
+        console.log("Hi here i m");
+        res.render('Admin/uploadcsv',{ message2:req.flash('SuccessMessage'),
+                                      message:req.flash(),
+                                      message3:req.flash()});
       });   
 });
 
@@ -683,8 +815,14 @@ router.post('/uploadftfile',function(req,res,next)
                 {
                     if(err) 
                     {
-                     console.log(err);
+                        console.log(err);
+                    req.flash('FailedMessage', 'Failed to upload file. ');
                      console.log("Error uploading file.");
+                        res.render('Admin/uploadcsv',{
+                             message3:req.flash('FailedMessage'),
+                            message:req.flash(),
+                            message2:req.flash()
+                           });
                     }
                   console.log("File is uploaded");
                 
@@ -693,6 +831,7 @@ router.post('/uploadftfile',function(req,res,next)
                    console.log("in upload ",file_name);
                 var paths="/home/ubuntu/dbfiles/"+file_name;
                // var paths="../dbfiles/"+file_name;
+                 req.flash('SuccessMessage', 'File uploaded successfully.');
                 callback(null,paths)
                 });
             
@@ -712,7 +851,10 @@ router.post('/uploadftfile',function(req,res,next)
               {
                 console.log(err);   
               }
-        res.render('Admin/uploadcsv');
+        res.render('Admin/uploadcsv',{ message3:req.flash('SuccessMessage'),
+                                            message:req.flash(),
+                                           message2:req.flash()
+                                     });
       });   
 });
 
@@ -731,7 +873,10 @@ router.post('/updateSchemes',function(req,res,next)
                     if(err) 
                     {
                      console.log(err);
+                     req.flash('FailedMessage', 'Failed to upload file. ');
                      console.log("Error uploading file.");
+                        res.render('Admin/uploadcsv',{
+                            message:req.flash('FailedMessage')});
                     }
                   console.log("File is uploaded");
                 
@@ -742,6 +887,7 @@ router.post('/updateSchemes',function(req,res,next)
                // var paths="C:/Users/Nishant/Desktop/dbfiles/"+file_name;
                
 				 var paths="/home/ubuntu/dbfiles/"+file_name;
+                req.flash('SuccessMessage', 'File uploaded successfully.');
                 callback(null,paths)
                 });
             
@@ -760,7 +906,7 @@ router.post('/updateSchemes',function(req,res,next)
               {
                 console.log(err);   
               }
-        res.render('Admin/uploadSchemes');
+        res.render('Admin/uploadSchemes',{message:req.flash('SuccessMessage')});
       });   
 });
 
@@ -802,13 +948,13 @@ router.post('/createusr',function(req,res){
 //rows insert from Uploaded file  
 function updateAssetsValues(tbl,path){
     
-    pg.connect(conString,function(err,client,done)
+  /*  pg.connect(conString,function(err,client,done)
     {      
         if(err)
          {
               return console.error('Could not connect to postgres' , err);
          }
-        
+        */
       
         
          var qury="'"+path+"'";
@@ -826,8 +972,8 @@ function updateAssetsValues(tbl,path){
         
                 }
             });
-        done();
-     });
+       /* done();
+     });*/
     
 }
 router.get('/schemelist',function(req,res){
@@ -937,12 +1083,7 @@ router.post('/Managedelete',function(req,res){
 
 function updateuploaddumplog(tbl,path){
     
-    pg.connect(conString,function(err,client,done)
-    {      
-        if(err)
-         {
-              return console.error('Could not connect to postgres' , err);
-         }
+   
          
          var qury="'"+path+"'";
         console.log(qury);
@@ -959,8 +1100,7 @@ function updateuploaddumplog(tbl,path){
         
                 }
             });
-        done();
-     });
+        
     
 }
 
@@ -969,10 +1109,10 @@ function updatedumplogfromcams()
 {
     
     console.log("dumplog update");
-    pg.connect(conString,function(err,client,done){
+    /*pg.connect(conString,function(err,client,done){
         if(err){
             return console.log("Could not connect to postgres",err);
-        }
+        }*/
         var query=client.query("INSERT INTO dumplog(foliono,pan,scheme,amount,transaction_type,transaction_id,transaction_ref,transaction_status,remarks,nav,nav_date,units,usrtrxno,trade_date,post_date,trxn_nature,scheme_type,scanref_no,seq_no) SELECT folio_no,pan,SCHEME,AMOUNT,TRXN_TYPE_,TRXNNO,TRXNNO,TRXNSTAT,REMARKS,PURPRICE,REP_DATE,UNITS,USRTRXNO,TRADDATE,POSTDATE,TRXN_NATUR,SCHEME_TYPE,SCANREFNO,SEQ_NO from camstrxnlog",function(err,result){
             
             if(err)
@@ -981,18 +1121,18 @@ function updatedumplogfromcams()
                 console.log("Dumplog Insert success..!");
             
         });
-        done();
-    });
+     /*   done();
+    });*/
 }
 function updatedumplogfrominvestoryupload()
 {
     
     console.log("dumplog update");
-    pg.connect(conString,function(err,client,done){
+  /*  pg.connect(conString,function(err,client,done){
         if(err){
             return console.log("Could not connect to postgres",err);
-        }
-        var query=client.query("INSERT INTO dumplog(foliono,pan,schemecode,amount,transaction_type,transaction_id,transaction_ref,transaction_status,remarks,nav,units,transaction_date,orderid) SELECT foliono,pan,schemecode,amount,transaction_type,transaction_ref,transaction_ref,transaction_status,remarks,nav,units,transaction_date,order_id from investoryupload",function(err,result){
+        }*/
+        var query=client.query("INSERT INTO dumplog(foliono,pan,scheme,schemecode,amount,transaction_type,transaction_id,transaction_ref,remarks,nav,units,transaction_date,orderid) SELECT foliono,pan,scheme,schemecode,amount,transaction_type,transaction_ref,transaction_ref,remarks,nav,units,transaction_date,order_id from investoryupload",function(err,result){
             
             if(err)
                 console.log("Cant insert to dumplog from camstrxnlog",err);
@@ -1000,8 +1140,8 @@ function updatedumplogfrominvestoryupload()
                 console.log("Dumplog from investory Insert success..!");
             
         });
-        done();
-    });
+     /*   done();
+    });*/
 }
 
 //Insert rows to dumplog from karvystrxnlog table
@@ -1010,10 +1150,10 @@ function updatedumplogfromkarvy()
     
     console.log("dumplog update");
   //  client.connect();
-    pg.connect(conString,function(err,client,done){
+    /*pg.connect(conString,function(err,client,done){
         if(err){
             return console.log("Could not connect to postgres",err);
-        }
+        }*/
         var query=client.query("INSERT INTO dumplog(pan,scheme,schemecode,amount,transaction_type,transaction_id,transaction_ref,transaction_status,transaction_mode,transaction_head,transaction_date,remarks,nav,units,nav_date,trade_date,newunqno,rejtrnoorgno,invester_status,trflag) SELECT pan1,fund_dscp,scheme_code,AMOUNT,trxn_type,trxnid,trxnno,trxnstatus,trxnmode,trxn_head,trxn_date,Remarks,nav,units,nav_date,purchase_date,newunqno,rejtrnoorgno,status,trxn_flag from karvystrxnlog",function(err,result){
             
             if(err)
@@ -1022,8 +1162,8 @@ function updatedumplogfromkarvy()
                 console.log("Dumplog Insert success..!");
             
         });
-        done();
-    });
+     /*   done();
+    });*/
    // client.end();
 }
 //Insert rows to dumplog from fttrxnlog table
@@ -1032,10 +1172,10 @@ function updatedumplogfromft()
     
     console.log("dumplog update");
   //  client.connect();
-    pg.connect(conString,function(err,client,done){
+    /*pg.connect(conString,function(err,client,done){
         if(err){
             return console.log("Could not connect to postgres",err);
-        }
+        }*/
         var query=client.query("INSERT INTO dumplog(foliono,scheme,schemecode,amount,transaction_type,transaction_id,transaction_ref,transaction_status,transaction_mode,transaction_date,remarks,nav,units,trade_date,post_date,kyc_id,pan) SELECT folio_no,SCHEME_NA,SCHEME_CO0,AMOUNT,TRXN_TYPE,TRXN_ID,TRXN_NO,TRXN_STAT,TRXN_MODE,TRXN_DATE,remarks,NAV,UNITS,CREA_DATE,POSTDT_DA3,KYC_ID,it_pan_no1 from fttrxnlog",function(err,result){
             
             if(err)
@@ -1044,8 +1184,8 @@ function updatedumplogfromft()
                 console.log("Dumplog Insert success..!");
             
         });
-        done();
-    });
+     /*   done();
+    });*/
    // client.end();
 }
 
@@ -1060,7 +1200,7 @@ router.get('/forms',function(req,res,next)
 
 function getAllRecordsJoin(tbl,tbl2, callback)
 { 
-    var pg = require('pg');
+   /* var pg = require('pg');
    // client.connect();
     
     pg.connect(conString,function(err,client,done)
@@ -1068,7 +1208,7 @@ function getAllRecordsJoin(tbl,tbl2, callback)
         if(err)
          {
               return console.error('Could not connect to postgres' , err);
-         }
+         }*/
        
        var query = client.query("SELECT * FROM "+tbl+" INNER JOIN "+tbl2+" ON "+tbl+".user_id="+tbl2+".user_id", function(err, result)
             {
@@ -1080,8 +1220,8 @@ function getAllRecordsJoin(tbl,tbl2, callback)
         
                 }
             });
-        done();
-     });
+       /* done();
+     });*/
     
      //client.end();
 }
@@ -1089,14 +1229,14 @@ function updatedoc(id,val1,val2)
 { 
   //  var pg = require('pg');
   //  client.connect();
-    pg.connect(conString,function(err,client,done)
+   /* pg.connect(conString,function(err,client,done)
     {      
         
         console.log(id);
         if(err)
          {
               return console.error('Could not connect to postgres' , err);
-         }
+         }*/
        var query = client.query("update pandetails set "+val1+"=$2 where userid=$1",[id,val2],function(err, result)
             {
                 if (err) 
@@ -1107,8 +1247,8 @@ function updatedoc(id,val1,val2)
         
                 }
             });
-        done();
-     });
+        /*done();
+     });*/
     
     //client.end();
 }

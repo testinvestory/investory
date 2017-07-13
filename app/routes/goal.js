@@ -1,13 +1,11 @@
 const express = require('express')
 const async = require('async')
-const pg = require('pg')
+
 const crypto = require('crypto')
 const functions = require('./functions')
 
-var conString = 'postgres://postgres:postgres@localhost:5432/investory'
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
-var client = new pg.Client(conString)
-client.connect()
+//DB connection
+var client = require('../../config/database');
 
 var currentPage
 
@@ -25,19 +23,37 @@ exports.goalSelection = (req, res) => {
 			panMsg = "";
 		}
 		async.waterfall([
-			function (callback) {
+            function (callback) {
+				//get the assets from the db
+				var clientData;
+                var userid=req.session.user.userid;
+				var query = client.query("select * from bseformdetail as t1 join nachformdetail as t2 on t1.userid=t2.userid where t1.userid="+userid, function (err, result) {
+					if (err){
+						console.log("Cant get Aeets values");
+                        clientData='false';
+                    }
+                    else{
+					clientData = result.rows;
+                        console.log("clientData",clientData);
+                    }
+                   // console.log(assets)
+					callback(null, clientData)
+				});
+
+			},function (clientData,callback) {
 				//get the assets from the db
 				var assets;
 
-				var query = client.query("select to_json(row) as asset from (select * from categoryallocationmatrix) row", function (err, result) {
+				var query = client.query("select to_json(row) as asset from (select * from categoryallocationmatrix order by camid) row ", function (err, result) {
 					if (err)
 						console.log("Cant get Aeets values");
 
 					assets = result.rows;
-					callback(null, assets)
+                   // console.log(assets)
+					callback(null, assets,clientData)
 				});
 
-			},function (assets,callback) {
+			},function (assets,clientData,callback) {
 				//get the pandetails from the db
 				var panstatus;
 
@@ -50,10 +66,10 @@ exports.goalSelection = (req, res) => {
                         var panstatus='false';
                     }
                     console.log("Pan details------",panstatus)
-					callback(null, panstatus,assets)
+					callback(null, panstatus,assets,clientData)
 				});
 
-			}, function (panstatus,assets, callback) {
+			}, function (panstatus,assets,clientData,callback) {
 
 				if (loginStatus) {
 					var paid = false;
@@ -65,11 +81,11 @@ exports.goalSelection = (req, res) => {
 						if (result.rows.length > 0) {
 							paid = true;
 							req.session.paid = true;
-							callback(null, paid,panstatus, assets)
+							callback(null, paid,panstatus, assets,clientData)
 						} else {
 							paid = false;
 							req.session.paid = false;
-							callback(null, paid,panstatus, assets)
+							callback(null, paid,panstatus,assets,clientData)
 						}
 					});
 				} else {
@@ -78,6 +94,7 @@ exports.goalSelection = (req, res) => {
 					res.render(pageName, {
 						data: assets,
 						user: req.user,
+                        clientData:clientData,
                         panstatus:panstatus,
 						selectorDisplay: "show",
 						loggedIn: loginStatus,
@@ -100,7 +117,7 @@ exports.goalSelection = (req, res) => {
 				}
 
 			},
-			function (paid, panstatus,assets, callback) {
+			function (paid, panstatus,assets,clientData,callback) {
 				console.log("payment" + paid)
 				if (paid) {
 					async.waterfall([function (callback) {
@@ -109,7 +126,7 @@ exports.goalSelection = (req, res) => {
 						var query = client.query("SELECT * FROM savedplansheader where userid=$1 ORDER BY created DESC LIMIT 1 ", [req.session.user.userid], function (err, result) {
 							if (err)
 								console.log("Cant get assets values");
-							console.log("details header" + result.rows.length);
+							//console.log("details header" + result.rows.length);
 							asetData = result.rows[0];
 							if (result.rows.length > 0) {
 								req.session.savedplanheader = asetData;
@@ -126,6 +143,7 @@ exports.goalSelection = (req, res) => {
 								res.render(pageName, {
 									data: assets,
 									user: req.user,
+                                    clientData:clientData,
 									selectorDisplay: "show",
 									loggedIn: loginStatus,
 									firslist: false,
@@ -150,7 +168,7 @@ exports.goalSelection = (req, res) => {
 							function (err, result) {
 								if (err)
 									console.log("Cant get assets values");
-								console.log("scheme pa in goal = " + req.session.showscheme);
+								//console.log("scheme pa in goal = " + req.session.showscheme);
 								if (req.session.showscheme) {
 									scheme = true;
 								} else {
@@ -165,6 +183,7 @@ exports.goalSelection = (req, res) => {
 									data: assets,
 									user: req.user,
                                     panstatus:panstatus,
+                                    clientData:clientData,
 									schemeData: asetDataDetail,
 									smessage: req.flash('signupMessage'),
 									lmessage: req.flash('loginMessage'),
@@ -202,6 +221,7 @@ exports.goalSelection = (req, res) => {
 						data: assets,
 						user: req.user,
 						selectorDisplay: "show",
+                        clientData:clientData,
 						loggedIn: loginStatus,
 						firslist: false,
 						smessage: req.flash('signupMessage'),
@@ -268,7 +288,7 @@ exports.goalInvest = (req, res) => {
           if (err) {
             console.log('Cant get portfolio details in goal selection')
           }
-          console.log('Lenght' + result.rows.length)
+          //console.log('Lenght' + result.rows.length)
           if (result.rows.length > 0) {
             paid = true
             req.session.paid = true
@@ -318,7 +338,7 @@ exports.goalInvest = (req, res) => {
     console.log('Cant get assets values')
   }
 
-  console.log('details header' + result.rows.length)
+ // console.log('details header' + result.rows.length)
   asetData = result.rows[0]
   if (result.rows.length > 0) {
     req.session.savedplanheader = asetData
@@ -364,7 +384,7 @@ exports.goalInvest = (req, res) => {
   }
 
   asetDataDetail = result.rows
-  console.log(asetDataDetail)
+ // console.log(asetDataDetail)
   req.session.savedplandetail = asetDataDetail
 
   console.log('test' + req.session.bseStatus)

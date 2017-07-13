@@ -103,7 +103,7 @@
 										<%= monthNames[user.created.getMonth()]; %>
 										<%=user.created.getFullYear(); %>
 										<!--29thAugust 2016-->
-						 </p></img>
+						 </p>
                    <form id=  "uploadProfilepic"
      enctype   =  "multipart/form-data"
      action    =  "/profilePic"
@@ -113,7 +113,7 @@
   <div class="form-group">
  <label style="color: #35BFD3;">Upload Profile Picture:</label>
 <input type="file" name="doc"/>              
-<button type="submit" class="btn btn-default btn-sm pull-left" style="margin-top:0.7%"> Upload</button>
+<button type="submit" class="storyBtn btn btn-default btn-sm pull-left" style="margin-top:0.7%"> Upload</button>
 </div>              <br>
 </form>
                                     </div>
@@ -123,127 +123,6 @@
                 </div>
            </div>
         </div>
-
-<!--<div class="settingsFrogs">
-    <div class="btn-hr-wrapper">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    <div class="container frogSection">
-        <div class="row rowFrogs" style="">
-            <div class="frogsWrapper">
-                <div class="frogContainer"><img src="images/animHow/3%20GOALS.png" alt="The Egg"></div>
-                <div class="frogContainer"><img src="images/animHow/5%20GOALS.png" alt="Tadpole"></div>
-                <div class="frogContainer"><img src="images/animHow/10%20GOALS.png" alt="Froglet"></div>
-                <div class="frogContainer"><img src="images/animHow/15%20GOALS%20BLACK.png" alt="Frog"></div>
-            </div>
-            <div id="yCircle" class="yellow"></div>
-        </div>
-    </div>
-</div> -->
-
 
 <div class="FrogHome" style = " margin-top: 25 "  >
           <div class="btn-hr-wrapper"></div>
@@ -590,9 +469,10 @@
 </div><button type="submit" style="margin-top: 5px; margin-bottom:20px; float: none" class="btn btn-lg moodNav profileSubmit2" ng-disabled="">Submit </button>
 <div class="container-fluid how-it-works contentEdit">
 
+    <form enctype="multipart/form-data" action="/document" method="post" name="" class="form-horizontal">
                  <div class="row" style="">
 
-                     <form name=""class="form-horizontal" action="" method="">
+                     
                               <h2 class="profilePan">Documents</h2>
                          <div id="ProfileColumn1" class="col-sm-6  setting settingSection2">
                          <div style="float: right; width: 350px">
@@ -601,7 +481,7 @@
 
 
 
-                                             <div class="form-group Up">
+                                <!--             <div class="form-group Up">
 
                               <label class="control-label " style="width:120px;">Signature Proof</label>
 
@@ -609,13 +489,13 @@
 
 
 
-                      </div><br/>
+                      </div><br/>-->
                           <div class="form-group Up">
 
                               <label class="control-label  " style="width:120px;">BSE Star Application</label>
 
 
-                          <input type="file" class="" name="somename" size="chars">
+                          <input type="file" name="doc" filename="bseaof">
 
 
 
@@ -624,12 +504,12 @@
 
                               <label class="control-label  " style="width:120px;">NACH Form</label>
 
-                          <input type="file" class="" name="somename" size="chars">
+                          <input type="file" name="doc" filename="nach">
 
 
 
                       </div>
-                          <div class="form-group Up">
+                         <!-- <div class="form-group Up">
 
                               <label class="control-label " style="width:120px;">Statutory Form</label>
 
@@ -637,7 +517,7 @@
 
 
 
-                      </div>
+                      </div>-->
 
 
 
@@ -645,18 +525,8 @@
 
 
                         </div>
-                      <div  id="ProfileColumn2" class="col-md-6 rightSetting shiftProfile">
+                   <!--   <div  id="ProfileColumn2" class="col-md-6 rightSetting shiftProfile">
                     <div style="float: left; width: 280px;">
-
-
-
-
-
-
-
-
-
-
 
                                <div class="form-group Up">
 
@@ -681,25 +551,24 @@
                               <label class="control-label">KYC Video</label>
 
                           <input type="file" class="" name="somename" size="chars">
-
-
-
                       </div>
 
+</div>
+                                                         </div>-->
 
-
-                                                         </div>
-                                                         </div>
-
-                                                         </form>
-                </div>
-
+                                                        
+                
+ </div>
 <button type="submit" style="margin-top: 35px; float: none" class="btn btn-white btn-lg moodNav profileSubmit2" ng-disabled="">Submit </button>
 
+                    
+         </form>
 </div>
 
 
-
+           </div>
+     </div>
+    </div>
                  </body>
 <div class="container profileFooter">
         	 <% include partials/footer %></div>

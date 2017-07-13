@@ -30,6 +30,10 @@ const account = require('./app/routes/account')
 const profile = require('./app/routes/profile')
 const user = require('./app/routes/user')
 
+const client = require('./app/routes/client')
+
+var fileupload=require('./app/routes/fileupload')
+
 var pp = require('./config/passport')
 pp(passport)
 try {
@@ -53,7 +57,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(session({secret: 'abc'/*process.env.SESSION_SECRET*/}))
 app.use(passport.initialize())
-app.use(passport.session())
+app.use(passport.session ())
 app.use(flash())
 
 app.use('/admin', admin)
@@ -123,9 +127,25 @@ app.get('/Privacy', policies.getPrivacy)
 app.get('/Policies', policies.getPolicies)
 
 app.post('/profilePic', profile.postProfilePic)
+app.post('/newsLetterSub',user.postNewsletter)
 
 
 
+
+app.get('/file',fileupload.getUploadfile)
+
+app.get('/bseinputs',fileupload.getbseform)
+app.post('/bseInputData',functions.isLoggedIn,fileupload.postBseFormData)
+
+app.get('/pdf',functions.isLoggedIn,fileupload.getpdf)
+app.post('/document',functions.isLoggedIn,fileupload.postDocument)
+
+app.get('/nachinputs',functions.isLoggedIn,fileupload.getnach)
+app.post('/nachInputData',functions.isLoggedIn,fileupload.postNachFormData)
+app.get('/nachpdf',functions.isLoggedIn,fileupload.getnachpdf)
+
+
+app.get('/clientCreate',client.getClient)
 
 app.use('/', index)
 

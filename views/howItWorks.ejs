@@ -21,6 +21,20 @@
         /*$(".moodGoals > img").click(function(){
             window.location.href = "/GoalSelection"
         });*/
+        
+        function goodPlan(intValue){
+            document.getElementById('planPrice').value=intValue;
+            document.getElementById('plan').value='Good Plan';
+}
+        
+           function betterPlan(intValue){
+             document.getElementById('planPrice').value=intValue;
+            document.getElementById('plan').value='Better Plan';
+}
+         function bestPlan(intValue){
+              document.getElementById('planPrice').value=intValue;
+            document.getElementById('plan').value='Best Plan';
+}
     </script>
 <body style>
  
@@ -62,9 +76,11 @@
         
     </div>
          </div>
+         
+        
          <div class="row pricingPanelRow">
                  <div class="col-lg-4  col-md-4 col-sm-4">
-         <a href="#" class="tooltips">
+         <a href="#" onclick="goodPlan('99')" class="tooltips">
                   <div class="panel panel-default">
         <div class="panel-heading">
           <h2 id="GoodPlan">Good Plan</h2>
@@ -90,7 +106,7 @@
              </div>
            
              <div class="col-lg-4  col-md-4 col-sm-4 ">
-          <a href="#" class="tooltips">
+          <a href="#" onclick="betterPlan('199')" class="tooltips">
       <div class="panel panel-default">
         <div class="panel-heading">
           <h2>Better Plan</h2>
@@ -116,7 +132,7 @@
             <span id="BpData"></span>  </a>
     </div>
 
-             <div class="col-lg-4  col-md-4 col-sm-4"> <a href="#" class="tooltips">
+             <div class="col-lg-4  col-md-4 col-sm-4"> <a href="#" onclick="bestPlan('499')" class="tooltips">
       <div class="panel panel-default">
         <div class="panel-heading">
           <h2>Best Plan</h2>
@@ -159,8 +175,8 @@
       			  <% } else if(loggedIn && !paid){%>
       			 <!--call for payU-->
       			  <form action="/Pricing/pay" method="post">
-      			   <input type="hidden" id="plan" name="plan" value='Good Plan'>
-      			   <input type="hidden" id="planPrice" name="planPrice" value='5'>
+      			   <input type="hidden" id="plan" name="plan">
+      			   <input type="hidden" id="planPrice" name="planPrice">
       			  	 <button type="submit"  class="btn btn-white btn-lg moodNav pay" >Pay</button>
       			  </form>
       			 <%} else if(loggedIn && paid) {%>

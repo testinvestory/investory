@@ -158,7 +158,7 @@
                         <a href="/admin/uploadInvestory"><i class="fa fa-fw fa-bar-chart-o"></i> Investory File to DB</a>
                     </li>
                     <li>
-                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Upload File to DB</a>
+                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Fund house File to DB</a>
 
                     </li>
                     <li>
@@ -242,31 +242,48 @@
                         <h2>Manage Users</h2>
                         <div class="page-data">
             
-            <form action="/admin/Userupdate" id="updateForm" method="post"> 
+            <form class="form-horizontal" action="/admin/Userupdate" id="updateForm" method="post"> 
                
                 
                 <div class="form-group">      
-                         <label>Id :</label>
+                      <label for="id" class ="control-label col-sm-3">Id :</label>
+                    <div class="col-sm-8">
                          <input type="text" name="uid" id="uid" value="<%=data[0].adminuserid%>" readonly/>
                     </div>
+                    </div>
+                
                      <div class="form-group">      
-                         <label>User Name :</label>
+                         <label for="name" class ="control-label col-sm-3">User Name :</label>
+                      <div class="col-sm-8">
                          <input type="text" name="uname" value="<%=data[0].uname%>" readonly/>
                     </div>
+                          </div>
+                
+                
                     <div class="form-group">      
-                         <label>Password:</label>
+                       <label for="password" class ="control-label col-sm-3">Password:</label>
+                        <div class="col-sm-8">
                          <input type="text" name="password" id="password" value="<%=data[0].password%>"/>
                     </div>
+                          </div>
+                
                     <div class="form-group">      
-                         <label>Role:</label>
-                         <select id="roletype"  name="roletype"> 
+                          <label for="role" class ="control-label col-sm-3">Role:</label>
+                        <div class="col-sm-8"> 
+                        <select id="roletype"  name="roletype"> 
+                             
                         <option value="admin user">Admin user </option>
                                 <option value="advisor user">Advisor user </option>
                              <option value="operation user">Operation user </option></select> <br> 
                     </div>
-                <input type="Submit" class="Submit" value="submit">
+                </div>
+                <div class="form-group">
+                     <label for="password" class ="control-label col-sm-4">
+                         <input type="Submit" class="Submit" value="submit"></label>
+                 <div class="col-sm-7">     
                 <a href="/admin/Manage_users">   <input type="button" name="cancel" value="Cancel" class="cancel" /></a>
-                   
+                    </div>
+                </div>
                
             </form>
             
@@ -279,7 +296,7 @@
         
     </div>
         <!-- /.container-fluid -->
-            
+    </div>        
       
         <!-- /#page-wrapper -->
 

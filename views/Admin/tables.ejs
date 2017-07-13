@@ -26,13 +26,31 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!--<script src="dirPagination.js"></script>-->
+ 
+<style>
+    .loader {
+	position: fixed;
+	left: 15%;
+	top: 7%;
+	 width:84%; 
+	height: 100%;
+	z-index: 9999;
+	background: url('../../../images/ellipsis.gif') 50% 50% no-repeat rgb(249,249,249);
+}  
+    </style>
+      <script>
+             
+        $(window).load(function() {
+	$(".loader").fadeOut("slow");
+})</script>
 </head>  
 <script>
    
     </script>
 <body  ng-app="postgreSQL">
-
+<div class="loader"></div>
     <div id="wrapper" ng-controller="postgreSQLCtrl">
 
        <!-- Navigation -->
@@ -158,7 +176,7 @@
                         <a href="/admin/uploadInvestory"><i class="fa fa-fw fa-bar-chart-o"></i> Investory File to DB</a>
                     </li>
                     <li>
-                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Upload File to DB</a>
+                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Fund house File to DB</a>
 
                     </li>
                     <li class="active">

@@ -4,16 +4,13 @@
 const express = require('express');
 const router = express.Router();
 const async = require('async');
-const pg = require('pg');
+
 const crypto = require('crypto');
 /* common functions */
 const functions = require('./functions');
-const conString = "postgres://postgres:postgres@localhost:5432/investory";
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
-var client = new pg.Client(conString);
-client.connect();
 
-
+//DB connection
+var client = require('../../config/database');
 var currentPage;
 
 exports.getMyStory = (req, res) => {

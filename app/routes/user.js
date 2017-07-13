@@ -1,14 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const async = require('async')
-const pg = require('pg')
 const crypto = require('crypto')
 var passport = require('passport')
 const functions = require('./functions')
-const conString = 'postgres://postgres:postgres@localhost:5432/investory'
-//var conString = process.env.DATABASE_URL ||  "postgres://postgres:123@localhost:5432/investory";
-var client = new pg.Client(conString)
-client.connect()
+//DB connection
+var client = require('../../config/database');
 
 exports.getToCurrent = (req, res) => {
   console.log(req.session.activePage)
@@ -53,6 +50,33 @@ exports.postLogin = (req, res) => {
  })(req, res)
 }
 
+exports.postNewsletter =(req ,res) =>{
+    email=req.body.email;
+    var query = client.query("insert into newsletter(userid,email) values($1,$2)", [req.session.user.userid,email], function (err, result) {
+		if (err){
+            console.log("user subscribe news letter" + err);
+            data = {
+				    "subcribe": "Sorry,Currently unable to subscribing our news letter."
+				}
+                                    
+            				var subJSON = JSON.stringify(data);
+            res.send(subJSON);
+        }
+			
+        
+		else{ 
+            console.log("news letter subscribe success");
+                 data = {
+				    "subcribe": "Thanks for subscribing our news letter."
+				}
+                                    
+            				var subJSON = JSON.stringify(data);
+            res.send(subJSON);
+        }
+    
+});
+}
+
 /*
 * reset password
 */
@@ -68,6 +92,7 @@ exports.getReset = (req, res) => {
     })
   })
 }
+
 
 exports.postReset = (req, res, done) => {
   async.waterfall([

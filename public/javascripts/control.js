@@ -511,11 +511,12 @@ circleColor = 	moodColorChange(moodId);
     
 });    
     
+
     
     $(".feelingCircularMenu ul li, .photosInner .change").click(function(){
   
 //debugger;
-   
+        
     moodId = $(this).attr("id");
     
     var moodImgName = moodId;
@@ -532,11 +533,15 @@ $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFDE15","col
 //
 //    $(".frogImageMoods img").attr("src", $imgLink+frogMood+$imgExtension);
 
+    
+       
     $("#homeCircleImg img, #homeCircleImg #h1,#homeCircleImg p, .feelingCircularMenu ul li").click(function(){
+     
         sessionStorage.clear();
         frogMood=moodId;
          window.location.href = "GoalSelection?mood="+frogMood;
             
+        
     $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFDE15","color":"#35BFD3","border-color":"#FFDE15"});
         //setFrogMood(frogMood);
     });
@@ -1280,7 +1285,7 @@ var goalImg = $("#mood",this).text();
         let amount=$('#amount').val();
         var nexttab;
         let ConAmount=amount.replace(/,/g,''); //Replace comma from amount
-        if (ConAmount < 7000 || ConAmount >=25000000) {
+        if (ConAmount < 7000) {
 		//$('.page2VldMsg').slideDown();
              nexttab=0;
         $('.page3VldMsg').slideDown();
@@ -1383,6 +1388,8 @@ var goalImg = $("#mood",this).text();
             case 3:
               
                 currentPage = 3;
+                 
+               
                 $('#Indicator span:nth-child(1), #Indicator span:nth-child(2)').addClass('active');
                 $('.pagination li:nth-child(1) a').addClass('done');
                 $('.pagination li:nth-child(2) a').addClass('active');
@@ -1405,7 +1412,10 @@ var goalImg = $("#mood",this).text();
                 break;
 
             case 4:
-                $('#Indicator span:nth-child(1), #Indicator span:nth-child(2), #Indicator span:nth-child(3)').addClass('active');            
+               
+               
+                
+                $('#Indicator span:nth-child(1), #Indicator span:nth-child(2), #Indicator span:nth-child(3)').addClass('active');     
                 $('.pagination li:nth-child(1) a, .pagination li:nth-child(2) a').addClass('done');
                 $('.pagination li:nth-child(3) a').addClass('active'); 
                 $('.contentMood > div').not('.page4').hide();
@@ -1419,22 +1429,25 @@ var goalImg = $("#mood",this).text();
                 break;    
             
             case 5:
-              //debugger;
+       // debugger;
                 // var page4Risk;
+                
                 risk = $(e).attr("id");
                 page4Risk = risk;
-                
+               
                 $("#Conservative").removeClass("act");
                   $("#Moderate").removeClass("act");
                   $("#Aggressive").removeClass("act");
                  $("#"+page4Risk).addClass("act");
-                
+                 
                 //     if(risk == "dontKnow" ){
                 //         currentPage=4;
                 //         $(".contentMood .page4 .selectMode").hide();
                 //         $(".contentMood .page4 .sub-page4").show();
                 // }else{
                 currentPage=5;
+                
+                
                 $('#Indicator span:nth-child(1), #Indicator span:nth-child(2), #Indicator span:nth-child(3), #Indicator span:nth-child(4)').addClass('active'); 
                 $('.pagination li:nth-child(1) a, .pagination li:nth-child(2) a, .pagination li:nth-child(3) a').addClass('done');
                 $('.pagination li:nth-child(4) a').addClass('active'); 
@@ -1442,16 +1455,19 @@ var goalImg = $("#mood",this).text();
                 $('.contentMood .page5').show();
                 $("#riskSelected").text(rp);
                 $("#"+rp).addClass("act");
-               localStorage.clear();
+              // localStorage.clear();
                 $(".contentMood .page4 #sip").css({"color": "black","font-size":"1.2em"});
                 // $("#displayModal").modal("show");
                 // $("#displayModal h3").html("You are a "+rp+" risk taker and we have recommended you the best.");
                 // $(".contentMood .page4").hide();
                 $(".contentMood .page5, #yp, #riskSelected").show();  
+                 $(".moodGoals #back").css("visibility","show");
                 // }
                 break;
 
             case 6:
+                 
+                   $(".moodGoals #back").css("visibility","show");
                 $('#Indicator span:nth-child(1), #Indicator span:nth-child(2), #Indicator span:nth-child(3), #Indicator span:nth-child(4)').addClass('active'); 
                 $('.pagination li:nth-child(1) a, .pagination li:nth-child(2) a, .pagination li:nth-child(3) a, .pagination li:nth-child(3) a, .pagination li:nth-child(4) a').addClass('done');
                 $('.pagination li:nth-child(5) a').addClass('active'); 
@@ -1460,6 +1476,7 @@ var goalImg = $("#mood",this).text();
                 break;
             
             case 7:
+                
                 $('#Indicator span:nth-child(1), #Indicator span:nth-child(2), #Indicator span:nth-child(3), #Indicator span:nth-child(4)').addClass('active'); 
                 $('.pagination li:nth-child(1) a, .pagination li:nth-child(2) a, .pagination li:nth-child(3) a, .pagination li:nth-child(3) a, .pagination li:nth-child(4) a').addClass('done');
                 $('.pagination li:nth-child(5) a').addClass('active'); 
@@ -1546,10 +1563,31 @@ var goalImg = $("#mood",this).text();
       
          
     });
-	$(".moodGoals > img").click(function(){
+  /*  $(".moodGoals #backsiplumsum").click(function(){
+   debugger;
+         movingTo = currentPage-1;
+        if(movingTo>3){
+            selectTab(movingTo);
+        }
+        else{
+             $(".moodGoals #backsiplumsum").css("visibility","hidden");
+        }
+         
+    })*/;
+    
+	$(".moodGoals > img ").click(function(){
+      
+	
+       movingTo = currentPage-1;	
+      selectTab(movingTo);
        
-	movingTo = currentPage-1;	
-    selectTab(movingTo);
+        
+        
+               
+        
+            
+    
+      
 // 		switch(movingTo){
 				
 // 			case 0: break;

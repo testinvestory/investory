@@ -31,9 +31,9 @@
 <script>
    
     </script>
-<body  ng-app="postgreSQL">
+<body>
 
-    <div id="wrapper" ng-controller="postgreSQLCtrl">
+    <div id="wrapper">
 
        <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -158,7 +158,7 @@
                         <a href="/admin/uploadInvestory"><i class="fa fa-fw fa-bar-chart-o"></i> Investory File to DB</a>
                     </li>
                     <li>
-                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Upload File to DB</a>
+                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Fund house File to DB</a>
 
                     </li>
                     <li>
@@ -313,7 +313,8 @@
     </div>
         <!-- /.container-fluid -->
           
-            
+        </div> 
+    </div>
         <!-- /#page-wrapper -->
 
  <script src="/lib/angular.min.js"></script>
@@ -344,88 +345,8 @@
 					 
 					
 			   
-		   }
-	
-      
-		
-        
-      
-      
-       /*
-          var myApp = angular.module('postgreSQL',[ ]); 
-            
-     
-       
-   myApp.controller('postgreSQLCtrl', ['$scope' ,'$http',  function($scope,$http) {
-                $scope.val1 = 'This is temp Val' ;  
-                $scope.name = '';
-                $scope.email = '';
-                $scope.mobile = ''; 
-                $scope.selected = '';  
-                $scope.id = '' ;
-                $flag=0;
-                $scope.status='';
-                $scope.saveId='';
-                $scope.remarks='';
-                 
-                $scope.showSelectValue = function(selected)
-                {
-                    $scope.status=selected;
-                  
-                }
-            
-              
-                $scope.getAllRec = function(){ 
-                     $http({method: 'GET', url: '/admin/tables/get'}).
-                        success(function(data, status) { 
-                              $scope.dataset = data;
-                       
-                        }).
-                        error(function(data, status) {
-                          $scope.dataset = data || "Request failed "; 
-                      }); 
-                    }       
-                   
-                
-                
-            $scope.updateRecord = function(recId)
-                {
-                   // console.log(recId);
-                   if(confirm('update this record ? '))
-                    {  
-                        $http({method: 'GET', url: '/admin/saveChanges?id='+recId+'&selected='+$scope.status}).
-                            success(function(data, status) {  
-                         
-                            });   
-                       
-                        }
-                        $scope.getAllRec();  
-                }
-                  
-                        $scope.getAllRec();
-                
-                   $scope.saveDocId=function(pan,id)
-                  {
-                       
-                  
-                      $scope.saveId=pan;
-                      $http({method: 'GET', url: '/admin/saveId?pan='+pan+'&id='+id}).
-                            success(function(data, status) {  
-                         
-                  });  
-                        
-                 }
-                 
-   
-            }]);*/
- 
-        </script>
-        
- 
-       
-          
-        
- 
+		   }  
+ </script>
     
     <!-- jQuery -->
     <script src="/javascripts/jquery.js"></script>

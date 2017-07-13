@@ -159,7 +159,7 @@
                         <a href="/admin/uploadInvestory"><i class="fa fa-fw fa-bar-chart-o"></i> Investory File to DB</a>
                     </li>
                     <li >
-                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Upload File to DB</a>
+                        <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Fund house File to DB</a>
                     </li>
                     <li>
                         <a href="/admin/tables"><i class="fa fa-fw fa-table"></i> KYC</a>
@@ -251,7 +251,10 @@
 <input type="file" name="doc"/>
           <br>               
 <button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>
-</div>                    
+</div> 
+      <% if(message.length>0){ %>
+                    <div class="alert alert-danger" style="margin-top:35px;width:220px;"><%=message%></div>
+  <%}%> 
          <br><br>                    
          <br><br>
 </form>
@@ -272,23 +275,12 @@
 
     
     <!-- jQuery -->
-    <script src="/javasripts/jquery.js"></script>
+    <script src="/javascripts/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="/javasripts/bootstrap.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
 
-    <!-- Morris Charts JavaScript -->
-    <script src="/javasripts/plugins/morris/raphael.min.js"></script>
-    <script src="/javasripts/plugins/morris/morris.min.js"></script>
-    <script src="/javasripts/plugins/morris/morris-data.js"></script>
-
-    <!-- Flot Charts JavaScript -->
-    <!--[if lte IE 8]><script src="js/excanvas.min.js"></script><![endif]-->
-    <script src="/javasripts/plugins/flot/jquery.flot.js"></script>
-    <script src="/javasripts/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="/javasripts/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="/javasripts/plugins/flot/jquery.flot.pie.js"></script>
-    <script src="/javasripts/plugins/flot/flot-data.js"></script>
+  
 
 </body>
 

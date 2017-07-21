@@ -6,6 +6,9 @@ const functions = require('./functions')
 //DB connection
 var client = require('../../config/database');
 
+var fd = require('node-freshdesk-api');
+var freshdesk = new fd('https://immplinvestory.freshdesk.com', 'LpZkws9gCh6Ashxbltap');
+
 exports.getPrice = (req, res) => {
   currentPage = req.session.activePage = '/Pricing'
   loginStatus = functions.checkLoginStatus(req)
@@ -71,6 +74,20 @@ exports.postPaymentFailure = (req, res) => {
   req.session.payU.flashMessage = true
   req.session.payU.status = 'fail'
   console.log(res.json(req.body))
+    
+    
+                        freshdesk.createTicket({
+                        name: req.session.user.name,
+                        email: req.session.user.email,
+                        subject: 'Advisory Payment Failure ',
+                        description: req.session.user.name+' failed to pay Advisory Payment',
+                        status: 2,
+                        priority: 2
+                        }, function (err, data) {
+                                console.log(err);
+                            })
+    
+    
   res.redirect('/Pricing')
 }
 
@@ -114,7 +131,8 @@ exports.postPaymentSuccess = (req, res) => {
 								// res.send("false");
           } else {
 								// res.send(1);
-
+              
+              
             callback(null, 'done')
           }
         })
@@ -163,9 +181,9 @@ exports.postPay = (req, res, next) => {
         email: email,
         phone: phone,
         surl: 'http://localhost:3000/Pricing/success',
-       furl: 'http://localhost:3000/Pricing/failure',
-        //    surl: 'http://54.152.36.19:3000/Pricing/success',
-          //  furl: 'http://54.152.36.19:3000/Pricing/failure',
+        furl: 'http://localhost:3000/Pricing/failure',
+          //  surl: 'http://54.152.36.19:3000/Pricing/success',
+            //furl: 'http://54.152.36.19:3000/Pricing/failure',
           
         hash: hash,
         service_provider: 'payu_paisa',

@@ -139,6 +139,12 @@
                     <legend> PAN Details</legend>
                     <input class="form-control PANnumber" type="text" id="panName" placeholder="Name" name="panName" id="panName">
                      <input class="form-control PANnumber" type="text" id="status" placeholder="status" name="status">
+                    
+                    
+                    
+                    <button class="btn btn-lg moodNav  pricing RP1 pull-right submit btn-Next-Pan-Modal" style="margin-top:2%;width:5.5em; display: none" data-toggle="modal"
+                        data-target="#bsenotclient" data-dismiss="modal">Next </button>
+
                    <!--  <input class="form-control PANnumber" type="text" id="address" placeholder="Address" name="address">
                    <input class="form-control PANnumber" type="text" id="panDOB" placeholder="Date of Birth" name="panDOB">
                     <input class="form-control PANnumber" type="text" id="accountNumber" placeholder="Account Number" name="accountNumber">-->
@@ -149,9 +155,7 @@
                     <button class="btn btn-lg moodNav  pricing RP1 pull-left submit " style="margin-top:2%;width:5.5em;display:none;" id="bseInvest"  type="submit">Proceed </button> 
             </form>	
             -->
-                    <button class="btn btn-lg moodNav  pricing RP1 pull-right submit btn-Next-Pan-Modal" style="margin-top:2%;width:5.5em; display: none" data-toggle="modal"
-                        data-target="#bsenotclient" data-dismiss="modal">Next </button>
-
+                    
                 </div>
             </div>
         </div>
@@ -580,12 +584,14 @@
                             <div class="page6" style="display: none">
                                 
                                 <%if(loggedIn && panstatus[0].kycstatus=="Complaint"){%>
-                                    <%if(clientData[0].aof!="null" && clientData[0].nach!="null" ){%>
-                                      <form action="/InsertOrders" method="post">
+                                   <%if(clientData[0].aof!="null" && clientData[0].nach!="null" ){%>
+                                <form action="/InsertOrders" method="post">
                                       <button type="submit" class="btn btn-lg moodNav go" id="initInvest" style="top: 25px;"> Invest </button></form>
-                                     <%}else{%>
-                                              <button type="" data-toggle="modal" data-target="#bsenotclient" class="btn btn-lg moodNav go" style="top: 25px;"> Invest </button>
-                                      <%}%>
+                                    
+                                        <%}else{%>
+                                     <button type="" data-toggle="modal" data-target="#bsenotclient" class="btn btn-lg moodNav go" style="top: 25px;"> Invest </button>
+                                   <%}%>
+                                    
                                 <%}else{%>
                                  <button type="" data-toggle="modal" data-target="#myPanModal" class="btn btn-lg moodNav go" id="initInvest" style="top: 25px;"> Invest </button>
                                 

@@ -26,6 +26,10 @@ var emailID,paymentKya;
 
 var Zendesk = require('zendesk-node-api');
 
+//Fresh Desk configs
+var fd = require('node-freshdesk-api');
+var freshdesk = new fd('https://immplinvestory.freshdesk.com', 'LpZkws9gCh6Ashxbltap');
+
 //var config=require('../config/auth.js');
 // expose this function to our app using module.exports
 
@@ -150,9 +154,25 @@ var newUser= new User();
                         newUser.userid=result.rows[0].userid;
                         req.session.userEmail = email;
 						console.log(req.body.assetStoreOffline);
+                        
+                        //Fresh desk generating ticket new user signup
+                        freshdesk.createTicket({
+                        name: newUser.name,
+                        email: newUser.email,
+                        subject: 'New user Sign up',
+                        description: 'User succesfully Sign up with mobile '+newUser.mobile+' and email '+newUser.email,
+                        status: 2,
+                        priority: 3
+                        }, function (err, data) {
+                                console.log(err);
+                            })
+                        
+                        
+                        
 						callback(null,newUser)
                    // return done(null, newUser);
-                     });
+                    
+                    });
                     }
                     
                
@@ -244,7 +264,7 @@ var newUser= new User();
     // we are using named strategies since we have one for login and one for signup
     // by default, if there was no name, it would just be called 'local'
 
-    passport.use('local-login', new LocalStrategy({
+   passport.use('local-login', new LocalStrategy({
         // by default, local strategy uses username and password, we will override with email
         usernameField : 'email',
         passwordField : 'password',

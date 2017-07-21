@@ -563,10 +563,12 @@ Why us
 .content div > p {
     margin: -6px;
     font-weight: 700;
-    font-size: 1em;
+    /*font-size: 1em;*/
+    font-size: 0.97em;
     text-align: center;
     padding-left: 1em;
     padding-right: 1em;
+    line-height: 1.1;
 }
 .how-it-works .content div > p {
    padding-left: 0;

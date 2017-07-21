@@ -39,6 +39,11 @@
 	
 <body>
 <script>
+    
+    function closeModal(){
+        $('#displayPanModal').modal('hide');
+    }
+    
 <%var amtrounded1=0;%>
 
 	 $(document).ready(function() {
@@ -53,8 +58,70 @@
 </script>
   <% include partials/headerMobile%>
 
-	
-	
+	<!--
+    <div class="modal fade" id="displayPanModal" role="dialog" style="top:8em">                  
+  <div class="modal-dialog modal-sm" style=" "> 
+    <div class="modal-content">           
+                        <div class="modal-body "  style="font-size:1em;padding-bottom: 0em;"><img src="images/Pop-ups.png" class="popUPImg" height="90" width="90">
+                            <p style="font-size:21px;" class="PANHead">Enter a valid PAN or contact investory team do the needful.
+</p>
+  <button type="" style="width:50px;text-align:center;" class="btn btn-lg sign-up" data-toggle="modal" 
+          data-dismiss="modal">OK</button>
+   
+                        </div>
+                  </div>
+    </div>
+    </div>-->
+    
+    
+    
+      
+
+   <div class="modal" id="displayPanModal" role="dialog">
+        <div class="modal-dialog modal-sm" >
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body " style="">
+                    <h4 class="PANHead">Enter a valid PAN or contact investory team do the needful.</h4>
+
+                   
+                  <button type="button" style="width:70px;text-align:center;" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal" data-backdrop="false" onclick="closeModal();">OK</button>
+
+                </div>
+            </div>
+        </div>
+    </div> 
+    
+    
+    
+    
+	  <div class="modal fade" id="bsenotclient" role="dialog" style="top:8em">                  
+  <div class="modal-dialog modal-sm" style=" "> 
+    <div class="modal-content">           
+                        <div class="modal-body "  style="font-size:1em;padding-bottom: 0em;"><img src="images/Pop-ups.png" class="popUPImg" height="90" width="90">
+                            <p style="font-size:21px;padding-bottom:0.2em;" class="PANHead">
+                                <b><u>You are few steps away from Investing. </u></b><br/></p>
+                                <ol style="text-align:left;font-size:19px;font-weight:500">
+                                    <li>Fill in the <u><a href="/bseinputs" style="color:#35BFD3;font-weight:500">Account Opening Form.</a></u></li>
+                                    <li>Post filling all details generate and download the PDF.</li>
+                                    <li>Fill in the details for <u><a href="/bseinputs" style="color:#35BFD3;font-weight:500">NACH</a></u> .</li>
+                                    <li>Post filling all details generate and download the PDF.</li>
+                                    <li>Sign the PDF documents Account Opening form and NACH.</li>
+                                    <li>Upload the signed Account Opening From as PDF under Profile -> <u><a href="/Profile" style="color:#35BFD3;font-weight:500">documents</a></u> section.
+                                    <%if(clientData[0].aof=="null"){%><img src="images/pending.png" alternate="Hello" height="50" width="auto">
+                                    <%}else{%>  <img src="images/uploaded.png" alternate="Hi"; height="50" width="auto"> <%}%></li>
+                                    
+                                    <li>Upload the signed NACH as PDF under Profile -> <u><a href="/Profile" style="color:#35BFD3;font-weight:500">documents</a></u> section.<%if(clientData[0].nach=="null"){%><img src="images/pending.png" alternate="Hello" height="50" width="auto">
+                                    <%}else{%>  <img src="images/uploaded.png" alternate="Hi"; height="50" width="auto"> <%}%></li>
+                            </ol>
+                              
+                          
+  <button type="" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal">Close</button><br/>
+                            <div style="text-align:left;padding-left:2em;font-size:14px;font-weight:600"> Note: All above steps are mandatory before investing.</div>
+                        </div>
+                  </div>
+    </div>
+    </div>
 	
 	    <!--Pan Modal Window-->
     <div class="modal fade" id="myPanModal" role="dialog">
@@ -75,25 +142,21 @@
                         <button class="btn btn-lg moodNav  pricing RP1 pull-left submit submitPan" style="margin-top:10%;width:5.5em;" id="panCheck" type="submit"
                             onclick="checkPanStaus()"> Submit </button>
                         <p id="errMsg"></p>
-
+                        <div id="loader1"></div>
                         <!--</form>-->
                     </div>
 
 
                     <legend> PAN Details</legend>
-                    <input class="form-control PANnumber" type="text" id="panName" placeholder="Name" name="panName">
-
-                    <input class="form-control PANnumber" type="text" id="address" placeholder="Address" name="address">
-                    <input class="form-control PANnumber" type="text" id="panDOB" placeholder="Date of Birth" name="panDOB">
-                    <input class="form-control PANnumber" type="text" id="accountNumber" placeholder="Account Number" name="accountNumber">
-
-                    <input class="form-control PANnumber" type="text" id="ifscCode" placeholder="IFSC Code" name="ifscCode">
+                     <input class="form-control PANnumber" type="text" id="panName" placeholder="Name" name="panName" id="panName">
+                     <input class="form-control PANnumber" type="text" id="status" placeholder="status" name="status">
+    
 
                     <!--    <form action="/InsertOrders" method="post">	
                     <button class="btn btn-lg moodNav  pricing RP1 pull-left submit " style="margin-top:2%;width:5.5em;display:none;" id="bseInvest"  type="submit">Proceed </button> 
             </form>	
             -->
-                    <button class="btn btn-lg moodNav  pricing RP1 pull-right submit btn-Next-Pan-Modal" style="margin-top:2%;width:5.5em; display: none" data-toggle="modal"data-target="#uploadModal" data-dismiss="modal">Next </button><div class="clearfix"></div>
+                    <button class="btn btn-lg moodNav  pricing RP1 pull-right submit btn-Next-Pan-Modal" style="margin-top:2%;width:5.5em; display: none" data-toggle="modal"  data-target="#bsenotclient" data-dismiss="modal">Next </button><div class="clearfix"></div>
 
                 </div>
             </div>
@@ -576,14 +639,21 @@
     <% if(paid) {%>
                            
 	<div  class="page6" style="display: none;">
-         <%if(loggedIn && panstatus[0].kycstatus=="Complaint"){%>
+        <%if(loggedIn && panstatus[0].kycstatus=="Complaint"){%>
+        
+         <%if(clientData[0].aof!="null" && clientData[0].nach!="null" ){%>
         <form action="/InsertOrders" method="post">
-           <button type="submit"  class="btn btn-lg moodNav go" id="initInvest" style="top: 0;left: 0;margin: 25px auto;"> Invest </button>  
-        </form>
-          <%}else{%>
+           <button type="submit"  class="btn btn-lg moodNav go" id="initInvest" style="top: 0;left: 0;margin: 25px auto;"> Invest </button> 
+              </form>
+              <%}else{%>
+                    <button type="" class="btn btn-lg moodNav go" id="initInvest" data-toggle="modal" data-target="#bsenotclient"  style="top: 0;left: 0;margin: 25px auto;"> Invest </button>
+            <%}%>
+      
+        
+        <%}else{%>
         <button type="" data-toggle="modal" data-target="#myPanModal" class="btn btn-lg moodNav go" id="initInvest" style="top: 0;left: 0;margin: 25px auto;"> Invest </button>
-       <%}%> 
-        <p>So, you need to invest &#x20B9; <span class="glyphicon glyphicon-eye-open"></span><span id="invest1"><%=assetFromDb.sip %></span> Monthly</p>   
+       <%}%>
+        <p>So, you need to invest &#x20B9;<span id="invest1"><%=assetFromDb.sip %></span> Monthly</p>   
         <div class="row">
             <div class="col-12-sm table-wrapper">
                 <!--table Equity-->
@@ -776,10 +846,10 @@
         }
     
         
-        function checkPanStaus() {
+          function checkPanStaus() {
             if($('.panNumber').val().length == 10){
                 $('.panErr').slideUp();
-                $('.btn.pricing.RP1.submitPan').parent().html('<img src = "images/loader.gif" >');
+                $('#loader1').html('<img src = "images/loader.gif" >');
                 var data = {};
                 data.pan = document.getElementById("pan").value;
                 console.log("pan" + data.pan);
@@ -794,17 +864,31 @@
                         url: '/PANValidation',
                         success: function (data) {
                             // console.log('success');
-                            $("#myPanModal .loader").html('');
+                           //$("#loader1").hide();
+                            $("#loader1").html('');
+                            document.getElementById("bseInvest").style.display = 'block';
+                            document.getElementById("pan").style.display = 'block';
+                            $('.btn.pricing.RP1.submitPan').show();
                             var myObj = JSON.parse(data);
-
+                            if(myObj.statusCode=='not complaint'){
+                               
+                               $("#displayPanModal").modal('show');
+                                 $("#myPanModal").modal('hide');
+                                
+                            }
+                            else{
+                                
                             //document.getElementById("responseData").style.display='none';
                             document.getElementById("bseInvest").style.display = 'block';
-                            document.getElementById("pan").style.display = 'none';
+                            document.getElementById("pan").style.display = 'block';
                             // document.getElementById("panCheck").style.display = 'none';
-
-                            var displayMsg = "Hi " + myObj.name + " your PAN No. " + myObj.pan + " is " + myObj.msg;
-                            document.getElementById("data1").innerHTML = displayMsg;
+                         
+                            /*var displayMsg = "Hi " + myObj.name + " your PAN No. " + myObj.pan + " is " + myObj.msg;
+                            document.getElementById("data1").innerHTML = displayMsg;*/
+                             document.getElementById("panName").value =myObj.name;
+                             document.getElementById("status").value = myObj.msg;
                             $('.btn-Next-Pan-Modal').css('display', 'block');
+                            }
                         }
                     })
                     <% }%>

@@ -21,6 +21,9 @@ var currentPage;
 var fs= require('fs');
 var pdf2png=require("pdf2png");
 
+var fd = require('node-freshdesk-api');
+var freshdesk = new fd('https://immplinvestory.freshdesk.com', 'LpZkws9gCh6Ashxbltap');
+
 function getClientId (userid) {
   var date = new Date()
   var month = date.getMonth() + 1
@@ -46,22 +49,20 @@ exports.postInsertOrder = (req, res) => {
 	var memberID = "10940";
 	var password = "Syed@11";
 	var passKey = "test";
-
+    var clientId;
+    var nishant;
 	async.waterfall([function(callback){
       
         var clientId=req.session.user.clientid;
-            
-            if(clientId=="not client"){
-                
-                 
-                 var userID = "109401";
+                var userID = "109401";
 	             var memberID = "10940";
 	             var password = "Syed@11";
 	             var passKey = "test";
-    
+        
+            if(clientId=="not client"){
+               nishant=1; 
     console.log("Client Creation +++++++++////++++++++");
-    async.waterfall([
-        function (callback) {
+    async.waterfall([function (callback) {
             
                 var clientData;
                 var userid=req.session.user.userid;
@@ -80,10 +81,7 @@ exports.postInsertOrder = (req, res) => {
             
             
             
-      },
-        
-        
-		function (clientData,callback) {
+      },function (clientData,callback) {
             
             	var options = {
 				method: 'POST',
@@ -122,10 +120,10 @@ exports.postInsertOrder = (req, res) => {
            var clientCode=getClientId(req.session.user.userid);
            
            console.log("client code",clientCode)
-           console.log("Data needed",clientData);
+          // console.log("Data needed",clientData);
           
           
-          var clientId=clientCode;
+              clientId=clientCode;
           var holdingType="SI";      //Single Holding type SI => Hard coded
           var taxStatus="01";       //Hard coded currently no data in db as tax indivisual as 01
           var occupationCode="03";  //Occupaition code has to extracted based on user detail in db 03->Professional
@@ -142,12 +140,12 @@ exports.postInsertOrder = (req, res) => {
           var clientNomineeName=clientData.nominee;
           var clientNomineeRelation=clientData.nomineerelation;
           var clientGaurdianPan="";  
-          var clientType="D";        //Physical P Demat D
-          var defaultDp="NSDL";     //Default DP Id (CDSL / NSDL),PHYS in case of Physical no data found
+          var clientType="P";        //Physical P Demat D
+         // var defaultDp="NSDL";     //Default DP Id (CDSL / NSDL),PHYS in case of Physical no data found
                                      
           //2 blanks
-          var nsdlDpid="NSDL";          // Mandatary if NSDL
-          var nsdlcltid="NSDL";         //  Mandatary if NSDL
+          //var nsdlDpid="NSDL";          // Mandatary if NSDL
+         // var nsdlcltid="NSDL";         //  Mandatary if NSDL
           
           var bankName=clientData.bankname;
           var branch=clientData.branch;
@@ -168,7 +166,7 @@ exports.postInsertOrder = (req, res) => {
           //2 blanks
           var email=clientData.email;
           var clientCommunicate="P";   // Physical as P ,Mobile as M only MFD 
-          var divPayMode="01";    //01-Cheque 02-Direct Credit 03-ECS 04-NEFT 05-RTGS
+          var divPayMode="05";    //01-Cheque 02-Direct Credit 03-ECS 04-NEFT 05-RTGS
         
           //3 blanks
           
@@ -193,7 +191,7 @@ exports.postInsertOrder = (req, res) => {
 					'content-type': 'application/soap+xml; charset=utf-8'
                     
 				},
-				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n<soap:Header>\n<a:Action>http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI</a:Action>\n<a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n</soap:Header>\n<soap:Body><ns:MFAPI>\n<ns:Flag>02</ns:Flag>\n<ns:UserId>109401</ns:UserId>\n<ns:EncryptedPassword>'+clientpassword+'</ns:EncryptedPassword>\n<ns:param>'+clientId+'|'+holdingType+'|'+taxStatus+'|'+occupationCode+'|'+name+'|||'+dob1+'|'+clientGender+'||'+pan+'|'+clientNomineeName+'|'+clientNomineeRelation+'||'+clientType+'|'+defaultDp+'|||'+nsdlDpid+'|'+nsdlcltid+'|'+accType+'|'+accNO+'|582006506|'+neftcode+'|Y||||||||||||||||||||||'+comAddress1+'|||'+city+'|'+state+'|'+pincode+'|'+country+'|||||'+email+'|'+clientCommunicate+'|'+divPayMode+'|||||||||||||||'+mobile+'</ns:param>\n</ns:MFAPI>\n</soap:Body>\n</soap:Envelope>'
+				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n<soap:Header>\n<a:Action>http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI</a:Action>\n<a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n</soap:Header>\n<soap:Body><ns:MFAPI>\n<ns:Flag>02</ns:Flag>\n<ns:UserId>109401</ns:UserId>\n<ns:EncryptedPassword>'+clientpassword+'</ns:EncryptedPassword>\n<ns:param>'+clientId+'|'+holdingType+'|'+taxStatus+'|'+occupationCode+'|'+name+'|||'+dob1+'|'+clientGender+'||'+pan+'|'+clientNomineeName+'|'+clientNomineeRelation+'||'+clientType+'||||||'+accType+'|'+accNO+'|582006506|'+neftcode+'|Y||||||||||||||||||||||'+comAddress1+'|||'+city+'|'+state+'|'+pincode+'|'+country+'|||||'+email+'|'+clientCommunicate+'|'+divPayMode+'|||||||||||||||'+mobile+'</ns:param>\n</ns:MFAPI>\n</soap:Body>\n</soap:Envelope>'
 			};
 
 			request(options, function (error, response, body) {
@@ -213,7 +211,7 @@ exports.postInsertOrder = (req, res) => {
                     var creteClientMasg = results["s:Envelope"]["s:Body"][0]['MFAPIResponse'][0]['MFAPIResult'];
 				    creteClientMasg = creteClientMasg.toString().split("|");
                      console.log("Is Client Created ???",creteClientMasg[1]);
-					
+					req.session.clientId=clientId;
 					callback(null,clientId,creteClientMasg[0],clientData)
 
 				})
@@ -221,7 +219,7 @@ exports.postInsertOrder = (req, res) => {
           
       },function(clientId,creteClientMasg,clientData,callback){
           
-          console.log("Client id",clientId)
+          console.log("Client id----------------",clientId)
           console.log("Masg Code",creteClientMasg)
           var userid=req.session.user.userid;
           
@@ -243,7 +241,7 @@ exports.postInsertOrder = (req, res) => {
           
       },function(clientId,clientData,callback){
           
-          console.log(clientId);
+          console.log("upload file callback clientcode",clientId);
           //console.log("client data",clientData);
           var aofPath=clientData.aof;
           var nachPath=clientData.nach;
@@ -262,9 +260,10 @@ exports.postInsertOrder = (req, res) => {
 	      var passKey = "test";
           var email=req.session.user.email;
           var tifPath="E:/bseDocuments/"+email+"/";
+          //var tifPath="/home/ubuntu/bsedocuments/"+email+"/";
            var pathAOFtif=tifPath+"/"+memberID+clientId+dateName+".tiff";
           var filename=memberID+clientId+dateName+".tiff";
-          if(aofPath){
+     if(aofPath){
               
              
                pdf2png.convert(aofPath, function(resp){
@@ -284,7 +283,8 @@ exports.postInsertOrder = (req, res) => {
                   console.log("The file AOF as tif was saved!");
                 }
             });
-               }); 
+               });
+              
           }
         /*  if(nachPath){
                pdf2png.convert("E:/bseDocuments/raj@test.com/Nach.pdf", function(resp){
@@ -308,10 +308,10 @@ exports.postInsertOrder = (req, res) => {
           }
           
          */
-          callback(null,pathAOFtif,clientId,clientData,filename)
+       callback(null,pathAOFtif,clientId,clientData,filename)   
           
       },function(pathAOFtif,clientId,clientData,filename,callback){
-           
+           console.log("Client create getPassword method",clientId)
           
           
         
@@ -346,14 +346,17 @@ exports.postInsertOrder = (req, res) => {
           
       },function(password,pathAOFtif,clientId,clientData,filename,callback){
           
+          console.log("AOF creation method",clientId)
+          req.session.clientId=clientId;
             console.log("file and path",pathAOFtif);
-            var clientcode=clientId;
+            var clientId=clientId;
             var doctype="RIA";        //Document type
             var flag="UCC";            //Flag
             var userID = "109401";
 	        var memberID = "10940";
 	        var passKey = "test";
             //Upload file to MFFile upload service
+          
              var options = {
 				method: 'POST',
 				url: 'http://bsestarmfdemo.bseindia.com/StarMFFileUploadService/StarMFFileUploadService.svc/Basic',
@@ -361,7 +364,7 @@ exports.postInsertOrder = (req, res) => {
 					'cache-control': 'no-cache',
 					'content-type': 'application/soap+xml; charset=utf-8'
 				},
-				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:tem="http://tempuri.org/" xmlns:star="http://schemas.datacontract.org/2004/07/StarMFFileUploadService"><soap:Header xmlns:wsa="http://www.w3.org/2005/08/addressing"><wsa:Action soap:mustUnderstand="1">http://tempuri.org/IStarMFFileUploadService/UploadFile</wsa:Action><wsa:To>http://bsestarmfdemo.bseindia.com/StarMFFileUploadService/StarMFFileUploadService.svc/Basic</wsa:To></soap:Header><soap:Body><tem:UploadFile><tem:data> <star:ClientCode>' + clientcode + '</star:ClientCode> <star:DocumentType>' + doctype + '</star:DocumentType><star:EncryptedPassword>' + password +'</star:EncryptedPassword><star:FileName>'+filename+'</star:FileName><star:Filler1>NULL</star:Filler1><star:Flag>' + flag + '</star:Flag><star:MemberCode>' + memberID + '</star:MemberCode><star:UserId>'+ userID +'</star:UserId> <star:pFileBytes></star:pFileBytes></tem:data></tem:UploadFile></soap:Body></soap:Envelope>'
+				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:tem="http://tempuri.org/" xmlns:star="http://schemas.datacontract.org/2004/07/StarMFFileUploadService"><soap:Header xmlns:wsa="http://www.w3.org/2005/08/addressing"><wsa:Action soap:mustUnderstand="1">http://tempuri.org/IStarMFFileUploadService/UploadFile</wsa:Action><wsa:To>http://bsestarmfdemo.bseindia.com/StarMFFileUploadService/StarMFFileUploadService.svc/Basic</wsa:To></soap:Header><soap:Body><tem:UploadFile><tem:data> <star:ClientCode>' + clientId + '</star:ClientCode> <star:DocumentType>' + doctype + '</star:DocumentType><star:EncryptedPassword>' + password +'</star:EncryptedPassword><star:FileName>'+filename+'</star:FileName><star:Filler1>NULL</star:Filler1><star:Flag>' + flag + '</star:Flag><star:MemberCode>' + memberID + '</star:MemberCode><star:UserId>'+ userID +'</star:UserId> <star:pFileBytes></star:pFileBytes></tem:data></tem:UploadFile></soap:Body></soap:Envelope>'
 			};
 
 			request(options, function (error, response, body) {
@@ -376,43 +379,48 @@ exports.postInsertOrder = (req, res) => {
                     var data = results["s:Envelope"]["s:Body"][0]['UploadFileResponse'][0]['UploadFileResult'][0]['b:ResponseString'];
                     console.log("Password-------------",data);
                    
-                   /* var fault=results["s:Envelope"]["s:Body"][0]['s:Fault'][0]['s:Reason'][0]['s:Text'];
-                    console.log("Fault",fault);*/
+                 //var fault=results["s:Envelope"]["s:Body"][0]['s:Fault'][0]['s:Reason'][0]['s:Text'];
+                   // console.log("Fault",fault);
                    //var data = results["s:Envelope"]["s:Body"][0];
                     //console.log("Password-------------",data);
-                  // callback(true)
-
+                     req.session.clientId=clientId;
+                  callback(null)
+                       
 				})
-
-			});
+            });
+		
           
-          
-          
+                
       }],
-		function (err, result) {
-
+		function (err,result) {
+        
 			if (err)
 				throw err;
-
-
-
+           
+            console.log("RESULTS",result)
+                var clientVal=req.session.clientId;
+                    console.log("Client created succesfully................................................",clientVal)
+                    callback(null,clientVal)   
 
 		})
-
-    callback(null,clientId)
-        
-             }else{
-                 
-                 var clientId=req.session.user.clientid;
-                    callback(null,clientId)
-             }
-
-        
-    },
-        
-		function (clientId,callback) {
+                   
+                    
+                         
+            }
+        else{
             
-      
+                clientId=req.session.user.clientid;
+                console.log("Client exist already ................................................",clientId)
+                   callback(null,clientId) 
+        }
+       
+       
+                
+             
+     },function (clientId,callback) {
+            
+       
+        console.log("insert into tables client id",clientId);
 			//user investments header
 			var userId = req.session.savedplanheader.userid;
 			var goalId = req.session.savedplanheader.goalid;
@@ -441,7 +449,8 @@ exports.postInsertOrder = (req, res) => {
 					}
 				});
 		}, function (userid,clientId,callback) {
-
+            
+             console.log("insert into tables client id 2",clientId);
 			var len = req.session.savedplandetail.length;
 			//user investment orders
 			var userId = req.session.savedplanheader.userid;
@@ -593,7 +602,7 @@ exports.postInsertOrder = (req, res) => {
 		},
 		function (x, clientId,callback) {
 
-
+             console.log("order creation method client id",clientId);
 			//get the password for the order creation 
 
 			var options = {
@@ -633,7 +642,7 @@ exports.postInsertOrder = (req, res) => {
 		function (pass,clientId,callback) {
 
 			var len = req.session.savedplandetail.length;
-
+             console.log("in orders client id",clientId);
 			x = 1; y = len;
 
 			//order entry
@@ -733,7 +742,7 @@ exports.postInsertOrder = (req, res) => {
 										//							console.log("inside callback"+i)
 										//							console.log("inside callback x"+x)
 										//							console.log("inside callback y"+y)
-										callback(null)
+										callback(null,clientId)
 									}
 									x++;
 
@@ -762,11 +771,12 @@ exports.postInsertOrder = (req, res) => {
 
 
 			}
+          
+		},function (clientId,callback) {
 
-		},
-		function (callback) {
-
-			console.log("I am the payment ");
+			console.log("I am the payment ",clientId);
+            console.log("USERID",userID)
+            console.log("USERID",memberID)
 			//get Password for Payment Link
 			var options = {
 				method: 'POST',
@@ -775,7 +785,7 @@ exports.postInsertOrder = (req, res) => {
 					'cache-control': 'no-cache',
 					'content-type': 'application/soap+xml; charset=utf-8'
 				},
-				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword">\n         <ns:UserId>109401</ns:UserId>\n         <ns:MemberId>10940</ns:MemberId>\n         <ns:Password>Syed@11</ns:Password>\n         <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
+				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword">\n         <ns:UserId>' + userID + '</ns:UserId>\n         <ns:MemberId>' + memberID + '</ns:MemberId>\n         <ns:Password>Syed@11</ns:Password>\n <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
 			};
 
 			request(options, function (error, response, body) {
@@ -790,21 +800,22 @@ exports.postInsertOrder = (req, res) => {
 					//console.log("myFault"+results["Fault"]["Reason"][0]["Text"]);
 					bsePassArray = password.toString().split("|");
 					console.log("MFUPload Service Password " + bsePassArray[1]);
-					callback(null, bsePassArray[1])
+					callback(null, bsePassArray[1],clientId)
 
 				})
 
 			});
-
+           
 
 		},
-		function (uploadPass, callback) {
+		function (uploadPass,clientId,callback) {
 
-
-
+            console.log("the payment link",clientId);
+             console.log("final USERID",userID)
+            console.log("final membID",memberID)
 			//make the payment 
 
-
+            
 			var options = {
 				method: 'POST',
 				url: 'http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic',
@@ -812,7 +823,7 @@ exports.postInsertOrder = (req, res) => {
 					'cache-control': 'no-cache',
 					'content-type': 'application/soap+xml; charset=utf-8'
 				},
-				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:MFAPI  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI">\n         <ns:Flag>03</ns:Flag>\n		 <ns:UserId>109401</ns:UserId>\n         <ns:EncryptedPassword>' + uploadPass + '</ns:EncryptedPassword>\n         <ns:param>10940|SOHANDEMO2|http://54.152.36.19:3000/BsePaymentStatus</ns:param>\n            </ns:MFAPI>\n   </soap:Body>\n</soap:Envelope>'
+				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:MFAPI  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI">\n         <ns:Flag>03</ns:Flag>\n		 <ns:UserId>109401</ns:UserId>\n         <ns:EncryptedPassword>' + uploadPass + '</ns:EncryptedPassword>\n<ns:param>10940|' + clientId + '|http://localhost:3000/BsePaymentStatus</ns:param>\n            </ns:MFAPI>\n   </soap:Body>\n</soap:Envelope>'
 			};
 
 			request(options, function (error, response, body) {
@@ -827,7 +838,20 @@ exports.postInsertOrder = (req, res) => {
 					//console.log("myFault"+results["Fault"]["Reason"][0]["Text"]);
 					bseLinkArray = link.toString().split("|");
 					console.log("Payment link " + bseLinkArray[1]);
-					// callback(null,bseLinkArray[1])
+                    
+                                        freshdesk.createTicket({
+                                              name: req.session.user.name,
+                                              email: req.session.user.email,
+                                              subject: 'Received BSE Payment link',
+                                              description: req.session.user.name+' Placed Orders into BSE Succesfuly and Received BSE Payment link',
+                                              status: 2,
+                                              priority: 2
+                                                }, function (err, data) {
+                                                    console.log(err);
+                                                })
+                    
+                    
+					callback(null)
 					res.render('bseRedirect', { data: bseLinkArray[1] });
 
 				})
@@ -1141,7 +1165,7 @@ exports.postProceedOrder = (req, res) => {
 					'cache-control': 'no-cache',
 					'content-type': 'application/soap+xml; charset=utf-8'
 				},
-				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmf.in/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmf.in/MFOrderEntry/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmf.in/MFOrderEntry/getPassword">\n         <ns:UserId>109401</ns:UserId>\n          <ns:Password>Syed@11</ns:Password>\n         <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
+				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmf.in/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmf.in/MFOrderEntry/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmf.in/MFOrderEntry/getPassword">\n         <ns:UserId>' + userID + '</ns:UserId>\n          <ns:Password>Syed@11</ns:Password>\n         <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
 			};
 
 			request(options, function (error, response, body) {
@@ -1305,7 +1329,7 @@ exports.postProceedOrder = (req, res) => {
 					'cache-control': 'no-cache',
 					'content-type': 'application/soap+xml; charset=utf-8'
 				},
-				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword">\n         <ns:UserId>109401</ns:UserId>\n         <ns:MemberId>10940</ns:MemberId>\n         <ns:Password>Syed@11</ns:Password>\n         <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
+				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword">\n         <ns:UserId>' + userID + '</ns:UserId>\n         <ns:MemberId>10940</ns:MemberId>\n         <ns:Password>Syed@11</ns:Password>\n         <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
 			};
 
 			request(options, function (error, response, body) {
@@ -1342,7 +1366,7 @@ exports.postProceedOrder = (req, res) => {
 					'cache-control': 'no-cache',
 					'content-type': 'application/soap+xml; charset=utf-8'
 				},
-				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:MFAPI  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI">\n         <ns:Flag>03</ns:Flag>\n		 <ns:UserId>109401</ns:UserId>\n         <ns:EncryptedPassword>' + uploadPass + '</ns:EncryptedPassword>\n         <ns:param>10940|SOHANDEMO2|http://54.152.36.19:3000/BsePaymentStatus</ns:param>\n            </ns:MFAPI>\n   </soap:Body>\n</soap:Envelope>'
+				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:MFAPI  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI">\n         <ns:Flag>03</ns:Flag>\n		 <ns:UserId>' + userID + '</ns:UserId>\n         <ns:EncryptedPassword>' + uploadPass + '</ns:EncryptedPassword>\n         <ns:param>10940|SOHANDEMO2|http://localhost:3000/BsePaymentStatus</ns:param>\n    </ns:MFAPI>\n   </soap:Body>\n</soap:Envelope>'
 			};
 
 			request(options, function (error, response, body) {

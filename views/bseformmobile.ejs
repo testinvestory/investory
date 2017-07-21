@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+</head>
+     <style>
+        
+        
+        .form-control{
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #35BFD3;
+    border-spacing: 1em;
+    font-size: 1em;
+    font-weight: 600;
+   
+    width: 100%;
+    margin-bottom: 0.5em;
+    padding: 0.3em;
+   
+}
+         .heddings{
+             color: #35BFD3;
+             font-weight: 600;
+         }
+             .btn {
+    color: #fff;
+    background-color:#35BFD3;
+    border-color: #35BFD3;
+}
+        </style>
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript">
+</script>
+   
+ <script type="text/javascript">
+       
+     
+
+     var validateName = function() {
+        var name = $('#name').val();
+         
+         var regExp3=/^[a-zA-Z]{3,30}$/;
+        if (name.match(regExp3)) {  
+            $('#errMasgName').slideUp();
+            return true;
+        } else {
+             $('#errMasgName').slideDown();
+            return false;
+        }
+    };   
+
+    var validatePinCode = function() {
+        var pincode = $('#pincode').val();
+        if (pincode.length != 6) {
+            $('#errMasgPincode').slideDown();
+            return false;
+        } else {
+            $('#errMasgPincode').slideUp();
+            return true;
+        }
+    };
+
+    var validatePan  = function() {
+        var pan = $('#pan').val();
+        var regExp = /[a-zA-z]{5}\d{4}[a-zA-Z]{1}/;
+        if (pan.length == 10 && pan.match(regExp) ) {
+            var pan = $('#errMasgPan').slideUp();
+            return true;
+        } else {
+            var pan = $('#errMasgPan').slideDown();
+            return false;
+        }
+    };
+
+    var checkDOB = function() {
+       var dob = $('#dob').val();
+            if (dob.length ==0){
+            $('#errMasgDate').slideDown();
+            return false;
+        } else {
+            $('#errMasgDate').slideUp();
+            return true;
+        }
+    };
+        
+       var bankName=function(){
+           var regExp3=/^[a-zA-Z]{3,30}$/;
+           var bankName=$('#bankname').val();
+           if(bankName.match(regExp3)){
+               
+               $('#errMasgBankname').slideUp();
+               return true;
+           }
+           else{
+              $('#errMasgBankname').slideDown();
+               return false;
+           }
+           
+       };
+        
+        var bankBranch=function(){
+           var bankbranch=$('#branch').val();
+            var regExp3=/^[a-zA-Z]{3,30}$/;
+           if(bankbranch.match(regExp3)){
+                $('#errMasgBranch').slideUp();
+               return true;
+           }
+           else{
+             
+               $('#errMasgBranch').slideDown();
+               return false;
+               
+           }
+           
+       };
+        
+       var accno=function(){
+           var accno=$('#accno').val();
+           if(accno.length<=9){
+               $('#errMasgAccno').slideDown();
+               return false;
+           }
+           else{
+              $('#errMasgAccno').slideUp();
+               return true;
+           }
+           
+       };
+         var acctype=function(){
+           var acctype=$('#acctype').val();
+             var regExp3=/^[a-zA-Z]{3,30}$/;
+           if(acctype.match(regExp3)){
+               $('#errMasgAcctype').slideUp();
+               return true;
+           }
+           else{
+               $('#errMasgAcctype').slideDown();
+               return false;
+              
+           }
+           
+       };
+        
+        var ifsc=function(){
+           var ifsc=$('#ifsc').val();
+           if(ifsc.length<=5){
+               $('#errMasgIfsc').slideDown();
+               return false;
+           }
+           else{
+              $('#errMasgIfsc').slideUp();
+               return true;
+           }
+           
+       };
+        
+       
+                
+
+        var nomineename=function(){
+           var nomineename=$('#nomineename').val();
+            var regExp3=/^[a-zA-Z]{3,30}$/;
+           if(nomineename.match(regExp3)){
+              $('#errMasgNomineename').slideUp();
+               return true;
+           }
+           else{
+              
+                $('#errMasgNomineename').slideDown();
+               return false;
+           }
+           
+       };
+        
+        var nrelationship=function(){
+           var nrelationship=$('#nrelationship').val();
+            var regExp3=/^[a-zA-Z]{2,30}$/;
+           if(nrelationship.match(regExp3)){
+               $('#errMasgNomineerelate').slideUp();
+               return true;
+           }
+           else{
+               $('#errMasgNomineerelate').slideDown();
+               return false;
+              
+           }
+           
+       };
+        
+       
+        var nomineeaddress=function(){
+           var nomineeaddress=$('#nomineeaddress').val();
+             var regExp3=/^[a-zA-Z0-9\s,'-]{10,50}$/;
+           if(nomineeaddress.match(regExp3)){
+              $('#errMasgNomineeaddr').slideUp();
+               return true;
+           }
+           else{
+              
+                $('#errMasgNomineeaddr').slideDown();
+               return false;
+           }
+           
+       };
+        
+         var holding=function(){
+           var holding=$('#holding').val();
+             var regExp3=/^[a-zA-Z]{4,30}$/;
+           if(holding.match(regExp3)){
+              $('#errMasgHold').slideUp();
+               return true;
+           }
+           else{
+              
+                $('#errMasgHold').slideDown();
+               return false;
+           }
+           
+       };
+        
+        var country=function(){
+           var country=$('#country').val();
+            var regExp3=/^[a-zA-Z]{3,30}$/;
+           if(country.match(regExp3)){
+               
+               $('#errMasgCountry').slideUp();
+               return true;
+           }
+           else{
+             $('#errMasgCountry').slideDown();
+               return false; 
+           }
+           
+       };
+        var state=function(){
+           var state=$('#state').val();
+            var regExp3=/^[a-zA-Z]{2,30}$/;
+           if(state.match(regExp3)){
+              $('#errMasgState').slideUp();
+               return true;
+           }
+           else{
+              
+                $('#errMasgState').slideDown();
+               return false;
+           }
+           
+       };
+         var email=function(){
+           var email=$('#email').val();
+           if(email.length<=4){
+               $('#errMasgEmail').slideDown();
+               return false;
+           }
+           else{
+              $('#errMasgEmail').slideUp();
+               return true;
+           }
+           
+       };
+        var mobile=function(){    
+            var regExp1 =/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
+           var mobile=$('#mobile').val();
+           if(mobile.length==10 && mobile.match(regExp1)){
+              
+               $('#errMasgMobile').slideUp();
+               
+               return true;
+           }
+           else{
+               $('#errMasgMobile').slideDown();
+               return false;
+           }
+           
+       };
+        var address=function(){
+             var regExp3=/^[a-zA-Z0-9\s,'-]{10,50}$/;
+           var address=$('#address').val();
+           if(address.match(regExp3)){
+               $('#errMasgAddress').slideUp();
+               return true;
+           }
+           else{
+                $('#errMasgAddress').slideDown();
+               return false;
+             
+           }
+           
+       };
+        
+         var city=function(){
+           var city=$('#city').val();
+            var regExp3=/^[a-zA-Z]{2,30}$/;
+           if(city.match(regExp3)){
+              
+               $('#errMasgCity').slideUp();
+               return true;
+           }
+           else{
+               $('#errMasgCity').slideDown();
+               return false;
+           }
+           
+       };
+        
+        var occupation=function(){
+           var occupation=$('#occupation').val();
+            var regExp3=/^[a-zA-Z]{2,30}$/;
+           if(occupation.match(regExp3)){
+               $('#errMasgOccupation').slideUp();
+               return true;
+           }
+           else{
+                $('#errMasgOccupation').slideDown();
+               return false;
+           }
+           
+       };
+        
+        var validateFrom = function() {
+         
+        var dobOk = checkDOB();
+        var pinOk = validatePinCode();
+        var panOK = validatePan();
+        var banknameOk=bankName();
+        var nameOk=validateName();
+        var bankBranchOk=bankBranch();
+        var accnoOk=accno(); 
+        var acctypeOk=acctype();
+        var ifscOk=ifsc();
+        var nomineenameOk=nomineename();
+        var nrelationshipOk=nrelationship();
+        var nomineeaddressOk=nomineeaddress();
+        var holdingOk=holding();
+        var countryOk=country();
+        var stateOk=state();
+        var addressOk=address();
+        var emailOk=email();
+        var mobileOk=mobile();
+        var occupationOk=occupation();
+        var cityOk=city();
+            
+        if (dobOk && pinOk && panOK && banknameOk && nameOk && bankBranchOk && accnoOk && acctypeOk && ifscOk && nomineenameOk && nrelationshipOk && nomineeaddressOk && holdingOk && countryOk && stateOk && addressOk && emailOk &&  mobileOk && occupationOk && cityOk)
+            return true;
+        else
+            return false;
+    };
+              
+    function display(){
+        
+          var dobOk = checkDOB();
+        var pinOk = validatePinCode();
+       // var panOK = validatePan();
+        var banknameOk=bankName();
+        var nameOk=validateName();
+        var bankBranchOk=bankBranch();
+        var accnoOk=accno(); 
+        var acctypeOk=acctype();
+        var ifscOk=ifsc();
+        var nomineenameOk=nomineename();
+        var nrelationshipOk=nrelationship();
+        var nomineeaddressOk=nomineeaddress();
+        var holdingOk=holding();
+        var countryOk=country();
+        var stateOk=state();
+        var addressOk=address();
+        var emailOk=email();
+        var mobileOk=mobile();
+        var occupationOk=occupation();
+        var cityOk=city();  
+              
+        if (dobOk && pinOk && banknameOk && nameOk && bankBranchOk && accnoOk && acctypeOk && ifscOk && nomineenameOk && nrelationshipOk && nomineeaddressOk && holdingOk && countryOk && stateOk && addressOk && emailOk &&  mobileOk && occupationOk && cityOk)
+            {
+              window.location.href ="/pdf";    
+              return true;
+            }
+        else{
+            alert("Please Fill all Details")
+            return false;
+        }
+        }
+        </script>   
+    
+
+<body>
+<div class="container" >
+    <span class="heddings text-center ">
+        <h3 style="margin-top: 2em;">BSE Account Opening Form</h3></span>
+    <br><h4><b>Unit Folder Information :</b></h4>
+ <form onsubmit="return validateFrom()"  name="aofinfo" id="aofinfo"  action="/bseInputData" method="post"  >
+  <div class="form-group">
+    <label for="Name">Name of  the First Applicant :</label>
+     <input type="text" class="form-control form-feilds" id="name" placeholder="Enter name" name="name" value="<%=user.name%>">
+                     <p id="errMasgName" style="display: none; color: red">Please Enter a Valid Name</p> 
+  </div>
+    
+    <div class="form-group">
+    <label for="Name">PAN Number :</label>
+     <input type="text" class="form-control" id="pan" placeholder="PAN" name="pan" value="<%=panstatus.pan%>">
+                      <p id="errMasgPan" style="display: none; color: red">Please Enter a Valid Pan Number</p> 
+  </div>
+    
+    
+        <div class="form-group">
+    <label>KYC:</label> 
+                            <input type="text" class="form-control" id="kyc" placeholder="KYC" name="kyc" value="<%=panstatus.kycstatus%>">
+    
+    </div>
+    
+ 
+      <div class="form-group">
+        <label>KYC:</label> 
+     <input type="text" class="form-control" id="kyc" placeholder="KYC" name="kyc" value="<%=panstatus.kycstatus%>">  
+          
+    </div>    
+    
+    <div class="form-group">
+        
+        <label>Date Of Birth :</label>
+                      
+  <input type="text" class="form-control" id="dob" placeholder="Enter Date Of Birth" name="dob" value="<%=data.dob%>">                      <p id="errMasgDate" style="display: none; color: red">Please Enter DOB DD-MM-YYYY</p> 
+    </div>  
+    
+    
+    <div class="form-group">
+    <label>Mode of Holding :</label>
+                    
+                    
+        <input type="text" class="form-control" id="holding" placeholder="Enter Holding type Single/Multi" name="holding" value="<%=data.holdingtype%>">                <p id="errMasgHold" style="display: none; color: red">Please select Holding type</p>    
+        
+    </div>
+    
+    <div class="form-group">
+     <label>Address :</label>                 
+                    <textarea class="form-control" name="address" id="address" rows="3" style="width:99%" placeholder="Enter Address" ><%=data.address%></textarea>
+                      
+                      <p id = "errMasgAddress" style= "display: none; color: red">Please Enter Valid Address</p>    
+        
+    </div>  
+    <div class="form-group">
+        
+              <label>City :</label> 
+                          
+                    <input type="text" class="form-control" id="city" placeholder="Enter City" name="city" value="<%=data.city%>">
+                        <p id="errMasgCity" style="display: none; color: red">Please Enter City</p> 
+    </div>  
+    <div class="form-group">
+        <label>State :</label>
+                             
+         <input type="text" class="form-control" id="state" placeholder="Enter State" name="state" value="<%=data.state%>">
+       <p id = "errMasgState" style= "display: none; color: red">Please Enter State</p>
+        
+    </div>  
+    <div class="form-group">
+      <label>Country :</label>                    
+                        
+                      <input type="text" class="form-control" id="country" placeholder="Enter Country" name="country" value="<%=data.country%>"> 
+                              <p id = "errMasgCountry" style= "display: none; color: red">Please Enter Country</p>   
+        
+    </div>  
+    <div class="form-group">
+        <label>Pincode :</label>
+                            <input type="text" class="form-control" id="pincode" placeholder="Enter Pincode" name="pincode" value="<%=data.pincode%>">
+                                <p id = "errMasgPincode" style= "display: none; color: red">Pincode should be 6 digits long</p>
+        
+        
+    </div>  
+    <div class="form-group">
+        <label>Occupation :</label>                 
+                   <input type="text" class="form-control" id="occupation" placeholder="Enter Occupation" name="occupation" value="<%=data.occupation%>">
+                       <p id = "errMasgOccupation" style= "display: none; color: red">Please Enter Occupation</p>  
+        
+        
+    </div>  
+    <div class="form-group">
+        <label>Mobile :</label> 
+                           
+                    <input type="text" class="form-control" id="mobile" placeholder="mobile" name="mobile" value="<%=user.mobile%>">
+                      <p id="errMasgMobile" style="display: none; color: red">Please Enter Valid Mobile</p>
+    </div> 
+    <div class="form-group">
+    <label>Email :</label> 
+                            <input type="text" class="form-control" id="email" placeholder="Enter email" name="email" value="<%=user.email%>">
+                                <p id="errMasgEmail" style="display: none; color: red">Please Enter Valid Email</p>    
+ 
+                
+
+    </div>  
+    <div class="form-group">
+      <label>Telephone :</label> 
+                            <input type="text" class="form-control" id="tel" placeholder="Enter Telephone" name="tel" value="<%=data.telephone%>">     
+        
+    </div>  
+    <div class="form-group">
+         <h4><b>Bank Mandate Details :</b></h4>
+        
+     <label>Bank Name :</label>  
+                    <input type="text" class="form-control" id="bankname" placeholder="Enter Bank name" name="bankname" value="<%=data.bankname%>">
+                       <p id = "errMasgBankname" style= "display: none; color: red">Enter Bank name</p>
+                         
+    </div>  
+     <div class="form-group">   
+   <label>Branch :</label>
+                    <input type="text" class="form-control" id="branch" placeholder="Enter branch" name="branch" data-bv-field="branch" value="<%=data.branch%>">
+                       <p id = "errMasgBranch" style= "display: none; color: red">Please Enter Bank's branch</p>       
+         
+    </div>
+    <div class="form-group"> 
+     <label>Account Number :</label>  
+                    <input type="text" class="form-control" id="accno" placeholder="Enter Account Number" name="accno" value="<%=data.accountno%>">
+                      <p id = "errMasgAccno" style= "display: none; color: red">Please Enter Account Number</p>    
+    </div>
+   
+      <div class="form-group">  
+      <label>A/c Type :</label>
+                    <input type="text" class="form-control" id="acctype" placeholder="Enter Account Type" name="acctype" data-bv-field="acctype" value="<%=data.accounttype%>">     
+          
+        <p id = "errMasgAcctype" style= "display: none; color: red">Please Enter Account type</p>    
+    </div>
+      <div class="form-group">      
+           <label>IFSC Code :</label>  
+                    <input type="text" class="form-control" id="ifsc" placeholder="Enter IFSC Code" name="ifsc" value="<%=data.ifsc%>">
+                      <p id = "errMasgIfsc" style= "display: none; color: red">Please Enter IFSC Code</p>  
+          
+    </div>
+    
+      <div class="form-group">      
+        <h4><b>Nominee Details :</b></h4>
+          
+       <label>Nominee Name :</label>  
+                    <input type="text" class="form-control" id="nomineename" placeholder="Enter Nominee Name" name="nomineename" value="<%=data.nominee%>">
+                      <p id = "errMasgNomineename" style= "display: none; color: red">Please Enter Nominee name</p>    
+          
+          
+    </div>
+      <div class="form-group">      
+       <label>Relationship :</label>
+                    <input type="text" class="form-control" id="nrelationship" placeholder="Enter Relationship" name="nrelationship" value="<%=data.nomineerelation%>">
+                    <p id = "errMasgNomineerelate" style= "display: none; color: red">Please Enter Nominee relationship with Applicant</p>   
+    </div>
+    
+     <div class="form-group">      
+      <label>Guardian Name (if nominee is minor) :</label>  
+                                 
+                <input type="text" class="form-control" id="guardianname" placeholder="Enter Guardian Name" name="guardianname" value="<%=data.guardianname%>">    
+    </div>
+     <div class="form-group">      
+      <label>Nominee Address :</label>  
+                      <textarea class="form-control" name="nomineeaddress" id="nomineeaddress" rows="3" style="width:99%" placeholder="Enter Nominee Address"><%=data.nomineeaddress%></textarea> 
+         <p id = "errMasgNomineeaddr" style= "display: none; color: red">Please Enter Nominee address</p>
+    </div>
+     <div class="form-group text-center">      
+      <button type="submit" class="btn ">Save</button>
+             <button type="button" class="btn" onclick="display();" style="align:right">Get AOF pdf</button>
+              <a href="/nachinputs"><button type="button" class="btn " style="align:right">NACH</button></a>    
+    </div>
+  
+</form>
+</div>
+</body>
+</html>
+

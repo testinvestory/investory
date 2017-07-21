@@ -64,6 +64,7 @@ app.use('/admin', admin)
 app.get('/KnowUs', about.getKnownUs)
 app.get('/contactus', about.contactus)
 app.get('/FAQs', about.faqs)
+app.get('/ourTeam', about.ourTeam)
 app.get('/Investment', functions.isLoggedIn, investment.getInvestment)
 app.post('/setData', investment.postSetData)
 app.post('/showScheme', functions.isLoggedIn, investment.postScheme)
@@ -150,6 +151,7 @@ app.get('/clientCreate',client.getClient)
 app.use('/', index)
 
 routes(app, passport)
+
 
 app.use(function (req, res, next) {
   var err = new Error('Not Found')

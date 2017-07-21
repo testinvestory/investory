@@ -8,12 +8,64 @@
     </style>	  
     <link rel="stylesheet" href="stylesheets/creativemobile.css">
 </head>
+    
+    
+    
+        <script>
+         
+        /*$(".moodGoals > img").click(function(){
+            window.location.href = "/GoalSelection"
+        });*/
+        
+        function goodPlan(intValue){
+            document.getElementById('planPrice').value=intValue;
+            document.getElementById('plan').value='Good Plan';
+}
+        
+           function betterPlan(intValue){
+             document.getElementById('planPrice').value=intValue;
+            document.getElementById('plan').value='Better Plan';
+}
+         function bestPlan(intValue){
+              document.getElementById('planPrice').value=intValue;
+            document.getElementById('plan').value='Best Plan';
+}
+      var validateValue=function(){
+            var planPrice=$('#planPrice').val();
+            if(planPrice=="99" || planPrice=="199" || planPrice=="499"){
+                 return true;
+                
+            }else{
+               
+                $('#confirm-submit').modal('show');
+                return false;
+            }
+            
+        };
+    </script>
+    
 <body>
 
  <% include partials/headerMobile%>
   <div class="wrapper" style="overflow-y:scroll;overflow-x:hidden;">
 	  <div class="main">
-          
+        
+           <!--Pan Modal Window-->
+    <div class="modal fade" id="confirm-submit" role="dialog">
+        <div class="modal-dialog modal-sm" >
+            <!-- Modal content-->
+            <div class="modal-content PAN">
+                <div class="modal-body " style="">
+                    <h4 class="PANHead">Please choose your Plan before pay.</h4>
+
+                   
+                  <button type="" style="width:70px;text-align:center;" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal">OK</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+  
 
 <!--    <section id="section1"   >-->
       
@@ -89,7 +141,7 @@
            <div class="row pricingPanelRow" >
       
     <div class="col-sm-4">
-        <a href="#" class="tooltips"> 
+        <a href="#" onclick="goodPlan('99')" class="tooltips"> 
                   <div class="panel panel-default">
         <div class="panel-heading">
           <h2 id="GoodPlan">Good Plan</h2>
@@ -121,7 +173,7 @@
     </div> 
       
     <div class="col-sm-4">
-          <a href="#" class="tooltips"> 
+          <a href="#" onclick="betterPlan('199')" class="tooltips"> 
       <div class="panel panel-default">
         <div class="panel-heading">
           <h2>Better Plan</h2>
@@ -155,7 +207,7 @@ style=" padding-left: 6%;
     </div> 
       
     <div class="col-sm-4">
-        <a href="#" class="tooltips"> 
+        <a href="#" onclick="bestPlan('499')" class="tooltips"> 
       <div class="panel panel-default">
         <div class="panel-heading">
           <h2>Best Plan</h2>
@@ -192,9 +244,9 @@ style=" padding-left: 6%;
       			 <button type="" data-toggle="modal" data-target="#loginModal"  class="btn btn-white btn-lg moodNav pay" >Pay</button>
       			  <% } else if(loggedIn && !paid){%>
       			 <!--call for payU-->
-      			  <form action="/Pricing/pay" method="post">
-      			   <input type="hidden" id="plan" name="plan" value='Good Plan'>
-      			   <input type="hidden" id="planPrice" name="planPrice" value='5'>
+      			  <form onsubmit="return validateValue()" action="/Pricing/pay" method="post">
+      			   <input type="hidden" id="plan" name="plan" value=''>
+      			   <input type="hidden" id="planPrice" name="planPrice" value=''>
       			  	 <button type="submit"  class="btn btn-white btn-lg moodNav pay" >Pay</button>
       			  </form>
       			 <%} else if(loggedIn && paid) {%>
@@ -225,7 +277,7 @@ style=" padding-left: 6%;
                 <div class="column-sm-4 " >
                    
                     <img src="images/frog_jump.png" alt="Choose a Package" width="65%"><br>
-                    <p style="margin-left: 2.8em;">Choose a <br />Package</p>
+                    <p style="margin-left: -1em;">Choose a <br />Package</p>
                 </div>
                 
                 <div class="column-sm-4 " style="top:1.5em">

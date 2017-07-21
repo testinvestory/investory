@@ -10,7 +10,8 @@ var request = require("request");
 //DB connection
 var client = require('../../config/database');
 
-
+var fd = require('node-freshdesk-api');
+var freshdesk = new fd('https://immplinvestory.freshdesk.com', 'LpZkws9gCh6Ashxbltap');
 
 exports.postPanStatus = (req, res) => {
 	//currentPage = req.session.activePage = "/PANStatus";
@@ -52,7 +53,7 @@ exports.postPanValidation = (req, res) => {
 					
                     var optionsForPassword = {
 						hostname: "www.cvlkra.com",
-						path: '/paninquiry.asmx/GetPassword?password='+password+'&PassKey='+passKey
+						path:'/paninquiry.asmx/GetPassword?password='+password+'&PassKey='+passKey
 					};
 
 					var getPassword = http.get(optionsForPassword, function (response) {
@@ -82,7 +83,7 @@ exports.postPanValidation = (req, res) => {
 					// get the PAN Status
 					var optionsForPANStaus = {
 						hostname: "www.cvlkra.com",
-						path: '/paninquiry.asmx/GetPanStatus?panNo='+PAN+'&userName='+username+'&PosCode='+POSCODE+'&password='+ ePass+'&PassKey='+passKey
+						path:'/paninquiry.asmx/GetPanStatus?panNo='+PAN+'&userName='+username+'&PosCode='+POSCODE+'&password='+ ePass+'&PassKey='+passKey
 						//path: '/PANInquiry.asmx/GetPanStatus?panNo=BDKPS1141N&userName=WEBINTMM&PosCode=MONEYMATTER&password='+ePass+'&PassKey='+passKey
 					};
 
@@ -147,6 +148,18 @@ exports.postPanValidation = (req, res) => {
                                         var kycstatus='Pending';
                                       /*  console.log("status of PAN :",appStatus);
                                         console.log("Messg ",msg);*/
+                                          freshdesk.createTicket({
+                                              name: req.session.user.name,
+                                              email: req.session.user.email,
+                                              subject: 'KYC Compliance Failure',
+                                              description: req.session.user.name+' KYC Compliance Failure with PAN '+pan,
+                                              status: 2,
+                                              priority: 2
+                                                }, function (err, data) {
+                                                    console.log(err);
+                                                })
+    
+                                    
                                     }
                                 
                                 

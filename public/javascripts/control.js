@@ -587,7 +587,7 @@ $(".moods .pagination li:nth-child(1) a").css({"background-color":"#FFDE15","col
     
     $(".selectGoal ul li > a").click(function(){
        // debugger;
-       resetSession();
+       //resetSession();
         sessionStorage.clear();
             moodId = $(this).attr("id");
 	
@@ -1032,7 +1032,7 @@ var $smartGoals = "smartGoals";
 //debugger;
         
         
-        resetSession();
+        //resetSession();
       
               var smartSource = getParameterByName('smartGoal');
     var smartMood = getParameterByName('smood');

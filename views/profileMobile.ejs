@@ -83,8 +83,8 @@
     "November", "December"
     ];%>
                      <div class="col-sm-6 TestimonyProfileData" style="text-align:left;">
-                                    <h4 class="meme"  style="font-size:bolder;"><%= user.name %></h4>
-                                    <h4 class="mem" style="">
+                                    <h4 class="meme"  style="font-weight:700;"><%= user.name %></h4>
+                                    <h4 class="mem" style="font-weight:700;">
 						 <% if(profile.dob) {%>
 						 	<%=  profile.dob.getDate();   %>
 										<%= monthNames[profile.dob.getMonth()]; %>
@@ -379,7 +379,7 @@
                 </div>
                
                 <h2 class="profilePan"style="">Bank Details</h2> 
-               <form name="panDetails"class="form-horizontal" action="/profilebank" method="post"> 
+               <form name="panDetails" class="form-horizontal" action="/profilebank" method="post"> 
                <div class="form-group">
                                                                
                                  <label class="col-xs-3 ">Bank Name:</label>
@@ -500,15 +500,21 @@
                                                 
                                                         
                                               
-                                                            
+                   <button type="submit" class="btn btn-lg moodNav profileSubmit2" ng-disabled="" >Submit </button>
+                                            
+                         </div>         
+                                       
+                                                         </form>                                         
             
                                                             
+                                   
+                     
                                                             
-                                                            
-                       
+                         <div class="col-xs-12 "> 
+                              <form enctype="multipart/form-data" action="/document" method="post" name="" class="form-horizontal">
                       <br>  
                           <h2 class="profilePan"style="">Documents </h2>                                      
-                               <div class="form-group">
+                  <!-- <div class="form-group">
                                                                    
                               <label class="col-xs-3 " >Address Proof</label>
                                                                         
@@ -520,8 +526,7 @@
                               </div>
                                            
                                         <br>                                  
-                          </div> 
-                                               <br>                  
+                          </div>       <br>                  
                                                              
                                                            
                                <div class="form-group ">
@@ -550,9 +555,9 @@
                               </div>
                                             <br>
                                                                 
-                          </div> 
+                          </div>--> 
                                                            
-                             <div class="form-group">
+                             <!--<div class="form-group">
                                                                    
                               <label class="col-xs-3" >Signature Proof</label>
                                                                         
@@ -561,15 +566,15 @@
                           <input type="file" class="" name="somename" size="chars" style="float:none;" >
                  
                                  </div>                                         
-                              </div>
-                                            <br>  
+                              </div>-->
+                                            <br> 
                                    <div class="form-group">
                                                                    
                               <label class="col-xs-3" >BSE Star Application</label>
                                                                         
                               <div class="col-xs-9 ">
                                                                            
-                          <input type="file" class="" name="somename" size="chars" style="float:none;">
+                          <input type="file" name="doc" filename="bseaof" style="float:none;">
                  
                                                                         
                               </div>
@@ -582,13 +587,13 @@
                                                                         
                               <div class="col-xs-9 ">
                                                                            
-                          <input type="file" class="" name="somename" size="chars" style="float:none;">
+                          <input type="file" name="doc" filename="nach" style="float:none;">
                  
                                                                         
                               </div>
                                        <br>
                          </div>
-                                               <div class="form-group">
+                                        <!-- <div class="form-group">
                                                                    
                               <label class="col-xs-3" >Statutory form</label>
                                                                         
@@ -599,23 +604,20 @@
                                                                         
                               </div>
                                        <br>
-                         </div>
+                         </div>-->
                                                    
-                                                    
-                                           
-                                                
-                      </div>
- <button type="submit" class="btn btn-lg moodNav profileSubmit2" ng-disabled="" >Submit </button>
-                                            
-                                                         </div>
-                                       
-                                                         </form>
+                                                  
+                             <button type="submit" class="btn btn-lg moodNav profileSubmit2" ng-disabled="" >Submit </button>
+                             </form>            
+                         </div>                         
+                    
+ 
                 </div>
 </div>
     
     </div>
     
-    
+      </div></div>
     
     
     

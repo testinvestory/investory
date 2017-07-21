@@ -144,6 +144,7 @@ exports.goalSelection = (req, res) => {
 									data: assets,
 									user: req.user,
                                     clientData:clientData,
+                                    panstatus:panstatus,
 									selectorDisplay: "show",
 									loggedIn: loginStatus,
 									firslist: false,

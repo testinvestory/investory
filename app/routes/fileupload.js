@@ -24,6 +24,13 @@ var pdf2png=require("pdf2png");
 exports.getbseform = (req, res) => {
  
 loginStatus = functions.checkLoginStatus(req);
+    
+    
+    mobile = req.useragent["isMobile"];
+		if (mobile)
+			pageName = "bseformmobile";
+		else
+			pageName = "bseform";
 async.waterfall([
     function (callback) {
        var user;
@@ -78,7 +85,7 @@ async.waterfall([
                           data='false';
                         }
              // console.log("bse",data)
-              res.render("bseform",{user:user,panstatus:panstatus,data:data});
+              res.render(pageName,{user:user,panstatus:panstatus,data:data});
              callback(true, 'ok')
              
          
@@ -117,7 +124,13 @@ exports.getpdf = (req, res) => {
 
 exports.postBseFormData = (req,res) =>{
     loginStatus = functions.checkLoginStatus(req);
-    console.log("Here");
+    
+     mobile = req.useragent["isMobile"];
+		if (mobile)
+			pageName = "bseformmobile";
+		else
+			pageName = "bseform";
+   
     
     var name=req.body.name;
     var pan=req.body.pan;
@@ -216,7 +229,7 @@ exports.postBseFormData = (req,res) =>{
                           data='false';
                         }
              // console.log("bse",data)
-              res.render("bseform",{user:user,panstatus:panstatus,data:data});
+              res.render(pageName,{user:user,panstatus:panstatus,data:data});
              callback(true, 'ok')
              
          
@@ -239,6 +252,13 @@ exports.postBseFormData = (req,res) =>{
 exports.getnach = (req,res) =>{
 
     loginStatus = functions.checkLoginStatus(req);
+      mobile = req.useragent["isMobile"];
+		if (mobile)
+			pageName = "nachmobile";
+		else
+			pageName = "nach";
+    
+    
 async.waterfall([
     function (callback) {
        var user;
@@ -293,7 +313,7 @@ async.waterfall([
                           data='false';
                         }
              // console.log("bse",data)
-              res.render("nach",{user:user,bseformdata:bseformdata,data:data});
+              res.render(pageName,{user:user,bseformdata:bseformdata,data:data});
              callback(true, 'ok')
              
          
@@ -312,6 +332,15 @@ async.waterfall([
 };
 exports.postNachFormData = (req,res) =>{
     loginStatus = functions.checkLoginStatus(req);
+    
+    loginStatus = functions.checkLoginStatus(req);
+      mobile = req.useragent["isMobile"];
+		if (mobile)
+			pageName = "nachmobile";
+		else
+			pageName = "nach";
+    
+    
     var micr=req.body.micr;
     var umrn=req.body.umrn;
     var date=req.body.date1;
@@ -386,7 +415,7 @@ exports.postNachFormData = (req,res) =>{
                            
                           data='false';
                         }
-              res.render("nach",{user:user,data:data});
+              res.render(pageName,{user:user,data:data});
              callback(true, 'ok')
               });
          }], function (err, result) {
@@ -425,8 +454,9 @@ var store =   multer.diskStorage({
        //var name = '/home/ubuntu/panuploads/'+pan; //location for directory to store documents 
                         
                     var email=req.session.user.email;            
-                    var name='E:/bseDocuments/'+email;
-                        
+                   var name='E:/bseDocuments/'+email;
+                   // var name='/home/ubuntu/bsedocuments/'+email;
+                    
                     fs.mkdir(name, 0777, true, function (err) 
                     {
                         if (err) 
@@ -475,10 +505,13 @@ exports.postDocument =(req ,res) =>{
                     var filename2=req.files[1].originalname;
                      var path1bse='E:/bseDocuments/'+email+'/'+filename1;
                      var path2nach='E:/bseDocuments/'+email+'/'+filename2;
+                   //var path1bse='/home/ubuntu/bsedocuments/'+email+'/'+filename1;
+                   //var path2nach='/home/ubuntu/bsedocuments/'+email+'/'+filename2;
                 }
                 else{
                     var filename1=req.files[0].originalname;
                      var path1bse='E:/bseDocuments/'+email+'/'+filename1;
+                    // var path1bse='/home/ubuntu/bsedocuments/'+email+'/'+filename1;
                      var path2nach=0;
                 }
                 

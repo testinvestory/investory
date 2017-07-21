@@ -55,8 +55,8 @@ body {
     var data3 = pdf.autoTableHtmlToJson(elem3);
   
     var header = function(data) {
-      pdf.text(60,20,'BSE Acount Opening Form'); 
-      pdf.setFontSize(18);
+      pdf.text(62,16,'BSE Acount Opening Form'); 
+      pdf.setFontSize(12);
       pdf.setTextColor(40);
       pdf.setFontStyle('normal');
       //  doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
@@ -64,7 +64,7 @@ body {
   };
 
 pdf.autoTable(res.columns, res.data, {
-      startY: pdf.autoTableEndPosY() + 30,
+      startY: pdf.autoTableEndPosY() + 26,
       pageBreak: 'auto',
       theme: 'grid',
       beforePageContent: header,
@@ -72,7 +72,7 @@ pdf.autoTable(res.columns, res.data, {
 	  headerStyles: {fillColor: [204, 204, 204],textColor: 20},
       styles: {
       overflow: 'linebreak',
-      fontSize: 10,
+      fontSize: 8,
       tableWidth: 280,
       columnWidth: 'auto',
 	  valign: 'middle',
@@ -85,14 +85,14 @@ pdf.autoTable(res.columns, res.data, {
 });
  
 pdf.autoTable(data3.columns, data3.data, {
-     startY : pdf.autoTableEndPosY() + 10,
+     startY : pdf.autoTableEndPosY() + 8,
      pageBreak: 'auto',
      theme: 'grid',
      beforePageContent: header,
 	 headerStyles: {fillColor: [204, 204, 204],textColor: 20},
       styles: {
       overflow: 'linebreak',
-      fontSize: 10,
+      fontSize: 8,
       tableWidth: 280,
       columnWidth: 'auto',
 	  valign: 'middle',
@@ -116,50 +116,85 @@ pdf.autoTable(data3.columns, data3.data, {
           <h2 style="text-align: center;margin-bottom:2px;"><b>BSE Account Opening Form</b></h2>
         <br>       
 <table id="tb1" style="width:100%;font-size:12px;padding-left: 12px;padding-right:0px;padding-top:2px;padding-bottom:2px;margin-top:0px;margin-bottom:10px;">
-   <tr><td><h4 style="text-align: left;margin-bottom:2px;"><b>Applicant Details :</b></h4> </td><td></td></tr>
+   <tr><td><h5 style="text-align: left;margin-bottom:2px;"><b>Applicant Details :</b></h5> </td><td></td></tr>
     <tr>
       
-    <td>Broker/Agent Code ARN : ARN-30846</td>
+    <td>RIA SEBI Regn. No : INA200001173</td>
     <td>SUB-BROKER :</td>
       
   </tr>
-    <tr>
-       <td>EUIN : E030236</td> 
-         <td>PAN Number : <%=data.pan%></td>
+     <tr>
+       <td>EUIN : E030236</td>
+         <td></td>
     </tr>
     <tr>
-        <td>Name : <%=data.name%></td>
-        <td></td>
+        <td><h5 style="text-align: left;margin-bottom:2px;"><b>Unit Folder Information : </b></h5></td> 
+         <td></td>
+    </tr>
+    <tr>
+       <td>Name : <%=data.name%></td> 
+         <td></td>
+    </tr>
+    <tr>
+        <td>PAN Number : <%=data.pan%></td>
+        <td>KYC : <%=data.kyc%></td>
     </tr>
   <tr>
    
     <td>Date Of Birth : <%=data.dob%></td>
     <td>Mode of Holding : <%=data.holdingtype%></td>
   </tr>
-  <tr>
-    <td>Email : <%=data.email%></td>
-    <td>KYC : <%=data.kyc%></td>
-   
-  </tr>
-    <tr>
-         <td>Mobile : <%=data.mobile%></td>
-        <td>Telephone : <%=data.telephone%></td>
-    </tr>
-    <tr>
+     <tr>
      <td>Address : <%=data.address%></td>
     <td>City : <%=data.city%></td>
-   
-   
   </tr>
     <tr>
-         <td>Pincode : <%=data.pincode%></td>
-    <td>State : <%=data.state%></td>
-  </tr>
-    <tr>
+         <td>State : <%=data.state%></td>
     <td>Country : <%=data.country%></td>
-    <td>Occupation : <%=data.occupation%></td>    
   </tr>
-    <tr><td><h4 style="text-align: left;margin-bottom:2px;"><b>Bank Mandate Details :</b></h4> </td><td></td></tr>
+  <tr>
+    <td>Pincode : <%=data.pincode%> </td>
+    <td>Occupation : <%=data.occupation%></td>
+   
+  </tr>
+    <tr>
+         <td>Email : <%=data.email%></td>
+        <td>Mobile : <%=data.mobile%></td>
+    </tr>
+    <tr>
+    <td>Telephone Residency: <%=data.telephone%></td>
+    <td>Fax Off/Residency : </td>    
+  </tr>
+ <tr><td><h5 style="text-align: left;margin-bottom:2px;"><b>Name of the Second Holder :</b></h5> </td><td></td></tr>
+    <tr>
+    <td>PAN : </td>
+    <td>KYC : </td>    
+  </tr>
+     <tr>
+    <td>Date Of Birth : </td>
+    <td></td>    
+  </tr>
+     <tr><td><h5 style="text-align: left;margin-bottom:2px;"><b>Name of the Third Holder :</b></h5> </td><td></td></tr>
+    <tr>
+    <td>PAN : </td>
+    <td>KYC : </td>    
+  </tr>
+     <tr>
+    <td>Date Of Birth : </td>
+    <td></td>    
+  </tr>
+    <tr><td><h5 style="text-align: left;margin-bottom:2px;"><b>Other Details of Sole/1st Applicant : </b></h5>Overseas Address (Incase of NRI Investors) </td><td></td></tr>
+    <tr>
+    <td>City : </td>
+    <td>Pincode : </td>    
+  </tr>
+     <tr>
+    <td>Country : </td>
+    <td></td>    
+  </tr>
+    
+    
+    <tr><td><h5 style="text-align: left;margin-bottom:2px;"><b>Bank Mandate Details :</b></h5> </td><td></td></tr>
   <tr>
     <td>Bank Name : <%=data.bankname%></td>
     <td>Branch : <%=data.branch%></td>     
@@ -172,8 +207,8 @@ pdf.autoTable(data3.columns, data3.data, {
     
     <td>IFSC Code : <%=data.ifsc%></td>
       <td></td>
-      
-                    <tr><td><h4 style="text-align: left;margin-bottom:2px;"><b>Nominee Details :</b></h4> </td><td></td></tr>
+    </tr> 
+     <tr><td><h5 style="text-align: left;margin-bottom:2px;"><b>Nominee Details :</b></h5> </td><td></td></tr>
   <tr>
     <td>Nominee Name : <%=data.nominee%></td>
     <td>Relationship : <%=data.nomineerelation%></td>
@@ -181,27 +216,14 @@ pdf.autoTable(data3.columns, data3.data, {
   </tr>
     <tr>
     <td>Guardian Name (if nominee is minor) : <%=data.guardianname%></td>
+    <td>Guardian Pan :</td>
+  </tr>
+  
+    <tr>
     <td>Nominee Address : <%=data.nomineeaddress%></td>
+    <td></td>
   </tr>
      </table>      
-         <!-- <table id="tb2" style="width:100%;font-size:12px;padding-left: 12px;padding-right:0px;padding-top:2px;padding-bottom:2px;margin-top:0px;margin-bottom:10px;">
-  
-      <tr><td><h4 style="text-align: left;margin-bottom:2px;"><b>Bank Mandate Details :</b></h4> </td></tr>
-  <tr>
-    <td>Bank Name : <%=data.bankname%></td>
-    <td>Branch : <%=data.branch%></td>     
-  </tr>
-  <tr>
-    <td>Account Number : <%=data.accountno%></td>  
-    <td>A/c Type : <%=data.accounttype%></td>
-    </tr>
-  <tr>
-    
-    <td>IFSC Code : <%=data.ifsc%></td>
-      <td></td>
-  </tr>
-         
-          </table>-->
           <table id="tb3" style="width:100%;font-size:12px;padding-left: 12px;padding-right:0px;padding-top:2px;padding-bottom:0px;margin-top:0px;margin-bottom:4px;">
      
 

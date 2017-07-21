@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="stylesheets/responsive.css">
        <link rel="stylesheet" href="stylesheets/responsive2560.css"  media="screen and (width:2560px) and (height:1600px)">
 </head>
+   
     <script>
          
         /*$(".moodGoals > img").click(function(){
@@ -35,6 +36,18 @@
               document.getElementById('planPrice').value=intValue;
             document.getElementById('plan').value='Best Plan';
 }
+      var validateValue=function(){
+            var planPrice=$('#planPrice').val();
+            if(planPrice=="99" || planPrice=="199" || planPrice=="499"){
+                 return true;
+                
+            }else{
+               
+                $('#confirm-submit').modal('show');
+                return false;
+            }
+            
+        };
     </script>
 <body style>
  
@@ -44,9 +57,18 @@
   <div class="wrapper">
 	  <div class="main">
 
-
-<!--    <section id="section1"   >-->
-
+ <div class="modal fade" id="confirm-submit" role="dialog" style="top:8em">                  
+  <div class="modal-dialog modal-md" style=" "> 
+    <div class="modal-content">           
+                        <div class="modal-body "  style="font-size:1em;padding-bottom: 0em;"><img src="images/Pop-ups.png" class="popUPImg" height="90" width="90">
+                            <p style="font-size:21px;" class="PANHead">Please choose your Plan before pay.
+</p>
+  <button type=""  class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal">OK</button>
+   
+                        </div>
+                  </div>
+    </div>
+    </div>
      <div class="container-fluid how-it-works  text-center" >
 
 
@@ -174,7 +196,7 @@
       			 <button type="" data-toggle="modal" data-target="#loginModal"  class="btn btn-white btn-lg moodNav pay" >Pay</button>
       			  <% } else if(loggedIn && !paid){%>
       			 <!--call for payU-->
-      			  <form action="/Pricing/pay" method="post">
+      			  <form onsubmit="return validateValue()" action="/Pricing/pay" method="post">
       			   <input type="hidden" id="plan" name="plan">
       			   <input type="hidden" id="planPrice" name="planPrice">
       			  	 <button type="submit"  class="btn btn-white btn-lg moodNav pay" >Pay</button>

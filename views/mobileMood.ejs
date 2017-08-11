@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+    <script type="text/javascript" src="javascripts/googleanalytics.js" ></script>
      <link src="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
  <% include partials/head %>
 	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
     
     <link rel="stylesheet" href="stylesheets/creativemobile.css">
 	  <script src="javascripts/lumpsum.js"></script>
@@ -34,15 +35,17 @@
        font-weight:700;
        font-size:14px;
         }
+        
+         .main1{ display:none;}
     </style>
 </head>
 	
 <body>
 <script>
     
-    function closeModal(){
+    /*function closeModal(){
         $('#displayPanModal').modal('hide');
-    }
+    }*/
     
 <%var amtrounded1=0;%>
 
@@ -82,10 +85,10 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-body " style="">
-                    <h4 class="PANHead">Enter a valid PAN or contact investory team do the needful.</h4>
+                    <p tyle="font-size:21px;margin-top:4em;" class="PANHead">Enter a valid PAN or contact investory team do the needful.</p>
 
                    
-                  <button type="button" style="width:70px;text-align:center;" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal" data-backdrop="false" onclick="closeModal();">OK</button>
+                  <button type="button" style="width:70px;text-align:center;" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal" >OK</button>
 
                 </div>
             </div>
@@ -110,13 +113,10 @@
                                     <li>Upload the signed Account Opening From as PDF under Profile -> <u><a href="/Profile" style="color:#35BFD3;font-weight:500">documents</a></u> section.
                                     <%if(clientData[0].aof=="null"){%><img src="images/pending.png" alternate="Hello" height="50" width="auto">
                                     <%}else{%>  <img src="images/uploaded.png" alternate="Hi"; height="50" width="auto"> <%}%></li>
-                                    
-                                    <li>Upload the signed NACH as PDF under Profile -> <u><a href="/Profile" style="color:#35BFD3;font-weight:500">documents</a></u> section.<%if(clientData[0].nach=="null"){%><img src="images/pending.png" alternate="Hello" height="50" width="auto">
-                                    <%}else{%>  <img src="images/uploaded.png" alternate="Hi"; height="50" width="auto"> <%}%></li>
                             </ol>
                               
                           
-  <button type="" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal">Close</button><br/>
+  <button type=""  style="width:70px;text-align:center;" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal">Close</button><br/>
                             <div style="text-align:left;padding-left:2em;font-size:14px;font-weight:600"> Note: All above steps are mandatory before investing.</div>
                         </div>
                   </div>
@@ -228,7 +228,7 @@
 
 <!--    <section id="section1">-->
         
- 
+ <div class="main1">
      <div class="container-fluid moods text-center pageGoalSelection" style="    height: initial;">
           
            
@@ -236,7 +236,13 @@
     
              <div class="row">
                  
-                 
+                 <div class="frogImageMoods text-center">
+                        <img id="setMood" class="img-responsive" src="#" alt="" />
+                        <!--                    <img class="img-responsive" src="images/frog1.png" alt="" />-->
+                        <!--<img class="img-responsive" src="images/frog_eye.png" alt="" />-->
+
+                        <h1 id="setMoodText" style="display:none;">Feeling Rich</h1>
+                    </div>
                  
              <div class="col-md-4">
                  
@@ -291,8 +297,8 @@
                                 </div>
 
                                 <div class="goal" id="">
-                                    <img src="images/goals/Rich/Double%20the%20money.png" mood="Rich" alt="Home view">
-                                    <p id="mood"><span></span>Double the money</p>
+                                    <img src="images/goals/Rich/Vacation%20Home.png" mood="Rich" alt="Home view">
+                                    <p id="mood"><span></span>Vacation Home</p>
                                 </div>
                             </div>
                             <div class="btn-hr-wrapper clean" style="margin-top: 30px">
@@ -641,7 +647,7 @@
 	<div  class="page6" style="display: none;">
         <%if(loggedIn && panstatus[0].kycstatus=="Complaint"){%>
         
-         <%if(clientData[0].aof!="null" && clientData[0].nach!="null" ){%>
+         <%if(clientData[0].aof!="null"){%>
         <form action="/InsertOrders" method="post">
            <button type="submit"  class="btn btn-lg moodNav go" id="initInvest" style="top: 0;left: 0;margin: 25px auto;"> Invest </button> 
               </form>
@@ -788,11 +794,19 @@
 <!--    </section>-->
  
             </div>
-
+   
          <% include partials/footerMobile %>  
-
+ </div>
     <!--Custom Js links -->
     <script>
+        
+        
+         $(document).ready(function() {
+          
+    $(".main1").delay(0).fadeIn(5);
+       
+}) 
+        
         
           $(document).ajaxComplete(function() {
     $('[data-toggle="popover"]').popover({
@@ -1687,6 +1701,7 @@
 
             var initializeTabs = function () {
                 try {
+                   
                     var tempGoals = JSON.parse(sessionStorage.getItem('tempGoals'));
                     if (loggedIn && tempGoals.currentPage) {
 

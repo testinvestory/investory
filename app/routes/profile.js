@@ -26,7 +26,7 @@ exports.getProfile = (req, res) => {
 	else
 		pageName = "yourStory";
 		 
-	console.log(">>>>>>>>>>I am here");
+	
 	loginStatus = functions.checkLoginStatus(req);
 	
     //profile
@@ -45,7 +45,7 @@ exports.getProfile = (req, res) => {
                     if(qresult.rows.length>0)
                 {
                     goalCount=qresult.rows[0];
-                    console.log(">>>>>>>>>>I am in goal count",goalCount.count);
+                    
                      
                    if(goalCount.count > 0)
                    {
@@ -87,9 +87,9 @@ exports.postProfile = (req, res) => {
 loginStatus = functions.checkLoginStatus(req);
 
                 var dob=req.body.dob;
-    console.log("DOB",dob);
+   
                 var age=req.body.age;
-     console.log("DOB",age);
+     
                 var gender=req.body.gender;
                 var maritalstatus=req.body.maritalstatus;
                 var address=req.body.address;
@@ -106,7 +106,7 @@ loginStatus = functions.checkLoginStatus(req);
                 //var modified=//new date();    ,$10,$11 ,created,modified
        
       // console.log(dob,age,gender,maritalstatus,address,pincode,city,pan);
-        console.log("profile Post",req.user.userid);
+       
 	var query=client.query("update profile set userid=$1,age=$2,gender=$3,maritalstatus=$4,address=$5,pincode=$6,city=$7,pan=$8,createdby=$9,dob=$10 where userid=$1", [req.session.user.userid, age, gender, maritalstatus, address, pincode, city, pan, req.session.user.name,dob
 	],function(err,result){
 	        if(err)
@@ -197,7 +197,7 @@ exports.postProfilePic = (req ,res ) => {
         },
        function(paths,callback)
          {
-            console.log("paths",paths);
+           
         
              var query=client.query("update users set image=$2 where userid=$1", [req.session.user.userid,paths
 	],function(err,result){

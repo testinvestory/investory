@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <% include partials/head %>
-    
+    <script type="text/javascript" src="javascripts/googleanalytics.js" ></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
@@ -54,9 +54,7 @@
     <script>
             
         <%var amtrounded1 = 0;%>
-        
-        
-        
+  
      $(document).ready(function() {
    $('[data-toggle="popover"]').popover({
       placement: 'bottom',
@@ -70,7 +68,7 @@
                                  
     </script>
     <% include partials/header %>
-<div class="modal fade" id="displayPanModal" role="dialog" style="top:8em">                  
+<div class="modal fade" id="displayPanModal" role="dialog" style="top:10em">                  
   <div class="modal-dialog modal-md" style=" "> 
     <div class="modal-content">           
                         <div class="modal-body "  style="font-size:1em;padding-bottom: 0em;"><img src="images/Pop-ups.png" class="popUPImg" height="90" width="90">
@@ -99,8 +97,7 @@
                                     <%if(clientData[0].aof=="null"){%><img src="images/pending.png" alternate="Hello" height="50" width="auto">
                                     <%}else{%>  <img src="images/uploaded.png" alternate="Hi"; height="50" width="auto"> <%}%></li>
                                     
-                                    <li>Upload the signed NACH as PDF under Profile -> <u><a href="/Profile" style="color:#35BFD3;font-weight:500">documents</a></u> section.<%if(clientData[0].nach=="null"){%><img src="images/pending.png" alternate="Hello" height="50" width="auto">
-                                    <%}else{%>  <img src="images/uploaded.png" alternate="Hi"; height="50" width="auto"> <%}%></li>
+                                   
                             </ol>
                               
                           
@@ -227,6 +224,8 @@
         </div>
     </div>
    
+    
+    
 <div class="main1">
     <!--<section id="section1">-->
     <div class="container-fluid moods text-center">
@@ -307,8 +306,8 @@
                                     </div>
 
                                     <div class="goal" id="">
-                                        <img src="images/goals/Rich/Double%20the%20money.png"id="myimage3" mood="Rich" alt="Home view">
-                                        <p id="mood"><span></span>Double the money</p>
+                                        <img src="images/goals/Rich/Vacation%20Home.png"id="myimage3" mood="Rich" alt="Home view">
+                                        <p id="mood"><span></span>Vacation Home</p>
                                     </div>
                                     
                                 </div><div class="clearfix"></div>
@@ -584,7 +583,7 @@
                             <div class="page6" style="display: none">
                                 
                                 <%if(loggedIn && panstatus[0].kycstatus=="Complaint"){%>
-                                   <%if(clientData[0].aof!="null" && clientData[0].nach!="null" ){%>
+                                   <%if(clientData[0].aof!="null"){%>
                                 <form action="/InsertOrders" method="post">
                                       <button type="submit" class="btn btn-lg moodNav go" id="initInvest" style="top: 25px;"> Invest </button></form>
                                     
@@ -624,7 +623,7 @@
                                      <tfoot>
                                             <tr>
                                                <th style="text-align:right; font-size:1em;font-weight:900;    border-top: 1px #35BFD3 solid;" colspan="2">Total :</th>
-                                                <td style="font-size:1em;font-weight:900;    border-top: 1px #35BFD3 solid;"><%= assetFromDb.sip %></td>
+                                                <td style="font-size:1em;font-weight:900;border-top: 1px #35BFD3 solid;" id="investTotal"><%= assetFromDb.sip %></td>
                                             </tr>
                                             </tfoot>
                                     </table>
@@ -717,6 +716,9 @@
 
     <script>
     
+        
+        
+        
       $(document).ready(function() {
           
     $(".main1").delay(0).fadeIn(5);
@@ -749,9 +751,8 @@
         function inserToBSE() {
 
             var data = {};
-            data.pan = document.getElementById("pan").value;
-            console.log("pan" + data.pan);
-            //   alert(data.pan);
+           
+           
 
             <% if(loggedIn) {%>
                 
@@ -762,9 +763,9 @@
                     url: '/InsertOrders',
                     success: function (data) {
                         console.log('success');
-                        bseDisp = true;
+                       
 
-                        // console.log(JSON.stringify(data));
+                        console.log("CLIENT CREATE BY AJAX",JSON.stringify(data));
                     }
 
                 })
@@ -793,7 +794,6 @@
         }
       
         
-       
         
         
         function resetSession(){
@@ -931,6 +931,7 @@
                             //alert(data[1][0]);
                             $(".page6 #invest1").html(sip);
                              $(".page6 #total1").html(sip);
+                            $(".page6 #investTotal").html(sip);
                             
                             $(".page6 .table tbody > tr").not('#showDataSchemes').empty();
                             // debugger;
@@ -1028,6 +1029,7 @@
                     
                     $(".page5 #invest1").html(mn1);
                     $(".page5 #total1").html(mn1);
+                    $(".page5 #investTotal").html(mn1);
                     
                     var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
                         tempGoals.alloc1 = alloc1;
@@ -1064,6 +1066,7 @@
                     
                       $(".page5 #invest1").html(mn1);
                     $(".page5 #total1").html(mn1);
+                    $(".page5 #investTotal").html(mn1);
                     
                     var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
                         tempGoals.alloc1 = alloc1;
@@ -1294,6 +1297,7 @@
                 document.getElementById("invest2").innerHTML = mn;
                 document.getElementById("total").innerHTML = mn;
                 document.getElementById("total1").innerHTML = mn;
+                    
                 
                 if (nper < 37) {
 
@@ -1946,6 +1950,7 @@ function round_decimals(original_number, decimals) {
                         $("#invest").html(tempGoals.mn);
                         $("#invest1").html(tempGoals.mn);
                         $("#total").html(tempGoals.mn);
+                        $("#investTotal").html(tempGoals.mn);
                         $("#total1").html(tempGoals.mn);
                         $("#total2").html(tempGoals.mn);
                         $("#invest2").html(tempGoals.mn);

@@ -34,7 +34,7 @@ exports.goalSelection = (req, res) => {
                     }
                     else{
 					clientData = result.rows;
-                        console.log("clientData",clientData);
+                        //console.log("clientData",clientData);
                     }
                    // console.log(assets)
 					callback(null, clientData)
@@ -65,7 +65,7 @@ exports.goalSelection = (req, res) => {
                     }else {
                         var panstatus='false';
                     }
-                    console.log("Pan details------",panstatus)
+                 //   console.log("Pan details------",panstatus)
 					callback(null, panstatus,assets,clientData)
 				});
 
@@ -77,7 +77,7 @@ exports.goalSelection = (req, res) => {
 						if (err)
 							console.log("Cant get portfolio details in goal selection");
 
-						console.log("Lenght" + result.rows.length);
+						//console.log("Lenght" + result.rows.length);
 						if (result.rows.length > 0) {
 							paid = true;
 							req.session.paid = true;
@@ -90,7 +90,7 @@ exports.goalSelection = (req, res) => {
 					});
 				} else {
 					//render the get started page for get request
-					console.log("else not log in");
+					//console.log("else not log in");
 					res.render(pageName, {
 						data: assets,
 						user: req.user,
@@ -118,7 +118,7 @@ exports.goalSelection = (req, res) => {
 
 			},
 			function (paid, panstatus,assets,clientData,callback) {
-				console.log("payment" + paid)
+				//console.log("payment" + paid)
 				if (paid) {
 					async.waterfall([function (callback) {
 						//Fetch Header
@@ -130,12 +130,12 @@ exports.goalSelection = (req, res) => {
 							asetData = result.rows[0];
 							if (result.rows.length > 0) {
 								req.session.savedplanheader = asetData;
-								console.log("saved plan header" + req.session.savedplanheader.sip);
-								console.log("saved plan header" + req.session.savedplanheader.goalid);
-								console.log("saved plan header" + req.session.savedplanheader.riskprofile);
-								console.log("saved plan header" + req.session.savedplanheader.masteramount);
-								console.log("saved plan header" + req.session.savedplanheader.totalyears);
-								console.log("saved plan header" + req.session.savedplanheader.userid);
+							//	console.log("saved plan header" + req.session.savedplanheader.sip);
+							//	console.log("saved plan header" + req.session.savedplanheader.goalid);
+                            //    console.log("saved plan header" + req.session.savedplanheader.riskprofile);
+							//	console.log("saved plan header" + req.session.savedplanheader.masteramount);
+							//	console.log("saved plan header" + req.session.savedplanheader.totalyears);
+							//	console.log("saved plan header" + req.session.savedplanheader.userid);
 
 								callback(null, asetData)
 							} else {
@@ -178,8 +178,8 @@ exports.goalSelection = (req, res) => {
 								req.session.showscheme = false;
 								asetDataDetail = result.rows;
 								req.session.savedplandetail = asetDataDetail;
-								console.log("scheme pa in goal = " + req.session.showscheme);
-								console.log("test" + req.session.bseStatus + "scheme" + scheme);
+								//console.log("scheme pa in goal = " + req.session.showscheme);
+								//console.log("test" + req.session.bseStatus + "scheme" + scheme);
 								res.render(pageName, {
 									data: assets,
 									user: req.user,
@@ -302,7 +302,7 @@ exports.goalInvest = (req, res) => {
         })
       } else {
 				// render the get started page for get request
-        console.log('else not log in')
+        //console.log('else not log in')
         res.render(pageName, {
           data: assets,
           user: req.user,
@@ -327,7 +327,7 @@ exports.goalInvest = (req, res) => {
       }
     },
     function (paid, assets, callback) {
-      console.log('payment' + paid)
+     // console.log('payment' + paid)
 
       if (paid) {
         async.waterfall([function (callback) {
@@ -344,12 +344,12 @@ exports.goalInvest = (req, res) => {
   if (result.rows.length > 0) {
     req.session.savedplanheader = asetData
 
-    console.log('saved plan header' + req.session.savedplanheader.sip)
-    console.log('saved plan header' + req.session.savedplanheader.goalid)
-    console.log('saved plan header' + req.session.savedplanheader.riskprofile)
-    console.log('saved plan header' + req.session.savedplanheader.masteramount)
-    console.log('saved plan header' + req.session.savedplanheader.totalyears)
-    console.log('saved plan header' + req.session.savedplanheader.userid)
+   // console.log('saved plan header' + req.session.savedplanheader.sip)
+    //console.log('saved plan header' + req.session.savedplanheader.goalid)
+    //console.log('saved plan header' + req.session.savedplanheader.riskprofile)
+    //console.log('saved plan header' + req.session.savedplanheader.masteramount)
+    //console.log('saved plan header' + req.session.savedplanheader.totalyears)
+    //console.log('saved plan header' + req.session.savedplanheader.userid)
 
     callback(null, asetData)
   } else {
@@ -388,7 +388,7 @@ exports.goalInvest = (req, res) => {
  // console.log(asetDataDetail)
   req.session.savedplandetail = asetDataDetail
 
-  console.log('test' + req.session.bseStatus)
+ // console.log('test' + req.session.bseStatus)
 
   res.render(pageName, {
     data: assets,

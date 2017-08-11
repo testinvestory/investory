@@ -6,10 +6,19 @@ var path=require('path');
 var client = require('../config/database');
 var pg = require('../config/database');
 var dbOperations = require("../dbOperations.js");
-
+/* common functions */
+const functions = require('../app/routes/functions')
 var multer  =   require('multer');
 
 var fs = require('node-fs');
+
+function checkLoginStatus (req) {
+  if (req.session.loggedIn) {
+    return true
+  } else {
+    return false
+  }
+}
 
 var storage =   multer.diskStorage({    
 destination: function (req, file, callback) 
@@ -115,24 +124,44 @@ router.post('/api/doc',function(req,res)
 /* GET home page. */
 router.get('/', function(req, res, next)
 {
-    res.render('Admin/login', { title: 'Express' });
+    res.render('Admin/login', { title: 'Express',
+                              lmessage:req.flash('loginMessage')});
 });
 router.get('/login', function(req, res, next)
 {
-    res.render('Admin/login', { title: 'Express' });
+    res.render('Admin/login', { title: 'Express',lmessage:req.flash('loginMessage') });
 });
 
 // dispalys user details kyc pending from user and pan_details tables
 router.get('/tables',function(req,res,next)
 {    
+    
+ 
+  if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ }   
+    
+    
     console.log("Hi..");
-   res.render("Admin/tables");
+   res.render("Admin/tables",{
+    users : req.user,
+loggedIn: loginStatus   
+   });
 });
 router.get('/index',function(req,res,next)
 {    
+ if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ }
     
+    console.log("Logged in status",loginStatus,req.user)
    res.render("Admin/index",{
-       users : req.user
+       users : req.user,
+       loggedIn: loginStatus
    });
 });
 
@@ -179,6 +208,14 @@ router.get('/tables/changeStatus',function(req,res,next)
 //reconcile page to render page 
 router.get('/reconcile',function(req,res){
     
+    if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ }
+    
+    
+    
      var query = client.query("SELECT t1.userpan,t1.userinvestmentorderid,t1.amount,t1.schemeid,t1.bsestatus,t1.nav,t1.units,t1.foliono,t1.bsetxnreference,t2.name,t2.email,t3.name as sname,now()::date-t1.created::date as ageing from userinvestmentorders as t1 inner join users as t2 on t1.userid=t2.userid  inner join schemesmaster as t3 on t3.schemeid=t1.schemeid where t1.reconcile_status is null",function(err,result){
          
                 if (err){ 
@@ -192,7 +229,11 @@ router.get('/reconcile',function(req,res){
                     
                 }
          //console.log("Recon",recon);
-         res.render("Admin/reconcile",{item:recon});
+         res.render("Admin/reconcile",{
+             item:recon,
+             users : req.user,
+             loggedIn: loginStatus
+             });
          
      });    
     
@@ -210,8 +251,15 @@ router.get('/reconcile/get',function(req,res)
 });
 router.get('/failedorders',function(req,res)
 {
-    
-     res.render("Admin/failedOrders");
+  if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ }  
+     res.render("Admin/failedOrders",{
+        users : req.user,
+         loggedIn: loginStatus 
+     });
    
 });
 router.get('/failedorders/get',function(req,res)
@@ -271,6 +319,11 @@ router.get('/bootstrap-grid',function(req,res,next)
 router.get('/reports',function(req,res,next)
 {
    
+    if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ }
   
      var query = client.query("SELECT t1.userid,t1.userpan,t1.userinvestmentorderid,t1.amount,t1.bsestatus,t1.nav,t1.units,t1.foliono,t1.bsetxnreference, to_char(t1.userinvestmentorderdate,'dd-mm-yyyy') as date,t2.name,t2.email,t3.name as scheme,t3.code as schemecode from userinvestmentorders as t1 inner join users as t2 on t1.userid=t2.userid  inner join schemesmaster as t3 on t3.schemeid=t1.schemeid where t1.reconcile_status is null", function (err, result){
                     if (err)
@@ -278,10 +331,16 @@ router.get('/reports',function(req,res,next)
 						if (result.rows.length > 0) {
                             var reconciledata=result.rows;
                             console.log("assetsDat...!");
-                        res.render('Admin/reports',{reconciledata:reconciledata});
+                        res.render('Admin/reports',{reconciledata:reconciledata,
+                                                   users : req.user,
+                                                   loggedIn: loginStatus
+                                                   });
                         }
                         else{
-                             res.render('Admin/reports');
+                             res.render('Admin/reports',{
+                                 users : req.user,
+                                 loggedIn: loginStatus
+                             });
                         }
      
      });
@@ -294,14 +353,32 @@ router.get('/index-rtl',function(req,res,next)
 
 router.get('/uploadcsv',function(req,res,next)
 {
+    
+   if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ } 
+    
+    
 res.render('Admin/uploadcsv',{message:req.flash(),
                               message2:req.flash(),
-                              message3:req.flash()
+                              message3:req.flash(),
+                              users : req.user,
+                              loggedIn: loginStatus
                              });
 });
 
 router.get('/assetsUpload',function(req,res,next)
 {
+    if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ }
+    
+    
+   
     
     var query = client.query(" select * from categoryallocationmatrix order by riskprofile", function (err, result) {
 						if (err)
@@ -309,7 +386,12 @@ router.get('/assetsUpload',function(req,res,next)
 						if (result.rows.length > 0) {
                             var assetsdata=result.rows;
                             //console.log("assetsDat...!",assetsdata);
-                         res.render('Admin/assetsUpload',{assetsData:assetsdata,message:req.flash()});
+                         res.render('Admin/assetsUpload',{
+                             assetsData:assetsdata,
+                             message:req.flash(),
+                             users : req.user,
+                            loggedIn: loginStatus
+                         });
                         }
     });
 });
@@ -340,9 +422,20 @@ router.post('/assetsValueUpdate',function(req,res,next)
 
 router.get('/funds',function(req,res)
 {    
-    console.log("Hi..");
+   
   
-   res.render("Admin/uploadSchemes",{message:req.flash()});
+  if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ }  
+    
+    
+   res.render("Admin/uploadSchemes",{
+       message:req.flash(),
+       users : req.user,
+       loggedIn: loginStatus        
+   });
    });
 
 
@@ -362,9 +455,20 @@ router.get('/allocation',function(req,res,next)
 
 router.get('/uploadInvestory',function(req,res,next)
 {    
+     
+  if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ }  
+    
+    
+    
    res.render("Admin/uploadInvestory",{
         message:req.flash(),
-        message2:req.flash()
+        message2:req.flash(),
+        users : req.user,
+        loggedIn: loginStatus
     });
    
 });
@@ -912,13 +1016,28 @@ router.post('/updateSchemes',function(req,res,next)
 
 router.get('/createuser',function(req,res){
     
+    if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ }
+    
+    
     res.render('Admin/createUser',{
-        message:req.flash()
+        message:req.flash(),
+       users : req.user,
+        loggedIn: loginStatus 
     });
 });
 
 
 router.post('/createusr',function(req,res){
+    
+    if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ }
     var name=req.body.uname;
     var password= req.body.upassword;
      var cpassword= req.body.cpassword;
@@ -935,13 +1054,17 @@ router.post('/createusr',function(req,res){
                 });
         req.flash('SuccessMessage', 'Success user created ');
             res.render('Admin/createUser',{
-                      message:req.flash('SuccessMessage')
+                      message:req.flash('SuccessMessage'),
+                      users : req.user,
+                    loggedIn: loginStatus
                 });
         }
     else{
        req.flash('NotMatched','Passwords not matched');
          res.render('Admin/createUser',{
-                      message:req.flash('NotMatched')
+                      message:req.flash('NotMatched'),
+                      users : req.user,
+                      loggedIn: loginStatus
                 });
         }
 });
@@ -977,6 +1100,14 @@ function updateAssetsValues(tbl,path){
     
 }
 router.get('/schemelist',function(req,res){
+    
+    
+if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ }    
+    
      var query = client.query(" select * from schemesmaster", function (err, result) {
 						if (err)
 							console.log("Cant get portfolio details in goal selection");
@@ -984,7 +1115,11 @@ router.get('/schemelist',function(req,res){
                             var schemesData=result.rows;
                             console.log("assetsDat...!",schemesData);
                         
-                            res.render('Admin/schemesList',{schemesData});
+                            res.render('Admin/schemesList',{
+                                schemesData,
+                                users : req.user,
+                                loggedIn: loginStatus
+                            });
                         }
     });
     
@@ -992,6 +1127,12 @@ router.get('/schemelist',function(req,res){
 
 router.get('/Manage_users',function(req,res){
         
+    if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ }
+    
     var query = client.query(" select * from adminusers", function (err, result) {
 						if (err)
 							console.log("Cant get portfolio details in goal selection");
@@ -999,11 +1140,19 @@ router.get('/Manage_users',function(req,res){
                             var usersData=result.rows;
                             console.log("assetsDat...!",usersData);
                             
-                            res.render('Admin/ManageUsers',{usersData});
+                            res.render('Admin/ManageUsers',{
+                                usersData:usersData,
+                                users : req.user,
+                                loggedIn: loginStatus
+                            });
                         }
                         else{
                             var usersData=0;
-                            res.render('Admin/ManageUsers',{usersData});
+                            res.render('Admin/ManageUsers',{
+                                usersData:usersData,
+                                users : req.user,
+                                loggedIn: loginStatus
+                            });
                         }
     });
 });
@@ -1013,7 +1162,11 @@ router.get('/Manage_users',function(req,res){
  router.get('/Manage/:id',function(req,res){   
     var id = req.params.id;
       
-       console.log("id",id);
+     if(req.user){
+   var loginStatus=true;
+ }else{
+      var loginStatus=false;
+ }  
      
      var query = client.query('SELECT * FROM adminusers WHERE adminuserid = $1',[id],function(err,result)
                             {
@@ -1024,7 +1177,8 @@ router.get('/Manage_users',function(req,res){
                            if (result.rows.length > 0) {
                             var data=result.rows;
                             console.log("assetsDat...!",data);
-                            res.render('Admin/editUsers',{data});
+                            res.render('Admin/editUsers',{data,users : req.user,
+                                loggedIn: loginStatus});
        
                            }
      });

@@ -63,6 +63,7 @@ app.use(flash())
 app.use('/admin', admin)
 app.get('/KnowUs', about.getKnownUs)
 app.get('/contactus', about.contactus)
+app.get('/testimonials', about.testimonials)
 app.get('/FAQs', about.faqs)
 app.get('/ourTeam', about.ourTeam)
 app.get('/Investment', functions.isLoggedIn, investment.getInvestment)
@@ -89,6 +90,8 @@ app.post('/Pricing/pay', functions.isLoggedIn, payment.postPay)
 app.get('/BsePaymentStatus', functions.isLoggedIn, payment.getBsePayment)
 app.post('/PANStatus', functions.isLoggedIn, panStatus.postPanStatus)
 app.post('/PANValidation', functions.isLoggedIn, panStatus.postPanValidation)
+
+
 app.get('/saveAssetOffline', functions.isLoggedIn, assetOffline.getSaveAsset)
 app.post('/InsertOrders', functions.isLoggedIn, order.postInsertOrder)
 app.post('/Proceed', functions.isLoggedIn, order.postProceedOrder)
@@ -108,13 +111,17 @@ app.get('/tocurrent', user.getToCurrent)
 
 app.post('/adminLogin', user.postAdminLogin)
 
+app.get('/adminLogout', user.getAdminLogout)
 
 app.post('/signup', functions.askForPayment, user.postSignup)
 app.post('/login', user.postLogin)
 app.get('/logout', user.getLogout)
+app.get('/forgot', user.getForgotform)
 app.post('/forgot', user.postForgot)
+
+
 app.get('/reset/:token', user.getReset)
-app.post('/reset/:token', user.postReset)
+app.post('/reset/token', user.postReset)
 app.get('/user_data', functions.isLoggedIn, user.getUserData)
 
 app.get('/auth/facebook', user.getFacebookLogin)
@@ -145,7 +152,7 @@ app.get('/nachinputs',functions.isLoggedIn,fileupload.getnach)
 app.post('/nachInputData',functions.isLoggedIn,fileupload.postNachFormData)
 app.get('/nachpdf',functions.isLoggedIn,fileupload.getnachpdf)
 
-
+app.post('/setAofstatus',functions.isLoggedIn,fileupload.postaofStatus)
 app.get('/clientCreate',client.getClient)
 
 app.use('/', index)

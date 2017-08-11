@@ -19,7 +19,7 @@ exports.getPrice = (req, res) => {
     pageName = 'howItWorks'
   }
   if (req.session.payU) {
-    console.log(req.session.payU)
+    
     var payUData = JSON.parse(JSON.stringify(req.session.payU))
     req.session.payU.flashMessage = false
   } else {
@@ -73,7 +73,7 @@ exports.postPaymentFailure = (req, res) => {
   req.session.payU = req.body
   req.session.payU.flashMessage = true
   req.session.payU.status = 'fail'
-  console.log(res.json(req.body))
+ // console.log(res.json(req.body))
     
     
                         freshdesk.createTicket({
@@ -118,7 +118,7 @@ exports.postPaymentSuccess = (req, res) => {
 							// res.send("false");
           } else {
 							// res.send(1);
-            console.log('usersubscriptionorderid' + result.rows[0]['usersubscriptionorderid'])
+        //    console.log('usersubscriptionorderid' + result.rows[0]['usersubscriptionorderid'])
 
             callback(null, result.rows[0]['usersubscriptionorderid'])
           }
@@ -156,12 +156,14 @@ exports.postPay = (req, res, next) => {
 
   async.waterfall([
     function (callback) {
-      const merchantKey = 'gtKFFx'
-      const salt = 'eCwWELxi'
+     const merchantKey = 'gtKFFx'
+     const salt = 'eCwWELxi'
+     // const merchantKey = 'rECGZ0'  //Live
+     // const salt = 'pTIyMt9L'       //Live
       const txnid = functions.getTransactionID(req.session.user.userid)
       const amount = req.body.planPrice
       var rs=req.body.rs;
-        console.log("AMOUNT--------------------------------------------",req.body);
+       // console.log("AMOUNT--------------------------------------------",req.body);
       const productinfo = req.body.plan
 
 			// Get from session or User database
@@ -172,22 +174,27 @@ exports.postPay = (req, res, next) => {
       const hash = functions.checksum(str, 'sha512').toLowerCase()
 
       data = {
-        merchantKey: 'gtKFFx',
-        hash: 'eCwWELxi',
+        merchantKey: 'gtKFFx', 
+        hash: 'eCwWELxi',            
+       //  merchantKey: 'rECGZ0', // Live
+       //  hash: 'eCwWELxi',      // Live
         amount: amount,
         txnid: txnid,
         firstname: firstname,
         productinfo: productinfo,
         email: email,
         phone: phone,
-        surl: 'http://localhost:3000/Pricing/success',
-        furl: 'http://localhost:3000/Pricing/failure',
-          //  surl: 'http://54.152.36.19:3000/Pricing/success',
-            //furl: 'http://54.152.36.19:3000/Pricing/failure',
+          surl: 'http://localhost:3000/Pricing/success',
+          furl: 'http://localhost:3000/Pricing/failure',
+             // surl: 'http://54.152.36.19:3000/Pricing/success',
+             //// furl: 'http://54.152.36.19:3000/Pricing/failure',
+        //  surl: 'http://34.201.143.108/Pricing/success',   // Live 
+        //  furl: 'http://34.201.143.108/Pricing/failure',   // Live
           
         hash: hash,
         service_provider: 'payu_paisa',
-        action: 'https://test.payu.in/_payment'
+          action: 'https://test.payu.in/_payment'
+           //  action: 'https://secure.payu.in/_payment'   //Live PayU
       }
 
       callback(null, data)
@@ -225,7 +232,7 @@ exports.getBsePayment = (req, res) => {
         parseString(body, function (err, results) {
           var password = results['s:Envelope']['s:Body'][0]['getPasswordResponse'][0]['getPasswordResult'][0]
           bsePassArray = password.toString().split('|')
-          console.log('MFUPload Service Password ' + bsePassArray[1])
+          //console.log('MFUPload Service Password ' + bsePassArray[1])
           callback(null, bsePassArray[1])
         })
       })
@@ -246,7 +253,7 @@ exports.getBsePayment = (req, res) => {
         parseString(body, function (err, results) {
           var link = results['s:Envelope']['s:Body'][0]['MFAPIResponse'][0]['MFAPIResult'][0]
           bsePaymentStatus = link.toString().split('|')
-          console.log('Payment Status ' + bsePaymentStatus[1])
+          //console.log('Payment Status ' + bsePaymentStatus[1])
           req.session.bseStatus = bsePaymentStatus
           res.redirect('/myStory')
         })

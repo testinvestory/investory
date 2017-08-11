@@ -69,7 +69,7 @@ async.waterfall([
         
     }, function (panstatus,user,callback) {
                
-        console.log("Here I MMM")
+      
          var data; 
          var query = client.query("select * from bseformdetail where userid="+req.session.user.userid, function (err, result2) {
 					if (err)
@@ -110,7 +110,7 @@ exports.getpdf = (req, res) => {
                          var data='false';
                     }
                     else{
-                        console.log("data",result.rows);
+                        
                        var data=result.rows[0] 
                     }
                 res.render("pdf",{data:data});
@@ -152,20 +152,20 @@ exports.postBseFormData = (req,res) =>{
     var ifsc=req.body.ifsc;
     var accountNo=req.body.accno;
     var accType=req.body.acctype;
-
+    var micr=req.body.micr;
     
     var nomineeName=req.body.nomineename;
     var nomineeRelation=req.body.nrelationship;
     var guardianName=req.body.guardianname;
     var nomineeAddress=req.body.nomineeaddress;
 
-    console.log("userid",req.session.user.userid);
+  
     var creation_date = new Date();
     var modified_date = new Date();
     
     async.waterfall([
          function (callback) {
-      var query = client.query('update bseformdetail set userid=$1,name=$2,pan=$3,kyc=$4,dob=$5,email=$6,mobile=$7,telephone=$8,holdingtype=$9,occupation=$10,address=$11,city=$12,pincode=$13,state=$14,country=$15,bankname=$16,branch=$17,ifsc=$18,accountno=$19,accounttype=$20,nominee=$21,nomineerelation=$22,guardianname=$23,nomineeaddress=$24,created=$25,modified=$26 where userid=$1', [req.session.user.userid,name,pan,kyc,dob,email,mobile,telephone,holdingType,occupation,address,city,pincode,state,country,bankName,branch,ifsc,accountNo,accType,nomineeName,nomineeRelation,guardianName,nomineeAddress,creation_date, modified_date], function (err, result) {
+      var query = client.query('update bseformdetail set userid=$1,name=$2,pan=$3,kyc=$4,dob=$5,email=$6,mobile=$7,telephone=$8,holdingtype=$9,occupation=$10,address=$11,city=$12,pincode=$13,state=$14,country=$15,bankname=$16,branch=$17,ifsc=$18,accountno=$19,accounttype=$20,nominee=$21,nomineerelation=$22,guardianname=$23,nomineeaddress=$24,created=$25,modified=$26,micr=$27 where userid=$1', [req.session.user.userid,name,pan,kyc,dob,email,mobile,telephone,holdingType,occupation,address,city,pincode,state,country,bankName,branch,ifsc,accountNo,accType,nomineeName,nomineeRelation,guardianName,nomineeAddress,creation_date, modified_date,micr], function (err, result) {
           if (err) {
             console.log('cant insert bseformdata data', err)
           }
@@ -213,7 +213,7 @@ exports.postBseFormData = (req,res) =>{
         
     }, function (panstatus,user,callback) {
                
-        console.log("Here I MMM")
+        
          var data; 
          var query = client.query("select * from bseformdetail where userid="+req.session.user.userid, function (err, result2) {
 					if (err)
@@ -297,7 +297,7 @@ async.waterfall([
         
     }, function (bseformdata,user,callback) {
                
-        console.log("Here I MMM")
+       
          var data; 
          var query = client.query("select * from nachformdetail where userid="+req.session.user.userid, function (err, result2) {
 					if (err)
@@ -331,7 +331,6 @@ async.waterfall([
    
 };
 exports.postNachFormData = (req,res) =>{
-    loginStatus = functions.checkLoginStatus(req);
     
     loginStatus = functions.checkLoginStatus(req);
       mobile = req.useragent["isMobile"];
@@ -395,12 +394,12 @@ exports.postNachFormData = (req,res) =>{
                         user='false';
                     }
             
-             
+             callback(null,user)
          
          });
     }, function (user,callback) {
                
-        console.log("Here I MMM")
+       
          var data; 
          var query = client.query("select * from nachformdetail where userid="+req.session.user.userid, function (err, result2) {
 					if (err)
@@ -440,7 +439,7 @@ exports.getnachpdf = (req, res) => {
                         var data='false';
                     }
                     else{
-                        console.log("data",result.rows);
+                       
                        var data=result.rows[0]  ;
                     }
                         
@@ -454,8 +453,8 @@ var store =   multer.diskStorage({
        //var name = '/home/ubuntu/panuploads/'+pan; //location for directory to store documents 
                         
                     var email=req.session.user.email;            
-                   var name='E:/bseDocuments/'+email;
-                   // var name='/home/ubuntu/bsedocuments/'+email;
+                  // var name='E:/bseDocuments/'+email;
+                    var name='/home/ubuntu/bsedocuments/'+email;
                     
                     fs.mkdir(name, 0777, true, function (err) 
                     {
@@ -478,7 +477,7 @@ var store =   multer.diskStorage({
                     }
 
                     });
-        var uploadDocument = multer({ storage : store}).array('doc',2)
+        var uploadDocument = multer({ storage : store}).single('doc'); //array('doc',2)
 
 exports.postDocument =(req ,res) =>{
     
@@ -499,34 +498,35 @@ exports.postDocument =(req ,res) =>{
                     }
                   console.log("Document is uploaded");
                  
-                  console.log(req.files.length);
-                if(req.files.length==2){
-                    var filename1=req.files[0].originalname;
-                    var filename2=req.files[1].originalname;
-                     var path1bse='E:/bseDocuments/'+email+'/'+filename1;
-                     var path2nach='E:/bseDocuments/'+email+'/'+filename2;
-                   //var path1bse='/home/ubuntu/bsedocuments/'+email+'/'+filename1;
+                 // console.log(req.files.length);
+               // if(req.files.length==2){
+                    var filename1=req.file.originalname;
+                   // var filename2=req.files[1].originalname;
+                    // var path1bse='E:/bseDocuments/'+email+'/'+filename1;
+                    // var path2nach='E:/bseDocuments/'+email+'/'+filename2;
+                   var path1bse='/home/ubuntu/bsedocuments/'+email+'/'+filename1;
                    //var path2nach='/home/ubuntu/bsedocuments/'+email+'/'+filename2;
-                }
-                else{
-                    var filename1=req.files[0].originalname;
-                     var path1bse='E:/bseDocuments/'+email+'/'+filename1;
+             //   }
+              //  else{
+                    //var filename1=req.files.originalname;
+                     //var path1bse='E:/bseDocuments/'+email+'/'+filename1;
                     // var path1bse='/home/ubuntu/bsedocuments/'+email+'/'+filename1;
-                     var path2nach=0;
-                }
+                     //var path2nach=0;
+               // }
                 
                
-                console.log(path1bse,path2nach);
-                callback(null,path1bse,path2nach)
+                //console.log(path1bse);
+               // callback(null,path1bse,path2nach)
+                callback(null,path1bse)
                 });
             
             
            
         },
-       function(path1bse,path2nach,callback)
+       function(path1bse,callback)
          {
-            console.log("path1bse",path1bse);
-             console.log("path2nach",path2nach);
+            
+            // console.log("path2nach",path2nach);
              if(path1bse){
                     var query=client.query("update bseformdetail set aof=$2 where userid=$1", [req.session.user.userid,path1bse
 	           ],function(err,result){
@@ -538,7 +538,7 @@ exports.postDocument =(req ,res) =>{
 			  }
              });
         }
-        if(path2nach){
+        /*if(path2nach){
             
              var query=client.query("update nachformdetail set nach=$2 where userid=$1", [req.session.user.userid,path2nach
 	           ],function(err,result){
@@ -550,7 +550,7 @@ exports.postDocument =(req ,res) =>{
 			  }
              });
             
-        }
+        }*/
              
          }
         ], function (err, result) 
@@ -566,6 +566,20 @@ exports.postDocument =(req ,res) =>{
 };
 
 
+exports.postaofStatus=(req,res) =>{
+   // console.log("Status as Downloaded");
+    var status='downloaded'
+    var query=client.query("update bseformdetail set aofstatus=$2 where userid=$1", [req.session.user.userid,status
+	           ],function(err,result){
+	           if(err)
+	            console.log("Cant get update bseformdetail details from users table",err);
+	           else
+	            {
+	        		 console.log("Upadte to bseformdetail details Success..!");
+			  }
+             });
+    
+};
 
 
 exports.getUploadfile =(req,res) =>{
@@ -604,7 +618,7 @@ exports.getUploadfile =(req,res) =>{
                    var password = results["s:Envelope"]["s:Body"][0]["GetPasswordResponse"][0]["GetPasswordResult"][0]["b:ResponseString"][0];
                     
                    var pass = password.toString();
-                    console.log("Password-------------",pass);
+                   // console.log("Password-------------",pass);
                    callback(null,pass)
 
 				})
@@ -636,7 +650,7 @@ exports.getUploadfile =(req,res) =>{
                     
                     
                     var data = results["s:Envelope"]["s:Body"][0]['UploadFileResponse'][0]['UploadFileResult'];
-                    console.log("Password-------------",data);
+                   
                     
                    /* var fault=results["s:Envelope"]["s:Body"][0]['s:Fault'][0]['s:Reason'][0]['s:Text'];
                     console.log("Fault",fault);*/

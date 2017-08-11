@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script type="text/javascript" src="javascripts/googleanalytics.js" ></script>
     <link rel="stylesheet" href="stylesheets/bootstrap.min.css" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -275,154 +276,26 @@
     
 
 <body>
-<div class="container" style="border: 1px solid #e3e3e3;">
+<div class="container" style="font-size:11px;border: 1px solid #e3e3e3;">
     <span class="text-center heddings">
         <h3 style="margin-top:2em;">NACH/ECS/AUTO DEBIT MANDATE INSTRUCTION FORM</h3></span>
-    <br><h4><b>Unit Folder Information :</b></h4>
- <form onsubmit="return validateFrom()"  name="aofinfo" id="aofinfo"  action="/nachInputData" method="post"  >
-  <div class="form-group">
-     <label>UMRN :</label>
-                      
-                    <input type="text"  placeholder="Enter UMRN" id="umrn" name="umrn" class="form-control" value="<%=data.umrn%>">
-                          <p id="errMasgUmrn" style="display: none; color: red">Please Enter a Valid UMRN</p>
-  </div>
     
-    <div class="form-group">
-     <label>Date : </label>
-                    <input type="date" id="date1" name="date1" align="right" class="form-control"  value="<%=data.createddate%>" placeholder="Enter Date">
-                      <p id="errMasgDate1" style="display: none; color: red">Please Select Date</p>
-  </div>
-    
-    
-        <div class="form-group">
-   <label>Sponsor Bank Code :</label>
-                    <input type="text" align="right" class="form-control" id="sbankcode" name="sbankcode" placeholder="Enter Sponsor Bank Code"  value="<%=data.sbankcode%>">
-                      <p id="errMasgSponsorbank" style="display: none; color: red">Please Enter a Valid Sponsor Bank Code</p>
-    
-    </div>
-    
- 
-      <div class="form-group">
-       <label>Utility Code :</label>
-                      
-                    <input type="text" class="form-control" id="utilitycode" placeholder="Enter Utility code" name="utilitycode" value="<%=data.utilitycode%>">
-                     <p id="errMasgUtilitycode" style="display: none; color: red">Please Enter a Valid Utility code</p> 
-          
-    </div>    
-     <div class="form-group">
-          <label>I/We hereby authorize :</label>
-                    <input type="text" class="form-control" id="bselimited" placeholder="" name="bselimited" value="BSE Limited" readonly>
-         
-         
-     </div>
-     
-       <div class="form-group">
-      <label>to debit (tick &#10004; ) :</label>
-                    
-                    
-                    <input type="text" class="form-control" id="" placeholder="" name="" value="SB/CA/CC/SB-NRE/SB-NRO/Other" readonly>        
+    <br>
+     <div class="form-group text-center">
+      
+            
+           <h4> Download NACH as pdf : </h4> <br> 
+           <a href="files/BSE OTM Form.pdf" download><button type="button" class="btn" style="align:right">Get NACH</button></a>
            
            
-     </div>
-     
-    
-    <div class="form-group">
-        
-         <label>Account Number :</label>  
-                    <input type="text" class="form-control" id="accno" placeholder="Enter Account Number" name="accno" value="<%=data.accountno1%>">
-                      <p id = "errMasgAccno" style= "display: none; color: red">Please Enter Account Number</p> 
-    </div>  
-    
-    
-    <div class="form-group">
-   <label>Bank Name :</label>  
-                    <input type="text" class="form-control" id="bankname" placeholder="Enter Bank name" name="bankname" value="<%=data.bankname1%>">
-                       <p id = "errMasgBankname" style= "display: none; color: red">Enter Bank name</p>  
-        
-    </div>
-    
-    <div class="form-group">
-     <label>IFSC Code :</label>  
-                    <input type="text" class="form-control" id="ifsc" placeholder="Enter IFSC Code" name="ifsc" value="<%=data.ifsc1%>">
-                      <p id = "errMasgIfsc" style= "display: none; color: red">Please Enter IFSC Code</p>
-        
-    </div>  
-    <div class="form-group">
-        
-              <label>MICR :</label> 
-                            <input type="text" class="form-control" id="micr" placeholder="Enter MICR" name="micr" value="<%=data.micr%>">
-    </div>  
-     
-     
-     
-     <div class="form-group">
-     <label>an amount of Rupees :</label> 
-                          
-                    <input type="text" class="form-control" id="rs" placeholder="Enter Rupees" name="rs" value="<%=data.rupees%>">
-     </div>
-    
-      <div class="form-group">
-          <label>FREQUENCY :</label>
-                                  <input type="text" class="form-control" id="frequency" placeholder="" name="frequency" value="As and When Presented" readonly>
-          
-     </div>
-     
-      <div class="form-group">
-         <label>DEBIT TYPE :</label>
-                         
-                                <input type="text" class="form-control" id="Debit" placeholder="" name="Debit" value="Maximum Amount" readonly> 
-          
-     </div>
-    <div class="form-group">
-     <label>Reference 1 (Mandate Reference No.) :</label>                    
-                        
-                     <input type="text" class="form-control" id="ref1" placeholder="Enter Reference 1 " name="ref1" value="<%=data.mandatereference1%>"> 
-                              <p id = "errMasgRef1" style= "display: none; color: red">Please Enter Reference 1 </p>  
-        
-    </div>  
-    <div class="form-group">
-        <label> Reference 2 (Unique Client Code-UCC)  </label> 
-                              <input type="text" class="form-control" id="ref2" placeholder="Enter Reference 2 " name="ref2" value="<%=data.mandatereference2%>"> 
-                              <p id = "errMasgRef2" style= "display: none; color: red">Please Enter Reference 2 </p>  
-        
-        
-    </div>  
-    <div class="form-group">
-       <label>Mobile :</label> 
-                           
-                    <input type="text" class="form-control" id="mobile" placeholder="Eneter Mobile" name="mobile" value="<%=user.mobile%>">
-                      <p id="errMasgMobile" style="display: none; color: red">Please Enter Valid Mobile</p>
-        
-        
-    </div>  
-    <div class="form-group">
-      <label>Email :</label> 
-                            <input type="text" class="form-control" id="email" placeholder="Enter email" name="email" value="<%=user.email%>">
-                                <p id="errMasgEmail" style="display: none; color: red">Please Enter Valid Email</p>
-    </div> 
-    <div class="form-group">
-    <label>PERIOD From :</label>  
-                    <input type="date" class="form-control" id="from" placeholder="Enter PERIOD From" name="from" value="<%=data.periodefrom%>">
-                       <p id = "errMasgFrom" style= "display: none; color: red">Select PERIOD From</p>  
- 
-                
-
-    </div>  
-    <div class="form-group">
-     <label>PERIOD To :</label>
-                    <input type="date" class="form-control" id="to" placeholder="Enter PERIOD To" name="to" data-bv-field="branch" value="<%=data.periodeto%>">
-                       <p id = "errMasgTo" style= "display: none; color: red">Select Enter PERIOD To</p>    
-        
-    </div>  
+            <a href="/bseinputs"><button type="button" class="btn" style="align:right">AOF</button></a>
+        </div>
+                 
+       
    
-     <div class="form-group text-center">      
-      <button type="submit" class="btn btn-primary">Save</button>
-             <button type="button" class="btn" onclick="display();" style="align:right">Get NACH pdf</button>
-            <a href="/bseinputs"><button type="button" class="btn" style="align:right">AOF</button></a>  
-    </div>
+ 
   
-</form>
-</div>
+    </div>
 </body>
 </html>
 

@@ -1,3 +1,7 @@
+
+
+
+
 var functions = require('./functions');
 
 var currentPage;
@@ -84,7 +88,7 @@ loginStatus = functions.checkLoginStatus(req);
     
     mobile = req.useragent["isMobile"]
 	if (mobile)
-		pageName = "ourTeam";
+		pageName = "ourTeamMobile";
 	else
 		pageName = "ourTeam";
     
@@ -102,4 +106,28 @@ loginStatus = functions.checkLoginStatus(req);
 
     });
     
+};
+
+exports.testimonials =(req,res) =>{
+    
+   currentPage = req.session.activePage = '/testimonials'  
+    mobile = req.useragent["isMobile"]
+	if (mobile)
+		pageName = "testimonialsMobile";
+	else
+		pageName = "testimonials";
+    
+    
+    res.render(pageName,{
+        user: req.user,
+     selectorDisplay: "show",
+     smessage: req.flash('signupMessage'),
+     lmessage: req.flash('loginMessage'),
+        loggedIn: loginStatus,
+      selectorDisplay: 'show',
+      footerDisplay: 'show',
+      footerData1: 'Blog',
+      footerData2: 'FAQs',
+        
+    });
 };

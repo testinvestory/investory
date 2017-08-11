@@ -47,6 +47,19 @@ body {
     <script src="js/jspdf.plugin.autotable.js"></script>
     <script type="text/javascript">    
  function generate() {      
+     
+     $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    url: '/setAofstatus',
+                    success: function (data) {
+                        console.log('success');
+                        
+
+                        // console.log(JSON.stringify(data));
+                    }
+
+                })
     var pdf = new jsPDF("p", "mm", "a4");
     var res1 = document.getElementById('tb1');
     var res = pdf.autoTableHtmlToJson(res1);

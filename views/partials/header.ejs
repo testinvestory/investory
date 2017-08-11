@@ -99,7 +99,8 @@
                     <li role="presentation"><a role="menuitem" tabindex="6" id="Nerdy" goal="2" href="#">Build a book collection</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="9" id="Rich"  goal="0" href="#">Crorepati</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="10" id="Rich"  goal="1" href="#">Fancy car</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="11" id="Rich"  goal="2" href="#">Double the money</a></li>
+                   <!-- <li role="presentation"><a role="menuitem" tabindex="11" id="Rich"  goal="2" href="#">Double the money</a></li>-->
+                     <li role="presentation"><a role="menuitem" tabindex="11" id="Rich"  goal="2" href="#">Vacation Home</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="1" id="Responsible" goal="0" href="#">Child's education</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="2" id="Responsible" goal="1" href="#">Retirement</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="3" id="Responsible" goal="2" href="#">Home</a></li>
@@ -142,13 +143,13 @@
                          <h2>Sign Up</h2>
                         <hr>
                         <input type="number" class="form-control" id="mnumber" name="mnumber" placeholder="Mobile Number" ng-model="phoneNumber" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/" required/>
-                        <span ng-show="signUpForm.mnumber.$touched && signUpForm.mnumber.$invalid">Enter valid Phone number.</span>
+                        <span style="color: #f80303;font-weight: 800;" ng-show="signUpForm.mnumber.$touched && signUpForm.mnumber.$invalid">Enter valid Phone number.</span>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Email"  ng-model="email" ng-pattern="/^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/"required /> 
-                        <span ng-show="signUpForm.email.$touched && signUpForm.email.$invalid ">Enter your email id.</span> 
+                        <span style="color: #f80303;font-weight: 800;" ng-show="signUpForm.email.$touched && signUpForm.email.$invalid ">Enter your Email id.</span> 
                         <input type="text" class="form-control" id="username" name="username" placeholder="Name"  ng-model="myName" ng-minlength="2" ng-maxlength="50" required/>
-                        <span ng-show="signUpForm.username.$touched && signUpForm.username.$invalid"  >Enter your Name.</span> 
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" ng-model="Password" required />
-                        <span ng-show="signUpForm.password.$touched && signUpForm.password.$invalid"  >Entered Password is invalid.</span> 
+                        <span style="color: #f80303;font-weight: 800;" ng-show="signUpForm.username.$touched && signUpForm.username.$invalid"  >Enter your Name.</span> 
+                        <input type="password"  class="form-control" name="password" id="password" placeholder="Password" ng-model="Password" required />
+                        <span style="color: #f80303;font-weight: 800;" ng-show="signUpForm.password.$touched && signUpForm.password.$invalid"  >Entered Password is invalid.</span> 
                         <button type="submit" class="btn btn-lg login" ng-disabled="signUpForm.$invalid"> Submit </button>
                     </form>
                 </div>
@@ -174,12 +175,12 @@
                     <form name="exampleForm" class="form-horizontal" action="/login" method="post" >
                         <h2>Login</h2>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Email" ng-model="email" ng-pattern="/^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/" required />
-                        <span ng-show="exampleForm.email.$touched && exampleForm.email.$invalid  "  >Enter your Email id.</span>
+                        <span style="color: #f80303;font-weight: 800;" ng-show="exampleForm.email.$touched && exampleForm.email.$invalid  "  >Enter your Email id.</span>
                         <input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="Password" required />
-                        <span ng-show="exampleForm.password.$touched && exampleForm.password.$invalid"  >Entered Password is invalid.</span> 
+                        <span style="color: #f80303;font-weight: 800;" ng-show="exampleForm.password.$touched && exampleForm.password.$invalid"  >Entered Password is invalid.</span> 
                         <button id="login" type="submit" class="btn btn-lg login "  ng-disabled="exampleForm.$invalid"> Login </button> 
                         <button type="" class="btn btn-lg sign-up" data-toggle="modal" data-target="#signUp" data-dismiss="modal">Sign Up</button>
-                        <a href="#" class="forgot" >Forgot Password?</a>
+                        <a href="/forgot" class="forgot" >Forgot Password?</a>
                         <a href="/auth/facebook">    <button type="button" class="btn btn-lg facebook" onclick="auth('facebook')">Login with Facebook</button></a>
                         <a href="/auth/google">     <button type="button" class="btn btn-lg google" onclick="auth('google')">Login with Google+</button></a>
                     </form>   

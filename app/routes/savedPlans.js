@@ -17,7 +17,7 @@ function getUserSubscriptions (req) {
   return function (callback) {
     var paid = false
     var query = 'select * from usersubscriptions where userid=' + req.session.user.userid
-    console.log(query)
+   // console.log(query)
     client.query(query, function (err, result) {
       if (err) {
         console.log(err)
@@ -37,16 +37,16 @@ function getUserSubscriptions (req) {
 }
 
 function fetchSavedPlans (something, callback) {
-  console.log('something: ' + something)
+ // console.log('something: ' + something)
   return function (callback) {
     var query = client.query("SELECT * FROM savedplansheader inner join goal on savedplansheader.goalid = goal.goalid where savedplansheader.userid=$1 and savedplansheader.status = 'active' ORDER BY savedplansheader.created DESC  ", [req.session.user.userid],
     function (err, result) {
       if (err) {
         console.log('Cant get assets values' + err)
       }
-      console.log('details header' + result.rows.length)
+     // console.log('details header' + result.rows.length)
       asetData = result.rows
-      console.log(asetData)
+    //   console.log(asetData)
       if (result.rows.length > 0) {
         // req.session.savedplanheader = asetData;
         callback(null, asetData)
@@ -84,7 +84,7 @@ function getSavedPlansDetail (something, callback) {
             }
             asetDataAllocationDetail = result.rows
             // req.session.savedplandetail = asetDataDetail;
-            console.log(asetDataAllocationDetail)
+           // console.log(asetDataAllocationDetail)
             if (x >= y) {
               if (pay) {
                 callback(null, asetData, asetDataAllocationDetail)
@@ -149,9 +149,9 @@ exports.getSavedPlans = (req, res) => {
 							function (err, result) {
 								if (err)
 									console.log("Cant get assets values" + err);
-								console.log("details header" + result.rows.length);
+								//console.log("details header" + result.rows.length);
 								asetData = result.rows;
-								console.log(asetData);
+								//console.log(asetData);
 								if (result.rows.length > 0) {
 									//req.session.savedplanheader = asetData;
 									callback(null, asetData)
@@ -182,7 +182,7 @@ exports.getSavedPlans = (req, res) => {
 											console.log("Cant get assets values");
 										asetDataAllocationDetail = result.rows;
 
-										console.log(asetDataAllocationDetail);
+										
 
 											if (pay) {
 												callback(null, asetData, asetDataAllocationDetail)
@@ -210,7 +210,7 @@ exports.getSavedPlans = (req, res) => {
 						var x = 1;
 						var y = headerData.length;
 						var asetDataDetail = {};
-						console.log("header length" + headerData.length);
+						
 								var query = client.query("SELECT * FROM savedplansdetail where savedplanid=$1 and allocationtype=$2", [headerData[0].savedplanid, 'scheme'],
 									function (err, result) {
 										if (err)
@@ -218,7 +218,7 @@ exports.getSavedPlans = (req, res) => {
 										asetDataDetail = result.rows;
 										//	asetDataDetail[i] = dataDetail;
 										//req.session.savedplandetail = asetDataDetail;
-										console.log("saved detail" + asetDataDetail);
+										
 										/*if (x >= y) {*/
 											res.render(pageName, {
 												user: req.user,
@@ -303,8 +303,7 @@ exports.postPlanHeaders = (req, res) => {
     var creation_date = new Date()
     var modified_date = new Date()
     var status = 'active'
-    console.log('body: ' + req.body)
-       console.log('body: ' + req.body.goalName)
+    
     async.waterfall([
       function (callback) {
         var query = client.query('select goalid from goal where goal.name=$1', [req.body.goalName], function (err, result) {
@@ -313,20 +312,20 @@ exports.postPlanHeaders = (req, res) => {
             res.send('false')
           } else {
 						// res.send(1);
-            console.log('goalid' + result.rows[0]['goalid'])
+         //   console.log('goalid' + result.rows[0]['goalid'])
             callback(null, result.rows[0]['goalid'])
           }
         })
       },
 
       function (goalid, callback) {
-        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>SavedPlanHeader')
+       /* console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>SavedPlanHeader')
         console.log(req.session.user.userid)
         console.log(goalid)
         console.log(req.body.riskProfile)
         console.log(req.body.masterAmount)
         console.log(req.body.totalYears)
-        console.log(req.body.sip)
+        console.log(req.body.sip)*/
 				// insert to the saved plans header
         var query = client.query('INSERT INTO savedplansheader(userid,goalid,riskprofile, masteramount, totalyears, sip,status,created,modified,createdby) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING savedplanid', [req.session.user.userid, goalid, req.body.riskProfile, req.body.masterAmount, req.body.totalYears, req.body.sip, status, creation_date, modified_date, req.session.user.name], function (err, result) {
           if (err) {
@@ -334,7 +333,7 @@ exports.postPlanHeaders = (req, res) => {
             res.send('false')
           } else {
 							// res.send(1);
-            console.log('savedplanid' + result.rows[0]['savedplanid'])
+           // console.log('savedplanid' + result.rows[0]['savedplanid'])
             callback(null, result.rows[0]['savedplanid'])
           }
         })
@@ -343,17 +342,17 @@ exports.postPlanHeaders = (req, res) => {
 				// insert to the saved plans details
         var percentage = [req.body.equityPercentage, req.body.hybridPercentage, req.body.debtPercentage]
         var amount = [req.body.equityAmount, req.body.hybridAmount, req.body.debtAmount]
-        console.log('I m here>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+       /* console.log('I m here>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
         console.log(percentage[0])
         console.log(percentage[1])
         console.log(percentage[2])
         console.log(amount[0])
         console.log(amount[1])
-        console.log(amount[2])
+        console.log(amount[2])*/
 
         var type = 'allocation'
         var category = ['Equity', 'Hybrid', 'Debt']
-        console.log('id=' + savedPlanId)
+       // console.log('id=' + savedPlanId)
 				/*, (savedPlanId,type,category[1],category[1],percentage[1],amount[1],creation_date,modified_date,req.session.user.name),(savedPlanId,type,category[2],category[2],percentage[2],amount[2],creation_date,modified_date,req.session.user.name) */
         var query = client.query('INSERT INTO savedplansdetail(savedplanid,allocationtype,allocationcategory, allocationdescription, allocationpercentage, allocationamount,created,modified,createdby) values($1,$2,$3,$4,$5,$6,$7,$8,$9),($10,$11,$12,$13,$14,$15,$16,$17,$18),($19,$20,$21,$22,$23,$24,$25,$26,$27)', [savedPlanId, type, category[0], category[0], percentage[0], amount[0], creation_date, modified_date, req.session.user.name, savedPlanId, type, category[1], category[1], percentage[1], amount[1], creation_date, modified_date, req.session.user.name, savedPlanId, type, category[2], category[2], percentage[2], amount[2], creation_date, modified_date, req.session.user.name]
 					, function (err, result) {
@@ -361,7 +360,7 @@ exports.postPlanHeaders = (req, res) => {
     console.log('cant insert assets detail allocation data', err)
     res.send('false')
   } else {
-    console.log(result.rows)
+    //console.log(result.rows)
     callback(null)
   }
 })
@@ -382,23 +381,23 @@ exports.postPlanHeaders = (req, res) => {
 
   asetData = result.rows[0]
   req.session.savedplanheader = asetData
-  console.log('saved plan header' + req.session.savedplanheader.goalid)
+  /*console.log('saved plan header' + req.session.savedplanheader.goalid)
   console.log('saved plan header' + req.session.savedplanheader.riskprofile)
   console.log('saved plan header' + req.session.savedplanheader.masteramount)
   console.log('saved plan header' + req.session.savedplanheader.totalyears)
-  console.log('saved plan header' + req.session.savedplanheader.userid)
+  console.log('saved plan header' + req.session.savedplanheader.userid)*/
   callback(null, asetData)
 })
   },
     function (headerData, callback) {
-      console.log(headerData)
+     // console.log(headerData)
       var query = client.query('SELECT * FROM savedplansdetail where savedplanid=$1 and allocationtype=$2 ORDER BY created DESC LIMIT 3 ', [headerData.savedplanid, 'allocation'],
 						function (err, result) {
   if (err) {
     console.log('Cant get assets values')
   }
   asetDataDetail = result.rows
-  console.log(asetDataDetail[1])
+//  console.log(asetDataDetail[1])
   callback(null, headerData, asetDataDetail)
 })
 
@@ -406,7 +405,7 @@ exports.postPlanHeaders = (req, res) => {
 					// using header id
 					// store the data in a json
     }, function (headerData, detailData, callback) {
-      console.log('data', headerData.riskprofile)
+    //  console.log('data', headerData.riskprofile)
 					// initialize query
 					// using the json data
 					// pass the query
@@ -426,7 +425,7 @@ exports.postPlanHeaders = (req, res) => {
 					// callback(null,query);
 
       if (req.body.lumpsum) {
-        console.log('lumpsum' + req.body.lumpsum)
+       // console.log('lumpsum' + req.body.lumpsum)
         var amt = []
         amt[0] = req.body.masterAmount
 
@@ -437,7 +436,7 @@ exports.postPlanHeaders = (req, res) => {
   }
 
   scheme = result.rows
-  console.log('daadadadadadadad' + scheme.length)
+ // console.log('daadadadadadadad' + scheme.length)
   for (i = 0; i < scheme.length; i++) {
     var percentage = 100
     var type = 'scheme'
@@ -445,11 +444,11 @@ exports.postPlanHeaders = (req, res) => {
     var schemeDescription = scheme[i].name
     var schemeCode = scheme[i].code
     var schemeId = scheme[i].lumpsumschemeid
-    console.log(scheme[i].code)
+   // console.log(scheme[i].code)
 									// var schemeCode = scheme[i].code;
     creation_date = new Date()
     modified_date = new Date()
-    console.log('amt=' + amt[i])
+   // console.log('amt=' + amt[i])
 									/* req.session.savedplandetail[i].allocationamount = amt[0];
 									 req.session.savedplandetail[i].schemecode = schemeCode;
 									req.session.savedplandetail[i].allocationdescription = schemeDescription;
@@ -464,7 +463,7 @@ exports.postPlanHeaders = (req, res) => {
 												// res.send("false");
   } else {
 												// res.send(1);
-    console.log('result' + req.body.masterAmount)
+   // console.log('result' + req.body.masterAmount)
 												// callback(null)
   }
 })
@@ -475,7 +474,7 @@ exports.postPlanHeaders = (req, res) => {
 })
         }else if(req.body.taxSaving){
                  
-                 console.log("I am in=============><=========Nishant");
+              
           var type='Tax';
             
             var riskProfile=req.body.riskProfile;
@@ -490,7 +489,7 @@ exports.postPlanHeaders = (req, res) => {
     console.log('Cant get assets values')
   }
         scheme = result.rows
-                 console.log("1234567 "+scheme.length+"scheme"+scheme[1].name+scheme[1].category);
+               //  console.log("1234567 "+scheme.length+"scheme"+scheme[1].name+scheme[1].category);
             
            /*  for (i = 0; i < scheme.length; i++) {
     if ((scheme[i].category) == 'Equity') {
@@ -700,11 +699,11 @@ exports.postPlanHeaders = (req, res) => {
     var schemeDescription = scheme[i].name
     var schemeCode = scheme[i].code
     var schemeId = scheme[i].schemeid
-    console.log(scheme[i].code)
+   // console.log(scheme[i].code)
 									// var schemeCode = scheme[i].code;
     creation_date = new Date()
     modified_date = new Date()
-    console.log('amt=' + amt[i])
+    //console.log('amt=' + amt[i])
 
 									
 
@@ -715,7 +714,7 @@ exports.postPlanHeaders = (req, res) => {
 												// res.send("false");
   } else {
 												// res.send(1);
-    console.log('result' + result.rows)
+    //console.log('result' + result.rows)
 
 												// callback(null)
   }
@@ -760,7 +759,7 @@ exports.postPlanHeaders = (req, res) => {
       l = l + 1
     }
   }
-  console.log('j' + j + 'k' + k + 'l' + l)
+  //console.log('j' + j + 'k' + k + 'l' + l)
 
   for (i = 0; i < scheme.length; i++) {
     if (j == 0 || j == 1) {
@@ -780,7 +779,7 @@ exports.postPlanHeaders = (req, res) => {
     }
   }
 
-  console.log('Equity' + schemecamnteq + 'Hybrid' + schemecamnthy + 'Debt' + schemecamntde)
+ // console.log('Equity' + schemecamnteq + 'Hybrid' + schemecamnthy + 'Debt' + schemecamntde)
 
   var schemeAmount = {
 
@@ -803,28 +802,28 @@ exports.postPlanHeaders = (req, res) => {
 
 											// remainamt=amount.amount1-totalrounded;
 
-        console.log('Equity j value', j)
+       // console.log('Equity j value', j)
 
         for (var n = 0; n < j; n++) {
           amtrounded5 = Math.floor((schemecamnteq) / 1000) * 1000
           amtamount1 = schemecamnteq - amtrounded5
           amtagg += amtamount1
-          console.log('Equity rating 1', amtagg, amtrounded5)
+          //console.log('Equity rating 1', amtagg, amtrounded5)
         }
 
         if ((scheme[i].rating) >= 2) {
-          console.log('Equity in schemes', amtrounded5)
+          //console.log('Equity in schemes', amtrounded5)
           amt[i] = amtrounded5
         }
         if ((scheme[i].rating) == 1) {
-          console.log('Equity in schemes' + amtrounded5)
+          //console.log('Equity in schemes' + amtrounded5)
           var amountagg = amtrounded5 + amtagg
           amountagg = Math.round((amountagg) / 1000) * 1000
           amt[i] = amountagg
         }
 
         if ((scheme[i].rating) == 0) {
-          console.log('Equity' + schemecamnteq)
+         // console.log('Equity' + schemecamnteq)
           amt[i] = schemecamnteq
         }
       }
@@ -840,17 +839,17 @@ exports.postPlanHeaders = (req, res) => {
         amt7 = Math.round(amtmd4 / 1000) * 1000
         if ((scheme[i].rating) >= 1) {
           if ((scheme[i].rating) > 1) {
-            console.log('Hybrid' + amtrounded1)
+            //console.log('Hybrid' + amtrounded1)
             amt[i] = amtrounded1
           }
 
           if ((scheme[i].rating) == 1) {
-            console.log('Hybrid' + amt7)
+            //console.log('Hybrid' + amt7)
             amt[i] = amt7
           }
         }
         if ((scheme[i].rating) == 0) {
-          console.log('Hybrid' + schemecamnthy)
+          //console.log('Hybrid' + schemecamnthy)
           amt[i] = schemecamnthy
         }
       }
@@ -865,11 +864,11 @@ exports.postPlanHeaders = (req, res) => {
         amt8 = Math.round(amtmd4 / 1000) * 1000
         if ((scheme[i].rating) >= 1) {
           if ((scheme[i].rating) > 1) {
-            console.log('Debt' + amtrounded1)
+           // console.log('Debt' + amtrounded1)
             amt[i] = amtrounded1
           }
           if ((scheme[i].rating) == 1) {
-            console.log('Debt' + amt8)
+            //console.log('Debt' + amt8)
             amt[i] = amt8
           }
         }
@@ -883,16 +882,16 @@ exports.postPlanHeaders = (req, res) => {
       if ((scheme[i].category) == 'Equity') {
         if ((scheme[i].rating) > 1) {
           amtrounded1 = Math.floor((schemecamnteq) / 1000) * 1000
-          console.log('Equity' + amtrounded1)
+        //  console.log('Equity' + amtrounded1)
           amt[i] = amtrounded1
         }
         if ((scheme[i].rating) == 1) {
           amtme1 = Math.round(schemecamnteq / 1000) * 1000
-          console.log('Equity' + amtme1)
+         // console.log('Equity' + amtme1)
           amt[i] = amtme1
         }
         if ((scheme[i].rating) == 0) {
-          console.log('Equity' + schemecamnteq)
+         // console.log('Equity' + schemecamnteq)
           amt[i] = schemecamnteq
         }
       }
@@ -900,16 +899,16 @@ exports.postPlanHeaders = (req, res) => {
       if ((scheme[i].category) == 'Hybrid') {
         if ((scheme[i].rating) > 1) {
           amtrounded1 = Math.floor((schemecamnthy) / 1000) * 1000
-          console.log('Hybrid' + amtrounded1)
+         // console.log('Hybrid' + amtrounded1)
           amt[i] = amtrounded1
         }
         if ((scheme[i].rating) == 1) {
           amtme1 = Math.round(schemecamnthy / 1000) * 1000
-          console.log('Hybrid' + amtme1)
+         // console.log('Hybrid' + amtme1)
           amt[i] = amtme1
         }
         if ((scheme[i].rating) == 0) {
-          console.log('Hybrid' + schemecamnthy)
+       //   console.log('Hybrid' + schemecamnthy)
           amt[i] = schemecamnthy
         }
       }
@@ -918,16 +917,16 @@ exports.postPlanHeaders = (req, res) => {
         if ((scheme[i].rating) > 1) {
           amtrounded1 = Math.floor((schemecamntde) / 1000) * 1000
 
-          console.log('Debt' + amtrounded1)
+        //  console.log('Debt' + amtrounded1)
           amt[i] = amtrounded1
         }
         if ((scheme[i].rating) == 1) {
           amtme4 = Math.round(schemecamntde / 1000) * 1000
-          console.log('Debt' + amtme4)
+        //  console.log('Debt' + amtme4)
           amt[i] = amtme4
         }
         if ((scheme[i].rating) == 0) {
-          console.log('Debt' + schemecamntde)
+        //  console.log('Debt' + schemecamntde)
           amt[i] = schemecamntde
         }
       }
@@ -950,11 +949,11 @@ exports.postPlanHeaders = (req, res) => {
     var schemeDescription = scheme[i].name
     var schemeCode = scheme[i].code
     var schemeId = scheme[i].schemeid
-    console.log(scheme[i].code)
+  //  console.log(scheme[i].code)
 									// var schemeCode = scheme[i].code;
     creation_date = new Date()
     modified_date = new Date()
-    console.log('amt=' + amt[i])
+    //console.log('amt=' + amt[i])
 
 									/*, (savedPlanId,type,category[1],category[1],percentage[1],amount[1],creation_date,modified_date,req.session.user.name),(savedPlanId,type,category[2],category[2],percentage[2],amount[2],creation_date,modified_date,req.session.user.name) */
 
@@ -965,7 +964,7 @@ exports.postPlanHeaders = (req, res) => {
 												// res.send("false");
   } else {
 												// res.send(1);
-    console.log('result' + result.rows)
+   // console.log('result' + result.rows)
 
 												// callback(null)
   }

@@ -35,7 +35,7 @@ exports.getMyStory = (req, res) => {
 			if (result.rows.length > 0) {
 				if (result.rows[0]['count'] > 0) {
 					investmentData = result.rows;
-					console.log(investmentData[0].count);
+					
 				}
 			} else {
 				investmentData = false;

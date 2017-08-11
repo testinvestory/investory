@@ -12,7 +12,7 @@
 	width: 100%;
 	height: 100%;
 	z-index: 9999;     
-	background: url('images/Preloader_2.gif') 50% 50% no-repeat rgb(249,249,249);
+	background: url('images/Preloader_2.gif') 50% 50% no-repeat #ffffff;
 }       
         </style>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -20,10 +20,20 @@
 
         <script src="javascripts/TweenMax.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="javascripts/googleanalytics.js" ></script>
 		 <script>
              
         $(window).load(function() {
 	$(".loader").fadeOut("slow");
+        
+          <% if(loggedIn && aofUploadStatus.aof=='null' && aofUploadStatus.aofstatus=='downloaded'){%>
+                $('#displayUploadModal').modal('show');  
+          <%}else if(loggedIn && aofUploadStatus.kycstatus=='Complaint' && aofUploadStatus.aof=='null'){%>     
+             $('#displayPanModal').modal('show');
+            <%}else{%>
+                $('#displayUploadModal').modal('hide');             
+        <%}%>
+            
 })
 	  $(document).ready(function(){
       $(".main").onepage_scroll({
@@ -49,13 +59,45 @@
         
 <link rel="stylesheet" href="stylesheets/responsive2560.css"  media="screen and (width:2560px) and (height:1600px)">
 </head>
+    
+       
+        <% include partials/header %>
+  
+       
 <body style="index-page" >
     
     <div class="loader"></div>
     
     
-	<% include partials/header %>
+	
+    <div class="modal fade" id="displayPanModal" role="dialog" style="top:10em">                  
+  <div class="modal-dialog modal-md" style=" "> 
+    <div class="modal-content">           
+                        <div class="modal-body "  style="font-size:1em;padding-bottom: 0em;"><img src="images/Pop-ups.png" class="popUPImg" height="90" width="90">
+                            <p style="font-size:21px;" class="PANHead">You have Saved Plans of previous allocations, Do you want to Proceed with Saved Plans?
+</p>
+   <a href="/SavedPlans"><button type="" class="btn btn-lg sign-up">Yes</button></a>
+                           <button type="" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal">No</button>
+   
+                        </div>
+                  </div>
+    </div>
+    </div>
     
+    
+    <div class="modal fade" id="displayUploadModal" role="dialog" style="top:10em">                  
+  <div class="modal-dialog modal-md" style=" "> 
+    <div class="modal-content">           
+                        <div class="modal-body "  style="font-size:1em;padding-bottom: 0em;"><img src="images/Pop-ups.png" class="popUPImg" height="90" width="90">
+                            <p style="font-size:21px;" class="PANHead">Your AOF upload is pending, Please Upload AOF in profile section.
+</p>
+  <button type="" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal">OK</button>
+                            <a href="/Profile"><button type="" class="btn btn-lg sign-up" >Upload Now</button></a>
+   
+                        </div>
+                  </div>
+    </div>
+    </div>
     	<div class="wrapper">
 			<div class="main">
 				<section id="section1" >
@@ -366,7 +408,7 @@ to Investory “<br></h4>
 									<img src="images/avatar.png" alt="Person" width="96" height="96">
 									<p class="name">Aditya - <span class="italic">Student</span></p>
 								</div>
-								<h4>“ I am happy with the service and much recommended for starters in the financial space ”<br></h4>
+								<h4>“ I am happy with the service and much recommended for starters in the financial space. ”<br></h4>
 							</div>
                             <div class="item">
 								<div class="avatarTestimonial">
@@ -374,7 +416,7 @@ to Investory “<br></h4>
 									<p class="name">Manoj - <span class="italic">IT professional</span></p>
 								</div>
 								<h4>“ Investory has done a brilliant job of transforming my
-investment mindset. I am very satisfied with your investment services ”<br></h4>
+investment mindset. I am very satisfied with your investment services. ”<br></h4>
 							</div>
 						</div>
 						<!-- Left and right controls -->
@@ -444,9 +486,12 @@ investment mindset. I am very satisfied with your investment services ”<br></h
     $('.carousel').carousel({
     interval: 6000
     });
+            
+            
+           
+ 
                 
 </script>
-
 
 
 </body>

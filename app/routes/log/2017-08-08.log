@@ -1,0 +1,6 @@
+{"level":"info","message":"Hello world","timestamp":"3:18:15 PM"}
+{"level":"warn","message":"Warning message","timestamp":"3:18:15 PM"}
+{"level":"error","message":"Error info","timestamp":"3:18:15 PM"}
+{"level":"info","message":"Hello world","timestamp":"3:18:17 PM"}
+{"level":"warn","message":"Warning message","timestamp":"3:18:17 PM"}
+{"level":"error","message":"Error info","timestamp":"3:18:17 PM"}

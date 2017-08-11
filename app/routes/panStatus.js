@@ -27,11 +27,11 @@ exports.postPanStatus = (req, res) => {
 exports.postPanValidation = (req, res) => {
 
     
-    console.log("Hi in PAN ");
+   
 	loginStatus = functions.checkLoginStatus(req);
    
 	if (loginStatus) {
- console.log("inside login status",loginStatus);
+ 
 
 		//password = "web@12345";
 		//passKey = "test";
@@ -44,12 +44,12 @@ exports.postPanValidation = (req, res) => {
        //live
         username = "IMMPL";
         POSCODE = "2500001173";
-        password = "Syed@686";
+        password = "Syed@111";
         passKey = "test@123";
         async.waterfall([
             
 				function (callback) {
-                    console.log("Inside callback");
+                   
 					
                     var optionsForPassword = {
 						hostname: "www.cvlkra.com",
@@ -68,7 +68,7 @@ exports.postPanValidation = (req, res) => {
 								// console.log(result["string"]["_"]);
 								console.log(result);
 								ePass = result["string"]["_"];
-                                console.log("Password: ",ePass);
+                               // console.log("Password: ",ePass);
 								callback(null, ePass)
 							});
 						})
@@ -148,7 +148,7 @@ exports.postPanValidation = (req, res) => {
                                         var kycstatus='Pending';
                                       /*  console.log("status of PAN :",appStatus);
                                         console.log("Messg ",msg);*/
-                                          freshdesk.createTicket({
+                                         /* freshdesk.createTicket({
                                               name: req.session.user.name,
                                               email: req.session.user.email,
                                               subject: 'KYC Compliance Failure',
@@ -158,7 +158,7 @@ exports.postPanValidation = (req, res) => {
                                                 }, function (err, data) {
                                                     console.log(err);
                                                 })
-    
+    */
                                     
                                     }
                                 

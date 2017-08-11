@@ -3,6 +3,7 @@
 <head>
 
    <% include partials/head %>
+    <script type="text/javascript" src="javascripts/googleanalytics.js" ></script>
 	  <style>
     .moodGoals > img { display: none }
     </style>	  
@@ -65,7 +66,20 @@
             </div>
         </div>
     </div>
-  
+  <div class="modal fade" id="masgPay" role="dialog">
+        <div class="modal-dialog modal-sm" >
+            <!-- Modal content-->
+            <div class="modal-content PAN">
+                <div class="modal-body " style="">
+                    <h4 class="PANHead"></h4>
+
+                   
+                  <button type="" style="width:70px;text-align:center;" class="btn btn-lg sign-up" data-toggle="modal" data-dismiss="modal">OK</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 <!--    <section id="section1"   >-->
       
@@ -521,8 +535,21 @@ style=" padding-left: 6%;
      
     </div>
 <!--Custom Js links -->
-        
-        
+    </div>  
+     <script>
+      $(document).ready(function(){
+    // debugger;
+    <% if (payU.flashMessage === true) { if(payU.status == "success") { %>
+    $('#masgPay .modal-body h4').html('Thank you, Your Payment was successful.<br>You can now start Investing.');
+    $('#masgPay .modal-body button').css('display', 'none');
+    $('#masgPay').modal('show');
+    <% } else if(payU.status == "fail") { %>
+    $('#masgPay .modal-body h4').html('Sorry, Your payment was unsuccessful.<br>Kindly try after some time.');
+    $('#masgPay .modal-body button').css('display', 'none');
+    $('#masgPay').modal('show');    
+    <% } }%>
+});
+      </script>   
 
   <script src="javascripts/TweenMax.min.js"></script>
 <script src="javascripts/TextPlugin.min.js"></script>

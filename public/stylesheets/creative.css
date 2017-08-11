@@ -1615,7 +1615,7 @@ padding-right:3em;
 
  .modal-backdrop {
 
-    background-color: rgb(242, 245, 251);
+    background-color: rgba(242, 245, 251, 0.47);
 }
 
  .modal {

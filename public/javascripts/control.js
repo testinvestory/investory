@@ -418,7 +418,7 @@ var moodFile;
    // var $Nerdy="Nerdy";
 var $GoalimgLink = "images/goals/"; 
     
-var Rich = ["Crorepati", "Fancy Car", "Double the money"];
+var Rich = ["Crorepati", "Fancy Car", "Vacation Home"];
 
 var Broke = ["Medical Corpus", "Emergency", "Splurging"];
     
@@ -1122,6 +1122,7 @@ var $smartGoals = "smartGoals";
         $('.page1 .next').removeAttr('disabled');
           
        /* if(!loggedIn) {*/
+              // debugger;
             var goal = moodFile;
             goal.substr(goal);
             goal = goal.substr(goal);
@@ -1170,7 +1171,9 @@ var $smartGoals = "smartGoals";
     }
     }
  sessionStorage.setItem('tempGoals', JSON.stringify({"goal": goal, "mood": mood, "moodText": moodText}));
-            console.log(sessionStorage.getItem("tempGoals"));    
+            console.log(sessionStorage.getItem("tempGoals")); 
+      
+           
     });
 
          
@@ -1268,9 +1271,42 @@ var goalImg = $("#mood",this).text();
     
     $(".page1 .next, .page1 .skip").click(function(){ 
             
+        
+
         var smartSource = getParameterByName('smartGoal');
-         $('.page2 #amount').val('');
-        $('.page2 #time').val('');
+        
+        
+       
+        var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
+        
+        if(tempGoals==null)
+            {
+              $('.page2 #amount').val('');
+                  $('.page2 #time').val('');
+                  $('.page2 #amount').attr('readonly', false);
+                     $('.page2 #time').attr('readonly', false);  
+            }
+        else if(tempGoals.goal=='Crorepati'){
+               
+             $('.page2 #amount').val('1,00,00,000');
+              $('.page2 #amount').attr('readonly', true);
+         }else if(tempGoals.goal=='Emergency'){
+            
+              $("#displayPanModal").modal("show");
+                $("#displayPanModal .modal-body p").html('Put your 6 months income as Emergency Fund and No.of Year is fixed to 1.');
+             $('.page2 #time').val('1');
+              $('.page2 #time').attr('readonly', true);
+         }
+         else{
+                  $('.page2 #amount').val('');
+                  $('.page2 #time').val('');
+                  $('.page2 #amount').attr('readonly', false);
+                     $('.page2 #time').attr('readonly', false);
+             
+             }
+        
+       
+        
        selectTab(2);
         /*if(smartSource=="taxSavings") 
             selectTab(8);

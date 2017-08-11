@@ -19,9 +19,7 @@ var client = require('../config/database');
 
 // load up the user model
 var User       		= require('../app/models/user');
-var Profile       	= require('../app/models/profile');
-var Portfolio= require('../app/models/portfolio');
-var Payment= require('../app/models/schemepayment');
+
 var emailID,paymentKya;
 
 var Zendesk = require('zendesk-node-api');
@@ -90,6 +88,8 @@ module.exports = function(passport) {
     passport.deserializeUser(function(userid, done) {
       //console.log("Hi deserialize");
     var query=client.query("SELECT * FROM users WHERE userid = $1 ",[userid], function(err, result){
+       
+       
             done(err, result.rows[0]);
         });
       });
@@ -111,11 +111,7 @@ var newUser= new User();
   
 		// find a user whose email is the same as the forms email
 		// we are checking to see if the user trying to login already exists
-
-        
-    
-		
-		async.waterfall([function(callback){ 
+	async.waterfall([function(callback){ 
 		//signup query
 		
 			 var query=client.query("SELECT * FROM users WHERE email = $1",[email], function(err, result){
@@ -156,7 +152,7 @@ var newUser= new User();
 						console.log(req.body.assetStoreOffline);
                         
                         //Fresh desk generating ticket new user signup
-                        freshdesk.createTicket({
+                       /* freshdesk.createTicket({
                         name: newUser.name,
                         email: newUser.email,
                         subject: 'New user Sign up',
@@ -165,7 +161,7 @@ var newUser= new User();
                         priority: 3
                         }, function (err, data) {
                                 console.log(err);
-                            })
+                            })*/
                         
                         
                         
@@ -299,7 +295,7 @@ var newUser= new User();
                     user.password = result.rows[0]['password'];
                     user.userid = result.rows[0]['userid'];
 				  var text = 'Hi '+ user.name+',';
-	mail('sohan@plasticwaterlabs.com',user.email,'login succesfull',text);
+	              
 				  
                
                 }
@@ -312,7 +308,7 @@ var newUser= new User();
                 return next(null, false, req.flash('loginMessage', 'Oops! Entered wrong password.')); // create the loginMessage and save it to session as flashdata
 			}
              					
-                			   zendCreateTicket(email,'Succesfully Logged in');
+                			  
 
          
            

@@ -26,14 +26,14 @@ exports.getAccount = (req, res) => {
 	else
 		pageName = "yourStory";
 
-	console.log("invoices", req.session.user.userid);
+	
 	var query = client.query("select to_char(a.userinvestmentorderdate,'dd-Mon-yyyy') as investdate, b.name, a.amount,NULLIF(a.units,0) as units from userinvestmentorders a, schemesmaster b where a.schemeid = b.schemeid and a.userid=$1", [req.session.user.userid], function (err, result) {
 		if (err)
 			console.log("Cant get portfolio details in goal selection" + err);
-		console.log("Invoices" + result.rows.length)
+		
 
 		if (result.rows.length > 0) {
-			console.log("statements");
+			
 
 
 			var len = result.rows.length;
@@ -91,7 +91,6 @@ exports.getInvoice = (req, res) => {
 		if (err)
 			console.log("Cant get portfolio details in goal selection");
 		if (result.rows.length > 0) {
-			console.log("statements");
 			var len = result.rows.length;
 			res.render(pageName, {
 				user: req.user,
@@ -111,7 +110,7 @@ exports.getInvoice = (req, res) => {
 			});
 		}
         else {
-			console.log("statements");
+			
 			var len = result.rows.length;
 			res.render(pageName, {
 				user: req.user,
@@ -272,7 +271,7 @@ exports.postupdatePassword = (req, res) => {
           
     if(newPassword==confirmPassword)
     {
-        console.log("New and confirm passwords are Matched")
+       // console.log("New and confirm passwords are Matched")
       let Password=bcrypt.hashSync(confirmPassword, bcrypt.genSaltSync(8), null);
    
     var query=client.query("update users set password=$1 where userid=$2", [Password,req.session.user.userid
@@ -307,12 +306,12 @@ exports.postupdatePassword = (req, res) => {
     });
     }
     else{
-               console.log("Passwords not matched");  
+         //      console.log("Passwords not matched");  
        req.flash('NotMatched','Passwords not matched');
         
-               res.render(pageName,{
-                   message:req.flash('NotMatched'),
-                val:'2',
+            res.render(pageName,{
+            message:req.flash('NotMatched'),
+            val:'2',
             user: req.user,
 			selectorDisplay: "show",
 			loggedIn: loginStatus,
@@ -328,13 +327,13 @@ exports.postupdatePassword = (req, res) => {
       }
             
     else{
-                console.log("Old Password entered is wrong");
+            
               
          req.flash('OldMatched','Old Password entered is wrong');
         let val=3;
-                res.render(pageName,{
-                 message:req.flash('OldMatched'),   
-               val:'3',
+            res.render(pageName,{
+            message:req.flash('OldMatched'),   
+            val:'3',
             user: req.user,
 			selectorDisplay: "show",
 			loggedIn: loginStatus,

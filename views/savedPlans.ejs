@@ -3,6 +3,7 @@
 
 <head>
   <% include partials/head %>
+    <script type="text/javascript" src="javascripts/googleanalytics.js" ></script>
     <link rel="stylesheet" href="stylesheets/updated.css">
     <link rel="stylesheet" href="stylesheets/responsive.css">
     <link rel="stylesheet" href="stylesheets/responsive2560.css" media="screen and (width:2560px) and (height:1600px)">
@@ -82,10 +83,11 @@
                 <thead>
                   <tr>
                     <th style="border: none;    float: right;"> 
-                         <form action="/Proceed" method="post">
-                             <input id="savedplanid" name="savedplanid" value="<%=plansHeader[j].savedplanid %>" hidden="hidden">
-                        <button class="btn saved" type="submit">Proceed</button>
-                         </form>   
+                        <!-- <form action="/Proceed" method="post">-->
+                             <!--<input id="savedplanid" name="savedplanid" value="<%=plansHeader[j].savedplanid %>" hidden="hidden">-->
+                        <a href="/GoalSelection">
+                            <button class="btn saved" type="submit">Proceed</button></a>
+                         <!--</form>   -->
                         
                              <button class="btn saved" data-toggle="modal" data-target="#myModalDiscard">Discard</button>
                               </th>
@@ -124,6 +126,8 @@
 
         </div>
       </div>
+        
+        
  <%}%>
     </div>
 

@@ -16,7 +16,7 @@ var currentPage;
 exports.getInvestment = (req, res) =>  {
 	currentPage = req.session.activePage = "/Investment";
     
-    console.log("INSIDE investment")
+
 	loginStatus = functions.checkLoginStatus(req);
 	var today = new Date();
 	var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
@@ -25,14 +25,14 @@ exports.getInvestment = (req, res) =>  {
 		pageName = "myInvoicesMobile";
 	else
 		pageName = "yourStory";
-	console.log("investment", req.session.user.userid);
+	
 	var query = client.query("select to_char(a.userinvestmentorderdate,'dd-Mon-yyyy') as investdate, b.name, a.amount,NULLIF(a.units,0) as units from userinvestmentorders a, schemesmaster b where a.schemeid = b.schemeid and a.amount > 0 and a.userid=$1 order by 1 desc", [req.session.user.userid], function (err, result) {
 		if (err) {
 			console.log("Cant get portfolio details in goal selection");
 		}
         
         if (result.rows.length > 0) {
-			console.log("statements");
+			
 			var len = result.rows.length;
 			res.render(pageName, {
 				user: req.user,
@@ -52,7 +52,7 @@ exports.getInvestment = (req, res) =>  {
 			});
 		}
         else{ 
-			console.log("statements");
+			
 			
 			res.render(pageName, {
 				user: req.user,
@@ -90,8 +90,8 @@ exports.postSetData = (req, res) => {
 
 
 	req.session.save();
-	console.log("offline = " + req.session.offlinegoalName);
-	console.log("offline = " + req.session.offlineriskProfile);
+	/*console.log("offline = " + req.session.offlinegoalName);
+	console.log("offline = " + req.session.offlineriskProfile);*/
 
 };
 

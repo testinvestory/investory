@@ -6,7 +6,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css">
 </head>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript">
+        
 </script>
+    <script type="text/javascript" src="javascripts/googleanalytics.js" ></script>
     <style>
        
     
@@ -289,6 +291,19 @@ body {
            }
            
        };
+        
+         var micr=function(){
+           var micr=$('#micr').val();
+           if(micr.length<=4){
+               $('#errMasgMicr').slideDown();
+               return false;
+           }
+           else{
+              $('#errMasgMicr').slideUp();
+               return true;
+           }
+           
+       };
         var mobile=function(){    
             var regExp1 =/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
            var mobile=$('#mobile').val();
@@ -354,6 +369,7 @@ body {
         var pinOk = validatePinCode();
         var panOK = validatePan();
         var banknameOk=bankName();
+        var micrOk=micr();
         var nameOk=validateName();
         var bankBranchOk=bankBranch();
         var accnoOk=accno(); 
@@ -371,7 +387,7 @@ body {
         var occupationOk=occupation();
         var cityOk=city();
             
-        if (dobOk && pinOk && panOK && banknameOk && nameOk && bankBranchOk && accnoOk && acctypeOk && ifscOk && nomineenameOk && nrelationshipOk && nomineeaddressOk && holdingOk && countryOk && stateOk && addressOk && emailOk &&  mobileOk && occupationOk && cityOk)
+        if (dobOk && pinOk && panOK && banknameOk && nameOk && bankBranchOk && accnoOk && acctypeOk && ifscOk && nomineenameOk && nrelationshipOk && nomineeaddressOk && holdingOk && countryOk && stateOk && addressOk && emailOk &&  mobileOk && occupationOk && cityOk && micrOk)
             return true;
         else
             return false;
@@ -382,6 +398,7 @@ body {
           var dobOk = checkDOB();
         var pinOk = validatePinCode();
        // var panOK = validatePan();
+        var micrOk=micr();
         var banknameOk=bankName();
         var nameOk=validateName();
         var bankBranchOk=bankBranch();
@@ -400,7 +417,7 @@ body {
         var occupationOk=occupation();
         var cityOk=city();  
               
-        if (dobOk && pinOk && banknameOk && nameOk && bankBranchOk && accnoOk && acctypeOk && ifscOk && nomineenameOk && nrelationshipOk && nomineeaddressOk && holdingOk && countryOk && stateOk && addressOk && emailOk &&  mobileOk && occupationOk && cityOk)
+        if (dobOk && pinOk && banknameOk && nameOk && bankBranchOk && accnoOk && acctypeOk && ifscOk && nomineenameOk && nrelationshipOk && nomineeaddressOk && holdingOk && countryOk && stateOk && addressOk && emailOk &&  mobileOk && occupationOk && cityOk && micrOk)
             {
               window.location.href ="/pdf";    
               return true;
@@ -426,7 +443,7 @@ body {
         <div class="panel panel-default well">
           <div class="panel-body">
             <form onsubmit="return validateFrom()"  name="aofinfo" id="aofinfo" class="form-horizontal track-event-form bv-form" action="/bseInputData" method="post"  >
-            <div class="form-group">               
+        <!--    <div class="form-group">               
                 <div class="col-sm-4 col-xs-12">
                     
                   <div class="input-group">
@@ -453,7 +470,7 @@ body {
                     </div>
                         
                         </div>
-                  </div>
+                  </div>-->
 <br><h4><b>Unit Folder Information :</b></h4>
               <div class="form-group">               
                 <div class="col-sm-6 col-xs-12">
@@ -665,8 +682,14 @@ body {
                     <input type="text" class="form-control" id="ifsc" placeholder="Enter IFSC Code" name="ifsc" value="<%=data.ifsc%>">
                       <p id = "errMasgIfsc" style= "display: none; color: red">Please Enter IFSC Code</p>
                         </div>
-                    </div>            
-              
+                    </div>
+                     <div class="col-sm-6 col-xs-12">
+                          <div class="input-group">
+              <label>MICR :</label> 
+                            <input type="text" class="form-control" id="micr" placeholder="Enter MICR" name="micr" value="<%=data.micr%>">
+                              <p id="errMasgMicr" style="display: none; color: red">Please Enter MICR</p> 
+                  </div>
+                    </div>
                 </div>
                 <br>
                 <h4><b>Nominee Details :</b></h4>
@@ -715,7 +738,7 @@ body {
                      </div> 
                      
                 </div>
-                <h5><u>Declaration and Signature</u></h5>
+             <!--   <h5><u>Declaration and Signature</u></h5>
                 <p>I/We confirm that details provided by me/us are true and correct. I/We has/have invested or desirous to invest in the Scheme(s) Mutual Fund under Direct Plan and agree to comply with the terms and conditions of the Scheme related documents.</p>
                 <br>
                 <p>I/We hereby give you my/our consent to share/provide the transactions data feed/portfolio holdings/NAV etc. in respect of my/our investments under Direct Plan of all Schemes managed by you, to the above mentioned RIA.</p>
@@ -744,7 +767,7 @@ body {
                 <div class="col-sm-6">
                      <label>Signature :</label>  
                     </div>
-                </div>
+                </div>-->
              <div class="form-group">
         <div class="col-xs-8 col-xs-offset-4">
             <button type="submit" class="btn">Save</button>

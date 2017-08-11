@@ -1544,3 +1544,8 @@ h6.InvestTeamP {/*know us last paragraph*/
 #myStory .panel { border: 0; position: static; width: 100%; box-shadow: none }
 #myStory .panel-body { padding: 0; margin: 0; width: 100% }
 .froggie { width: 25% }
+
+#testimonialbody{
+font-size: 14px;
+font-weight: 600;
+}

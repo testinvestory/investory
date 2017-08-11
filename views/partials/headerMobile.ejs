@@ -98,19 +98,19 @@
                             <hr>
                             <input type="number" class="form-control" id="mnumber" name="mnumber" placeholder="Mobile Number" ng-model="phoneNumber"
                                 ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/" required/>
-                            <span ng-show="signUpForm.mnumber.$touched && signUpForm.mnumber.$invalid">Phone number is invalid.</span>
+                            <span style="color: #f80303;font-weight: 800;" ng-show="signUpForm.mnumber.$touched && signUpForm.mnumber.$invalid">Enter valid Phone number.</span>
 
                             <input type="email" class="form-control" id="email" name="email" placeholder="Email" ng-model="email" ng-pattern="/^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/"
                                 required />
-                            <span ng-show="signUpForm.email.$touched && signUpForm.email.$invalid  ">Email Invalid.</span>
+                            <span style="color: #f80303;font-weight: 800;" ng-show="signUpForm.email.$touched && signUpForm.email.$invalid  ">Enter your Email id.</span>
 
 
                             <input type="text" class="form-control" id="username" name="username" placeholder="Name" ng-model="myName" ng-minlength="2"
                                 ng-maxlength="50" required/>
-                            <span ng-show="signUpForm.username.$touched && signUpForm.username.$invalid">Name invalid.</span>
+                            <span style="color: #f80303;font-weight: 800;" ng-show="signUpForm.username.$touched && signUpForm.username.$invalid">Enter your Name.</span>
                             <input type="password" class="form-control" name="password" id="password" placeholder="Password" ng-model="Password" required
                             />
-                            <span ng-show="signUpForm.password.$touched && signUpForm.password.$invalid">Password invalid.</span>
+                            <span style="color: #f80303;font-weight: 800;" ng-show="signUpForm.password.$touched && signUpForm.password.$invalid">Entered Password is invalid.</span>
                             <button type="submit" class="btn btn-lg login" ng-disabled="signUpForm.$invalid"> Submit </button>
 
                         </form>
@@ -143,18 +143,18 @@
 
                             <input type="email" class="form-control" id="email" name="email" placeholder="Email" ng-model="email" ng-pattern="/^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/"
                                 required />
-                            <span ng-show="exampleForm.email.$touched && exampleForm.email.$invalid  ">Email Invalid.</span>
+                            <span style="color: #f80303;font-weight: 800;" ng-show="exampleForm.email.$touched && exampleForm.email.$invalid  ">Enter your Email id.</span>
 
 
 
                             <input type="password" class="form-control" id="password" name="password" placeholder="Password" ng-model="Password" required
                             />
 
-                            <span ng-show="exampleForm.password.$touched && exampleForm.password.$invalid">Password invalid.</span>
+                            <span  style="color: #f80303;font-weight: 800;" ng-show="exampleForm.password.$touched && exampleForm.password.$invalid">Entered Password is invalid.</span>
 
                             <button id="login" type="submit" class="btn btn-lg login " ng-disabled="exampleForm.$invalid"> Login </button>
                             <button type="" class="btn btn-lg sign-up" data-toggle="modal" data-target="#signUp" data-dismiss="modal">Sign Up</button>
-                            <a href="#" class="forgot">Forgot Password?</a>
+                            <a href="/forgot" class="forgot">Forgot Password?</a>
                             <button type="button" class="btn btn-lg facebook" onclick="auth('facebook')">Login with Facebook</button>
                             <button type="button" class="btn btn-lg google" onclick="auth('google')">Login with Google+</button>
 

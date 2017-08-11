@@ -54,7 +54,7 @@ exports.getSaveAsset = (req, res) => {
 
 					//insert to the saved plans header
 
-					console.log("mA0" + req.session.offlinemasterAmount);
+					//console.log("mA0" + req.session.offlinemasterAmount);
 					var query = client.query("INSERT INTO savedplansheader(userid,goalid,riskprofile, masteramount, totalyears, sip,status,created,modified,createdby) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING savedplanid", [req.session.user.userid, goalid, req.session.offlineriskProfile, req.session.offlinemasterAmount, req.session.offlinetotalYears, req.session.offlinesip, status,
 						creation_date, modified_date, req.session.user.name], function (err, result) {
 							if (err) {
@@ -62,7 +62,7 @@ exports.getSaveAsset = (req, res) => {
 								res.send("false");
 							} else {
 								//res.send(1);
-								console.log("savedplanid" + result.rows[0]['savedplanid']);
+								//console.log("savedplanid" + result.rows[0]['savedplanid']);
 
 								callback(null, result.rows[0]['savedplanid'])
 							}
@@ -76,7 +76,7 @@ exports.getSaveAsset = (req, res) => {
 					var type = 'allocation';
 					var category = ['Equity', 'Hybrid', 'Debt'];
 
-					console.log("id=" + savedPlanId);
+					//console.log("id=" + savedPlanId);
 
 					/*,(savedPlanId,type,category[1],category[1],percentage[1],amount[1],creation_date,modified_date,req.session.user.name),(savedPlanId,type,category[2],category[2],percentage[2],amount[2],creation_date,modified_date,req.session.user.name)*/
 
@@ -115,7 +115,7 @@ exports.getSaveAsset = (req, res) => {
 
 					},
 					function (headerData, callback) {
-						console.log(headerData)
+						
 
 
 
@@ -127,7 +127,7 @@ exports.getSaveAsset = (req, res) => {
 
 
 								asetDataDetail = result.rows;
-								console.log(asetDataDetail[1]);
+							
 
 
 								callback(null, headerData, asetDataDetail)
@@ -140,7 +140,7 @@ exports.getSaveAsset = (req, res) => {
 
 					}, function (headerData, detailData, callback) {
 
-						console.log("data", headerData.riskprofile);
+						
 						//initialize query
 						//using the json data
 						//pass the query
@@ -161,7 +161,7 @@ exports.getSaveAsset = (req, res) => {
                             
                             
                  
-                 console.log("I am in=============><=========Nishant");
+               
           var type='Tax';
             
             var riskProfile=headerData.riskprofile;
@@ -176,7 +176,7 @@ exports.getSaveAsset = (req, res) => {
     console.log('Cant get assets values')
   }
         scheme = result.rows
-                 console.log("1234567 "+scheme.length+"scheme"+scheme[1].name+scheme[1].category);
+                
             
   
   
@@ -205,11 +205,11 @@ exports.getSaveAsset = (req, res) => {
     var schemeDescription = scheme[i].name
     var schemeCode = scheme[i].code
     var schemeId = scheme[i].schemeid
-    console.log(scheme[i].code)
+  //  console.log(scheme[i].code)
 									// var schemeCode = scheme[i].code;
     creation_date = new Date()
     modified_date = new Date()
-    console.log('amt=' + amt[i])
+    //console.log('amt=' + amt[i])
 
 									
 
@@ -220,7 +220,7 @@ exports.getSaveAsset = (req, res) => {
 												// res.send("false");
   } else {
 												// res.send(1);
-    console.log('result' + result.rows)
+   // console.log('result' + result.rows)
 
 												// callback(null)
   }
@@ -287,7 +287,7 @@ exports.getSaveAsset = (req, res) => {
 
 
 								}
-								console.log("j" + j + "k" + k + "l" + l);
+								//console.log("j" + j + "k" + k + "l" + l);
 
 
 								for (i = 0; i < scheme.length; i++) {
@@ -311,7 +311,7 @@ exports.getSaveAsset = (req, res) => {
 									}
 								}
 
-								console.log("Equity" + schemecamnteq + "Hybrid" + schemecamnthy + "Debt" + schemecamntde);
+								//console.log("Equity" + schemecamnteq + "Hybrid" + schemecamnthy + "Debt" + schemecamntde);
 
 								var schemeAmount = {
 

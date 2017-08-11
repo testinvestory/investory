@@ -47,7 +47,7 @@ exports.postInsertOrder = (req, res) => {
 
 	var userID = "109401";
 	var memberID = "10940";
-	var password = "Syed@11";
+	var password = "Syed@22";
 	var passKey = "test";
     var clientId;
     var nishant;
@@ -56,7 +56,7 @@ exports.postInsertOrder = (req, res) => {
         var clientId=req.session.user.clientid;
                 var userID = "109401";
 	             var memberID = "10940";
-	             var password = "Syed@11";
+	             var password = "Syed@22";
 	             var passKey = "test";
         
             if(clientId=="not client"){
@@ -119,7 +119,7 @@ exports.postInsertOrder = (req, res) => {
           
            var clientCode=getClientId(req.session.user.userid);
            
-           console.log("client code",clientCode)
+          
           // console.log("Data needed",clientData);
           
           
@@ -132,7 +132,7 @@ exports.postInsertOrder = (req, res) => {
           //2 blank
            var dob=clientData.dob;
           var dob1=dob.replace(/-/g, "/");
-         console.log("dobbbb",dob1);
+        
           
           var clientGender="M";     //Currenlty no data found need to get data from user
           var clientFather="";       // if client minor CLIENT FATHERHUSBAND tax status 02 then mandatory
@@ -208,19 +208,21 @@ exports.postInsertOrder = (req, res) => {
                     console.log("check",results["s:Envelope"]["s:Body"][0]['MFAPIResponse'][0]['MFAPIResult'])
                     
                     
-                    var creteClientMasg = results["s:Envelope"]["s:Body"][0]['MFAPIResponse'][0]['MFAPIResult'];
-				    creteClientMasg = creteClientMasg.toString().split("|");
-                     console.log("Is Client Created ???",creteClientMasg[1]);
-					req.session.clientId=clientId;
-					callback(null,clientId,creteClientMasg[0],clientData)
+                    var createClientMasg = results["s:Envelope"]["s:Body"][0]['MFAPIResponse'][0]['MFAPIResult'];
+				    createClientMasg = createClientMasg.toString().split("|");
+                     console.log("Is Client Created ???",createClientMasg[1]);
+                   
+					callback(null,clientId,createClientMasg[0],clientData) 
+                
+					
 
 				})
             });
           
       },function(clientId,creteClientMasg,clientData,callback){
           
-          console.log("Client id----------------",clientId)
-          console.log("Masg Code",creteClientMasg)
+         
+         
           var userid=req.session.user.userid;
           
           if(creteClientMasg=='100'){
@@ -241,7 +243,7 @@ exports.postInsertOrder = (req, res) => {
           
       },function(clientId,clientData,callback){
           
-          console.log("upload file callback clientcode",clientId);
+       
           //console.log("client data",clientData);
           var aofPath=clientData.aof;
           var nachPath=clientData.nach;
@@ -252,15 +254,15 @@ exports.postInsertOrder = (req, res) => {
           
          var dateName=getDate1();
           
-          console.log("date as ddmmyyyy",dateName);
+         
           
           var userID = "109401";
 	      var memberID = "10940";
-	      var password = "Syed@11";
+	      var password = "Syed@22";
 	      var passKey = "test";
           var email=req.session.user.email;
-          var tifPath="E:/bseDocuments/"+email+"/";
-          //var tifPath="/home/ubuntu/bsedocuments/"+email+"/";
+         // var tifPath="E:/bseDocuments/"+email+"/";
+          var tifPath="/home/ubuntu/bsedocuments/"+email+"/";
            var pathAOFtif=tifPath+"/"+memberID+clientId+dateName+".tiff";
           var filename=memberID+clientId+dateName+".tiff";
      if(aofPath){
@@ -420,7 +422,7 @@ exports.postInsertOrder = (req, res) => {
      },function (clientId,callback) {
             
        
-        console.log("insert into tables client id",clientId);
+        
 			//user investments header
 			var userId = req.session.savedplanheader.userid;
 			var goalId = req.session.savedplanheader.goalid;
@@ -442,7 +444,7 @@ exports.postInsertOrder = (req, res) => {
 						res.send("false");
 					} else {
 						//res.send(1);
-						console.log("savedplanid" + result.rows[0]['userinvestmentheaderid']);
+						//console.log("savedplanid" + result.rows[0]['userinvestmentheaderid']);
 
 						req.session.userinvestmentheaderid = result.rows[0]['userinvestmentheaderid'];
 						callback(null, req.session.userinvestmentheaderid,clientId)
@@ -450,7 +452,7 @@ exports.postInsertOrder = (req, res) => {
 				});
 		}, function (userid,clientId,callback) {
             
-             console.log("insert into tables client id 2",clientId);
+            
 			var len = req.session.savedplandetail.length;
 			//user investment orders
 			var userId = req.session.savedplanheader.userid;
@@ -486,7 +488,7 @@ exports.postInsertOrder = (req, res) => {
 
 				if (x <= y) {
 					bsetxn[i] = transNo;
-					console.log("SchemeDesc" + schemeDesc + "id" + schemeId + "amount" + amount + "txn" + bsetxn[i]);
+					//console.log("SchemeDesc" + schemeDesc + "id" + schemeId + "amount" + amount + "txn" + bsetxn[i]);
 					var query = client.query("INSERT INTO userinvestmentorders(userinvestmentorderdate,userid,userpan,ordertype,goalid,riskprofile,schemeid,amount,bsetxnreference,created,modified,createdby) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING userinvestmentorderid", [orderDate, userId, userPan, orderType, goalId, riskProfile, schemeId, amount, transNo,
 						creation_date, modified_date, req.session.user.name], function (err, result1) {
 							if (err) {
@@ -494,27 +496,27 @@ exports.postInsertOrder = (req, res) => {
 								res.send("false");
 							} else {
 								//res.send(1);
-								console.log("userinvestmentorderid" + result1.rows[0]['userinvestmentorderid']);
+								//console.log("userinvestmentorderid" + result1.rows[0]['userinvestmentorderid']);
 
 								var dummy = result1.rows[0]['userinvestmentorderid'];
 								userinvestmentorderid.push(dummy);
-								console.log("dummy" + userinvestmentorderid + "i" + i);
+								//console.log("dummy" + userinvestmentorderid + "i" + i);
 
 								//userinvestmentorderid[i] =dummy;
 
 
 								if (x >= y) {
-									console.log("inside callback" + i)
+									//console.log("inside callback" + i)
 									//							console.log("inside callback x"+x)
 									//							console.log("inside callback y"+y)
-									console.log("send" + userinvestmentorderid + "transaction" + bsetxn)
+								//	console.log("send" + userinvestmentorderid + "transaction" + bsetxn)
 									req.session.bsetxn = bsetxn;
 									callback(null, userinvestmentorderid,clientId)
 								}
 								x++;
 
-								console.log("inside loop x" + x)
-								console.log("inside loop y" + y)
+								//console.log("inside loop x" + x)
+								//console.log("inside loop y" + y)
 
 							}
 
@@ -553,7 +555,7 @@ exports.postInsertOrder = (req, res) => {
 			for (i = 0; i < len; i++) {
 				var userinvestmentorderid = id[i];
 				var transNo = functions.getTransactionID(req.session.user.userid) + i;
-				console.log("out loop" + req.session.savedplandetail[i].allocationdescription);
+				//console.log("out loop" + req.session.savedplandetail[i].allocationdescription);
 				var amount = req.session.savedplandetail[i].allocationamount;
 				var schemeCode = req.session.savedplandetail[i].schemecode;
 				var schemeDesc = req.session.savedplandetail[i].allocationdescription;
@@ -561,7 +563,7 @@ exports.postInsertOrder = (req, res) => {
 				var allocationPercentage = req.session.savedplandetail[i].allocationpercentage;
 
 				var schemeId = req.session.savedplandetail[i].schemeid;
-				console.log("orderid" + userinvestmentorderid);
+				//console.log("orderid" + userinvestmentorderid);
 
 				if (x <= y) {
 					var query = client.query("INSERT INTO userinvestmentdetail(userinvestmentheaderid,schemeid,schemedescription,schemecategory,allocationpercentage,allocationamount,created,modified,createdby,orderid,schemecode) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [userinvestmentheaderid, schemeId, schemeDesc, schemeCategory, allocationPercentage, amount, creation_date, modified_date, req.session.user.name, userinvestmentorderid, schemeCode],
@@ -571,7 +573,7 @@ exports.postInsertOrder = (req, res) => {
 								res.send("false");
 							} else {
 								//res.send(1);
-								console.log("User investment details" + result2.rows);
+								//console.log("User investment details" + result2.rows);
 
 
 								if (x >= y) {
@@ -582,8 +584,8 @@ exports.postInsertOrder = (req, res) => {
 								}
 								x++;
 
-								console.log("inside loop x" + x)
-								console.log("inside loop y" + y)
+							//	console.log("inside loop x" + x)
+							//	console.log("inside loop y" + y)
 
 
 
@@ -602,7 +604,7 @@ exports.postInsertOrder = (req, res) => {
 		},
 		function (x, clientId,callback) {
 
-             console.log("order creation method client id",clientId);
+             
 			//get the password for the order creation 
 
 			var options = {
@@ -612,22 +614,23 @@ exports.postInsertOrder = (req, res) => {
 					'cache-control': 'no-cache',
 					'content-type': 'application/soap+xml; charset=utf-8'
 				},
-				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmf.in/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmf.in/MFOrderEntry/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmf.in/MFOrderEntry/getPassword">\n         <ns:UserId>109401</ns:UserId>\n          <ns:Password>Syed@11</ns:Password>\n         <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
+				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmf.in/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmf.in/MFOrderEntry/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmf.in/MFOrderEntry/getPassword">\n         <ns:UserId>109401</ns:UserId>\n          <ns:Password>Syed@22</ns:Password>\n         <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
 			};
 
 			request(options, function (error, response, body) {
 				if (error) throw new Error(error);
-
+                
+                console.log('statusCode:', response && response.statusCode);
 				parseString(body, function (err, results) {
 					// Get The Result From The Soap API and Parse it to JSON
 
 					//	console.log(buffer);
-					//
-                    console.log("herrerererererere",results);
+					//console.log("Response----------------",response);
+                  //  console.log("herrerererererere",results);
 					var password = results["s:Envelope"]["s:Body"][0]["getPasswordResponse"][0]["getPasswordResult"][0];
 					//console.log("myFault"+results["Fault"]["Reason"][0]["Text"]);
 					orderBsePassArray = password.toString().split("|");
-					console.log("Order ENtry Service Password " + orderBsePassArray[1]);
+					//console.log("Order ENtry Service Password " + orderBsePassArray[1]);
 					callback(null, orderBsePassArray[1],clientId)
 
 				})
@@ -642,20 +645,20 @@ exports.postInsertOrder = (req, res) => {
 		function (pass,clientId,callback) {
 
 			var len = req.session.savedplandetail.length;
-             console.log("in orders client id",clientId);
+            // console.log("in orders client id",clientId);
 			x = 1; y = len;
 
 			//order entry
 			for (i = 0; i < len; i++) {
 
 
-				console.log("init x" + x);
-				console.log("init" + y);
+			//	console.log("init x" + x);
+			//	console.log("init" + y);
                 
                 
 				var amount = req.session.savedplandetail[i].allocationamount;
 
-				console.log("bse" + i);
+                console.log("bse" + i);
 				var transCode = "NEW";
 				var transNo = req.session.bsetxn[i];
 				var orderId = "";
@@ -678,7 +681,7 @@ exports.postInsertOrder = (req, res) => {
 				var DPC = "N";
 				var IPAdd = "";
 
-				console.log("transactionNo" + transNo[i]);
+			//	console.log("transactionNo" + transNo[i]);
 				var orderBody = '<ns:TransCode>' + transCode + '</ns:TransCode><ns:TransNo>' + transNo + '</ns:TransNo><ns:OrderId>' + orderId + '</ns:OrderId><ns:UserID>' + userID + '</ns:UserID><ns:MemberId>' + memberID + '</ns:MemberId><ns:ClientCode>' + clientCode + '</ns:ClientCode><ns:SchemeCd>' + schemeCode + '</ns:SchemeCd><ns:BuySell>' + buySell + '</ns:BuySell><ns:BuySellType>' + buySellType + '</ns:BuySellType><ns:DPTxn>' + DPTxn + '</ns:DPTxn><ns:OrderVal>' + orderValue + '</ns:OrderVal><ns:Qty>' + quantity + '</ns:Qty><ns:AllRedeem>' + allRedeem + '</ns:AllRedeem><ns:FolioNo>' + folioNo + '</ns:FolioNo><ns:Remarks>' + remarks + '</ns:Remarks><ns:KYCStatus>' + KYCStatus + '</ns:KYCStatus><ns:RefNo>' + refNo + '</ns:RefNo><ns:SubBrCode>' + subBrCode + '</ns:SubBrCode><ns:EUIN>' + EUIN + '</ns:EUIN><ns:EUINVal>' + EUINVal + '</ns:EUINVal><ns:MinRedeem>' + minRedeem + '</ns:MinRedeem><ns:DPC>' + DPC + '</ns:DPC><ns:IPAdd>' + IPAdd + '</ns:IPAdd><ns:Password>' +
 					pass + '</ns:Password><ns:PassKey>' + passKey + '</ns:PassKey><ns:Parma1></ns:Parma1><ns:Param2></ns:Param2><ns:Param3></ns:Param3>';
 
@@ -692,12 +695,12 @@ exports.postInsertOrder = (req, res) => {
 					body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmf.in/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmf.in/MFOrderEntry/orderEntryParam</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:orderEntryParam  xmlns="http://bsestarmf.in/MFOrderEntry/orderEntryParam">\n         ' + orderBody + '  </ns:orderEntryParam>\n   </soap:Body>\n</soap:Envelope>'
 				};
 
-				console.log("in loop" + req.session.savedplandetail[i].allocationdescription);
+				//console.log("in loop" + req.session.savedplandetail[i].allocationdescription);
 
 				request(options, function (error, response, body) {
 					if (error) throw new Error(error);
 
-
+                   // console.log("Response orders----------------",response);
 					parseString(body, function (err, results) {
 						// Get The Result From The Soap API and Parse it to JSON
 
@@ -705,14 +708,14 @@ exports.postInsertOrder = (req, res) => {
 						//
 						var orderResponse = results["s:Envelope"]["s:Body"][0]["orderEntryParamResponse"][0]["orderEntryParamResult"];
 						bseOrderArray = orderResponse.toString().split("|");
-						console.log("Transaction code - " + bseOrderArray[0]);
-						console.log("Unique Reference Number - " + bseOrderArray[1]);
-						console.log("Order Number - " + bseOrderArray[2]);
-						console.log("UserId - " + bseOrderArray[3]);
-						console.log("MemberId - " + bseOrderArray[4]);
-						console.log("Client Code - " + bseOrderArray[5]);
-						console.log("BSE Remarks - " + bseOrderArray[6]);
-						console.log("Flag - " + bseOrderArray[7]);
+						//console.log("Transaction code - " + bseOrderArray[0]);
+						//console.log("Unique Reference Number - " + bseOrderArray[1]);
+						//console.log("Order Number - " + bseOrderArray[2]);
+						//console.log("UserId - " + bseOrderArray[3]);
+						//console.log("MemberId - " + bseOrderArray[4]);
+						//console.log("Client Code - " + bseOrderArray[5]);
+						//console.log("BSE Remarks - " + bseOrderArray[6]);
+						//console.log("Flag - " + bseOrderArray[7]);
 						var bseStatus;
 						if (bseOrderArray[7] == 1)
 							bseStatus = "failure";
@@ -746,8 +749,8 @@ exports.postInsertOrder = (req, res) => {
 									}
 									x++;
 
-									console.log("inside loop x" + x)
-									console.log("inside loop y" + y)
+									//console.log("inside loop x" + x)
+									//console.log("inside loop y" + y)
 
 								}
 
@@ -774,9 +777,9 @@ exports.postInsertOrder = (req, res) => {
           
 		},function (clientId,callback) {
 
-			console.log("I am the payment ",clientId);
-            console.log("USERID",userID)
-            console.log("USERID",memberID)
+			//console.log("I am the payment ",clientId);
+            //console.log("USERID",userID)
+            //console.log("USERID",memberID)
 			//get Password for Payment Link
 			var options = {
 				method: 'POST',
@@ -785,7 +788,7 @@ exports.postInsertOrder = (req, res) => {
 					'cache-control': 'no-cache',
 					'content-type': 'application/soap+xml; charset=utf-8'
 				},
-				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword">\n         <ns:UserId>' + userID + '</ns:UserId>\n         <ns:MemberId>' + memberID + '</ns:MemberId>\n         <ns:Password>Syed@11</ns:Password>\n <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
+				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword">\n         <ns:UserId>' + userID + '</ns:UserId>\n         <ns:MemberId>' + memberID + '</ns:MemberId>\n         <ns:Password>Syed@22</ns:Password>\n <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
 			};
 
 			request(options, function (error, response, body) {
@@ -810,9 +813,9 @@ exports.postInsertOrder = (req, res) => {
 		},
 		function (uploadPass,clientId,callback) {
 
-            console.log("the payment link",clientId);
-             console.log("final USERID",userID)
-            console.log("final membID",memberID)
+          //  console.log("the payment link",clientId);
+         //     console.log("final USERID",userID)
+        //    console.log("final membID",memberID)
 			//make the payment 
 
             
@@ -823,7 +826,7 @@ exports.postInsertOrder = (req, res) => {
 					'cache-control': 'no-cache',
 					'content-type': 'application/soap+xml; charset=utf-8'
 				},
-				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:MFAPI  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI">\n         <ns:Flag>03</ns:Flag>\n		 <ns:UserId>109401</ns:UserId>\n         <ns:EncryptedPassword>' + uploadPass + '</ns:EncryptedPassword>\n<ns:param>10940|' + clientId + '|http://localhost:3000/BsePaymentStatus</ns:param>\n            </ns:MFAPI>\n   </soap:Body>\n</soap:Envelope>'
+				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:MFAPI  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI">\n         <ns:Flag>03</ns:Flag>\n		 <ns:UserId>109401</ns:UserId>\n         <ns:EncryptedPassword>' + uploadPass + '</ns:EncryptedPassword>\n<ns:param>10940|' + clientId + '|http://54.152.36.19:3000/BsePaymentStatus</ns:param>\n            </ns:MFAPI>\n   </soap:Body>\n</soap:Envelope>'
 			};
 
 			request(options, function (error, response, body) {
@@ -837,7 +840,7 @@ exports.postInsertOrder = (req, res) => {
 					var link = results["s:Envelope"]["s:Body"][0]["MFAPIResponse"][0]["MFAPIResult"][0];
 					//console.log("myFault"+results["Fault"]["Reason"][0]["Text"]);
 					bseLinkArray = link.toString().split("|");
-					console.log("Payment link " + bseLinkArray[1]);
+					//console.log("Payment link " + bseLinkArray[1]);
                     
                                         freshdesk.createTicket({
                                               name: req.session.user.name,
@@ -907,7 +910,7 @@ exports.postProceedOrder = (req, res) => {
 	//bse credentials	
 	var userID = "109401";
 	var memberID = "10940";
-	var password = "Syed@11";
+	var password = "Syed@22";
 	var passKey = "test";
 
 
@@ -920,13 +923,13 @@ exports.postProceedOrder = (req, res) => {
 						console.log("Cant get assets values" + err);
 
 
-					console.log("details header" + result.rows.length);
+					//console.log("details header" + result.rows.length);
 					asetData = result.rows[0];
-					console.log(asetData);
+					//console.log(asetData);
 					if (result.rows.length > 0) {
 
 						req.session.savedplanheader1 = asetData;
-						console.log(req.session.savedplanheader1);
+					//	console.log(req.session.savedplanheader1);
 						callback(null, asetData)
 
 					}
@@ -989,7 +992,7 @@ exports.postProceedOrder = (req, res) => {
 
 					asetDataAllocationDetail = result.rows;
 
-					console.log(asetDataAllocationDetail);
+					//console.log(asetDataAllocationDetail);
 					req.session.savedplandetail1 = asetDataAllocationDetail;
 					callback(null, asetDataAllocationDetail)
 
@@ -1026,7 +1029,7 @@ exports.postProceedOrder = (req, res) => {
 
 			for (i = 0; i < len; i++) {
 				var transNo = functions.getTransactionID(req.session.user.userid) + i;
-				console.log("out loop" + req.session.savedplandetail1[i].allocationdescription);
+				//console.log("out loop" + req.session.savedplandetail1[i].allocationdescription);
 				var amount = req.session.savedplandetail1[i].allocationamount;
 				var schemeCode = req.session.savedplandetail1[i].schemecode;
 				var schemeDesc = req.session.savedplandetail1[i].allocationdescription;
@@ -1038,7 +1041,7 @@ exports.postProceedOrder = (req, res) => {
 
 				if (x <= y) {
 					bsetxn1[i] = transNo;
-					console.log("SchemeDesc" + schemeDesc + "id" + schemeId + "amount" + amount + "txn" + bsetxn1[i]);
+					//console.log("SchemeDesc" + schemeDesc + "id" + schemeId + "amount" + amount + "txn" + bsetxn1[i]);
 					var query = client.query("INSERT INTO userinvestmentorders(userinvestmentorderdate,userid,userpan,ordertype,goalid,riskprofile,schemeid,amount,bsetxnreference,created,modified,createdby) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING userinvestmentorderid", [orderDate, userId, userPan, orderType, goalId, riskProfile, schemeId, amount, transNo,
 						creation_date, modified_date, req.session.user.name], function (err, result1) {
 							if (err) {
@@ -1046,11 +1049,11 @@ exports.postProceedOrder = (req, res) => {
 								res.send("false");
 							} else {
 								//res.send(1);
-								console.log("userinvestmentorderid" + result1.rows[0]['userinvestmentorderid']);
+								//console.log("userinvestmentorderid" + result1.rows[0]['userinvestmentorderid']);
 
 								var dummy = result1.rows[0]['userinvestmentorderid'];
 								userinvestmentorderid.push(dummy);
-								console.log("dummy" + userinvestmentorderid + "i" + i);
+								//console.log("dummy" + userinvestmentorderid + "i" + i);
 
 								//userinvestmentorderid[i] =dummy;
 
@@ -1065,8 +1068,8 @@ exports.postProceedOrder = (req, res) => {
 								}
 								x++;
 
-								console.log("inside loop x" + x)
-								console.log("inside loop y" + y)
+							//	console.log("inside loop x" + x)
+							//	console.log("inside loop y" + y)
 
 							}
 
@@ -1114,7 +1117,7 @@ exports.postProceedOrder = (req, res) => {
 				var allocationPercentage = req.session.savedplandetail1[i].allocationpercentage;
 
 				var schemeId = req.session.savedplandetail1[i].schemeid;
-				console.log("orderid" + userinvestmentorderid);
+				//console.log("orderid" + userinvestmentorderid);
 
 				if (x <= y) {
 					var query = client.query("INSERT INTO userinvestmentdetail(userinvestmentheaderid,schemeid,schemedescription,schemecategory,allocationpercentage,allocationamount,created,modified,createdby,orderid,schemecode) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)", [userinvestmentheaderid, schemeId, schemeDesc, schemeCategory, allocationPercentage, amount, creation_date, modified_date, req.session.user.name, userinvestmentorderid, schemeCode],
@@ -1124,7 +1127,7 @@ exports.postProceedOrder = (req, res) => {
 								res.send("false");
 							} else {
 								//res.send(1);
-								console.log("User investment details" + result2.rows);
+								//console.log("User investment details" + result2.rows);
 
 
 								if (x >= y) {
@@ -1135,8 +1138,8 @@ exports.postProceedOrder = (req, res) => {
 								}
 								x++;
 
-								console.log("inside loop x" + x)
-								console.log("inside loop y" + y)
+							//	console.log("inside loop x" + x)
+							//	console.log("inside loop y" + y)
 
 
 
@@ -1165,7 +1168,7 @@ exports.postProceedOrder = (req, res) => {
 					'cache-control': 'no-cache',
 					'content-type': 'application/soap+xml; charset=utf-8'
 				},
-				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmf.in/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmf.in/MFOrderEntry/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmf.in/MFOrderEntry/getPassword">\n         <ns:UserId>' + userID + '</ns:UserId>\n          <ns:Password>Syed@11</ns:Password>\n         <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
+				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmf.in/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmf.in/MFOrderEntry/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmf.in/MFOrderEntry/getPassword">\n         <ns:UserId>' + userID + '</ns:UserId>\n          <ns:Password>Syed@22</ns:Password>\n         <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
 			};
 
 			request(options, function (error, response, body) {
@@ -1176,7 +1179,7 @@ exports.postProceedOrder = (req, res) => {
 
 					//	console.log(buffer);
 					//
-                    console.log("========",results)
+                   // console.log("========",results)
 					var password = results["s:Envelope"]["s:Body"][0]["getPasswordResponse"][0]["getPasswordResult"][0];
 					//console.log("myFault"+results["Fault"]["Reason"][0]["Text"]);
 					orderBsePassArray = password.toString().split("|");
@@ -1202,8 +1205,8 @@ exports.postProceedOrder = (req, res) => {
 			for (i = 0; i < len; i++) {
 
 
-				console.log("init x" + x);
-				console.log("init" + y);
+			//	console.log("init x" + x);
+			//	console.log("init" + y);
 
 
 				var amount = req.session.savedplandetail1[i].allocationamount;
@@ -1231,7 +1234,7 @@ exports.postProceedOrder = (req, res) => {
 				var DPC = "N";
 				var IPAdd = "";
 
-				console.log("transactionNo" + transNo[i]);
+				//console.log("transactionNo" + transNo[i]);
 				var orderBody = '<ns:TransCode>' + transCode + '</ns:TransCode><ns:TransNo>' + transNo + '</ns:TransNo><ns:OrderId>' + orderId + '</ns:OrderId><ns:UserID>' + userID + '</ns:UserID><ns:MemberId>' + memberID + '</ns:MemberId><ns:ClientCode>' + clientCode + '</ns:ClientCode><ns:SchemeCd>' + schemeCode + '</ns:SchemeCd><ns:BuySell>' + buySell + '</ns:BuySell><ns:BuySellType>' + buySellType + '</ns:BuySellType><ns:DPTxn>' + DPTxn + '</ns:DPTxn><ns:OrderVal>' + orderValue + '</ns:OrderVal><ns:Qty>' + quantity + '</ns:Qty><ns:AllRedeem>' + allRedeem + '</ns:AllRedeem><ns:FolioNo>' + folioNo + '</ns:FolioNo><ns:Remarks>' + remarks + '</ns:Remarks><ns:KYCStatus>' + KYCStatus + '</ns:KYCStatus><ns:RefNo>' + refNo + '</ns:RefNo><ns:SubBrCode>' + subBrCode + '</ns:SubBrCode><ns:EUIN>' + EUIN + '</ns:EUIN><ns:EUINVal>' + EUINVal + '</ns:EUINVal><ns:MinRedeem>' + minRedeem + '</ns:MinRedeem><ns:DPC>' + DPC + '</ns:DPC><ns:IPAdd>' + IPAdd + '</ns:IPAdd><ns:Password>' +
 					pass + '</ns:Password><ns:PassKey>' + passKey + '</ns:PassKey><ns:Parma1></ns:Parma1><ns:Param2></ns:Param2><ns:Param3></ns:Param3>';
 
@@ -1245,7 +1248,7 @@ exports.postProceedOrder = (req, res) => {
 					body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmf.in/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmf.in/MFOrderEntry/orderEntryParam</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:orderEntryParam  xmlns="http://bsestarmf.in/MFOrderEntry/orderEntryParam">\n         ' + orderBody + '  </ns:orderEntryParam>\n   </soap:Body>\n</soap:Envelope>'
 				};
 
-				console.log("in loop" + req.session.savedplandetail1[i].allocationdescription);
+			//	console.log("in loop" + req.session.savedplandetail1[i].allocationdescription);
 
 				request(options, function (error, response, body) {
 					if (error) throw new Error(error);
@@ -1258,14 +1261,14 @@ exports.postProceedOrder = (req, res) => {
 						//
 						var orderResponse = results["s:Envelope"]["s:Body"][0]["orderEntryParamResponse"][0]["orderEntryParamResult"];
 						bseOrderArray = orderResponse.toString().split("|");
-						console.log("Transaction code - " + bseOrderArray[0]);
+						/*console.log("Transaction code - " + bseOrderArray[0]);
 						console.log("Unique Reference Number - " + bseOrderArray[1]);
 						console.log("Order Number - " + bseOrderArray[2]);
 						console.log("UserId - " + bseOrderArray[3]);
 						console.log("MemberId - " + bseOrderArray[4]);
 						console.log("Client Code - " + bseOrderArray[5]);
 						console.log("BSE Remarks - " + bseOrderArray[6]);
-						console.log("Flag - " + bseOrderArray[7]);
+						console.log("Flag - " + bseOrderArray[7]);*/
 						var bseStatus;
 						if (bseOrderArray[7] == 1)
 							bseStatus = "failure";
@@ -1291,8 +1294,8 @@ exports.postProceedOrder = (req, res) => {
 									}
 									x++;
 
-									console.log("inside loop x" + x)
-									console.log("inside loop y" + y)
+									//console.log("inside loop x" + x)
+									//console.log("inside loop y" + y)
 
 								}
 
@@ -1303,7 +1306,7 @@ exports.postProceedOrder = (req, res) => {
 
 						} else {
 
-							console.log("count is more than the expected value" + x + "length" + y);
+							//console.log("count is more than the expected value" + x + "length" + y);
 						}
 
 
@@ -1320,7 +1323,7 @@ exports.postProceedOrder = (req, res) => {
 		},
 		function (callback) {
 
-			console.log("I am the payment ");
+			//console.log("I am the payment ");
 			//get Password for Payment Link
 			var options = {
 				method: 'POST',
@@ -1329,7 +1332,7 @@ exports.postProceedOrder = (req, res) => {
 					'cache-control': 'no-cache',
 					'content-type': 'application/soap+xml; charset=utf-8'
 				},
-				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword">\n         <ns:UserId>' + userID + '</ns:UserId>\n         <ns:MemberId>10940</ns:MemberId>\n         <ns:Password>Syed@11</ns:Password>\n         <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
+				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:getPassword  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword">\n         <ns:UserId>' + userID + '</ns:UserId>\n         <ns:MemberId>10940</ns:MemberId>\n         <ns:Password>Syed@22</ns:Password>\n         <ns:PassKey>test</ns:PassKey>\n      </ns:getPassword>\n   </soap:Body>\n</soap:Envelope>'
 			};
 
 			request(options, function (error, response, body) {
@@ -1366,7 +1369,7 @@ exports.postProceedOrder = (req, res) => {
 					'cache-control': 'no-cache',
 					'content-type': 'application/soap+xml; charset=utf-8'
 				},
-				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:MFAPI  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI">\n         <ns:Flag>03</ns:Flag>\n		 <ns:UserId>' + userID + '</ns:UserId>\n         <ns:EncryptedPassword>' + uploadPass + '</ns:EncryptedPassword>\n         <ns:param>10940|SOHANDEMO2|http://localhost:3000/BsePaymentStatus</ns:param>\n    </ns:MFAPI>\n   </soap:Body>\n</soap:Envelope>'
+				body: '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ns="http://bsestarmfdemo.bseindia.com/2016/01/" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">\n   <soap:Header>\n   <a:Action >http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI</a:Action>\n   <a:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</a:To>\n   </soap:Header>\n   <soap:Body>\n      <ns:MFAPI  xmlns="http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI">\n         <ns:Flag>03</ns:Flag>\n		 <ns:UserId>' + userID + '</ns:UserId>\n         <ns:EncryptedPassword>' + uploadPass + '</ns:EncryptedPassword>\n         <ns:param>10940|SOHANDEMO2|http://54.152.36.19:3000/BsePaymentStatus</ns:param>\n    </ns:MFAPI>\n   </soap:Body>\n</soap:Envelope>'
 			};
 
 			request(options, function (error, response, body) {
@@ -1380,7 +1383,7 @@ exports.postProceedOrder = (req, res) => {
 					var link = results["s:Envelope"]["s:Body"][0]["MFAPIResponse"][0]["MFAPIResult"][0];
 					//console.log("myFault"+results["Fault"]["Reason"][0]["Text"]);
 					bseLinkArray = link.toString().split("|");
-					console.log("Payment link " + bseLinkArray[1]);
+					//console.log("Payment link " + bseLinkArray[1]);
 					// callback(null,bseLinkArray[1])
 					res.render('bseRedirect', { data: bseLinkArray[1] });
 

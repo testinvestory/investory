@@ -2663,6 +2663,8 @@ button.btn.saved{
         color: #35BFD3;
     border: 1px #35BFD3 solid;
     background: #ffffff;
+    font-size: 1.1em;
+    font-weight: 600;
 }
 .pageSavedPlan .table>thead>tr>th:nth-child(4), 
 .pageSavedPlan .table>tbody>tr>td:nth-child(4) {

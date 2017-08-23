@@ -298,6 +298,7 @@ exports.getSavedPlans = (req, res) => {
 
 exports.postPlanHeaders = (req, res) => {
     
+   
   loginStatus = functions.checkLoginStatus(req)
   if (loginStatus) {
     var creation_date = new Date()
@@ -423,7 +424,7 @@ exports.postPlanHeaders = (req, res) => {
       var sip = headerData.sip
       var riskProfile = headerData.riskprofile
 					// callback(null,query);
-
+      console.log("LUMP SUM ----",req.body.lumpsum)
       if (req.body.lumpsum) {
        // console.log('lumpsum' + req.body.lumpsum)
         var amt = []
@@ -475,10 +476,10 @@ exports.postPlanHeaders = (req, res) => {
         }else if(req.body.taxSaving){
                  
               
-          var type='Tax';
+        var type='Tax';
             
-            var riskProfile=req.body.riskProfile;
-              var schemecamntde = 0, schemecamnteq = 0, schemecamnthy = 0
+        var riskProfile=req.body.riskProfile;
+        var schemecamntde = 0, schemecamnteq = 0, schemecamnthy = 0
         var schememamntde = 0, schememamnteq = 0, schememamnthy = 0
         var schemeagamnthy = 0, schemeagamnteq = 0, schemeagamnteq = 0
 						// select * from schemesmaster where $1 between sipfrom and sipto and $2 between yearfrom and yearto and riskprofile = $3
@@ -489,9 +490,10 @@ exports.postPlanHeaders = (req, res) => {
     console.log('Cant get assets values')
   }
         scheme = result.rows
-               //  console.log("1234567 "+scheme.length+"scheme"+scheme[1].name+scheme[1].category);
+                console.log("TAX SCHEMS"+scheme.length+"scheme"+scheme[1].name+scheme[1].category);
             
-           /*  for (i = 0; i < scheme.length; i++) {
+                 
+           /* for (i = 0; i < scheme.length; i++) {
     if ((scheme[i].category) == 'Equity') {
       j = j + 1
     }
@@ -523,10 +525,37 @@ exports.postPlanHeaders = (req, res) => {
       schemecamntde = amount.amount3 / l
     }
   }
-*/
-                 
- /* console.log('Equity' + equityAmt + 'Hybrid' + hybridAmt + 'Debt' + debtAmt)*/
 
+                 
+ console.log('Equity' + equityAmt + 'Hybrid' + hybridAmt + 'Debt' + debtAmt)*/
+
+                // console.log("Amount--- scheme.length---",amount.amount1,scheme.length);
+                 for (i = 0; i < scheme.length; i++) {
+                      if ((scheme[i].category) == 'Equity') {
+                          
+                          if ((scheme[i].rating) == 1) {
+                            
+                             var percentage=65;
+                             var amtDivided1=amount.amount1*percentage/100;
+                             console.log('Equity in schemes rating 1 ' +amtDivided1 )
+                            
+                           var amountDivided1 = Math.round((amtDivided1) / 1000) * 1000
+                              
+                         }
+                          
+                         if ((scheme[i].rating) == 2) {
+                             var percentage=35;
+                             var amtDivided2=amount.amount1*percentage/100;
+                             console.log('Equity in schemes rating 2 ' +amtDivided2 )
+                             var amountDivided2 = Math.round((amtDivided2) / 1000) * 1000
+                               
+                            }
+                         
+                      }
+                     
+                 }
+                 
+                 
   var schemeAmount = {
 
     equityAmt: schemecamnteq,
@@ -536,9 +565,9 @@ exports.postPlanHeaders = (req, res) => {
   }
 
   var amt = []
-  amt[0]=amount.amount1;
-  amt[1]=amount.amount2;
-  amt[2]=amount.amount3;
+  amt[0]=amountDivided1;
+  amt[1]=amountDivided2;
+ // amt[2]=amount.amount3;
 
   /*for (i = 0; i < scheme.length; i++) {
     if (scheme[i].riskprofile == 'Aggressive') {
@@ -682,13 +711,7 @@ exports.postPlanHeaders = (req, res) => {
     }
   }
 */
-								// insert into the details
-
-								/* var	schemeData = {[
-
-												  ]}
-
-											var panJSON = JSON.stringify(data);	*/
+								
 
   for (i = 0; i < scheme.length; i++) {
     var percentage = 0

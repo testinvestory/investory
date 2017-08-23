@@ -76,6 +76,11 @@ exports.getInvestment = (req, res) =>  {
 
 exports.postSetData = (req, res) => {
 
+    
+    console.log("################",req.body.goalName)
+    
+    req.session.offlineLumpsum=req.body.lumpsum;
+    console.log("################ lumpsum true false",req.session.offlineLumpsum)
 	req.session.offlinegoalName = req.body.goalName;
 	req.session.offlineriskProfile = req.body.riskProfile;
 	req.session.offlinemasterAmount = req.body.masterAmount;
@@ -100,7 +105,7 @@ exports.postScheme = (req, res) => {
 
 	req.session.showscheme = req.body.showScheme;
 
-	console.log("scheme pa = " + req.session.showscheme);
+	console.log("postscheme  = " + req.session.showscheme);
 
 	res.send(true);
 	//res.redirect('/GoalSelection');

@@ -54,7 +54,7 @@ exports.getSaveAsset = (req, res) => {
 
 					//insert to the saved plans header
 
-					//console.log("mA0" + req.session.offlinemasterAmount);
+					
 					var query = client.query("INSERT INTO savedplansheader(userid,goalid,riskprofile, masteramount, totalyears, sip,status,created,modified,createdby) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING savedplanid", [req.session.user.userid, goalid, req.session.offlineriskProfile, req.session.offlinemasterAmount, req.session.offlinetotalYears, req.session.offlinesip, status,
 						creation_date, modified_date, req.session.user.name], function (err, result) {
 							if (err) {
@@ -70,12 +70,13 @@ exports.getSaveAsset = (req, res) => {
 				},
 				function (savedPlanId, callback) {
 
+                   
 					//insert to the saved plans details
 					var percentage = [req.session.offlineequityPercentage, req.session.offlinehybridPercentage, req.session.offlinedebtPercentage];
 					var amount = [req.session.offlineequityAmount, req.session.offlinehybridAmount, req.session.offlinedebtAmount];
 					var type = 'allocation';
 					var category = ['Equity', 'Hybrid', 'Debt'];
-
+ 
 					//console.log("id=" + savedPlanId);
 
 					/*,(savedPlanId,type,category[1],category[1],percentage[1],amount[1],creation_date,modified_date,req.session.user.name),(savedPlanId,type,category[2],category[2],percentage[2],amount[2],creation_date,modified_date,req.session.user.name)*/
@@ -109,12 +110,12 @@ exports.getSaveAsset = (req, res) => {
 
 
 								asetData = result.rows[0];
+                                console.log("savedplansheader",asetData)
 								callback(null, asetData)
 							})
 
 
-					},
-					function (headerData, callback) {
+					},function (headerData, callback) {
 						
 
 
@@ -145,8 +146,74 @@ exports.getSaveAsset = (req, res) => {
 						//using the json data
 						//pass the query
 
-						
-                        if(req.session.offlinegoalName=='Tax Saving'){
+                        
+      var amount = {
+
+        amount1: detailData[0].allocationamount,
+        amount2: detailData[1].allocationamount,
+        amount3: detailData[2].allocationamount
+
+      }
+					// console.log(amount);
+
+      var time = headerData.totalyears
+      var sip = headerData.sip
+      var riskProfile = headerData.riskprofile
+      var masterAmount=headerData.masteramount
+					// callback(null,query);
+      
+      
+      if (req.session.offlineLumpsum) {
+       // console.log('lumpsum' + req.body.lumpsum)
+        var amt = []
+        amt[0] = req.body.masterAmount
+
+          console.log("INSIDE lumpsum module master amount",masterAmount,time,riskProfile)
+        var query = client.query('select * from lumpsum_schemes where $1 between fromamount and toamount and $2 between fromyear and toyear and riskprofile = $3', [masterAmount, time, riskProfile],
+							function (err, result) {
+  if (err) {
+    console.log('Cant get assets values')
+  }
+
+  scheme = result.rows
+  console.log("lump sum schemes",scheme)
+ // console.log('daadadadadadadad' + scheme.length)
+  for (i = 0; i < scheme.length; i++) {
+    var percentage = 100
+    var type = 'scheme'
+    var category = scheme[i].category
+    var schemeDescription = scheme[i].name
+    var schemeCode = scheme[i].code
+    var schemeId = scheme[i].lumpsumschemeid
+   // console.log(scheme[i].code)
+									// var schemeCode = scheme[i].code;
+    creation_date = new Date()
+    modified_date = new Date()
+   // console.log('amt=' + amt[i])
+									/* req.session.savedplandetail[i].allocationamount = amt[0];
+									 req.session.savedplandetail[i].schemecode = schemeCode;
+									req.session.savedplandetail[i].allocationdescription = schemeDescription;
+									req.session.savedplandetail[i].allocationcategory = category;
+									req.session.savedplandetail[i].allocationpercentage = percentage;
+									req.session.savedplandetail[i].schemeid = schemeId; */
+
+    var query = client.query('INSERT INTO savedplansdetail(savedplanid,allocationtype,allocationcategory, allocationdescription, allocationpercentage, allocationamount,created,modified,createdby,schemecode,schemeid) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)', [headerData.savedplanid, type, category, schemeDescription, percentage,masterAmount, creation_date, modified_date, req.session.user.name, schemeCode, schemeId]
+										, function (err, result) {
+  if (err) {
+    console.log('cant insert assets detail allocation data', err)
+												// res.send("false");
+  } else {
+												// res.send(1);
+   // console.log('result' + req.body.masterAmount)
+												// callback(null)
+  }
+})
+  }
+								// calculateScheme();
+								// res.redirect("/Pricing");
+  callback(null, amt)
+})
+        }else if(req.session.offlinegoalName=='Tax Saving'){
                             
                              var amount = {
 
@@ -154,14 +221,7 @@ exports.getSaveAsset = (req, res) => {
 							amount2: detailData[1].allocationamount,
 							amount3: detailData[2].allocationamount
 
-						}
-						
-						
-                            
-                            
-                            
-                 
-               
+                             }
           var type='Tax';
             
             var riskProfile=headerData.riskprofile;
@@ -178,14 +238,44 @@ exports.getSaveAsset = (req, res) => {
         scheme = result.rows
                 
             
-  
-  
+   for (i = 0; i < scheme.length; i++) {
+                      if ((scheme[i].category) == 'Equity') {
+                          
+                          if ((scheme[i].rating) == 1) {
+                            
+                             var percentage=65;
+                             var amtDivided1=amount.amount1*percentage/100;
+                             console.log('Equity in schemes rating 1 ' +amtDivided1 )
+                            
+                           var amountDivided1 = Math.round((amtDivided1) / 1000) * 1000
+                              
+                         }
+                          
+                         if ((scheme[i].rating) == 2) {
+                             var percentage=35;
+                             var amtDivided2=amount.amount1*percentage/100;
+                             console.log('Equity in schemes rating 2 ' +amtDivided2 )
+                             var amountDivided2 = Math.round((amtDivided2) / 1000) * 1000
+                               
+                            }
+                         
+                      }
+                     
+                 }
+                 
+                 
+  var schemeAmount = {
+
+    equityAmt: schemecamnteq,
+    hybridAmt: schemecamnthy,
+    debtAmt: schemecamntde
+
+  }
 
   var amt = []
-  amt[0]=amount.amount1;
-  amt[1]=amount.amount2;
-  amt[2]=amount.amount3;
-
+  amt[0]=amountDivided1;
+  amt[1]=amountDivided2;
+ // amt[2]=amount.amount3; 
   
 
 								// insert into the details
@@ -238,8 +328,7 @@ exports.getSaveAsset = (req, res) => {
             
             
                  
-                 }
-                        else{
+                 } else{
                         var amount = {
 
 							amount1: detailData[0].allocationamount,

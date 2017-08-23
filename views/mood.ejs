@@ -948,7 +948,7 @@
                     })
                     <% }else { %>
 
-                    
+                    console.log("Not LOGGED IN")
                         $.ajax({
                             type: 'POST',
                             data: JSON.stringify(data),
@@ -1005,13 +1005,13 @@
 
                 if (riskProfile == "Conservative") {
 
-                    var alloc1 = 0;
+                    var alloc1 = 100;
                     var alloc2 = 0;
-                    var alloc3 = 100;
+                    var alloc3 =0;
 
-                    var amt1 = 0;
+                    var amt1 = fv;
                     var amt2 = 0;
-                    var amt3 = fv;
+                    var amt3 = 0;
                    
 
                     document.getElementById("eqAmt" + t).innerHTML = amt1;
@@ -1043,7 +1043,7 @@
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
 
-                    storeAssets("Build Wealth", riskProfile, fv, totalYears, mn, alloc1, amt1, alloc2, amt2, alloc3, amt3);
+                    storeAssets("Build Wealth", riskProfile, fv, totalYears, mn1, alloc1, amt1, alloc2, amt2, alloc3, amt3);
 
                 } else if (riskProfile == "Moderate") {
 
@@ -1068,6 +1068,7 @@
                     $(".page5 #total1").html(mn1);
                     $(".page5 #investTotal").html(mn1);
                     
+                    
                     var tempGoals = JSON.parse(sessionStorage.getItem("tempGoals"));
                         tempGoals.alloc1 = alloc1;
                         tempGoals.alloc2 = alloc2;
@@ -1080,16 +1081,16 @@
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
 
-                    storeAssets("Build Wealth", riskProfile, fv, totalYears, mn, alloc1, amt1, alloc2, amt2, alloc3, amt3);
+                    storeAssets("Build Wealth", riskProfile, fv, totalYears, mn1, alloc1, amt1, alloc2, amt2, alloc3, amt3);
 
                 } else {
-                    var alloc1 = 100;
+                    var alloc1 = 0;
                     var alloc2 = 0;
-                    var alloc3 = 0;
+                    var alloc3 = 100;
 
-                    var amt1 = fv;
+                    var amt1 =0 ;
                     var amt2 = 0;
-                    var amt3 = 0;
+                    var amt3 = fv;
 
                     document.getElementById("eqAmt" + t).innerHTML = amt1;
                     document.getElementById("hybAmt" + t).innerHTML = amt2;
@@ -1117,7 +1118,7 @@
                         sessionStorage.setItem('tempGoals', JSON.stringify(tempGoals));
                         console.log(sessionStorage.getItem("tempGoals"));
 
-                    storeAssets("Build Wealth", riskProfile, fv, totalYears, mn, alloc1, amt1, alloc2, amt2, alloc3, amt3);
+                    storeAssets("Build Wealth", riskProfile, fv, totalYears, mn1, alloc1, amt1, alloc2, amt2, alloc3, amt3);
                 }
 
 
@@ -1134,9 +1135,9 @@
                     var fv = localStorage.taxSaveAmt;
                     var mn = localStorage.taxSaveAmt;
                     
-                     var eqP1 = <%=data[0].asset.value %>;
-                    var hybP1 = <%=data[1].asset.value %>;
-                  var debtP1 =<%=data[2].asset.value %>;
+                     var eqP1 = 100;//<%=data[0].asset.value %>;
+                    var hybP1 = 0;//<%=data[1].asset.value %>;
+                  var debtP1 = 0; //<%=data[2].asset.value %>;
                     
                      var eqTax = eqP1 / 100;
                     var hybTax = hybP1 / 100;

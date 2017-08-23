@@ -9,8 +9,10 @@ var dbOperations = require("../dbOperations.js");
 /* common functions */
 const functions = require('../app/routes/functions')
 var multer  =   require('multer');
-
+var bcrypt = require('bcrypt-nodejs');
 var fs = require('node-fs');
+var crypto = require('crypto');
+
 
 function checkLoginStatus (req) {
   if (req.session.loggedIn) {
@@ -412,9 +414,9 @@ router.post('/assetsValueUpdate',function(req,res,next)
 						else { 
                             
                                
-                       message=req.flash('successMessage', 'Updated asset value. '+riskprofile+" category "+category+" to"+val);
+                      req.flash('successMessage', 'Updated asset value. '+riskprofile+" category "+category+" to"+val);
                       // res.redirect('');
-                            req.flash('message');
+                            
                             res.redirect('/admin/assetsUpload');
                         }
     });
@@ -1045,7 +1047,10 @@ router.post('/createusr',function(req,res){
      let date=new Date();
     
     if(password==cpassword){
-            var query = client.query("insert into adminusers(uname,password,role,modified,created) values($1,$2,$3,$4,$5)", [name,password,roletype,date,date], function (err, result) {
+        
+   var psw= bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+        
+            var query = client.query("insert into users(name,email,password,role,modified,created) values($1,$2,$3,$4,$5,$6)", [name,name,psw,roletype,date,date], function (err, result) {
 						if (err)
 							console.log("error",err);
 						else {
@@ -1113,7 +1118,7 @@ if(req.user){
 							console.log("Cant get portfolio details in goal selection");
 						if (result.rows.length > 0) {
                             var schemesData=result.rows;
-                            console.log("assetsDat...!",schemesData);
+                           // console.log("assetsDat...!",schemesData);
                         
                             res.render('Admin/schemesList',{
                                 schemesData,
@@ -1133,12 +1138,12 @@ router.get('/Manage_users',function(req,res){
       var loginStatus=false;
  }
     
-    var query = client.query(" select * from adminusers", function (err, result) {
+    var query = client.query(" select * from users where role IN ('advisor user','admin user','Operation user')", function (err, result) {
 						if (err)
 							console.log("Cant get portfolio details in goal selection");
 						if (result.rows.length > 0) {
                             var usersData=result.rows;
-                            console.log("assetsDat...!",usersData);
+                           // console.log("assetsDat...!",usersData);
                             
                             res.render('Admin/ManageUsers',{
                                 usersData:usersData,
@@ -1168,7 +1173,7 @@ router.get('/Manage_users',function(req,res){
       var loginStatus=false;
  }  
      
-     var query = client.query('SELECT * FROM adminusers WHERE adminuserid = $1',[id],function(err,result)
+     var query = client.query('SELECT * FROM users WHERE userid = $1',[id],function(err,result)
                             {
                                 if(err)
                                     console.log("Error Selecting : %s ",err );
@@ -1176,7 +1181,7 @@ router.get('/Manage_users',function(req,res){
                                
                            if (result.rows.length > 0) {
                             var data=result.rows;
-                            console.log("assetsDat...!",data);
+                           // console.log("assetsDat...!",data);
                             res.render('Admin/editUsers',{data,users : req.user,
                                 loggedIn: loginStatus});
        
@@ -1189,7 +1194,7 @@ router.post('/Managedelete',function(req,res){
     var id = req.body.id;
      console.log("id",id);
      
-     var query = client.query('delete from adminusers WHERE adminuserid = $1',[id],function(err,result)
+     var query = client.query('delete from users WHERE userid = $1',[id],function(err,result)
                             {
                                 if(err)
                                     console.log("Error Selecting : %s ",err );
@@ -1216,8 +1221,9 @@ router.post('/Managedelete',function(req,res){
     var role=req.body.roletype;
          
      console.log("id",id,password,role);
+        var psw=bcrypt.hashSync(password, bcrypt.genSaltSync(8), null); 
      
-     var query = client.query('update adminusers set role=$2 , password=$3  WHERE adminuserid=$1',[id,role,password],function(err,result)
+     var query = client.query('update users set role=$2 , password=$3  WHERE userid=$1',[id,role,psw],function(err,result)
                             {
                                 if(err)
                                     console.log("Error Selecting : %s ",err );

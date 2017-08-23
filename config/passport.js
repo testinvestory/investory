@@ -28,6 +28,8 @@ var Zendesk = require('zendesk-node-api');
 var fd = require('node-freshdesk-api');
 var freshdesk = new fd('https://immplinvestory.freshdesk.com', 'LpZkws9gCh6Ashxbltap');
 
+var clientEmail = require('mandrill-mail');
+var mailChimpKey='NvUWF2AuZLxK4cc8wzH9OQ';
 //var config=require('../config/auth.js');
 // expose this function to our app using module.exports
 
@@ -68,9 +70,11 @@ var client = new pg.Client(conString);
 client.connect();
 */
 
+ 
+
 
 module.exports = function(passport) {
-    initZendDesk();
+   
 
 	// =========================================================================
     // passport session setup ==================================================
@@ -119,12 +123,41 @@ var newUser= new User();
                 
                 if (err) {
                     console.log("Local signup here",err);
+                    
+                    var data={
+                        'html' : 'Hi <br> <br>You are signup  to investory.in is Failed.', // Message itself in html format 
+                        'subject' : 'Sign Up to investory success.', //  the subject 
+                        'from_email': 'help@investory.in', // Who sends the email 
+                        'from_name' : 'investory', // the sender name 
+                        'to': [
+                            {                                   		 // the array who contains the recivers 
+                                'email': email,		// to email adress 
+                                
+                            }
+                            ]
+                    };
+            //MailChimp send mail to user
+             SendMail(data);
+             
                      return done(err);
 					
                 }
              if (result.rows.length>0)
                {
-                  
+                  var data={
+                        'html' : 'Hi <br> <br>You are signup  to investory.in is Failed. Email you entered is already registered with us try with another account or email.', // Message itself in html format 
+                        'subject' : 'Sign Up to investory success.', //  the subject 
+                        'from_email': 'help@investory.in', // Who sends the email 
+                        'from_name' : 'investory', // the sender name 
+                        'to': [
+                            {                                   		 // the array who contains the recivers 
+                                'email': email,		// to email adress 
+                                
+                            }
+                            ]
+                    };
+            //MailChimp send mail to user
+             SendMail(data)
                 return done(null, false, req.flash('signupMessage', 'Entered email is already taken.'));
                 }
             else
@@ -138,11 +171,12 @@ var newUser= new User();
                     newUser.name = req.body.username;
                     newUser.mobile=req.body.mnumber;
                     newUser.clientid="not client";
+                    newUser.role='user';
                     newUser.creation_date=new Date();
                     newUser.modified_date=new Date();
                    // console.log(name,password,mobile,creation_date,modified_date);
                     
-                    var query=client.query("INSERT INTO users(email,password,mobile,name,created,modified,createdby,clientid) values($1,$2,$3,$4,$5,$6,$7,$8) RETURNING userid",[newUser.email,newUser.password,newUser.mobile,newUser.name,newUser.creation_date,newUser.modified_date,newUser.name,newUser.clientid],function(err, result) {
+                    var query=client.query("INSERT INTO users(email,password,mobile,name,created,modified,createdby,clientid,role) values($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING userid",[newUser.email,newUser.password,newUser.mobile,newUser.name,newUser.creation_date,newUser.modified_date,newUser.name,newUser.clientid,newUser.role],function(err, result) {
                     if(err)
                         console.log("cant create new user",err);
                         
@@ -184,6 +218,23 @@ var newUser= new User();
                 var    modified_date=new Date();
 			     var aof='null';
                  var nach='null';
+            
+                    var data={
+                        'html' : 'Hi '+newUser.name+', <br> <br>You are signup  to investory.in is successful.', // Message itself in html format 
+                        'subject' : 'Sign Up to investory success.', //  the subject 
+                        'from_email': 'help@investory.in', // Who sends the email 
+                        'from_name' : 'investory', // the sender name 
+                        'to': [
+                            {                                   		 // the array who contains the recivers 
+                                'email': newUser.email,		// to email adress 
+                                'name' : newUser.name						// to name 
+                            }
+                            ]
+                    };
+            //MailChimp send mail to user
+             SendMail(data);
+             
+
 				
 						 var query=client.query("INSERT INTO profile(userid,created,modified,createdby) values($1,$2,$3,$4) RETURNING profileid",[newUser.userid, creation_date,modified_date,newUser.name],function(err, result) {
                     if(err){
@@ -288,13 +339,13 @@ var newUser= new User();
 			  }
             else
               {
-                    console.log(result.rows[0] + ' user is found login!');
+                   // console.log(result.rows[0] + ' user is found login!');
                     
                     user.email= result.rows[0]['email'];
                     user.name= result.rows[0]['name'];
                     user.password = result.rows[0]['password'];
                     user.userid = result.rows[0]['userid'];
-				  var text = 'Hi '+ user.name+',';
+				    var text = 'Hi '+ user.name+',';
 	              
 				  
                
@@ -310,7 +361,6 @@ var newUser= new User();
              					
                 			  
 
-         
            
             return next(null,result.rows[0]);
                
@@ -334,7 +384,7 @@ var newUser= new User();
 
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
-        var query= client.query("SELECT * FROM users where name=$1",[uname], function(err, result)
+        var query= client.query("SELECT * FROM users where name=$1 and role in ('admin user','advisor user','operation user')",[uname], function(err, result)
             {
         // if there are any errors, return the error before anything else
             
@@ -345,17 +395,17 @@ var newUser= new User();
               if(result.rows.length==0)
               {
                 console.log("No user found");
-				return next(null, false, req.flash('loginMessage', 'You are currently not registered with us, kindly register.'));
+				return next(null, false, req.flash('loginMessage', 'Oops! User name or Password entered is wrong.'));
 
 			  }
             else
               {
-                    console.log(result.rows[0] + ' user is found login!');
+                   // console.log(result.rows[0] + ' user is found login!');
                     user.password = result.rows[0]['password'];
                
                 }
 
-             if (!(psw==user.password)){
+             if (!bcrypt.compareSync(psw,user.password)){
                  console.log(psw,user.password);
                  
 					console.log("Wrong password");
@@ -402,9 +452,9 @@ console.log(profile.emails[0].value);
                     newUser.creation_date=new Date();
                     newUser.modified_date=new Date();
                      newUser.clientid="not client";
-                
+                    newUser.role='user';
 				// save the user
-                var query=client.query("insert into users(email,name,created,modified,createdby,facebookid,fbtoken,clientid) values($1,$2,$3,$4,$5,$6,$7,$8) RETURNING userid",[newUser.email,newUser.name,newUser.creation_date,newUser.modified_date,newUser.name,newUser.facebookid,newUser.fbtoken,newUser.clientid],function(err, result) {
+                var query=client.query("insert into users(email,name,created,modified,createdby,facebookid,fbtoken,clientid,role) values($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING userid",[newUser.email,newUser.name,newUser.creation_date,newUser.modified_date,newUser.name,newUser.facebookid,newUser.fbtoken,newUser.clientid,newUser.role],function(err, result) {
                     if(err)
                         console.log("cant create new user",err);
                         
@@ -471,7 +521,7 @@ console.log(profile.emails[0].value);
                     newUser.name  = profile.displayName;
                     newUser.email = profile.emails[0].value; // pull the first email
                      newUser.clientid="not client";
-                    
+                    newUser.role='user';
                    // newUser.email = profile.emails[0].value;     
                     // save the user
                newUser.creation_date=new Date();
@@ -492,7 +542,7 @@ console.log(profile.emails[0].value);
                   }
                else{
 				*/// save the user
-                var query=client.query("insert into users(email,name,created,modified,createdby,googleid,g_token,clientid) values($1,$2,$3,$4,$5,$6,$7,$8) RETURNING userid",[newUser.email,newUser.name,newUser.creation_date,newUser.modified_date,newUser.name,newUser.googleid,newUser.g_token,newUser.clientid],
+                var query=client.query("insert into users(email,name,created,modified,createdby,googleid,g_token,clientid,role) values($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING userid",[newUser.email,newUser.name,newUser.creation_date,newUser.modified_date,newUser.name,newUser.googleid,newUser.g_token,newUser.clientid,newUser.role],
                     function(err, result) {
                     if(err)     
                         console.log("cant create new user",err);
@@ -515,7 +565,7 @@ console.log(profile.emails[0].value);
 
     ));
 
-    	function mail(from, to, subject, text){
+    /*	function mail(from, to, subject, text){
 		
 		
 		var api_key = 'key-cd53eadfa9793e5786ddbdf759cf0c44';
@@ -534,28 +584,14 @@ mailgun.messages().send(data, function (error, body) {
 });
 		
 	}
-
-var zendesk;
-function initZendDesk(){
-
-zendesk = new Zendesk({
- url: 'https://plasticwaterlabs.zendesk.com', // https://example.zendesk.com
- email: 'nishant@plasticwaterlabs.com', // me@example.com
- token: 'KZ0CSdA9FnAqrZGpINqLiJcct70Do6z34iJDrnHW' // hfkUny3vgHCcV3UfuqMFZWDrLKms4z3W2f6ftjPT
-});
-
-}
-function zendCreateTicket(subjet, body){
-zendesk.tickets.create({
-
-   subject: subjet,
-   comment: {
-     body: body
-   }
- }).then(function(result){
-   //console.log(result);
- });
-
-}
+*/
+ function SendMail(data){
+                clientEmail.send(mailChimpKey, data, function(eror,json){
+                    if(error){
+                        console.log("Failed to send email via Mailchimp",error)
+                    }else
+                        console.log(json)
+                    });
+            }
     
 };

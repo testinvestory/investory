@@ -10,6 +10,8 @@
     <meta name="author" content="">
 
     <title>Admin Investory</title>
+ <!-- Bootstrap Core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap Core CSS -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
@@ -34,6 +36,18 @@
 
 <body ng-app="postgreSQL">
   <%include partials/header%>
+      <div class="modal fade" id="displayFileError" role="dialog" style="top:10em; ">                  
+  <div class="modal-dialog modal-md" style=" "> 
+    <div class="modal-content" style="border: solid 1px #35bfd3;width:450px;">           
+                        <div class="modal-body "  style="padding-bottom: 0em;">
+                            <p style="font-size:16px;margin-left: 1em;" class="PANHead">
+</p>
+  <button type="" class="btn " data-toggle="modal" style="margin-left: 13em;margin-bottom:9px;" data-dismiss="modal">OK</button>
+   
+                        </div>
+                  </div>
+    </div>
+    </div>
     <div id="wrapper" >
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -114,7 +128,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                                <i class="fa fa-dashboard"></i>  Dashboard
                             </li>
                             <li class="active">
                                 <i class="fa fa-bar-chart-o"></i> Investory File To DB
@@ -134,9 +148,9 @@
   <div class="form-group">
  <label>Input</label>
 <label>Investory File :</label>
-<input type="file" name="doc"/>
+<input type="file" id="fileinput1" name="doc"/>
           <br>               
-<button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>
+<button type="submit" id="submitI" class="btn pull-left"  ng-click=''> Upload</button>
        
 </div>                    
      <% if(message.length>0){ %>
@@ -154,9 +168,9 @@
   <div class="form-group">
  <label>Input</label>
 <label>Report Data File :</label>
-<input type="file" name="doc"/>
+<input type="file" id="fileinput2" name="doc"/>
           <br>               
-<button type="submit" class="btn btn-default btn-sm pull-left"  ng-click=''> Upload</button>
+<button type="submit" id="submitR" class="btn pull-left"  ng-click=''> Upload</button>
 </div>                    
        
          <% if(message2.length>0){ %>
@@ -175,7 +189,58 @@
 
         </div>
         <!-- /#page-wrapper -->
+ <!-- jQuery -->
+    <script src="/javascripts/jquery.js"></script>
 
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/javascripts/bootstrap.min.js"></script>
+     <script>
+  $(function () {
+       
+        $('#submitR').attr("disabled", true);
+        
+        $('#fileinput2').change(function () {
+            /*if ($('#fileinput').val().length == 0)        
+                $('#submitProfile').attr("disabled", true);
+      
+            else
+                $('#submitProfile').attr("disabled", false);*/
+    var ext = this.value.match(/\.(.+)$/)[1];
+    switch (ext) {
+        case 'csv':
+            $('#submitR').attr('disabled', false);
+            break;
+        default:
+            $('#displayFileError p').html("This is not an allowed file type. Please choose .csv files")
+             $('#displayFileError').modal('show');
+            this.value = '';
+    }
+        });
+    });
+    
+           $(function () {
+       
+        $('#submitI').attr("disabled", true);
+        
+        $('#fileinput1').change(function () {
+            /*if ($('#fileinput').val().length == 0)        
+                $('#submitProfile').attr("disabled", true);
+      
+            else
+                $('#submitProfile').attr("disabled", false);*/
+    var ext = this.value.match(/\.(.+)$/)[1];
+    switch (ext) {
+        case 'csv':
+            $('#submitI').attr('disabled', false);
+            break;
+        default:
+            $('#displayFileError p').html("This is not an allowed file type. Please choose .csv files")
+             $('#displayFileError').modal('show');
+            this.value = '';
+    }
+        });
+    });
+    </script>
 </body>
 
 </html>

@@ -158,7 +158,22 @@ exports.postPanValidation = (req, res) => {
                                                 }, function (err, data) {
                                                     console.log(err);
                                                 })
-    */
+                                        
+    */                               var name=req.session.user.name;
+                                     var email=req.session.user.name;
+                                    var data={
+                                            'html' : 'Hi '+name+'<br> <br>Sorry Your KYC Compliance Failure to investory.', // Message itself in html format 
+                                            'subject' : 'KYC Compliance Failure to investory.', //  the subject 
+                                            'from_email': 'help@investory.in', // Who sends the email 
+                                            'from_name' : 'investory', // the sender name 
+                                            'to': [
+                                                {                                   		 // the array who contains the recivers 
+                                                    'email': email,		// to email adress 
+                                                    'name':name
+                                                }
+                                            ]
+                                        };
+                                    functions.SendMail(data);
                                     
                                     }
                                 

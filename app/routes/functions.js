@@ -1,5 +1,6 @@
 var crypto = require('crypto')
-
+var clientEmail = require('mandrill-mail');
+var mailChimpKey='NvUWF2AuZLxK4cc8wzH9OQ';
 function checkLoginStatus (req) {
   if (req.session.loggedIn) {
     return true
@@ -7,6 +8,16 @@ function checkLoginStatus (req) {
     return false
   }
 }
+
+function SendMail(data){
+                clientEmail.send(mailChimpKey, data, function(eror,json){
+                    if(error){
+                        console.log("Failed to send email via Mailchimp",error)
+                    }else
+                        console.log(json)
+                    });
+            }
+    
 
 function mail (from, to, subject, text) {
   var apiKey = 'key-cd53eadfa9793e5786ddbdf759cf0c44'

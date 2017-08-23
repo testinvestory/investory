@@ -6,6 +6,9 @@ const functions = require('./functions')
 //DB connection
 var client = require('../../config/database');
 
+var clientEmail = require('mandrill-mail');
+
+
 var fd = require('node-freshdesk-api');
 var freshdesk = new fd('https://immplinvestory.freshdesk.com', 'LpZkws9gCh6Ashxbltap');
 
@@ -75,10 +78,25 @@ exports.postPaymentFailure = (req, res) => {
   req.session.payU.status = 'fail'
  // console.log(res.json(req.body))
     
+              var name=req.session.user.name;
+              var email=req.session.user.name;
+               var data={
+                        'html' : 'Hi '+name+'<br> <br>Sorry Your Adavisory payment to investory is failed may be something went wrong. Please try again after some time.', // Message itself in html format 
+                        'subject' : 'Failed to pay advisory fee to investory.', //  the subject 
+                        'from_email': 'help@investory.in', // Who sends the email 
+                        'from_name' : 'investory', // the sender name 
+                        'to': [
+                            {                                   		 // the array who contains the recivers 
+                                'email': email,		// to email adress 
+                                'name':name
+                            }
+                            ]
+                    };
+             functions.SendMail(data);
     
                         freshdesk.createTicket({
-                        name: req.session.user.name,
-                        email: req.session.user.email,
+                        name: name,
+                        email: email,
                         subject: 'Advisory Payment Failure ',
                         description: req.session.user.name+' failed to pay Advisory Payment',
                         status: 2,
@@ -119,7 +137,9 @@ exports.postPaymentSuccess = (req, res) => {
           } else {
 							// res.send(1);
         //    console.log('usersubscriptionorderid' + result.rows[0]['usersubscriptionorderid'])
-
+              
+                
+              
             callback(null, result.rows[0]['usersubscriptionorderid'])
           }
         })
@@ -132,7 +152,21 @@ exports.postPaymentSuccess = (req, res) => {
           } else {
 								// res.send(1);
               
-              
+             var name=req.session.user.name;
+              var email=req.session.user.name;
+               var data={
+                        'html' : 'Hi '+name+'<br> <br>Thank you Your Adavisory payment to investory is successful. Please go and check with our schems suggestions.', // Message itself in html format 
+                        'subject' : 'Sign Up to investory success.', //  the subject 
+                        'from_email': 'help@investory.in', // Who sends the email 
+                        'from_name' : 'investory', // the sender name 
+                        'to': [
+                            {                                   		 // the array who contains the recivers 
+                                'email': email,		// to email adress 
+                                'name':name
+                            }
+                            ]
+                    };
+             functions.SendMail(data);
             callback(null, 'done')
           }
         })
@@ -186,8 +220,8 @@ exports.postPay = (req, res, next) => {
         phone: phone,
           surl: 'http://localhost:3000/Pricing/success',
           furl: 'http://localhost:3000/Pricing/failure',
-             // surl: 'http://54.152.36.19:3000/Pricing/success',
-             //// furl: 'http://54.152.36.19:3000/Pricing/failure',
+          //    surl: 'http://54.152.36.19:3000/Pricing/success',
+            //  furl: 'http://54.152.36.19:3000/Pricing/failure',
         //  surl: 'http://34.201.143.108/Pricing/success',   // Live 
         //  furl: 'http://34.201.143.108/Pricing/failure',   // Live
           

@@ -25,12 +25,12 @@
           <form>
               
             <% for(j=0;j<plansHeader.length;j++) {%>
-            <div class="row" id="savedPlans">
+            <div class="row" id="savedPlans" style="font-weight:600;">
               <div class="col-md-3">
-                <div class="myGoal">
+                <div class="myGoal" >
                  <!-- <h4 class="planNumber">1</h4>-->
-                  <h4><%=plansHeader[j].name %></h4>
-                  <h5><%=plansHeader[j].date %></h5>
+                  <h4 style="font-weight:600;"><%=plansHeader[j].name %></h4>
+                  <h5 style="font-weight:600;"><%=plansHeader[j].date %></h5>
                 </div>
               </div>
               <div class="col-md-5">
@@ -52,7 +52,7 @@
 
           </form>
 
-          <div class="pageSavedPlan">
+          <div class="pageSavedPlan" style="font-weight:600;">
 
             <div class="table-responsive">
               <table class="table">

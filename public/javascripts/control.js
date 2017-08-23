@@ -1272,7 +1272,6 @@ var goalImg = $("#mood",this).text();
     $(".page1 .next, .page1 .skip").click(function(){ 
             
         
-
         var smartSource = getParameterByName('smartGoal');
         
         
@@ -1286,11 +1285,11 @@ var goalImg = $("#mood",this).text();
                   $('.page2 #amount').attr('readonly', false);
                      $('.page2 #time').attr('readonly', false);  
             }
-        else if(tempGoals.goal=='Crorepati'){
+        else if(tempGoals.goal=='Crorepati' || smartSource=='buildWealth'){
                
              $('.page2 #amount').val('1,00,00,000');
               $('.page2 #amount').attr('readonly', true);
-         }else if(tempGoals.goal=='Emergency'){
+         }else if(tempGoals.goal=='Emergency' || smartSource=='emergencyFunds'){
             
               $("#displayPanModal").modal("show");
                 $("#displayPanModal .modal-body p").html('Put your 6 months income as Emergency Fund and No.of Year is fixed to 1.');

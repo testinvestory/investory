@@ -113,7 +113,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
+                                <i class="fa fa-dashboard"></i> Dashboard
                             </li>
                             <li class="active">
                                 <i class="fa fa-table"></i> Manage Users
@@ -126,37 +126,37 @@
                 <div class="row">
                       
       
-                    <div class="col-lg-10">
-                        <h2>Manage Users</h2>
+                    <div class="col-lg-10">      
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th width="50px">No</th>
-                                         <th width="50px">User Id</th>
-                                            <th>User Name</th>
-                                            <th>Password</th>
-                                            <th>Role</th>
+                                         <th width="80px">User Id</th>
+                                            <th width="120px">User Name</th>
+                                          <!--  <th>Password</th>-->
+                                            <th width="120px">Role</th>
                                             <th width="120px">Action</th>
                                         
                                     </tr>
                                 </thead>
                                 <tbody>
                                         <% if(usersData.length>0){ 
-                                
-                                            for(var i = 0;i < usersData.length;i++) { %>
+                                var j=1;
+                                            for(var i = 0;i < usersData.length;i++,j++) { %>
                  
                                        
                                     <tr>
                                          
-                                       <td><%=(i+1)%></td>
-                                        <td><%=usersData[i].adminuserid%></td>
-                                            <td><%=usersData[i].uname%></td>
-                                            <td><%=usersData[i].password%></td>
+                                       <td><%=j%></td>
+                                        <td><%=usersData[i].userid%></td>
+                                            <td><%=usersData[i].name%></td>
+                                            <!--<td><%=usersData[i].password%></td>-->
                                             <td><%=usersData[i].role%></td>
+                                       
                                              <td>
                                         <a class="a-inside edit" style="cursor:pointer;" 
-                                            href="/admin/Manage/<%=usersData[i].adminuserid%>">Edit</a>
+                                            href="/admin/Manage/<%=usersData[i].userid%>">Edit</a>
                        
                                         <a class="a-inside delete" style="cursor:pointer;" data-toggle="modal" data-target="#myModalDiscard" >Delete</a>
                        
@@ -174,7 +174,7 @@
 
                                         <div class="modal-body">
                                             <p>Are you sure you want to delete user ?</p>
-                                              <button class="btn saved" id="" onClick="discard(<%=usersData[i].adminuserid%>)" data-dismiss="modal">YES</button>
+                                              <button class="btn saved" id="" onClick="discard(<%=usersData[i].userid%>)" data-dismiss="modal">YES</button>
                                             <button class="btn saved" data-dismiss="modal">No</button>
                                         </div>
 

@@ -9,9 +9,12 @@ const async = require('async')
 const crypto = require('crypto')
 var passport = require('passport')
 const functions = require('./functions')
+var nodemailer = require('nodemailer');
 //DB connection
 var client = require('../../config/database');
 
+var clientEmail = require('mandrill-mail');
+var mailChimpKey='NvUWF2AuZLxK4cc8wzH9OQ';
 exports.getToCurrent = (req, res) => {
   console.log(req.session.activePage)
   res.redirect(req.session.activePage)
@@ -228,35 +231,25 @@ exports.postReset = (req, res, done) => {
       },function (user, done) {
           
           if(user){
-           var nodemailer = require('nodemailer')
-          console.log("Email :",user.email)     
-          var smtpConfig = {
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-          user: 'nishant143n@gmail.com',
-          pass: 'nishant2892'
-        }
-      }
-
-      var transporter = nodemailer.createTransport(smtpConfig)
-
-      var mailOptions = {
-        from: 'nishant143n@gmail.com',
-        to: user.email,
-        subject: 'Your Investory login password has been changed.',
-        html: 'This is a confirmation that the password for your Investory account ' + user.email + ' has just been changed.\n'
-      }
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          return console.log(error)
-        }
+           var data = {
+ 
+                        'html' : 'Hi '+user.name+ ',<br> <br> This is a confirmation that the password for your Investory account ' + user.email + ' has just been changed.\n', //  the subject 
+                        'subject' : 'Your Investory login password has been changed.',
+                        'from_email': 'help@investory.in', // Who sends the email 
+                        'from_name' : 'Investory Team', // the sender name 
+                        'to': [
+                            {                           // the array who contains the recivers 
+                                'email': user.email,		// to email adress 
+                                'name' : user.name 		// to name 
+                            }
+                            ]
+                        };
+       
+        MailForgotPassword(data);
      
         //req.flash("success","Password reset is successful")
           
-    });
+   
     }else{
         console.log("email not sent");
     }
@@ -321,13 +314,13 @@ exports.postForgot = (req, res, next) => {
     },
     function (token, done) {
         var email=req.body.email;
-          var query = client.query("select * from users where email=$1",[email], function (err, result) {
+          var query = client.query("select * from users where email=$1",[email], function (err, result1) {
 
 //      User.findOne({ 'user.local.email': req.body.email }, function (err, user) {
         if(err){
             console.log("Error in finding email",err);
         }      
-        else if (result.rows.length==0) {
+        else if (result1.rows.length==0) {
           req.flash('error', 'No account with that email address exists.')
           
           return res.render(pageName,{message:req.flash("error")
@@ -335,7 +328,7 @@ exports.postForgot = (req, res, next) => {
         }
         
          
-      else if(result.rows.length>0){
+      else if(result1.rows.length>0){
 				// console.log(user.local.email);
        var newUser={};
 
@@ -356,45 +349,27 @@ exports.postForgot = (req, res, next) => {
       })
                
                
-               
-                        done(err, token, newUser)
+               var user=result1.rows[0];
+                        done(err, token, user)
                }
          });          
     },
-    function (token, user, done) {
-      var nodemailer = require('nodemailer')
-
-      var smtpConfig = {
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-          user: 'nishant143n@gmail.com',
-          pass: 'nishant2892'
-        }
-      }
-
-      var transporter = nodemailer.createTransport(smtpConfig)
-
-      var mailOptions = {
-        from: 'nishant143n@gmail.com',
-        to: req.body.email,
-        subject: 'Investory Password Reset',
-        html: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-				'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-				'http://' + req.headers.host + '/reset/:' + token + '\n\n' +
-				'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-      }
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          return console.log(error)
-        }
-           
- console.log('Message sent: ' + info.response)
-         
-      })
-        
+    function (token, user, done) { 
+         var data = {
+ 
+                        'html' : 'Hi '+user.name+ ',<br> <br> You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +'Please click on the following link, or paste this into your browser to complete the process:\n\n' +'http://' + req.headers.host + '/reset/:' + token + '\n\n' + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
+                        'subject' : 'Investory Password Reset', //  the subject 
+                        'from_email': 'help@investory.in', // Who sends the email 
+                        'from_name' : 'Investory Team', // the sender name 
+                        'to': [
+                            {                           // the array who contains the recivers 
+                                'email': user.email,		// to email adress 
+                                'name' : user.name 		// to name 
+                            }
+                            ]
+                        };
+       
+        MailForgotPassword(data);
       req.flash('Email sent', 'An email sent to '+req.body.email+' with further instructions.')
                       res.render(pageName,{message:req.flash("Email sent")
                                       })  
@@ -408,8 +383,21 @@ exports.postForgot = (req, res, next) => {
         
         }
   })
+    
+    
 }
-
+ function MailForgotPassword(data){
+     console.log("Email data",data);
+                clientEmail.send(mailChimpKey, data, function(error,json){
+                    if(error){
+                        console.log("Unable to send mail via Mailchimp ",error);
+                        
+                    }else{
+                        console.log("MAIL status : ",json)
+                       
+                    }
+                    });
+            }
 /*
 * user Data
 */

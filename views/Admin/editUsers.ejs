@@ -13,9 +13,12 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
- <link href="/stylesheets/style1.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="/stylesheets/sb-admin.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="/stylesheets/plugins/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="/stylesheets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -27,15 +30,14 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-</head>  
-<script>
-   
-    </script>
+</head>
+
 <body>
-  <%include partials/header%>
+
     <div id="wrapper" >
 
-      
+        <%include partials/header%>
+       
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
@@ -45,9 +47,8 @@
                      <li>
                         <a href="/admin/uploadInvestory"><i class="fa fa-fw fa-bar-chart-o"></i> Investory File to DB</a>
                     </li>
-                    <li>
+                    <li >
                         <a href="/admin/uploadcsv"><i class="fa fa-fw fa-bar-chart-o"></i> Fund house File to DB</a>
-
                     </li>
                     <li>
                         <a href="/admin/tables"><i class="fa fa-fw fa-table"></i> KYC</a>
@@ -61,25 +62,26 @@
                     <li>
                         <a href="/admin/reports"><i class="fa fa-fw fa-desktop"></i> Reports</a>
                     </li>
-                    <!-- <li>
-                        <a href="/admin/allocation"><i class="fa fa-fw fa-wrench"></i> Assets Allocation</a>
+                      <!-- <li>
+                        <a href="/admin/allocation"><i class="fa fa-fw fa-wrench"></i>Assets Allocation</a>
                     </li>-->
-                    <li>
-                        <a href="/admin/assetsUpload"><i class="fa fa-fw fa-wrench"></i> Update Asset allocation matrix</a>
+                      <li  class="active">
+                        <a href="/admin/assetsUpload"><i class="fa fa-fw fa-wrench"></i> Update allocation matrix</a>
                     </li>
-                    <li>
+                     <li>
                         <a href="/admin/funds"><i class="fa fa-fw fa-wrench"></i> Upload Schemes Matrix</a>
                     </li>
                     <li>
-                        <a href="/admin/schemelist"><i class="fa fa-fw fa-wrench"></i> Schemes allocation matrix</a>
+                        <a href="/admin/schemelist"><i class="fa fa-fw fa-wrench"></i> Schemes allocation matrix </a>
                     </li>
-                     <li>
+                   <li >
+                       
                         <a href="/admin/createuser"><i class="fa fa-fw fa-wrench"></i> Create Users</a>
                     </li>
                     <li class="active">
                         <a href="/admin/Manage_users"><i class="fa fa-fw fa-wrench"></i> Manage Users</a>
                     </li>
-                  <!--  <li>
+                    <!-- <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
@@ -99,7 +101,7 @@
                 --></ul>
             </div>
             <!-- /.navbar-collapse -->
-       
+     
 
         <div id="page-wrapper">
 
@@ -113,89 +115,82 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="/">Dashboard</a>
+                                <i class="fa fa-dashboard"></i> Dashboard
                             </li>
                             <li class="active">
-                                <i class="fa fa-table"></i> Update Users
+                                <i class="fa fa-bar-chart-o"></i>   Update Users
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
-
-                <div class="row" >
-                      
-      
-                    <div class="col-lg-10">
-                        <h2>Manage Users</h2>
-                        <div class="page-data">
-            
-            <form class="form-horizontal" action="/admin/Userupdate" id="updateForm" method="post"> 
-               
-                
-                <div class="form-group">      
-                      <label for="id" class ="control-label col-sm-3">Id :</label>
-                    <div class="col-sm-8">
-                         <input type="text" name="uid" id="uid" value="<%=data[0].adminuserid%>" readonly/>
-                    </div>
-                    </div>
-                
-                     <div class="form-group">      
-                         <label for="name" class ="control-label col-sm-3">User Name :</label>
-                      <div class="col-sm-8">
-                         <input type="text" name="uname" value="<%=data[0].uname%>" readonly/>
-                    </div>
-                          </div>
-                
-                
-                    <div class="form-group">      
-                       <label for="password" class ="control-label col-sm-3">Password:</label>
-                        <div class="col-sm-8">
-                         <input type="text" name="password" id="password" value="<%=data[0].password%>"/>
-                    </div>
-                          </div>
-                
-                    <div class="form-group">      
-                          <label for="role" class ="control-label col-sm-3">Role:</label>
-                        <div class="col-sm-8"> 
-                        <select id="roletype"  name="roletype"> 
-                             
-                        <option value="admin user">Admin user </option>
-                                <option value="advisor user">Advisor user </option>
-                             <option value="operation user">Operation user </option></select> <br> 
-                    </div>
-                </div>
-                <div class="form-group">
-                     <label for="password" class ="control-label col-sm-4">
-                         <input type="Submit" class="Submit" value="submit"></label>
-                 <div class="col-sm-7">     
-                <a href="/admin/Manage_users">   <input type="button" name="cancel" value="Cancel" class="cancel" /></a>
-                    </div>
-                </div>
-               
-            </form>
-            
+<div class="container">
+    <form class="form-horizontal" action="/admin/Userupdate" id="updateForm" method="post"> 
+        <div class="form-group">
+      <label for="name" class ="control-label col-sm-3">       
+          Id :</label>
+            <div class="col-sm-8">
+        <input type="text" name="uid" id="uid" value="<%=data[0].userid%>" readonly/>  <br> <br>
+            </div>
         </div>
-                   </div>
-                    </div>
-    
+        <div class="form-group">  
+             <label for="password" class ="control-label col-sm-3">
+                 User Name :</label>
+             <div class="col-sm-8">
+            <input type="text" name="uname" value="<%=data[0].name%>" readonly/>  <br> <br>
                   </div>
-                  
-        
-    </div>
-        <!-- /.container-fluid -->
-    </div>        
+             </div>
+        <div class="form-group">  
+             <label for="cpassword" class ="control-label col-sm-3">
+               
+                  Password :</label>
+             <div class="col-sm-8">
+            <input type="text" name="password" id="password" value="<%=data[0].password%>"/>  <br> <br>
+                </div>
+             </div>
+           <div class="form-group">  
+             <label for="role" class ="control-label col-sm-3">
+                 Role Type :</label>
+                  <div class="col-sm-8">
+         <select id="roletype" name="roletype"> 
+            <option value="admin user">Admin user </option>
+            <option value="advisor user">Advisor user </option>
+             <option value="operation user">Operation user </option></select> <br> 
+        </div>
+             </div>
+        <div class="form-group"> 
+             <label for="name" class ="control-label col-sm-3">       
+          </label>
+        <div class="col-sm-8">
+   <br> <input  class="button btn" type="Submit"  value="Save">
+             <a style="margin-left:3em;" href="/admin/Manage_users">   <input type="button" class="button btn" name="cancel" value="Cancel"  /></a>
+            
+          
+                  </div>
+        </div>
+       
+    </form>
+     
+     
       
+    </div>
+       
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
         <!-- /#page-wrapper -->
 
- <script src="/lib/angular.min.js"></script>
+    </div>
+    <!-- /#wrapper -->
 
- 
     <!-- jQuery -->
     <script src="/javascripts/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/javascripts/bootstrap.min.js"></script>
+
+
 
 </body>
 

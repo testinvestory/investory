@@ -8,8 +8,20 @@
 
 body {
     margin-top: 100px;
-    background-color: #222;
+    background-color: #ffffff;;
 }
+ input, select, textarea {
+    height: 2em;
+    color: black;
+    padding: 0.3em;
+}
+.btn {
+  color: #fff;
+  background-color:#35BFD3;
+    border-color: #35BFD3;
+    height: 2.5em;
+}
+
 
 @media(min-width:768px) {
     body {
@@ -51,6 +63,8 @@ body {
 .top-nav>li {
     display: inline-block;
     float: left;
+    font-size: 16px;
+    margin-right: 0.5em;
 }
 
 .top-nav>li>a {
@@ -115,7 +129,7 @@ ul.alert-dropdown {
 @media(min-width:768px) {
     .side-nav {
         position: fixed;
-        top: 51px;
+       top: 60px;
         left: 225px;
         width: 225px;
         margin-left: -225px;
